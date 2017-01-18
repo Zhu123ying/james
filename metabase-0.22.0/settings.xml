@@ -1,0 +1,26 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd">
+  
+  <servers>
+      <server>
+        <id>user-release</id>
+        <username>shumin</username>
+        <password>huayun2016</password>
+    </server>
+    <server>
+        <id>user-snapshots</id>
+        <username>shumin</username>
+        <password>huayun2016</password>
+    </server>
+  </servers>
+  
+  <mirrors>  
+    <mirror>  
+      <id>nexus</id>
+      <name>Team Nexus Repository</name>
+      <url>http://103.231.69.114:8081/repository/maven-public/</url>  
+      <mirrorOf>*</mirrorOf>  
+    </mirror>  
+  </mirrors>
+
+</settings>
