@@ -126,12 +126,12 @@ export default class Navbar extends Component {
                     <li className="pl1">
                         <Link to="/questions" data-metabase-event={"Navbar;Questions"} style={this.styles.navButton} className={cx("NavItem cursor-pointer text-white text-bold no-decoration flex align-center px2 transition-background")} activeClassName="NavItem--selected">查询列表</Link>
                     </li>
-                    <!--<li className="pl1">
+                    /*<li className="pl1">
                         <Link to="/pulse" data-metabase-event={"Navbar;Pulses"} style={this.styles.navButton} className={cx("NavItem cursor-pointer text-white text-bold no-decoration flex align-center px2 transition-background")} activeClassName="NavItem--selected">数据快递</Link>
-                    </li>-->
-                    <!--<li className="pl1">
+                    </li>
+                    <li className="pl1">
                         <Link to="/reference/guide" data-metabase-event={"Navbar;DataReference"} style={this.styles.navButton} className={cx("NavItem cursor-pointer text-white text-bold no-decoration flex align-center px2 transition-background")} activeClassName="NavItem--selected">数据指南</Link>
-                    </li>-->
+                    </li> */
                     <li className="pl3">
                         <Link to="/q" data-metabase-event={"Navbar;New Question"} style={this.styles.newQuestion} className="NavNewQuestion rounded inline-block bg-white text-brand text-bold cursor-pointer px2 no-decoration transition-all">新增 <span className="hide sm-show">查询</span></Link>
                     </li>
