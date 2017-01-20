@@ -149,7 +149,7 @@ export default class SaveQuestionModal extends Component {
                         onChange={(value) => this.onChange("saveType", value)}
                         options={[
                             { name: `Replace original question, "${this.props.originalCard.name}"`, value: "overwrite" },
-                            { name: "Save as new question", value: "create" },
+                            { name: "保存为一个新查询", value: "保存" },
                         ]}
                         isVertical
                     />
@@ -157,7 +157,7 @@ export default class SaveQuestionModal extends Component {
             );
         }
 
-        let title = this.props.addToDashboard ? "First, save your question" : "Save question";
+        let title = this.props.addToDashboard ? "第一步, 保存你的查询" : "保存";
 
         return (
             <ModalContent

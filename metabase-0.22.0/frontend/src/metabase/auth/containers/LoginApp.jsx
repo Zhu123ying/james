@@ -114,7 +114,7 @@ export default class LoginApp extends Component {
                     </div>
                     <div className="Login-content Grid-cell">
                         <form className="Form-new bg-white bordered rounded shadowed" name="form" onSubmit={(e) => this.formSubmitted(e)} noValidate>
-                            <h3 className="Login-header Form-offset">Sign in to Metabase</h3>
+                            <h3 className="Login-header Form-offset">登录到 DataUltra BI</h3>
 
                             { Settings.ssoEnabled() &&
                                 <div className="mx4 mb4 py3 border-bottom relative">
@@ -130,27 +130,27 @@ export default class LoginApp extends Component {
 
                             <FormField key="email" fieldName="email" formError={loginError}>
                                 <FormLabel title={"Email address"}  fieldName={"email"} formError={loginError} />
-                                <input className="Form-input Form-offset full py1" name="email" placeholder="youlooknicetoday@email.com" type="text" onChange={(e) => this.onChange("email", e.target.value)} autoFocus />
+                                <input className="Form-input Form-offset full py1" name="email" placeholder="请输入email账号" type="text" onChange={(e) => this.onChange("email", e.target.value)} autoFocus />
                                 <span className="Form-charm"></span>
                             </FormField>
 
                             <FormField key="password" fieldName="password" formError={loginError}>
                                 <FormLabel title={"Password"}  fieldName={"password"} formError={loginError} />
-                                <input className="Form-input Form-offset full py1" name="password" placeholder="Shh..." type="password" onChange={(e) => this.onChange("password", e.target.value)} />
+                                <input className="Form-input Form-offset full py1" name="password" placeholder="请输入密码" type="password" onChange={(e) => this.onChange("password", e.target.value)} />
                                 <span className="Form-charm"></span>
                             </FormField>
 
                             <div className="Form-field">
                                 <ul className="Form-offset">
-                                    <input name="remember" type="checkbox" defaultChecked /> <label className="inline-block">Remember Me:</label>
+                                    <input name="remember" type="checkbox" defaultChecked /> <label className="inline-block">记住我：</label>
                                 </ul>
                             </div>
 
                             <div className="Form-actions p2 Grid Grid--full md-Grid--1of2">
                                 <button className={cx("Button Grid-cell", {'Button--primary': this.state.valid})} disabled={!this.state.valid}>
-                                    Sign in
+                                    登录
                                 </button>
-                                <Link to={"/auth/forgot_password"+(this.state.credentials.email ? "?email="+this.state.credentials.email : "")} className="Grid-cell py2 sm-py0 text-grey-3 md-text-right text-centered flex-full link" onClick={(e) => { window.OSX ? window.OSX.resetPassword() : null }}>I seem to have forgotten my password</Link>
+                                <Link to={"/auth/forgot_password"+(this.state.credentials.email ? "?email="+this.state.credentials.email : "")} className="Grid-cell py2 sm-py0 text-grey-3 md-text-right text-centered flex-full link" onClick={(e) => { window.OSX ? window.OSX.resetPassword() : null }}>忘记密码？</Link>
                             </div>
                         </form>
                     </div>

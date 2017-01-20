@@ -148,7 +148,7 @@ export default class DashboardsDropdown extends Component {
                                             </li>
                                         )}
                                         <li className="block border-top border-light">
-                                            <a data-metabase-event={"Navbar;Dashboard Dropdown;Create Dashboard"} className="Dropdown-item block text-white no-decoration" onClick={this.toggleModal}>Create a new dashboard</a>
+                                            <a data-metabase-event={"Navbar;Dashboard Dropdown;Create Dashboard"} className="Dropdown-item block text-white no-decoration" onClick={this.toggleModal}>新增数据面板</a>
                                         </li>
                                     </ul>
                                 }

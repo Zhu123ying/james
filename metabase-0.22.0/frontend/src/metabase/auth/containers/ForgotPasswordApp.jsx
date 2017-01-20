@@ -55,7 +55,7 @@ export default class ForgotPasswordApp extends Component {
                       { !emailConfigured ?
                       <div className="Grid-cell">
                           <div className="text-centered bordered rounded shadowed p4">
-                              <h3 className="my4">Please contact an administrator to have them reset your password</h3>
+                              <h3 className="my4">请联系管理员重置密码</h3>
                               <BackToLogin />
                           </div>
                       </div>
@@ -64,7 +64,7 @@ export default class ForgotPasswordApp extends Component {
                           { !sentNotification ?
                           <div>
                               <form className="ForgotForm bg-white Form-new bordered rounded shadowed" name="form" noValidate>
-                                  <h3 className="Login-header Form-offset mb3">Forgot password</h3>
+                                  <h3 className="Login-header Form-offset mb3">忘记密码</h3>
 
                                   <FormMessage message={error && error.data && error.data.message}></FormMessage>
 
@@ -76,7 +76,7 @@ export default class ForgotPasswordApp extends Component {
 
                                   <div className="Form-actions">
                                       <button className={cx("Button", {"Button--primary": valid})} onClick={(e) => this.sendResetNotification(e)} disabled={!valid}>
-                                          Send password reset email
+                                          通过邮件重置密码
                                       </button>
                                   </div>
                               </form>
@@ -87,7 +87,7 @@ export default class ForgotPasswordApp extends Component {
                                   <div className="SuccessMark">
                                       <Icon name="check" />
                                   </div>
-                                  <p className="SuccessText">Check your email for instructions on how to reset your password.</p>
+                                  <p className="SuccessText">请查看邮件，并按提示重置密码</p>
                               </div>
                           </div>
                           }

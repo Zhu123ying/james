@@ -55,17 +55,17 @@ export default class DeleteDatabaseModal extends Component {
             >
                 <div className="Form-inputs mb4">
                     { database.is_sample &&
-                        <p><strong>Just a heads up:</strong> without the Sample Dataset, the Query Builder tutorial won't work. You can always restore the Sample Dataset, though.</p>
+                        <p><strong>提示:</strong> 当删除测试数据后, 教学案例将无法使用。 当然您也可以恢复测试数据。</p>
                     }
                     <p>
-                        Are you sure you want to delete this database? All saved questions that rely on this database will be lost. <strong>This cannot be undone</strong>. If you're sure, please type <strong>DELETE</strong> in this box:
+                        确认删除此数据库? 所有基于此数据库的查询均会被删除。 <strong>这个操作无法撤销</strong>。 确认删除？
                     </p>
                     <input className="Form-input" type="text" onChange={(e) => this.setState({ confirmValue: e.target.value })} autoFocus />
                 </div>
 
                 <div className="Form-actions">
-                    <button className={cx("Button Button--danger", { "disabled": !confirmed })} onClick={() => this.deleteDatabase()}>Delete</button>
-                    <button className="Button Button--primary ml1" onClick={this.props.onClose}>Cancel</button>
+                    <button className={cx("Button Button--danger", { "disabled": !confirmed })} onClick={() => this.deleteDatabase()}>删除</button>
+                    <button className="Button Button--primary ml1" onClick={this.props.onClose}>取消</button>
                     {formError}
                 </div>
             </ModalContent>

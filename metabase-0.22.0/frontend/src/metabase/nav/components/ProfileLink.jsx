@@ -78,14 +78,14 @@ export default class ProfileLink extends Component {
                             <ul className="NavDropdown-content-layer">
                                 <li>
                                     <Link to="/user/edit_current" data-metabase-event={"Navbar;Profile Dropdown;Edit Profile"} onClick={this.closeDropdown} className="Dropdown-item block text-white no-decoration">
-                                        Account Settings
+                                        账户设置
                                     </Link>
                                 </li>
 
                                 { user.is_superuser && context !== 'admin' ?
                                     <li>
                                         <Link to="/admin" data-metabase-event={"Navbar;Profile Dropdown;Enter Admin"} onClick={this.closeDropdown} className="Dropdown-item block text-white no-decoration">
-                                            Admin Panel
+                                            管理面板
                                         </Link>
                                     </li>
                                 : null }
@@ -93,28 +93,28 @@ export default class ProfileLink extends Component {
                                 { user.is_superuser && context === 'admin' ?
                                     <li>
                                         <Link to="/" data-metabase-event={"Navbar;Profile Dropdown;Exit Admin"} onClick={this.closeDropdown} className="Dropdown-item block text-white no-decoration">
-                                            Exit Admin
+                                            退出管理
                                         </Link>
                                     </li>
                                 : null }
 
                                 <li>
                                     <a data-metabase-event={"Navbar;Profile Dropdown;Help "+tag} className="Dropdown-item block text-white no-decoration" href={"http://www.metabase.com/docs/"+tag} target="_blank">
-                                        Help
+                                        帮助
                                     </a>
                                 </li>
 
                                 { user.is_superuser &&
                                     <li>
                                         <a data-metabase-event={"Navbar;Profile Dropdown;Debugging "+tag} onClick={this.openModal.bind(this, "logs")} className="Dropdown-item block text-white no-decoration">
-                                            Logs
+                                            日志
                                         </a>
                                     </li>
                                 }
 
                                 <li>
                                     <a data-metabase-event={"Navbar;Profile Dropdown;About "+tag} onClick={this.openModal.bind(this, "about")} className="Dropdown-item block text-white no-decoration">
-                                        About Metabase
+                                        关于DataUltra BI
                                     </a>
                                 </li>
 
@@ -124,7 +124,7 @@ export default class ProfileLink extends Component {
                                         data-metabase-event={"Navbar;Profile Dropdown;Logout"}
                                         className="Dropdown-item block text-white no-decoration"
                                     >
-                                        Sign out
+                                        注销
                                     </Link>
                                 </li>
                             </ul>
