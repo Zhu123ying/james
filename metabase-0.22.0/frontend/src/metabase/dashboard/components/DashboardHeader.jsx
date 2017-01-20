@@ -264,7 +264,7 @@ export default class DashboardHeader extends Component {
                 isEditing={this.props.isEditing}
                 isEditingInfo={this.props.isEditing}
                 headerButtons={this.getHeaderButtons()}
-                editingTitle="You are editing a dashboard"
+                editingTitle="您正在编辑一个数据面板"
                 editingButtons={this.getEditingButtons()}
                 setItemAttributeFn={this.props.setDashboardAttribute}
                 headerModalMessage={this.props.isEditingParameter ?

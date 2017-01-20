@@ -1,9 +1,9 @@
 const greetingPrefixes = [
-    'Hey there,',
-    'How\'s it going,',
-    'Howdy,',
-    'Greetings,',
-    'Good to see you,',
+    '您好,',
+    '您好,',
+    '您好,',
+    '您好,',
+    '您好,',
 ];
 
 const subheadPrefixes = [
