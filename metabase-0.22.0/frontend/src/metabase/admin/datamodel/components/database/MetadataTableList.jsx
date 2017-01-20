@@ -77,7 +77,7 @@ export default class MetadataTableList extends Component {
                     <input
                         className="AdminInput pl4 border-bottom"
                         type="text"
-                        placeholder="Find a table"
+                        placeholder="查询"
                         value={this.state.searchText}
                         onChange={this.updateSearchText}
                     />

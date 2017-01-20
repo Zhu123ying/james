@@ -49,7 +49,7 @@ export default class DeleteQuestionModal extends Component {
                 onClose={this.props.onClose}
             >
                 <div className="Form-inputs mb4">
-                    <p>Are you sure you want to do this?</p>
+                    <p>确认此操作？</p>
                     { this.props.card.dashboard_count > 0 ?
                         <p>This question will be deleted from Metabase, and will also be removed from {dashboardCount}.</p>
                     : null }

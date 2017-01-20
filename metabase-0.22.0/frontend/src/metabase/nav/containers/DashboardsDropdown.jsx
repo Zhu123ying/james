@@ -125,10 +125,10 @@ export default class DashboardsDropdown extends Component {
                                 { dashboards.length === 0 ?
                                     <div className="NavDropdown-content-layer text-white text-centered">
                                         <div className="p2"><div style={this.styles.dashIcon} className="ml-auto mr-auto"></div></div>
-                                        <div className="px2 py1 text-bold">You don’t have any dashboards yet.</div>
-                                        <div className="px2 pb2">Dashboards group visualizations for frequent questions in a single handy place.</div>
+                                        <div className="px2 py1 text-bold">您还没有创建任何数据面板</div>
+                                        <div className="px2 pb2">数据面板可以很方便的把所有常用的查询汇聚起来，方便查看/div>
                                         <div className="border-top border-light">
-                                            <a className="Dropdown-item block text-white no-decoration" onClick={this.toggleModal}>Create your first dashboard</a>
+                                            <a className="Dropdown-item block text-white no-decoration" onClick={this.toggleModal}>新增一个数据面板</a>
                                         </div>
                                     </div>
                                 :

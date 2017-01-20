@@ -294,7 +294,7 @@ export default class PeopleListingApp extends Component {
                 onClose={this.onCloseModal}
             >
                 <div className="px4 pb4">
-                    Are you sure you want to do this?
+                    确认此操作？
                 </div>
             </Modal>
         );

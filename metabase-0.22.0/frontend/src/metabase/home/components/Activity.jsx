@@ -66,11 +66,11 @@ export default class Activity extends Component {
 
     userName(user, currentUser) {
         if (user && currentUser && user.id === currentUser.id) {
-            return "You";
+            return "您";
         } else if (user) {
             return user.first_name;
         } else {
-            return "Metabase";
+            return "DataUltra BI";
         }
     }
 
@@ -91,17 +91,17 @@ export default class Activity extends Component {
                 if(item.table) {
                     description.summary = (<span>saved a question about <Link to={Urls.tableRowsQuery(item.database_id, item.table_id)} data-metabase-event={"Activity Feed;Header Clicked;Database -> "+item.topic} className="link text-dark">{item.table.display_name}</Link></span>);
                 } else {
-                    description.summary = "saved a question";
+                    description.summary = "保存了一条查询";
                 }
                 break;
             case "card-delete":
-                description.summary = "deleted a question";
+                description.summary = "删除了一条查询";
                 break;
             case "dashboard-create":
-                description.summary = "created a dashboard";
+                description.summary = "创建了数据面板";
                 break;
             case "dashboard-delete":
-                description.summary = "deleted a dashboard";
+                description.summary = "删除了数据面板";
                 break;
             case "dashboard-add-cards":
                 if(item.model_exists) {
@@ -130,7 +130,7 @@ export default class Activity extends Component {
                 break;
             case "install":
                 description.userName = "Hello World!";
-                description.summary = "Metabase is up and running.";
+                description.summary = "DataUltra BI已经部署完成，您随时可以开始工作。";
                 break;
             case "metric-create":
                 if(item.model_exists) {
@@ -174,10 +174,10 @@ export default class Activity extends Component {
                 }
                 break;
             case "segment-delete":
-                description.summary = "removed the filter "+item.details.name;
+                description.summary = "移除了过滤器 "+item.details.name;
                 break;
             case "user-joined":
-                description.summary = "joined!";
+                description.summary = "加入了DataUltra BI!";
                 break;
         }
 

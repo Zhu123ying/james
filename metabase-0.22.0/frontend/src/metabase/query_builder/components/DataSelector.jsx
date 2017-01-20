@@ -369,19 +369,19 @@ export default class DataSelector extends Component {
             } else if (segment) {
                 content = <span className="text-grey no-decoration">{segment.name}</span>;
             } else {
-                content = <span className="text-grey-4 no-decoration">Pick a segment or table</span>;
+                content = <span className="text-grey-4 no-decoration">选择segment或table</span>;
             }
         } else if (this.props.includeTables) {
             if (table) {
                 content = <span className="text-grey no-decoration">{table.display_name || table.name}</span>;
             } else {
-                content = <span className="text-grey-4 no-decoration">Select a table</span>;
+                content = <span className="text-grey-4 no-decoration">选择table</span>;
             }
         } else {
             if (database) {
                 content = <span className="text-grey no-decoration">{database.name}</span>;
             } else {
-                content = <span className="text-grey-4 no-decoration">Select a database</span>;
+                content = <span className="text-grey-4 no-decoration">选择数据库</span>;
             }
         }
 

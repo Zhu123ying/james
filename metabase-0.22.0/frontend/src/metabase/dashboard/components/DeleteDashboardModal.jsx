@@ -49,7 +49,7 @@ export default class DeleteDashboardModal extends Component {
                 onClose={this.props.onClose}
             >
                 <div className="Form-inputs mb4">
-                    <p>Are you sure you want to do this?</p>
+                    <p>确认此操作？</p>
                 </div>
 
                 <div className="Form-actions">

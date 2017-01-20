@@ -37,7 +37,7 @@ export default class RemoveFromDashboardModal extends Component {
         if (this.state.deleteCard) {
             removeWarning = (
                 <div>
-                    <p>It will be removed from:</p>
+                    <p>此查询将从当前数据面板移除:</p>
                     <ul>
                         <li></li>
                     </ul>
@@ -51,7 +51,7 @@ export default class RemoveFromDashboardModal extends Component {
                 <div className="flex pt1">
                     <Toggle className="text-warning mr2 mt1" value={this.state.deleteCard} onChange={() => this.setState({ deleteCard: !this.state.deleteCard })}/>
                     <div>
-                        <p>Also delete this question from Metabase</p>
+                        <p>依然选择删除此查询</p>
                         {removeWarning}
                     </div>
                 </div>
@@ -64,13 +64,13 @@ export default class RemoveFromDashboardModal extends Component {
                 onClose={() => this.props.onClose()}
             >
                 <div className="flex-full px4 pb3 text-grey-4">
-                    <p>Are you sure you want to do this?</p>
+                    <p>确认此操作？</p>
                     {deleteCardOption}
                 </div>
 
                 <div className="Form-actions">
-                    <button className="Button Button--danger" onClick={() => this.onRemove()}>Yes</button>
-                    <button className="Button Button--primary ml1" onClick={this.props.onClose}>No</button>
+                    <button className="Button Button--danger" onClick={() => this.onRemove()}>确认</button>
+                    <button className="Button Button--primary ml1" onClick={this.props.onClose}>取消</button>
                 </div>
             </ModalContent>
         );

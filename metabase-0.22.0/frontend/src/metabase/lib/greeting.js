@@ -7,9 +7,9 @@ const greetingPrefixes = [
 ];
 
 const subheadPrefixes = [
-    'What do you want to know?',
-    'What\'s on your mind?',
-    'What do you want to find out?',
+    '您想了解什么？',
+    '您想了解什么？',
+    '您想了解什么？',
 ];
 
 

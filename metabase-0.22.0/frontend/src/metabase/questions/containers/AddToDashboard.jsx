@@ -23,7 +23,7 @@ export default class AddToDashboard extends Component {
         const { query, collection } = this.state;
         return (
             <ModalContent
-                title="Add question to dashboard?"
+                title="将查询加入数据面板"
                 className="mx4 mb4"
             >
                 <div className="py1 flex align-center">

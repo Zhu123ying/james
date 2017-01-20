@@ -89,7 +89,7 @@ export default class ExpandingSearchField extends Component {
                         <input
                             ref={(search) => this.searchInput = search}
                             className="input text-bold borderless"
-                            placeholder="Search for a question..."
+                            placeholder="查询..."
                             style={Object.assign({}, interpolatingStyle, { fontSize: '1em'})}
                             onFocus={() => this.setState({ active: true })}
                             onBlur={() => this.setState({ active: false })}

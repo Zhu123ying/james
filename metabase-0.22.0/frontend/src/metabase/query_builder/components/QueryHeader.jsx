@@ -401,7 +401,7 @@ export default class QueryHeader extends Component {
             <div className="relative">
                 <HeaderBar
                     isEditing={this.props.isEditing}
-                    name={this.props.isNew ? "New question" : this.props.card.name}
+                    name={this.props.isNew ? "新查询" : this.props.card.name}
                     description={this.props.card ? this.props.card.description : null}
                     breadcrumb={(!this.props.card.id && this.props.originalCard) ? (<span className="pl2">started from <a className="link" onClick={this.onFollowBreadcrumb}>{this.props.originalCard.name}</a></span>) : null }
                     buttons={this.getHeaderButtons()}

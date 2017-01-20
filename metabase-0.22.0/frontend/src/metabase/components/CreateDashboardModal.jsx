@@ -74,30 +74,30 @@ export default class CreateDashboardModal extends Component {
         return (
             <ModalContent
                 id="CreateDashboardModal"
-                title="Create dashboard"
+                title="新增数据面板"
                 footer={[
                     formError,
-                    <Button onClick={this.props.onClose}>Cancel</Button>,
-                    <Button primary={formReady} disabled={!formReady} onClick={this.createNewDash}>Create</Button>
+                    <Button onClick={this.props.onClose}>取消</Button>,
+                    <Button primary={formReady} disabled={!formReady} onClick={this.createNewDash}>确认</Button>
                 ]}
                 onClose={this.props.onClose}
             >
                 <form className="Modal-form" onSubmit={this.createNewDash}>
                     <div className="Form-inputs">
                         <FormField
-                            displayName="Name"
+                            displayName="名称"
                             fieldName="name"
                             errors={this.state.errors}
                         >
-                            <input className="Form-input full" name="name" placeholder="What is the name of your dashboard?" value={this.state.name} onChange={this.setName} autoFocus />
+                            <input className="Form-input full" name="name" placeholder="请输入数据集名称" value={this.state.name} onChange={this.setName} autoFocus />
                         </FormField>
 
                         <FormField
-                            displayName="Description"
+                            displayName="描述"
                             fieldName="description"
                             errors={this.state.errors}
                         >
-                            <input className="Form-input full" name="description" placeholder="It's optional but oh, so helpful"  value={this.state.description} onChange={this.setDescription} />
+                            <input className="Form-input full" name="description" placeholder="请输入描述"  value={this.state.description} onChange={this.setDescription} />
                         </FormField>
                     </div>
                 </form>
