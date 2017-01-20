@@ -189,8 +189,8 @@ export default class DashboardHeader extends Component {
 
         if (!isFullscreen && !isEditing && canEdit) {
             buttons.push(
-                <Tooltip tooltip="Edit Dashboard">
-                    <a data-metabase-event="Dashboard;Edit" key="edit" title="Edit Dashboard Layout" className="text-brand-hover cursor-pointer" onClick={() => this.onEdit()}>
+                <Tooltip tooltip="编辑">
+                    <a data-metabase-event="Dashboard;Edit" key="edit" title="编辑数据面板" className="text-brand-hover cursor-pointer" onClick={() => this.onEdit()}>
                         <Icon name="pencil" size={16} />
                     </a>
                 </Tooltip>
@@ -204,8 +204,8 @@ export default class DashboardHeader extends Component {
                     key="add"
                     ref="addQuestionModal"
                     triggerElement={
-                        <Tooltip tooltip="Add Card">
-                            <span data-metabase-event="Dashboard;Add Card Modal" title="Add a question to this dashboard">
+                        <Tooltip tooltip="加入查询">
+                            <span data-metabase-event="Dashboard;Add Card Modal" title="新增一条查询至此数据">
                                 <Icon className={cx("text-brand-hover cursor-pointer", { "Icon--pulse": isEmpty })} name="add" size={16} />
                             </span>
                         </Tooltip>
@@ -231,7 +231,7 @@ export default class DashboardHeader extends Component {
 
         if (!isEditing && isFullscreen) {
             buttons.push(
-                <Tooltip tooltip={isNightMode ? "Daytime mode" : "Nighttime mode"}>
+                <Tooltip tooltip={isNightMode ? "日间模式" : "夜间模式"}>
                     <span data-metabase-event={"Dashboard;Night Mode;"+!isNightMode}>
                         <NightModeIcon className="text-brand-hover cursor-pointer" key="night" isNightMode={isNightMode} onClick={() => this.props.onNightModeChange(!isNightMode) } />
                     </span>
@@ -242,7 +242,7 @@ export default class DashboardHeader extends Component {
         if (!isEditing && !isEmpty) {
             // option click to enter fullscreen without making the browser go fullscreen
             buttons.push(
-                <Tooltip tooltip={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}>
+                <Tooltip tooltip={isFullscreen ? "取消全屏" : "全屏"}>
                     <span data-metabase-event={"Dashboard;Fullscreen Mode;"+!isFullscreen}>
                         <FullscreenIcon className="text-brand-hover cursor-pointer" key="fullscreen" isFullscreen={isFullscreen} onClick={(e) => this.props.onFullscreenChange(!isFullscreen, !e.altKey)} />
                     </span>

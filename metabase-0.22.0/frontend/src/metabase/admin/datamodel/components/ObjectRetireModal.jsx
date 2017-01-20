@@ -66,6 +66,5 @@ export default class ObjectRetireModal extends Component {
 }
 
 
-C:\Program Files (x86)\Java\jdk1.8.0_51;D:\mysql\bin;C:\ProgramData\Oracle\Java\javapath;%SystemRoot%\system32;%SystemRoot%;%SystemRoot%\System32\Wbem;%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\;D:\Program Files (x86)\QuickTime\QTSystem\;C:\Program Files\TortoiseSVN\bin;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\Program Files\TortoiseGit\bin
 
 
