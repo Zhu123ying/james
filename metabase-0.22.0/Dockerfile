@@ -9,7 +9,7 @@ ENV LC_CTYPE en_US.UTF-8
 
 # install core build tools
 RUN apk add --update nodejs git wget bash python make g++ java-cacerts ttf-dejavu fontconfig && \
-    npm install -g yarn && \
+    npm install --registry=http://103.231.69.114:8081/repository/npm-central/ -g yarn && \
     ln -sf "${JAVA_HOME}/bin/"* "/usr/bin/"
 
 # fix broken cacerts
@@ -21,6 +21,8 @@ ADD https://raw.github.com/technomancy/leiningen/stable/bin/lein /usr/local/bin/
 RUN chmod 744 /usr/local/bin/lein
 
 # add the application source to the image
+RUN mkdir -p /root/.m2
+ADD settings.xml /root/.m2
 ADD . /app/source
 
 # build the app
