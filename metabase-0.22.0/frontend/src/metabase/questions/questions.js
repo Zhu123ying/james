@@ -66,7 +66,7 @@ export const setFavorited = createThunkAction(SET_FAVORITED, (cardId, favorited)
         } else {
             await CardApi.unfavorite({ cardId });
         }
-        MetabaseAnalytics.trackEvent("Questions", favorited ? "Favorite" : "Unfavorite");
+        MetabaseAnalytics.trackEvent("Questions", favorited ? "星标" : "取消星标");
         return { id: cardId, favorite: favorited };
     }
 });

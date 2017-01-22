@@ -196,7 +196,7 @@ export default class ReferenceEntity extends Component {
                                     id="description"
                                     name="Description"
                                     description={entity.description}
-                                    placeholder="No description yet"
+                                    placeholder="暂无描述"
                                     isEditing={isEditing}
                                     field={description}
                                 />

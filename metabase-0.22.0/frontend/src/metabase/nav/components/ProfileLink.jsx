@@ -93,7 +93,7 @@ export default class ProfileLink extends Component {
                                 { user.is_superuser && context === 'admin' ?
                                     <li>
                                         <Link to="/" data-metabase-event={"Navbar;Profile Dropdown;Exit Admin"} onClick={this.closeDropdown} className="Dropdown-item block text-white no-decoration">
-                                            退出管理
+                                            管理面板
                                         </Link>
                                     </li>
                                 : null }

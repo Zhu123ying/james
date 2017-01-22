@@ -129,7 +129,7 @@ const ItemBody = pure(({ entity, id, name, description, labels, favorite, collec
                 <CollectionBadge collection={collection} />
             }
             { favorite != null && setFavorited &&
-                <Tooltip tooltip={favorite ? "Unfavorite" : "Favorite"}>
+                <Tooltip tooltip={favorite ? "取消星标" : "星标"}>
                     <Icon
                         className={cx(
                             "flex cursor-pointer text-brand-hover transition-color",
@@ -145,7 +145,7 @@ const ItemBody = pure(({ entity, id, name, description, labels, favorite, collec
             <Labels labels={labels} />
         </div>
         <div className={cx({ 'text-slate': description }, { 'text-light-blue': !description })}>
-            {description ? description : "No description yet"}
+            {description ? description : "暂无描述"}
         </div>
     </div>
 );

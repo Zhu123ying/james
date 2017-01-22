@@ -103,10 +103,10 @@ export default class PasswordResetApp extends Component {
                                     <LogoIcon className="Logo my4 sm-my0" width={66} height={85} />
                                 </div>
                                 <div className="Grid-cell bordered rounded shadowed">
-                                    <h3 className="Login-header Form-offset mt4">Whoops, that's an expired link</h3>
+                                    <h3 className="Login-header Form-offset mt4">Whoops, 链接超时！</h3>
                                     <p className="Form-offset mb4 mr4">
-                                        For security reasons, password reset links expire after a little while. If you still need
-                                        to reset your password, you can <Link to="/auth/forgot_password" className="link">request a new reset email</Link>.
+                                        出于安全考虑，重置密码链接将会在一段时间后过期。如果您依然需要重置密码，请
+                                        <Link to="/auth/forgot_password" className="link">获取重置邮件</Link>.
                                     </p>
                                 </div>
                             </div>
@@ -133,14 +133,14 @@ export default class PasswordResetApp extends Component {
                                   <FormMessage formError={resetError && resetError.data.message ? resetError : null} ></FormMessage>
 
                                   <FormField key="password" fieldName="password" formError={resetError}>
-                                      <FormLabel title={"Create a new password"}  fieldName={"password"} formError={resetError} />
-                                      <input className="Form-input Form-offset full" name="password" placeholder="Make sure its secure like the instructions above" type="password" onChange={(e) => this.onChange("password", e.target.value)} autoFocus />
+                                      <FormLabel title={"设置一个新的密码"}  fieldName={"password"} formError={resetError} />
+                                      <input className="Form-input Form-offset full" name="password" placeholder="请按提示输入密码" type="password" onChange={(e) => this.onChange("password", e.target.value)} autoFocus />
                                       <span className="Form-charm"></span>
                                   </FormField>
 
                                   <FormField key="password2" fieldName="password2" formError={resetError}>
-                                      <FormLabel title={"Confirm new password"}  fieldName={"password2"} formError={resetError} />
-                                      <input className="Form-input Form-offset full" name="password2" placeholder="Make sure it matches the one you just entered" type="password" onChange={(e) => this.onChange("password2", e.target.value)} />
+                                      <FormLabel title={"请再次输入密码"}  fieldName={"password2"} formError={resetError} />
+                                      <input className="Form-input Form-offset full" name="password2" placeholder="请确保与刚刚输入的密码一致" type="password" onChange={(e) => this.onChange("password2", e.target.value)} />
                                       <span className="Form-charm"></span>
                                   </FormField>
 
@@ -157,12 +157,12 @@ export default class PasswordResetApp extends Component {
                                   <div className="SuccessMark">
                                       <Icon name="check" />
                                   </div>
-                                  <p>Your password has been reset.</p>
+                                  <p>密码已重置</p>
                                   <p>
                                       { newUserJoining ?
-                                      <Link to="/?new" className="Button Button--primary">Sign in with your new password</Link>
+                                      <Link to="/?new" className="Button Button--primary">请使用新密码登录</Link>
                                       :
-                                      <Link to="/" className="Button Button--primary">Sign in with your new password</Link>
+                                      <Link to="/" className="Button Button--primary">请使用新密码登录</Link>
                                       }
                                   </p>
                               </div>

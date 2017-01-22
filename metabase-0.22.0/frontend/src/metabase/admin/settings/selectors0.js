@@ -53,7 +53,17 @@ const SECTIONS = [
         ]
     },
     {
-        name: "Email服务设置",
+        name: "Updates",
+        settings: [
+            {
+                key: "check-for-updates",
+                display_name: "Check for updates",
+                type: "boolean"
+            }
+        ]
+    },
+    {
+        name: "Email",
         settings: [
             {
                 key: "email-smtp-host",
@@ -100,6 +110,40 @@ const SECTIONS = [
                 type: "string",
                 required: true,
                 validations: [["email", "That's not a valid email address"]]
+            }
+        ]
+    },
+    {
+        name: "Slack",
+        settings: [
+            {
+                key: "slack-token",
+                display_name: "Slack API Token",
+                description: "",
+                placeholder: "Enter the token you received from Slack",
+                type: "string",
+                required: false,
+                autoFocus: true
+            },
+            {
+                key: "metabot-enabled",
+                display_name: "Metabot",
+                type: "boolean",
+                // TODO: why do we have "defaultValue" in addition to "default" in the backend?
+                defaultValue: false,
+                required: true,
+                autoFocus: false
+            },
+        ]
+    },
+    {
+        name: "Single Sign-On",
+        settings: [
+            {
+                key: "google-auth-client-id"
+            },
+            {
+                key: "google-auth-auto-create-accounts-domain"
             }
         ]
     },

@@ -73,15 +73,15 @@ export default class Navbar extends Component {
                 <div className="wrapper flex align-center">
                     <div className="NavTitle flex align-center">
                         <Icon name={'gear'} className="AdminGear" size={22}></Icon>
-                        <span className="NavItem-text ml1 hide sm-show text-bold">Metabase Admin Panel</span>
+                        <span className="NavItem-text ml1 hide sm-show text-bold">DataUltra BI管理中心</span>
                     </div>
 
                     <ul className="sm-ml4 flex flex-full text-strong">
-                        <AdminNavItem name="Settings"    path="/admin/settings"     currentPath={this.props.path} />
-                        <AdminNavItem name="People"      path="/admin/people"       currentPath={this.props.path} />
-                        <AdminNavItem name="Data Model"  path="/admin/datamodel"    currentPath={this.props.path} />
-                        <AdminNavItem name="Databases"   path="/admin/databases"    currentPath={this.props.path} />
-                        <AdminNavItem name="Permissions" path="/admin/permissions"  currentPath={this.props.path} />
+                        <AdminNavItem name="基础设置"    path="/admin/settings"     currentPath={this.props.path} />
+                        <AdminNavItem name="用户管理"      path="/admin/people"       currentPath={this.props.path} />
+                        <AdminNavItem name="数据模型"  path="/admin/datamodel"    currentPath={this.props.path} />
+                        <AdminNavItem name="数据库管理"   path="/admin/databases"    currentPath={this.props.path} />
+                        <AdminNavItem name="查询管理" path="/admin/permissions"  currentPath={this.props.path} />
                     </ul>
 
                     <ProfileLink {...this.props} />
@@ -111,6 +111,7 @@ export default class Navbar extends Component {
                     <li>
                         <Link to="/" data-metabase-event={"Navbar;Logo"} className="NavItem cursor-pointer text-white flex align-center my1 transition-background">
                             <LogoIcon className="text-white m1"></LogoIcon>
+                            <h2>DataUltra BI</h2>
                         </Link>
                     </li>
                     <li className="pl3">

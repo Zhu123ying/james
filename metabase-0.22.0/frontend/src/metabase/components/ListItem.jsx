@@ -25,7 +25,7 @@ const ListItem = ({ index, name, description, placeholder, url, icon }) =>
                 </Ellipsified>
             </div>
             <div className={cx(description ? S.itemSubtitle : S.itemSubtitleLight, { "mt1" : true })}>
-                {description || placeholder || 'No description yet'}
+                {description || placeholder || '暂无描述'}
             </div>
         </div>
     </div>

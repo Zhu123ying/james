@@ -25,7 +25,7 @@ const Detail = ({ name, description, placeholder, subtitleClass, url, icon, isEd
                         // to allow for reinitializing on cancel (see ReferenceGettingStartedGuide.jsx)
                         defaultValue={description}
                     /> :
-                    <span className={subtitleClass}>{description || placeholder || 'No description yet'}</span>
+                    <span className={subtitleClass}>{description || placeholder || '暂无描述'}</span>
                 }
                 { isEditing && field.error && field.touched &&
                     <span className="text-error">{field.error}</span>

@@ -49,17 +49,17 @@ export default class MoveToCollection extends Component {
         const { collectionId, error } = this.state;
         return (
             <ModalContent
-                title="Which collection should this be in?"
+                title="请选择收藏夹?"
                 footer={
                     <div>
                         { error &&
                             <span className="text-error mr1">{error.data && error.data.message}</span>
                         }
                         <Button className="mr1" onClick={onClose}>
-                            Cancel
+                            取消
                         </Button>
                         <Button primary disabled={collectionId === undefined} onClick={() => this.onMove(collectionId)}>
-                            Move
+                            确认
                         </Button>
                     </div>
                 }

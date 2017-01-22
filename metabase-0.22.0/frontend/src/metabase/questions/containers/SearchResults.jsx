@@ -43,7 +43,7 @@ class SearchResults extends Component {
                     entityType="cards"
                     entityQuery={this.props.location.query}
                     showSearchWidget={false}
-                    defaultEmptyState="No matching questions found"
+                    defaultEmptyState="未找到相关查询"
                 />
             </div>
         );
