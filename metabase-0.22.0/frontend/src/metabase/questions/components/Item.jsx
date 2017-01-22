@@ -72,7 +72,7 @@ const Item = ({
                     <ModalWithTrigger
                         full
                         triggerElement={
-                            <Tooltip tooltip="Move to a collection">
+                            <Tooltip tooltip="移至收藏夹">
                                 <Icon
                                     className="text-light-blue cursor-pointer text-brand-hover transition-color mx2"
                                     name="move"
@@ -86,7 +86,7 @@ const Item = ({
                             initialCollectionId={collection && collection.id}
                         />
                     </ModalWithTrigger>
-                    <Tooltip tooltip={archived ? "Unarchive" : "Archive"}>
+                    <Tooltip tooltip={archived ? "还原" : "归档"}>
                         <Icon
                             className="text-light-blue cursor-pointer text-brand-hover transition-color"
                             name={ archived ? "unarchive" : "archive"}

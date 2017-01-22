@@ -47,41 +47,41 @@ export default class CollectionEditorForm extends Component {
             <Modal
                 inline
                 form
-                title={fields.id.value != null ? fields.name.value : "New collection"}
+                title={fields.id.value != null ? fields.name.value : "新增收藏夹"}
                 footer={[
                     <Button className="mr1" onClick={onClose}>
-                        Cancel
+                        取消
                     </Button>,
                     <Button primary disabled={invalid} onClick={handleSubmit}>
-                        { fields.id.value != null ? "Update" : "Create" }
+                        { fields.id.value != null ? "更新" : "创建" }
                     </Button>
                 ]}
                 onClose={onClose}
             >
                 <div className="NewForm ml-auto mr-auto mt4 pt2" style={{ width: 540 }}>
                     <FormField
-                        displayName="Name"
+                        displayName="名称"
                         {...fields.name}
                     >
                         <Input
                             className="Form-input full"
-                            placeholder="My new fantastic collection"
+                            placeholder="请输入收藏夹名称"
                             autoFocus
                             {...fields.name}
                         />
                     </FormField>
                     <FormField
-                        displayName="Description"
+                        displayName="描述"
                         {...fields.description}
                     >
                         <textarea
                             className="Form-input full"
-                            placeholder="It's optional but oh, so helpful"
+                            placeholder="请输入描述"
                             {...fields.description}
                         />
                     </FormField>
                     <FormField
-                        displayName="Color"
+                        displayName="标记"
                         {...fields.color}
                     >
                         <ColorPicker

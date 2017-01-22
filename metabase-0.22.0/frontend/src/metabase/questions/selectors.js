@@ -134,11 +134,11 @@ export const getSectionIsArchive = createSelector(
 );
 
 const sections = [
-    { id: "all",       name: "All questions",   icon: "all" },
-    { id: "fav",       name: "Favorites",       icon: "star" },
-    { id: "recent",    name: "Recently viewed", icon: "recents" },
-    { id: "mine",      name: "Saved by me",     icon: "mine" },
-    { id: "popular",   name: "Most popular",    icon: "popular" }
+    { id: "all",       name: "全部",   icon: "all" },
+    { id: "fav",       name: "星标查询",       icon: "star" },
+    { id: "recent",    name: "最近查看", icon: "recents" },
+    { id: "mine",      name: "我的查询",     icon: "mine" },
+    { id: "popular",   name: "热门查询",    icon: "popular" }
 ];
 
 export const getSections    = (state, props) => sections;

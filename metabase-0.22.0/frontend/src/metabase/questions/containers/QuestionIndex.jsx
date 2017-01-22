@@ -56,18 +56,18 @@ export default class QuestionIndex extends Component {
         return (
             <div className="relative mx4">
                 <div className="flex align-center pt4 pb2">
-                    <TitleAndDescription title={ showCollections ? "Collections of Questions" : "Saved Questions" } />
+                    <TitleAndDescription title={ showCollections ? "收藏夹" : "已保存问题" } />
                     <div className="flex align-center ml-auto">
                         <ExpandingSearchField className="mr2" onSearch={this.props.search} />
 
                         <CollectionActions>
                             { isAdmin && hasCollections &&
                                 <Link to="/collections/permissions">
-                                    <Icon name="lock" tooltip="Set permissions for collections" />
+                                    <Icon name="lock" tooltip="设置收藏夹权限" />
                                 </Link>
                             }
                             <Link to="/questions/archive">
-                                <Icon name="viewArchive" tooltip="View the archive" />
+                                <Icon name="viewArchive" tooltip="查看已归档查询" />
                             </Link>
                         </CollectionActions>
                     </div>
@@ -89,7 +89,7 @@ export default class QuestionIndex extends Component {
                     >
                         <div className="flex align-center">
                             <DisclosureTriangle open={questionsExpanded} />
-                            <h2>Everything Else</h2>
+                            <h2>更多</h2>
                         </div>
                     </div>
                 }

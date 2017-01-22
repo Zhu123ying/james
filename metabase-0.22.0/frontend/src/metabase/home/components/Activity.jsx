@@ -79,7 +79,7 @@ export default class Activity extends Component {
         // this is a base to start with
         const description = {
             userName: this.userName(item.user, user),
-            subject: "did some super awesome stuff thats hard to describe",
+            subject: "太厉害，我都没办法形容了！",
             subjectRefLink: null,
             subjectRefName: null,
             timeSince: item.timestamp.fromNow()
@@ -89,7 +89,7 @@ export default class Activity extends Component {
             case "card-create":
             case "card-update":
                 if(item.table) {
-                    description.summary = (<span>saved a question about <Link to={Urls.tableRowsQuery(item.database_id, item.table_id)} data-metabase-event={"Activity Feed;Header Clicked;Database -> "+item.topic} className="link text-dark">{item.table.display_name}</Link></span>);
+                    description.summary = (<span>保存了一条查询 <Link to={Urls.tableRowsQuery(item.database_id, item.table_id)} data-metabase-event={"Activity Feed;Header Clicked;Database -> "+item.topic} className="link text-dark">{item.table.display_name}</Link></span>);
                 } else {
                     description.summary = "保存了一条查询";
                 }
@@ -105,16 +105,16 @@ export default class Activity extends Component {
                 break;
             case "dashboard-add-cards":
                 if(item.model_exists) {
-                    description.summary = (<span>added a question to the dashboard - <Link to={Urls.dashboard(item.model_id)} data-metabase-event={"Activity Feed;Header Clicked;Dashboard -> "+item.topic} className="link text-dark">{item.details.name}</Link></span>);
+                    description.summary = (<span>将一条查询加入了数据面板 - <Link to={Urls.dashboard(item.model_id)} data-metabase-event={"Activity Feed;Header Clicked;Dashboard -> "+item.topic} className="link text-dark">{item.details.name}</Link></span>);
                 } else {
-                    description.summary = (<span>added a question to the dashboard - <span className="text-dark">{item.details.name}</span></span>);
+                    description.summary = (<span>将一条查询加入了数据面板 - <span className="text-dark">{item.details.name}</span></span>);
                 }
                 break;
             case "dashboard-remove-cards":
                 if(item.model_exists) {
-                    description.summary = (<span>removed a question from the dashboard - <Link to={Urls.dashboard(item.model_id)} data-metabase-event={"Activity Feed;Header Clicked;Dashboard -> "+item.topic} className="link text-dark">{item.details.name}</Link></span>);
+                    description.summary = (<span>将一条查询从数据面板中移除 - <Link to={Urls.dashboard(item.model_id)} data-metabase-event={"Activity Feed;Header Clicked;Dashboard -> "+item.topic} className="link text-dark">{item.details.name}</Link></span>);
                 } else {
-                    description.summary = (<span>removed a question from the dashboard - <span className="text-dark">{item.details.name}</span></span>);
+                    description.summary = (<span>将一条查询从数据面板中移除 - <span className="text-dark">{item.details.name}</span></span>);
                 }
                 break;
             case "database-sync":

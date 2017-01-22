@@ -57,45 +57,45 @@ const mapDispatchToProps = {
 const SECTIONS = [
     {
         section: 'all',
-        name: 'All questions',
+        name: '全部',
         icon: 'all',
-        empty: 'No questions have been saved yet.',
+        empty: '暂无记录...',
     },
     {
         section: 'fav',
-        name: 'Favorites',
+        name: '星标查询',
         icon: 'star',
-        empty: 'You haven\'t favorited any questions yet.',
+        empty: '暂无记录...',
     },
     {
         section: 'recent',
-        name: 'Recently viewed',
+        name: '最近查看',
         icon: 'recents',
-        empty: 'You haven\'t viewed any questions recently.',
+        empty: '暂无记录...',
     },
     {
         section: 'mine',
-        name: 'Saved by me',
+        name: '我的查询',
         icon: 'mine',
-        empty:  'You haven\'t saved any questions yet.'
+        empty:  '暂无记录。'
     },
     {
         section: 'popular',
-        name: 'Most popular',
+        name: '热门查询',
         icon: 'popular',
-        empty: 'The most viewed questions across your company will show up here.',
+        empty: '热门查询将在此处显示。',
     },
     {
         section: 'archived',
-        name: "Archive",
+        name: "归档",
         icon: 'archive',
-        empty: 'If you no longer need a question, you can archive it.'
+        empty: '当您不在使用某查询时，您可以将它归档。'
     }
 ];
 
 const DEFAULT_SECTION = {
     icon: 'all',
-    empty: 'There aren\'t any questions matching that criteria.'
+    empty: '没有找到符合此条件的查询。'
 }
 
 @connect(mapStateToProps, mapDispatchToProps)

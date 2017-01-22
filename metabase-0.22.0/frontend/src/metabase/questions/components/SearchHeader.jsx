@@ -12,7 +12,7 @@ const SearchHeader = ({ searchText, setSearchText }) =>
         <input
             className={cx("input", S.searchBox)}
             type="text"
-            placeholder="Filter this list..."
+            placeholder="查询..."
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
         />
