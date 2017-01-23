@@ -37,7 +37,9 @@ export default class Setup extends Component {
     renderFooter() {
         const { tag } = MetabaseSettings.get('version');
         return (
-            
+            <div className="SetupHelp bordered border-dashed p2 rounded mb4" >
+                ""
+            </div>
         );
     }
 
