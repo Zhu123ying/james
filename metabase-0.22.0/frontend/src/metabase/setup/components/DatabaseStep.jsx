@@ -105,7 +105,7 @@ export default class DatabaseStep extends Component {
         return (
             <label className="Select Form-offset mt1">
                 <select ref="engine" defaultValue={engine} onChange={this.chooseDatabaseEngine.bind(this)}>
-                    <option value="">Select the type of Database you use</option>
+                    <option value="">选择您要使用的数据库类型</option>
                     {engineNames.map(opt => <option key={opt} value={opt}>{engines[opt]['driver-name']}</option>)}
                 </select>
             </label>
@@ -117,9 +117,9 @@ export default class DatabaseStep extends Component {
         let { engine, formError } = this.state;
         let engines = MetabaseSettings.get('engines');
 
-        let stepText = 'Add your data';
+        let stepText = '绑定数据库';
         if (activeStep > stepNumber) {
-            stepText = (databaseDetails === null) ? "I'll add my own data later" : 'Connecting to '+databaseDetails.name;
+            stepText = (databaseDetails === null) ? "稍后绑定" : '连接到 '+databaseDetails.name;
         }
 
         if (activeStep !== stepNumber) {
@@ -130,7 +130,7 @@ export default class DatabaseStep extends Component {
                     <StepTitle title={stepText} number={stepNumber} />
                     <div className="mb4">
                         <div style={{maxWidth: 600}} className="Form-field Form-offset">
-                            You’ll need some info about your database, like the username and password.  If you don’t have that right now, Metabase also comes with a sample dataset you can get started with.
+                            链接您的数据库，请确认您拥有对应的用户名、密码。当然，我们也会提供给您一份简单的数据作为测试使用。
                         </div>
 
                         <FormField fieldName="engine">

@@ -154,10 +154,9 @@ export default class DatabaseDetailsForm extends Component {
                             <Toggle value={on} onChange={(val) => this.onChange("is_full_sync", val)}/>
                         </div>
                         <div className="px2">
-                            <h3>Enable in-depth database analysis</h3>
+                            <h3>开启深度数据分析功能</h3>
                             <div style={{maxWidth: "40rem"}} className="pt1">
-                                This allows us to present you with better metadata for your tables and is required for some features of Metabase.
-                                We recommend leaving this on unless your database is large and you're concerned about performance.
+                                深度数据分析功能将使我们能够更好的了解您的数据，并通过DataUltra BI来发掘更多数据价值。深度数据分析功能可能需要消耗更多的资源。
                             </div>
                         </div>
                     </div>

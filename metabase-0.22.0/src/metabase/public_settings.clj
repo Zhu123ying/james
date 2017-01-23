@@ -19,11 +19,11 @@
   :default {})
 
 (defsetting site-name
-  "The name used for this instance of Metabase."
+  "设置DataUltra实例名称"
   :default "Metabase")
 
 (defsetting -site-url
-  "The base URL of this Metabase instance, e.g. \"http://metabase.my-company.com\"")
+  "The base URL of this Metabase instance, e.g. \"http://DataUltra.my-company.com\"")
 
 (defsetting admin-email
   "The email address users should be referred to if they encounter a problem.")

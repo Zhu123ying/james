@@ -85,14 +85,14 @@ export default class UserStep extends Component {
 
         // validate email address
         if (!MetabaseUtils.validEmail(ReactDOM.findDOMNode(this.refs.email).value)) {
-            formErrors.data.errors.email = "Not a valid formatted email address";
+            formErrors.data.errors.email = "邮箱格式不正确，请重新输入";
         }
 
         // TODO - validate password complexity
 
         // validate password match
         if (ReactDOM.findDOMNode(this.refs.password).value !== ReactDOM.findDOMNode(this.refs.passwordConfirm).value) {
-            formErrors.data.errors.password_confirm = "Passwords do not match";
+            formErrors.data.errors.password_confirm = "密码不匹配";
         }
 
         if (_.keys(formErrors.data.errors).length > 0) {
@@ -121,7 +121,7 @@ export default class UserStep extends Component {
         let { formError, passwordError, valid } = this.state;
 
         const passwordComplexityDesc = MetabaseSettings.passwordComplexity();
-        const stepText = (activeStep <= stepNumber) ? 'What should we call you?' : 'Hi, ' + userDetails.first_name + '. nice to meet you!';
+        const stepText = (activeStep <= stepNumber) ? '请输入姓名?' : 'Hi, ' + userDetails.first_name + '. 欢迎使用DataUltra BI!';
 
         if (activeStep !== stepNumber) {
             return (<CollapsedStep stepNumber={stepNumber} stepText={stepText} isCompleted={activeStep > stepNumber} setActiveStep={setActiveStep}></CollapsedStep>)
@@ -132,45 +132,45 @@ export default class UserStep extends Component {
                     <form name="userForm" onSubmit={this.formSubmitted.bind(this)} noValidate className="mt2">
                         <FormField className="Grid mb3" fieldName="first_name" formError={formError}>
                             <div>
-                                <FormLabel title="First name" fieldName="first_name" formError={formError}></FormLabel>
-                                <input ref="firstName" className="Form-input Form-offset full" name="firstName" defaultValue={(userDetails) ? userDetails.first_name : ""} placeholder="Johnny" autoFocus={true} onChange={this.onChange.bind(this)} />
+                                <FormLabel title="姓" fieldName="first_name" formError={formError}></FormLabel>
+                                <input ref="firstName" className="Form-input Form-offset full" name="firstName" defaultValue={(userDetails) ? userDetails.first_name : ""} placeholder="刘" autoFocus={true} onChange={this.onChange.bind(this)} />
                                 <span className="Form-charm"></span>
                             </div>
                             <div>
-                                <FormLabel title="Last name" fieldName="last_name" formError={formError}></FormLabel>
-                                <input ref="lastName" className="Form-input Form-offset" name="lastName" defaultValue={(userDetails) ? userDetails.last_name : ""} placeholder="Appleseed" required onChange={this.onChange.bind(this)} />
+                                <FormLabel title="名" fieldName="last_name" formError={formError}></FormLabel>
+                                <input ref="lastName" className="Form-input Form-offset" name="lastName" defaultValue={(userDetails) ? userDetails.last_name : ""} placeholder="德华" required onChange={this.onChange.bind(this)} />
                                 <span className="Form-charm"></span>
                             </div>
                         </FormField>
 
                         <FormField fieldName="email" formError={formError}>
-                            <FormLabel title="Email address" fieldName="email" formError={formError}></FormLabel>
-                            <input ref="email" className="Form-input Form-offset full" name="email" defaultValue={(userDetails) ? userDetails.email : ""} placeholder="youlooknicetoday@email.com" required onChange={this.onChange.bind(this)} />
+                            <FormLabel title="Email 地址" fieldName="email" formError={formError}></FormLabel>
+                            <input ref="email" className="Form-input Form-offset full" name="email" defaultValue={(userDetails) ? userDetails.email : ""} placeholder="请正确输入邮箱地址，这将用于您以后的登陆及通讯" required onChange={this.onChange.bind(this)} />
                             <span className="Form-charm"></span>
                         </FormField>
 
                         <FormField fieldName="password" formError={formError} error={(passwordError !== null)}>
-                            <FormLabel title="Create a password" fieldName="password" formError={formError} message={passwordError}></FormLabel>
+                            <FormLabel title="创建一个密码" fieldName="password" formError={formError} message={passwordError}></FormLabel>
                             <span style={{fontWeight: "normal"}} className="Form-label Form-offset">{passwordComplexityDesc}</span>
-                            <input ref="password" className="Form-input Form-offset full" name="password" type="password" defaultValue={(userDetails) ? userDetails.password : ""} placeholder="Shhh..." required onChange={this.onChange.bind(this)} onBlur={this.onPasswordBlur.bind(this)}/>
+                            <input ref="password" className="Form-input Form-offset full" name="password" type="password" defaultValue={(userDetails) ? userDetails.password : ""} placeholder="..." required onChange={this.onChange.bind(this)} onBlur={this.onPasswordBlur.bind(this)}/>
                             <span className="Form-charm"></span>
                         </FormField>
 
                         <FormField fieldName="password_confirm" formError={formError}>
-                            <FormLabel title="Confirm password" fieldName="password_confirm" formError={formError}></FormLabel>
-                            <input ref="passwordConfirm" className="Form-input Form-offset full" name="passwordConfirm" type="password" defaultValue={(userDetails) ? userDetails.password : ""} placeholder="Shhh... but one more time so we get it right" required onChange={this.onChange.bind(this)} />
+                            <FormLabel title="重复密码" fieldName="password_confirm" formError={formError}></FormLabel>
+                            <input ref="passwordConfirm" className="Form-input Form-offset full" name="passwordConfirm" type="password" defaultValue={(userDetails) ? userDetails.password : ""} placeholder="..." required onChange={this.onChange.bind(this)} />
                             <span className="Form-charm"></span>
                         </FormField>
 
                         <FormField fieldName="site_name" formError={formError}>
-                            <FormLabel title="Your company or team name" fieldName="site_name" formError={formError}></FormLabel>
-                            <input ref="siteName" className="Form-input Form-offset full" name="siteName" type="text" defaultValue={(userDetails) ? userDetails.site_name : ""} placeholder="Department of awesome" required onChange={this.onChange.bind(this)} />
+                            <FormLabel title="您的组织名称" fieldName="site_name" formError={formError}></FormLabel>
+                            <input ref="siteName" className="Form-input Form-offset full" name="siteName" type="text" defaultValue={(userDetails) ? userDetails.site_name : ""} placeholder="如：无锡华云数据服务集团有限公司" required onChange={this.onChange.bind(this)} />
                             <span className="Form-charm"></span>
                         </FormField>
 
                         <div className="Form-actions">
                             <button className={cx("Button", {"Button--primary": valid})} disabled={!valid}>
-                                Next
+                                下一步
                             </button>
                             <FormMessage></FormMessage>
                         </div>

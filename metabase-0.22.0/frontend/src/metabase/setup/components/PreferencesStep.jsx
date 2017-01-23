@@ -41,9 +41,9 @@ export default class PreferencesStep extends Component {
         let { activeStep, allowTracking, setupComplete, stepNumber, setActiveStep } = this.props;
         const { tag } = MetabaseSettings.get('version');
 
-        let stepText = 'Usage data preferences';
+        let stepText = '您已完成基础设置';
         if (setupComplete) {
-            stepText = allowTracking ? "Thanks for helping us improve" : "We won't collect any usage events";
+            stepText = allowTracking ? "开始使用！" : "开始使用！";
         }
 
         if (activeStep !== stepNumber || setupComplete) {
@@ -54,10 +54,10 @@ export default class PreferencesStep extends Component {
                     <StepTitle title={stepText} number={stepNumber} />
                     <form onSubmit={this.formSubmitted.bind(this)} noValidate>
                         <div className="Form-field Form-offset">
-                            In order to help us improve Metabase, we'd like to collect certain data about usage through Google Analytics.  <a className="link" href={"http://www.metabase.com/docs/"+tag+"/information-collection.html"} target="_blank">Here's a full list of everything we track and why.</a>
+                           您可以在之后的使用过程中，在管理面板任意加入或移除数据库。
                         </div>
 
-                        <div className="Form-field Form-offset mr4">
+                        <div className="Form-field Form-offset mr4" stytle="display:none">
                             <div style={{borderWidth: "2px"}} className="flex align-center bordered rounded p2">
                                 <Toggle value={allowTracking} onChange={this.toggleTracking.bind(this)} className="inline-block" />
                                 <span className="ml1">Allow Metabase to anonymously collect usage events</span>
@@ -65,7 +65,7 @@ export default class PreferencesStep extends Component {
                         </div>
 
                         { allowTracking ?
-                            <div className="Form-field Form-offset">
+                            <div className="Form-field Form-offset" stytle="display:none">
                                 <ul style={{listStyle: "disc inside", lineHeight: "200%"}}>
                                     <li>Metabase <span style={{fontWeight: "bold"}}>never</span> collects anything about your data or question results.</li>
                                     <li>All collection is completely anonymous.</li>

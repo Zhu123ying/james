@@ -8,11 +8,11 @@ import CustomGeoJSONWidget from "./components/widgets/CustomGeoJSONWidget.jsx";
 
 const SECTIONS = [
     {
-        name: "Setup",
+        name: "设置引导",
         settings: []
     },
     {
-        name: "General",
+        name: "常规设置",
         settings: [
             {
                 key: "site-name",
@@ -102,25 +102,8 @@ const SECTIONS = [
                 validations: [["email", "That's not a valid email address"]]
             }
         ]
-    },
-    {
-        name: "Maps",
-        settings: [
-            {
-                key: "map-tile-server-url",
-                display_name: "Map tile server URL",
-                note: "Metabase uses OpenStreetMaps by default.",
-                type: "string"
-            },
-            {
-                key: "custom-geojson",
-                display_name: "Custom Maps",
-                description: "Add your own GeoJSON files to enable different region map visualizations",
-                widget: CustomGeoJSONWidget,
-                noHeader: true
-            }
-        ]
     }
+    
 ];
 for (const section of SECTIONS) {
     section.slug = slugify(section.name);

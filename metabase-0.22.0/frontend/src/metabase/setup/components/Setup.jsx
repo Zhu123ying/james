@@ -37,9 +37,7 @@ export default class Setup extends Component {
     renderFooter() {
         const { tag } = MetabaseSettings.get('version');
         return (
-            <div className="SetupHelp bordered border-dashed p2 rounded mb4" >
-                If you feel stuck, <a className="link" href={"http://www.metabase.com/docs/"+tag+"/setting-up-metabase"} target="_blank">our getting started guide</a> is just a click away.
-            </div>
+            
         );
     }
 
@@ -50,11 +48,12 @@ export default class Setup extends Component {
             return (
                 <div className="relative full-height flex flex-full layout-centered">
                     <div className="wrapper wrapper--trim text-centered">
+                        <h1>DataUltra BI</h1>
                         <LogoIcon className="text-brand mb4" width={89} height={118}></LogoIcon>
                         <div className="relative z2 text-centered ml-auto mr-auto" style={{maxWidth: 550}}>
-                            <h1 style={{fontSize: '2.2rem'}} className="text-brand">Welcome to Metabase</h1>
-                            <p className="text-body">Looks like everything is working. Now let’s get to know you, connect to your data, and start finding you some answers!</p>
-                            <button className="Button Button--primary mt4" onClick={() => (this.completeWelcome())}>Let's get started</button>
+                            <h1 style={{fontSize: '2.2rem'}} className="text-brand">欢迎使用DataUltra BI</h1>
+                            <p className="text-body">部署完成！现在链接数据库，然后开始工作吧！</p>
+                            <button className="Button Button--primary mt4" onClick={() => (this.completeWelcome())}>让我们开始吧！</button>
                         </div>
                         <div className="absolute z1 bottom left right">
                             <div className="inline-block">
@@ -68,7 +67,7 @@ export default class Setup extends Component {
             return (
                 <div>
                     <nav className="SetupNav text-brand py2 flex layout-centered">
-                        <LogoIcon width={41} height={51}></LogoIcon>
+                        <h1>DataUltra BI</h1>
                     </nav>
 
                     <div className="wrapper wrapper--small">
@@ -85,7 +84,7 @@ export default class Setup extends Component {
                                         <NewsletterForm initialEmail={userDetails && userDetails.email} />
                                     </div>
                                     <div className="pt4 pb2">
-                                        <Link to="/?new" className="Button Button--primary" onClick={this.completeSetup.bind(this)}>Take me to Metabase</Link>
+                                        <Link to="/?new" className="Button Button--primary" onClick={this.completeSetup.bind(this)}>开始使用</Link>
                                     </div>
                                 </section>
                             : null }
