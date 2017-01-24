@@ -110,7 +110,6 @@ export default class Navbar extends Component {
                 <ul className="pl4 pr1 flex align-center">
                     <li>
                         <Link to="/" data-metabase-event={"Navbar;Logo"} className="NavItem cursor-pointer text-white flex align-center my1 transition-background">
-                            <LogoIcon className="text-white m1"></LogoIcon>
                             <h2>DataUltra BI</h2>
                         </Link>
                     </li>

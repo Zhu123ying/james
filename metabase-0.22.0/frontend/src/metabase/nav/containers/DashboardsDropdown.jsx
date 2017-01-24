@@ -126,7 +126,7 @@ export default class DashboardsDropdown extends Component {
                                     <div className="NavDropdown-content-layer text-white text-centered">
                                         <div className="p2"><div style={this.styles.dashIcon} className="ml-auto mr-auto"></div></div>
                                         <div className="px2 py1 text-bold">您还没有创建任何数据面板</div>
-                                        <div className="px2 pb2">数据面板可以很方便的把所有常用的查询汇聚起来，方便查看</div>
+                                        <div className="px2 pb2">使用数据面板管理查询，方便查看</div>
                                         <div className="border-top border-light">
                                             <a className="Dropdown-item block text-white no-decoration" onClick={this.toggleModal}>新增一个数据面板</a>
                                         </div>

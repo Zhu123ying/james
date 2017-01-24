@@ -37,8 +37,8 @@ export default class Setup extends Component {
     renderFooter() {
         const { tag } = MetabaseSettings.get('version');
         return (
-            <div className="SetupHelp bordered border-dashed p2 rounded mb4" >
-                ""
+            <div className="SetupHelp p2 rounded mb4" >
+                &nbsp;
             </div>
         );
     }
@@ -51,7 +51,7 @@ export default class Setup extends Component {
                 <div className="relative full-height flex flex-full layout-centered">
                     <div className="wrapper wrapper--trim text-centered">
                         <h1>DataUltra BI</h1>
-                        <LogoIcon className="text-brand mb4" width={89} height={118}></LogoIcon>
+                        </*LogoIcon className="text-brand mb4" width={89} height={118}></LogoIcon*/>
                         <div className="relative z2 text-centered ml-auto mr-auto" style={{maxWidth: 550}}>
                             <h1 style={{fontSize: '2.2rem'}} className="text-brand">欢迎使用DataUltra BI</h1>
                             <p className="text-body">部署完成！现在链接数据库，然后开始工作吧！</p>

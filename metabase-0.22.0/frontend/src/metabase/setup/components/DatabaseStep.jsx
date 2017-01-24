@@ -150,7 +150,7 @@ export default class DatabaseStep extends Component {
                           : null }
 
                           <div className="Form-field Form-offset">
-                              <a className="link" href="#" onClick={this.skipDatabase.bind(this)}>I'll add my data later</a>
+                              <a className="link" href="#" onClick={this.skipDatabase.bind(this)}>稍后添加</a>
                           </div>
                     </div>
                 </section>
