@@ -192,7 +192,7 @@
   (->> (db/insert! Card
          :creator_id             *current-user-id*
          :dataset_query          dataset_query
-         :description            description
+         :description            "测试description"
          :display                display
          :name                   name
          :visualization_settings visualization_settings
