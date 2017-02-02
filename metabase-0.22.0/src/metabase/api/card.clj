@@ -178,7 +178,7 @@
   "Create a new `Card`."
   [:as {{:keys [dataset_query description display name visualization_settings collection_id]} :body}]
   {name                   su/NonBlankString
-   description            s/maybe
+   description            (s/maybe su/NonBlankString)
    display                su/NonBlankString
    visualization_settings su/Map
    collection_id          (s/maybe su/IntGreaterThanZero)}
@@ -188,6 +188,7 @@
   (when collection_id
     (check-403 (perms/set-has-full-permissions? @*current-user-permissions-set* (perms/collection-readwrite-path collection_id))))
   ;; everything is g2g, now save the card
+  (println "name: " name)
   (->> (db/insert! Card
          :creator_id             *current-user-id*
          :dataset_query          dataset_query
