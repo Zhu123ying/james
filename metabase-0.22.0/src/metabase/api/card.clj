@@ -188,11 +188,10 @@
   (when collection_id
     (check-403 (perms/set-has-full-permissions? @*current-user-permissions-set* (perms/collection-readwrite-path collection_id))))
   ;; everything is g2g, now save the card
-  (println "name: " name)
   (->> (db/insert! Card
          :creator_id             *current-user-id*
          :dataset_query          dataset_query
-         :description            "测试description"
+         :description            description
          :display                display
          :name                   name
          :visualization_settings visualization_settings
