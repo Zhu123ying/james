@@ -178,7 +178,7 @@
   "Create a new `Card`."
   [:as {{:keys [dataset_query description display name visualization_settings collection_id]} :body}]
   {name                   su/NonBlankString
-   description            (s/maybe su/NonBlankString)
+   description            s/maybe
    display                su/NonBlankString
    visualization_settings su/Map
    collection_id          (s/maybe su/IntGreaterThanZero)}
