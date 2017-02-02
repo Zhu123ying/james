@@ -1,23 +1,30 @@
-FROM java:openjdk-7-jre-alpine
+FROM docker-repo:5000/huayun/base-image:ubuntu-14.04
 
-ENV JAVA_HOME=/usr/lib/jvm/default-jvm
+# Install chinese
+RUN apt-get update && apt-get -y install language-pack-zh-hans
+
+ENV LC_ALL zh_CN.UTF-8
+
 ENV PATH /usr/local/bin:$PATH
 ENV LEIN_ROOT 1
 
-# chinese support
-RUN apk --update add language-pack-zh-hans
-
-ENV FC_LANG zh_CN
-ENV LC_CTYPE zh_CN.UTF-8
 
 # install core build tools
-RUN apk add --update nodejs git wget bash python make g++ java-cacerts ttf-dejavu fontconfig && \
-    npm install --registry=http://103.231.69.114:8081/repository/npm-central/ -g yarn && \
+RUN apt-get update &&  apt-get install -y git wget make g++  ttf-dejavu 
+#RUN apt-get install -y nodejs  npm
+
+ENV NPM_CONFIG_LOGLEVEL info
+ENV NODE_VERSION 6.6.0
+
+COPY node-v$NODE_VERSION-linux-x64.tar.gz /
+
+RUN tar -xzf "/node-v$NODE_VERSION-linux-x64.tar.gz" -C /usr/local --strip-components=1 \
+  && rm "/node-v$NODE_VERSION-linux-x64.tar.gz" \
+  && ln -s /usr/local/bin/node /usr/local/bin/nodejs
+
+RUN npm install --registry=http://103.231.69.114:8081/repository/npm-central/ -g yarn && \
     ln -sf "${JAVA_HOME}/bin/"* "/usr/bin/"
 
-# fix broken cacerts
-RUN rm -f /usr/lib/jvm/default-jvm/jre/lib/security/cacerts && \
-    ln -s /etc/ssl/certs/java/cacerts /usr/lib/jvm/default-jvm/jre/lib/security/cacerts
 
 # install lein
 ADD https://raw.github.com/technomancy/leiningen/stable/bin/lein /usr/local/bin/lein
@@ -33,8 +40,8 @@ WORKDIR /app/source
 RUN bin/build
 
 # remove unnecessary packages & tidy up
-RUN apk del nodejs git wget python make g++
-RUN rm -rf /root/.lein /root/.m2 /root/.node-gyp /root/.npm /root/.yarn /root/.yarn-cache /tmp/* /var/cache/apk/* /app/source/node_modules
+#RUN apt-get remove -y nodejs git wget python make g++
+RUN rm -rf /root/.lein /root/.m2 /root/.node-gyp /root/.npm /root/.yarn /root/.yarn-cache /tmp/* /var/cache/apk/* /app/source/node_modules /app/source/src
 
 # expose our default runtime port
 EXPOSE 3000
