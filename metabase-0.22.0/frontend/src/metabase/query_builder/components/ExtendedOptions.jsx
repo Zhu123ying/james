@@ -158,7 +158,7 @@ export default class ExtendedOptions extends Component {
         if ((sortList && sortList.length > 0) || addSortButton) {
             return (
                 <div className="pb3">
-                    <div className="pb1 h6 text-uppercase text-grey-3 text-bold">Sort</div>
+                    <div className="pb1 h6 text-uppercase text-grey-3 text-bold">排序</div>
                     {sortList}
                     {addSortButton}
                 </div>
@@ -213,7 +213,7 @@ export default class ExtendedOptions extends Component {
 
                     { features.limit &&
                         <div>
-                            <div className="mb1 h6 text-uppercase text-grey-3 text-bold">Row limit</div>
+                            <div className="mb1 h6 text-uppercase text-grey-3 text-bold">limit</div>
                             <LimitWidget limit={query.query.limit} onChange={this.setLimit} />
                         </div>
                     }

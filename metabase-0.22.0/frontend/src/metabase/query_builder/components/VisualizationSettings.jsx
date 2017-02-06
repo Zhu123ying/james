@@ -51,7 +51,7 @@ export default class VisualizationSettings extends React.Component {
                     className="GuiBuilder-section-label pl0 Query-label"
                     style={{ marginLeft: 4 }}
                 >
-                    选择样式
+                    数据展示方式
                 </span>
                 <PopoverWithTrigger
                     id="VisualizationPopover"

@@ -44,7 +44,7 @@ export default class QueryModeButton extends Component {
         let tooltip = "不支持";
         if (mode === "query" && allowQueryToNative) {
             onClick = nativeForm ? () => this.setState({isOpen: true}) : () => onSetMode("native");
-            tooltip = nativeForm ? `View the ${nativeQueryName}` : `切换到 ${nativeQueryName}`;
+            tooltip = nativeForm ? `查看 ${nativeQueryName}` : `切换到 ${nativeQueryName}`;
         } else if (mode === "native" && allowNativeToQuery) {
             onClick = () => onSetMode("query");
             tooltip = "Switch to Builder";
@@ -61,7 +61,7 @@ export default class QueryModeButton extends Component {
                 <Modal medium backdropClassName="Modal-backdrop--dark" isOpen={this.state.isOpen} onClose={() => this.setState({isOpen: false})}>
                     <div className="p4">
                         <div className="mb3 flex flex-row flex-full align-center justify-between">
-                            <h2>{capitalize(nativeQueryName)} for 当前查询</h2>
+                            <h2>当前查询{capitalize(nativeQueryName)}</h2>
                             <span className="cursor-pointer" onClick={() => this.setState({isOpen: false})}><Icon name="close" size={16} /></span>
                         </div>
 
@@ -78,7 +78,7 @@ export default class QueryModeButton extends Component {
                             <a className="Button Button--primary" onClick={() => {
                                 onSetMode(targetType);
                                 this.setState({isOpen: false});
-                            }}>Convert this question to {nativeQueryName}</a>
+                            }}>转换为 {nativeQueryName}，修改当前查询</a>
                         </div>
                     </div>
                 </Modal>

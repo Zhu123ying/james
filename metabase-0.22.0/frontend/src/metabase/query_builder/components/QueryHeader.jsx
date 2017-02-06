@@ -305,7 +305,7 @@ export default class QueryHeader extends Component {
         if (!isNew && !isEditing) {
             // simply adding an existing saved card to a dashboard, so show the modal to do so
             buttonSections.push([
-                <Tooltip key="addtodash" tooltip="加入数据面板">
+                <Tooltip key="addtodash" tooltip="将查询移至数据面板">
                     <span data-metabase-event={"QueryBuilder;AddToDash Modal;normal"} className="cursor-pointer text-brand-hover" onClick={() => this.setState({ modal: "add-to-dashboard" })}>
                         <Icon name="addtodash" size={16} />
                     </span>
@@ -314,7 +314,7 @@ export default class QueryHeader extends Component {
         } else if (isNew && isDirty) {
             // this is a new card, so we need the user to save first then they can add to dash
             buttonSections.push([
-                <Tooltip key="addtodashsave" tooltip="加入数据面板">
+                <Tooltip key="addtodashsave" tooltip="将查询移至数据面板">
                     <ModalWithTrigger
                         ref="addToDashSaveModal"
                         triggerClasses="h4 text-brand-hover text-uppercase"

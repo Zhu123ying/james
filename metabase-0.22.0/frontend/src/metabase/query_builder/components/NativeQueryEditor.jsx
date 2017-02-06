@@ -266,11 +266,11 @@ export default class NativeQueryEditor extends Component {
         const hasWritePermission = modeInfo.database && modeInfo.database.native_permissions === "write";
         if (this.state.showEditor) {
             editorClasses = "";
-            toggleEditorText = hasWritePermission ? "Hide Editor" : "Hide Query";
+            toggleEditorText = hasWritePermission ? "收起" : "收起";
             toggleEditorIcon = "contract";
         } else {
             editorClasses = "hide";
-            toggleEditorText = hasWritePermission ? "Open Editor" : "Show Query";
+            toggleEditorText = hasWritePermission ? "展开" : "展开";
             toggleEditorIcon = "expand";
         }
 

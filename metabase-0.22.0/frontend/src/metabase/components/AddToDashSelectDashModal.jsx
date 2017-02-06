@@ -59,7 +59,7 @@ export default class AddToDashSelectDashModal extends Component {
             return (
                 <ModalContent
                     id="AddToDashSelectDashModal"
-                    title="Add Question to Dashboard"
+                    title="将查询移至数据面板"
                     onClose={this.props.onClose}
                 >
                 <div className="flex flex-column">

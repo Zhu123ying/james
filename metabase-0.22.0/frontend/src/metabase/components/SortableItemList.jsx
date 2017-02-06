@@ -61,7 +61,7 @@ export default class SortableItemList extends Component {
                                     </div>
                                 </div>
                                 <div className="flex-align-right text-right text-grey-3">
-                                    <div className="mb1">保存至 {item.creator.common_name}</div>
+                                    <div className="mb1">保存 by {item.creator.common_name}</div>
                                     <div>Modified {item.updated_at.fromNow()}</div>
                                 </div>
                             </a>

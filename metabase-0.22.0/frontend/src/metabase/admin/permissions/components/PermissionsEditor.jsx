@@ -16,12 +16,12 @@ import _ from "underscore";
 const PermissionsEditor = ({ title = "Permissions", modal, admin, grid, onUpdatePermission, onSave, onCancel, confirmCancel, isDirty, saveError, diff, location }) => {
     const saveButton =
         <Confirm
-            title="Save permissions?"
+            title="保存权限设置?"
             action={onSave}
             content={<PermissionsConfirm diff={diff} />}
             triggerClasses={cx({ disabled: !isDirty })}
         >
-            <Button primary small={!modal}>Save Changes</Button>
+            <Button primary small={!modal}>保存</Button>
         </Confirm>;
 
     const cancelButton = confirmCancel ?
@@ -52,7 +52,7 @@ const PermissionsEditor = ({ title = "Permissions", modal, admin, grid, onUpdate
                 { isDirty &&
                     <EditBar
                         admin={admin}
-                        title="You've made changes to permissions."
+                        title="您成功修改了权限设置."
                         buttons={[cancelButton, saveButton]}
                     />
                 }

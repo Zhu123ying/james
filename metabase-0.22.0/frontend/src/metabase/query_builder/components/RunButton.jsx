@@ -19,7 +19,7 @@ export default class RunButton extends Component {
         if (isRunning) {
             buttonText = <div className="flex align-center"><Icon className="mr1" name="close" />取消</div>;
         } else if (canRun && isDirty) {
-            buttonText = "Get Answer";
+            buttonText = "查询";
         } else if (canRun && !isDirty) {
             buttonText = <div className="flex align-center"><Icon className="mr1" name="refresh" />刷新</div>;
         }

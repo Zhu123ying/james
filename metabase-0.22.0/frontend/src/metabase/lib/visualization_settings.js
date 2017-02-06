@@ -431,8 +431,8 @@ const SETTINGS = {
             series.length === 1 ? getFriendlyName(series[0].data.cols[1]) : null
     },
     "pie.dimension": {
-        section: "Data",
-        title: "Dimension",
+        section: "数据",
+        title: "维度",
         widget: ChartSettingSelect,
         isValid: ([{ card, data }], vizSettings) =>
             columnsAreValid(card.visualization_settings["pie.dimension"], data, isDimension),
@@ -443,8 +443,8 @@ const SETTINGS = {
         }),
     },
     "pie.metric": {
-        section: "Data",
-        title: "Measure",
+        section: "数据",
+        title: "方法",
         widget: ChartSettingSelect,
         isValid: ([{ card, data }], vizSettings) =>
             columnsAreValid(card.visualization_settings["pie.metric"], data, isMetric),
@@ -455,19 +455,19 @@ const SETTINGS = {
         }),
     },
     "pie.show_legend": {
-        section: "Display",
-        title: "Show legend",
+        section: "显示",
+        title: "显示标签",
         widget: ChartSettingToggle
     },
     "pie.show_legend_perecent": {
-        section: "Display",
-        title: "Show percentages in legend",
+        section: "显示",
+        title: "显示标签对应百分比",
         widget: ChartSettingToggle,
         default: true
     },
     "pie.slice_threshold": {
-        section: "Display",
-        title: "Minimum slice percentage",
+        section: "显示",
+        title: "最小百分比（小于最小值时，隐藏对应标签说明）",
         widget: ChartSettingInputNumeric
     },
     "scalar.locale": {
@@ -536,7 +536,7 @@ const SETTINGS = {
         )
     },
     "table.columns": {
-        title: "Fields to include",
+        title: "显示项",
         widget: ChartSettingOrderedFields,
         getHidden: (series, vizSettings) => vizSettings["table.pivot"],
         isValid: ([{ card, data }]) =>

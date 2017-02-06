@@ -56,7 +56,7 @@ export default class MetricForm extends Component {
         const { invalid, handleSubmit, tableMetadata } = this.props;
         return (
             <div>
-                <button className={cx("Button", { "Button--primary": !invalid, "disabled": invalid })} onClick={handleSubmit}>Save changes</button>
+                <button className={cx("Button", { "Button--primary": !invalid, "disabled": invalid })} onClick={handleSubmit}>保存</button>
                 <Link to={"/admin/datamodel/database/" + tableMetadata.db_id + "/table/" + tableMetadata.id} className="Button Button--borderless mx1">Cancel</Link>
             </div>
         )

@@ -122,7 +122,7 @@ class ChartSettings extends Component {
 
         return (
             <div className="flex flex-column spread p4">
-                <h2 className="my2">Customize this {this.getChartTypeName()}</h2>
+                <h2 className="my2">自定义 {/*this.getChartTypeName()*/}</h2>
 
                 { tabNames.length > 1 &&
                     <ChartSettingsTabs tabs={tabNames} selectTab={this.selectTab} activeTab={currentTab}/>
@@ -151,10 +151,10 @@ class ChartSettings extends Component {
                     </div>
                 </div>
                 <div className="pt1">
-                  <a className={cx("Button Button--primary", { disabled: !isDirty })} onClick={() => this.onDone()} data-metabase-event="Chart Settings;Done">Done</a>
-                  <a className="text-grey-2 ml2" onClick={onClose} data-metabase-event="Chart Settings;Cancel">Cancel</a>
+                  <a className={cx("Button Button--primary", { disabled: !isDirty })} onClick={() => this.onDone()} data-metabase-event="Chart Settings;Done">保存</a>
+                  <a className="text-grey-2 ml2" onClick={onClose} data-metabase-event="Chart Settings;Cancel">取消</a>
                   { !_.isEqual(this.state.settings, {}) &&
-                      <a className="Button Button--warning float-right" onClick={this.onResetSettings} data-metabase-event="Chart Settings;Reset">Reset to defaults</a>
+                      <a className="Button Button--warning float-right" onClick={this.onResetSettings} data-metabase-event="Chart Settings;Reset">重置</a>
                   }
                 </div>
             </div>
