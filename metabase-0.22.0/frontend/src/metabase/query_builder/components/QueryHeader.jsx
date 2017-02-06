@@ -237,17 +237,17 @@ export default class QueryHeader extends Component {
                         key="save"
                         actionFn={() => this.onSave(this.props.card, false)}
                         className="cursor-pointer text-brand-hover bg-white text-grey-4 text-uppercase"
-                        normalText="SAVE CHANGES"
-                        activeText="Saving…"
-                        failedText="Save failed"
-                        successText="Saved"
+                        normalText="保存"
+                        activeText="保存..."
+                        failedText="保存失败"
+                        successText="保存成功"
                     />
                 ]);
 
                 // cancel button
                 buttonSections.push([
                     <a key="cancel" className="cursor-pointer text-brand-hover text-grey-4 text-uppercase" onClick={this.onCancel}>
-                        CANCEL
+                        取消
                     </a>
                 ]);
 
@@ -380,7 +380,7 @@ export default class QueryHeader extends Component {
             'text-brand-hover': !this.state.isShowingDataReference
         });
         buttonSections.push([
-            <Tooltip key="dataReference" tooltip="查看你的数据源">
+            <Tooltip key="dataReference" tooltip="查看您的数据源">
                 <a className={dataReferenceButtonClasses}>
                     <Icon name='reference' size={16} onClick={this.onToggleDataReference}></Icon>
                 </a>
@@ -403,7 +403,7 @@ export default class QueryHeader extends Component {
                     isEditing={this.props.isEditing}
                     name={this.props.isNew ? "新增查询" : this.props.card.name}
                     description={this.props.card ? this.props.card.description : null}
-                    breadcrumb={(!this.props.card.id && this.props.originalCard) ? (<span className="pl2">started from <a className="link" onClick={this.onFollowBreadcrumb}>{this.props.originalCard.name}</a></span>) : null }
+                    breadcrumb={(!this.props.card.id && this.props.originalCard) ? (<span className="pl2">基于 <a className="link" onClick={this.onFollowBreadcrumb}>{this.props.originalCard.name}</a></span>) : null }
                     buttons={this.getHeaderButtons()}
                     setItemAttributeFn={this.props.onSetCardAttribute}
                     badge={this.props.card.collection &&

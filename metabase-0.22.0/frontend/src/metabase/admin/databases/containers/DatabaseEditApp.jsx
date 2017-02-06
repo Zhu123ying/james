@@ -91,19 +91,19 @@ export default class DatabaseEditApp extends Component {
                                     <ActionButton
                                         actionFn={() => this.props.syncDatabase(database.id)}
                                         className="Button"
-                                        normalText="Sync"
-                                        activeText="Starting…"
-                                        failedText="Failed to sync"
-                                        successText="Sync triggered!"
+                                        normalText="同步"
+                                        activeText="同步中…"
+                                        failedText="同步失败"
+                                        successText="同步成功！"
                                     />
                                 </div>
 
                                 <div className="Actions-group Actions--dangerZone">
-                                    <label className="Actions-groupLabel block text-bold">Danger Zone:</label>
+                                    <label className="Actions-groupLabel block text-bold">危险操作:</label>
                                     <ModalWithTrigger
                                         ref="deleteDatabaseModal"
                                         triggerClasses="Button Button--danger"
-                                        triggerElement="Remove this database"
+                                        triggerElement="移除数据库"
                                     >
                                         <DeleteDatabaseModal
                                             database={database}

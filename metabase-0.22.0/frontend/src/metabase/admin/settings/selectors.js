@@ -69,7 +69,7 @@ const SECTIONS = [
                 placeholder: "587",
                 type: "string",
                 required: true,
-                validations: [["integer", "That's not a valid port number"]]
+                validations: [["integer", "这不是一个有效的端口号"]]
             },
             {
                 key: "email-smtp-security",
@@ -83,23 +83,23 @@ const SECTIONS = [
                 key: "email-smtp-username",
                 display_name: "SMTP Username",
                 description: null,
-                placeholder: "youlooknicetoday",
+                placeholder: "example",
                 type: "string"
             },
             {
                 key: "email-smtp-password",
                 display_name: "SMTP Password",
                 description: null,
-                placeholder: "Shh...",
+                placeholder: "...",
                 type: "password"
             },
             {
                 key: "email-from-address",
                 display_name: "From Address",
-                placeholder: "metabase@yourcompany.com",
+                placeholder: "example@chinac.com",
                 type: "string",
                 required: true,
-                validations: [["email", "That's not a valid email address"]]
+                validations: [["email", "这不是一个有效的email地址"]]
             }
         ]
     }

@@ -28,7 +28,7 @@ export const updatePassword = createThunkAction(UPDATE_PASSWORD, function(user_i
             return {
                 success: true,
                 data:{
-                    message: "Password updated successfully!"
+                    message: "密码更新成功!"
                 }
             };
 
@@ -48,7 +48,7 @@ export const updateUser = createThunkAction(UPDATE_USER, function(user) {
             return {
                 success: true,
                 data:{
-                    message: "Account updated successfully!"
+                    message: "账户更新成功!"
                 }
             };
 

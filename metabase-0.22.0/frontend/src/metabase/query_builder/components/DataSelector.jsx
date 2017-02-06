@@ -375,7 +375,7 @@ export default class DataSelector extends Component {
             if (table) {
                 content = <span className="text-grey no-decoration">{table.display_name || table.name}</span>;
             } else {
-                content = <span className="text-grey-4 no-decoration">选择table</span>;
+                content = <span className="text-grey-4 no-decoration">select table</span>;
             }
         } else {
             if (database) {

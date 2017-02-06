@@ -45,8 +45,8 @@ class VisualizationError extends Component {
           } else {
               return <VisualizationErrorMessage
                         type="serverError"
-                        title="We're experiencing server issues"
-                        message="Try refreshing the page after waiting a minute or two. If the problem persists we'd recommend you contact an admin."
+                        title="我们的服务器貌似出了一些小问题"
+                        message="请等待一两分钟后刷新页面。如果问题仍然存在，我们建议您联系管理员。 "
                         action={<EmailAdmin />}
                     />
           }
@@ -73,7 +73,7 @@ class VisualizationError extends Component {
                           <a onClick={() => this.setState({ showError: true })} className="link cursor-pointer">Show error details</a>
                       </div>
                       <div style={{ display: this.state.showError? 'inherit': 'none'}} className="pt3 text-left">
-                          <h2>Here's the full error message</h2>
+                          <h2>Error 详情</h2>
                           <div style={{fontFamily: "monospace"}} className="QueryError2-detailBody bordered rounded bg-grey-0 text-bold p2 mt1">{error}</div>
                       </div>
                   </div>

@@ -71,7 +71,7 @@ export default class DataReference extends Component {
             backButton = (
                 <a className="flex align-center mb2 text-default text-brand-hover no-decoration" onClick={this.back}>
                     <Icon name="chevronleft" size={18} />
-                    <span className="text-uppercase">Back</span>
+                    <span className="text-uppercase">返回</span>
                 </a>
             )
         }

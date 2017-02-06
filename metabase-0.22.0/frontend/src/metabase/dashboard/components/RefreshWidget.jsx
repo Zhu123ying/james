@@ -38,7 +38,7 @@ export default class RefreshWidget extends Component {
                 targetOffsetY={10}
             >
                 <div className={styles.popover}>
-                    <div className={styles.title}>Auto Refresh</div>
+                    <div className={styles.title}>自动刷新</div>
                     <RefreshOptionList>
                         { OPTIONS.map(option =>
                             <RefreshOption key={option.period} name={option.name} period={option.period} selected={option.period === period} onClick={() => { this.refs.popover.close(); onChangePeriod(option.period) }} />

@@ -14,11 +14,11 @@ const DownloadWidget = ({ className, card, datasetQuery, isLarge }) =>
         triggerElement={<Icon className={className} title="Download this data" name='download' size={16} />}
     >
         <div className="p2" style={{ maxWidth: 300 }}>
-            <h4>Download</h4>
+            <h4>下载</h4>
             {isLarge &&
-                <FieldSet className="my2 text-gold border-gold" legend="Warning">
-                    <div className="my1">Your answer has a large number of rows so it could take awhile to download.</div>
-                    <div>The maximum download size is 1 million rows.</div>
+                <FieldSet className="my2 text-gold border-gold" legend="友情提醒">
+                    <div className="my1">您要下载的查询结果包含较多数据，这个过程会花费一定的时间</div>
+                    <div>一次最多可以下载1,000,000行的查询结果</div>
                 </FieldSet>
             }
             <div className="flex flex-row mt2">

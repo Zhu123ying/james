@@ -8,8 +8,8 @@ import cx from "classnames";
 
 const MainPane = ({ databases, show }) =>
     <div>
-        <h1>数据指南</h1>
-        <p>Learn more about your data structure to ask more useful questions.</p>
+        <h1>查询指南</h1>
+        <p>您可以通过此功能，了解您的数据结构。为了便于查询，我们也提供了一些常用查询选项。</p>
         <ul>
             {databases && databases.filter(db => db.tables && db.tables.length > 0).map(database =>
                 <li key={database.id}>

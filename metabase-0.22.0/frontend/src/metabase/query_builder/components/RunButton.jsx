@@ -17,11 +17,11 @@ export default class RunButton extends Component {
         let { canRun, isRunning, isDirty, runFn, cancelFn } = this.props;
         let buttonText = null;
         if (isRunning) {
-            buttonText = <div className="flex align-center"><Icon className="mr1" name="close" />Cancel</div>;
+            buttonText = <div className="flex align-center"><Icon className="mr1" name="close" />取消</div>;
         } else if (canRun && isDirty) {
             buttonText = "Get Answer";
         } else if (canRun && !isDirty) {
-            buttonText = <div className="flex align-center"><Icon className="mr1" name="refresh" />Refresh</div>;
+            buttonText = <div className="flex align-center"><Icon className="mr1" name="refresh" />刷新</div>;
         }
         let actionFn = isRunning ? cancelFn : runFn;
         let classes = cx("Button Button--medium circular RunButton", {

@@ -111,7 +111,7 @@ export default class UpdateUserDetails extends Component {
                             }
                             name="email"
                             defaultValue={(user) ? user.email : null}
-                            placeholder="youlooknicetoday@email.com"
+                            placeholder="DataUltra@chinac.com"
                             required
                             onChange={this.onChange.bind(this)}
                             disabled={managed}

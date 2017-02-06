@@ -125,8 +125,8 @@ export default class FieldPane extends Component {
         if (isSummable(field)) {
             usefulQuestions.push(<QueryButton icon="illustration-icon-scalar" text={"Sum of all values of " + fieldName} onClick={this.setQuerySum} />);
         }
-        usefulQuestions.push(<QueryButton icon="illustration-icon-table" text={"All distinct values of " + fieldName} onClick={this.setQueryDistinct} />);
-        let queryCountGroupedByText = "Number of " + inflection.pluralize(tableName) + " grouped by " + fieldName;
+        usefulQuestions.push(<QueryButton icon="illustration-icon-table" text={"去重： " + fieldName} onClick={this.setQueryDistinct} />);
+        let queryCountGroupedByText = "统计 " + inflection.pluralize(tableName) + " 中：grouped by " + fieldName + "的数据";
         if (validBreakout) {
             usefulQuestions.push(<QueryButton icon="illustration-icon-bars" text={queryCountGroupedByText} onClick={this.setQueryCountGroupedBy.bind(null, "bar")} />);
             usefulQuestions.push(<QueryButton icon="illustration-icon-pie" text={queryCountGroupedByText} onClick={this.setQueryCountGroupedBy.bind(null, "pie")} />);

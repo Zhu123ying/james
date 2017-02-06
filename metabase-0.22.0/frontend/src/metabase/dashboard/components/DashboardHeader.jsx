@@ -98,7 +98,7 @@ export default class DashboardHeader extends Component {
     getEditingButtons() {
         return [
             <a data-metabase-event="Dashboard;Cancel Edits" key="cancel" className="Button Button--small" onClick={() => this.onCancel()}>
-                Cancel
+                取消
             </a>,
             <ModalWithTrigger
                 key="delete"
@@ -116,10 +116,10 @@ export default class DashboardHeader extends Component {
                 key="save"
                 actionFn={() => this.onSave()}
                 className="Button Button--small Button--primary"
-                normalText="Save"
-                activeText="Saving…"
-                failedText="Save failed"
-                successText="Saved"
+                normalText="保存"
+                activeText="保存中..."
+                failedText="保存失败"
+                successText="保存完成"
             />
         ];
     }
@@ -268,7 +268,7 @@ export default class DashboardHeader extends Component {
                 editingButtons={this.getEditingButtons()}
                 setItemAttributeFn={this.props.setDashboardAttribute}
                 headerModalMessage={this.props.isEditingParameter ?
-                    "Select the field that should be filtered for each card" : null}
+                    "选择查询过滤字段" : null}
                 onHeaderModalDone={() => this.props.setEditingParameterId(null)}
             >
             </Header>
