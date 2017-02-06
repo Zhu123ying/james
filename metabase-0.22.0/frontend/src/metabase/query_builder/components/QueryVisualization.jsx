@@ -117,7 +117,7 @@ export default class QueryVisualization extends Component {
     renderCount() {
         let { result, isObjectDetail, card } = this.props;
         if (result && result.data && !isObjectDetail && card.display === "table") {
-            return (
+            return ( 
                 <div>
                     { result.data.rows_truncated != null ? ("显示前 ") : ("显示 ")}
                     <b>{formatNumber(result.row_count)}</b>
