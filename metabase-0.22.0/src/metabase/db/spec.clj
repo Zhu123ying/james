@@ -33,7 +33,7 @@
     :as opts}]
   (merge {:classname "com.mysql.jdbc.Driver" ; must be in classpath
           :subprotocol "mysql"
-          :subname (str "//" host ":" port "/" db)
+          :subname (str "//" host ":" port "/" db "?characterEncoding=UTF-8")
           :delimiters "`"}
          (dissoc opts :host :port :db)))
 
