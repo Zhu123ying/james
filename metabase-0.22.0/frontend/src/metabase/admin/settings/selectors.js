@@ -53,6 +53,16 @@ const SECTIONS = [
         ]
     },
     {
+        name: "Updates",
+        settings: [
+            {
+                key: "check-for-updates",
+                display_name: "Check for updates",
+                type: "boolean"
+            }
+        ]
+    },
+    {
         name: "Email服务设置",
         settings: [
             {
