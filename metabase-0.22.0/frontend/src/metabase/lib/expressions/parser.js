@@ -305,9 +305,9 @@ function run(Parser, source, options) {
         for (const error of parser.errors) {
             // clean up error messages
             error.message = error.message && error.message
-                .replace(/^Expecting:?\s+/, "必须输入完整的 ")
+                .replace(/^Expecting:?\s+/, "Expected ")
                 .replace(/--> (.*?) <--/g, "$1")
-                .replace(/(\n|\s)*but found:?/, "，暂时未找到。 ")
+                .replace(/(\n|\s)*but found:?/, " but found ")
                 .replace(/\s*but found\s+''$/, "");
         }
         throw parser.errors;

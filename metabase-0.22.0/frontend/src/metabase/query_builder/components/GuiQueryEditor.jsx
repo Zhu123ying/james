@@ -238,7 +238,11 @@ export default class GuiQueryEditor extends Component {
                     );
                 }
             }
+<<<<<<< HEAD
             return aggregationList 
+=======
+            return aggregationList
+>>>>>>> parent of 4d2008b... GuiQueryEditor.jsx 修改了return值，测试。
         } else {
             // TODO: move this into AggregationWidget?
             return (

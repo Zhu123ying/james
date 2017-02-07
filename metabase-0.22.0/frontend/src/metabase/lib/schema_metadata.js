@@ -359,70 +359,70 @@ function dimensionFields(fields) {
 var Aggregators = [{
     name: "Raw data",
     short: "rows",
-    description: "RAW DATA函数返回匹配指定条件的所有内容。",
+    description: "Just a table with the rows in the answer, no additional operations.",
     validFieldsFilters: [],
     requiresField: false,
     requiredDriverFeature: "basic-aggregations"
 }, {
-    name: "Count",
+    name: "Count of rows",
     short: "count",
-    description: "COUNT函数返回匹配指定条件的行数。",
+    description: "Total number of rows in the answer.",
     validFieldsFilters: [],
     requiresField: false,
     requiredDriverFeature: "basic-aggregations"
 }, {
-    name: "Sum",
+    name: "Sum of ...",
     short: "sum",
-    description: "SUM函数返回数值列之和。",
+    description: "Sum of all the values of a column.",
     validFieldsFilters: [summableFields],
     requiresField: true,
     requiredDriverFeature: "basic-aggregations"
 }, {
-    name: "Average",
+    name: "Average of ...",
     short: "avg",
-    description: "Average函数返回数值列的平均值，NULL 值不包括在计算中。",
+    description: "Average of all the values of a column",
     validFieldsFilters: [summableFields],
     requiresField: true,
     requiredDriverFeature: "basic-aggregations"
 }, {
-    name: "Distinct",
+    name: "Number of distinct values of ...",
     short: "distinct",
-    description:  "Distinct函数用于返回唯一不同的值。",
+    description:  "Number of unique values of a column among all the rows in the answer.",
     validFieldsFilters: [allFields],
     requiresField: true,
     requiredDriverFeature: "basic-aggregations"
 }, {
-    name: "Cumulative Sum",
+    name: "Cumulative sum of ...",
     short: "cum_sum",
-    description: "Cumulative_Sum函数返回匹配列的累加值。",
+    description: "Additive sum of all the values of a column.\ne.x. total revenue over time.",
     validFieldsFilters: [summableFields],
     requiresField: true,
     requiredDriverFeature: "basic-aggregations"
 }, {
-    name: "Cumulative Count",
+    name: "Cumulative count of rows",
     short: "cum_count",
-    description: "Cumulative Count函数返回匹配列的列数累加值。",
+    description: "Additive count of the number of rows.\ne.x. total number of sales over time.",
     validFieldsFilters: [],
     requiresField: false,
     requiredDriverFeature: "basic-aggregations"
 }, {
-    name: "Standard Deviation",
+    name: "Standard deviation of ...",
     short: "stddev",
-    description: "Standard Deviation返回标准差",
+    description: "Number which expresses how much the values of a column vary among all rows in the answer.",
     validFieldsFilters: [summableFields],
     requiresField: true,
     requiredDriverFeature: "standard-deviation-aggregations"
 }, {
-    name: "Minimum",
+    name: "Minimum of ...",
     short: "min",
-    description: "Minimum函数返回最小值",
+    description: "Minimum value of a column",
     validFieldsFilters: [summableFields],
     requiresField: true,
     requiredDriverFeature: "basic-aggregations"
 }, {
-    name: "Maximum",
+    name: "Maximum of ...",
     short: "max",
-    description: "Maximum函数返回最大值",
+    description: "Maximum value of a column",
     validFieldsFilters: [summableFields],
     requiresField: true,
     requiredDriverFeature: "basic-aggregations"

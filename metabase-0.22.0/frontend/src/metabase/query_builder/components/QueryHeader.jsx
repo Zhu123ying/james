@@ -191,7 +191,7 @@ export default class QueryHeader extends Component {
                     key="save"
                     ref="saveModal"
                     triggerClasses="h4 text-grey-4 text-brand-hover text-uppercase"
-                    triggerElement="保存"
+                    triggerElement="Save"
                 >
                     <SaveQuestionModal
                         card={this.props.card}

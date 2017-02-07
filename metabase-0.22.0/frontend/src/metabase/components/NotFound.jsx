@@ -8,6 +8,7 @@ export default class NotFound extends Component {
                 <div className="p4 text-bold">
                     <h1 className="text-brand text-light mb3">抱歉...</h1>
                     <p className="h4 mb1">没要找到对应页面</p>
+                    <p className="h4">You might've been tricked by a ninja, but in all likelihood, you were just given a bad link.</p>
                     <p className="h4 my4">您也可以</p>
                     <div className="flex align-center">
                         <Link to="/q" className="Button Button--primary">

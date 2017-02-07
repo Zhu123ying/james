@@ -43,7 +43,7 @@ export default class ExpressionEditorTextfield extends Component {
     static defaultProps = {
         expression: [null, ""],
         startRule: "expression",
-        placeholder: "请输入math方法"
+        placeholder: "write some math!"
     }
 
     _getParserInfo(props = this.props) {
@@ -170,7 +170,7 @@ export default class ExpressionEditorTextfield extends Component {
         } else if (this.state.expressionErrorMessage) {
             this.props.onError(this.state.expressionErrorMessage);
         } else {
-            this.props.onError({ message: "无效表达式" });
+            this.props.onError({ message: "Invalid expression" });
         }
     }
 
