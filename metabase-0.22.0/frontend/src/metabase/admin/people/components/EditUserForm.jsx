@@ -69,7 +69,7 @@ export default class EditUserForm extends Component {
         // validate email address
         let email = ReactDOM.findDOMNode(this.refs.email).value ? ReactDOM.findDOMNode(this.refs.email).value.trim() : null;
         if (!MetabaseUtils.validEmail(email)) {
-            formErrors.data.errors.email = "Not a valid formatted email address";
+            formErrors.data.errors.email = "不是一个有效的email地址";
         }
 
         if (_.keys(formErrors.data.errors).length > 0) {
@@ -145,7 +145,7 @@ export default class EditUserForm extends Component {
                                     this.setState({ selectedGroups: isAdmin ? { [adminGroup.id]: true } : {} })
                                 }}
                             />
-                            <span className="ml2">Make this user an admin</span>
+                            <span className="ml2">将此用户添加到管理员组</span>
                         </div>
                     : null }
                 </div>
@@ -155,7 +155,7 @@ export default class EditUserForm extends Component {
                         Cancel
                     </Button>
                     <Button primary disabled={!valid}>
-                        { buttonText ? buttonText : "Save Changes" }
+                        { buttonText ? buttonText : "保存修改" }
                     </Button>
                 </ModalFooter>
             </form>

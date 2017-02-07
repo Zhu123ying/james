@@ -21,8 +21,8 @@ import { assoc, getIn, setIn } from "icepick";
 import _ from "underscore";
 import cx from "classnames";
 
-export const ERROR_MESSAGE_GENERIC = "There was a problem displaying this chart.";
-export const ERROR_MESSAGE_PERMISSION = "Sorry, you don't have permission to see this card."
+export const ERROR_MESSAGE_GENERIC = "此查询不推荐使用此种数据展示方式";
+export const ERROR_MESSAGE_PERMISSION = "抱歉，您没有查看此查询的权限"
 
 @ExplicitSize
 export default class Visualization extends Component {

@@ -44,7 +44,7 @@ export default class PasswordReveal extends Component {
         return (
             <div style={this.styles.container} className="bordered rounded p3 relative">
                 <div style={this.styles.label} className="absolute text-centered left right">
-                    <span className="px1 bg-white h6 text-bold text-grey-3 text-uppercase">Temporary Password</span>
+                    <span className="px1 bg-white h6 text-bold text-grey-3 text-uppercase">临时密码</span>
                 </div>
 
                 { visible ?
@@ -54,9 +54,9 @@ export default class PasswordReveal extends Component {
                 }
 
                 { visible ?
-                    <a className="link text-bold" onClick={this.onToggleVisibility.bind(this)}>Hide</a>
+                    <a className="link text-bold" onClick={this.onToggleVisibility.bind(this)}>隐藏</a>
                 :
-                    <a className="link text-bold" onClick={this.onToggleVisibility.bind(this)}>Show</a>
+                    <a className="link text-bold" onClick={this.onToggleVisibility.bind(this)}>显示</a>
                 }
             </div>
         );

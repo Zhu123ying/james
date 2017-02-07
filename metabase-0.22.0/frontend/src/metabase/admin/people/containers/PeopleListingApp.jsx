@@ -181,9 +181,9 @@ export default class PeopleListingApp extends Component {
 
     renderAddPersonModal(modalDetails) {
         return (
-            <Modal title="Add Person" onClose={this.onCloseModal}>
+            <Modal title="新增用户" onClose={this.onCloseModal}>
                 <EditUserForm
-                    buttonText="Add Person"
+                    buttonText="新增用户"
                     submitFn={this.onAddPerson.bind(this)}
                     groups={this.props.groups}
                 />
@@ -209,7 +209,7 @@ export default class PeopleListingApp extends Component {
 
         return (
             <Modal small
-                title={user.first_name+" has been added"}
+                title={user.first_name+" 已存在，请不要重复添加"}
                 footer={[
                     <Button onClick={() => this.props.showModal({type: MODAL_ADD_PERSON})}>Add another person</Button>,
                     <Button primary onClick={this.onCloseModal}>Done</Button>
@@ -217,14 +217,13 @@ export default class PeopleListingApp extends Component {
                 onClose={this.onCloseModal}
             >
                 <div className="px4 pb4">
-                    <div className="pb4">We couldn’t send them an email invitation,
-                    so make sure to tell them to log in using <span className="text-bold">{user.email} </span>
-                    and this password we’ve generated for them:</div>
+                    <div className="pb4">我们暂时无法通过email发送账户信息,
+                    请确保将此账户 <span className="text-bold">{user.email} </span>
+                    及密码抄录给这位用户:</div>
 
                     <PasswordReveal password={user.password} />
 
-                    <div style={{paddingLeft: "5em", paddingRight: "5em"}} className="pt4 text-centered">If you want to be able to send email invites, just go to the <Link to="/admin/settings/email" className="link text-bold">Email Settings</Link> page.</div>
-                </div>
+                    <div style={{paddingLeft: "5em", paddingRight: "5em"}} className="pt4 text-centered">如果您希望通过发送账户信息, 您只需要 <Link to="/admin/settings/email" className="link text-bold">Email 设置</Link> 来完成设定。</div>
             </Modal>
         );
     }
@@ -236,8 +235,8 @@ export default class PeopleListingApp extends Component {
             <Modal small
                 title={user.first_name+" has been added"}
                 footer={[
-                    <Button onClick={() => this.props.showModal({type: MODAL_ADD_PERSON})}>Add another person</Button>,
-                    <Button primary onClick={this.onCloseModal}>Done</Button>
+                    <Button onClick={() => this.props.showModal({type: MODAL_ADD_PERSON})}>继续新增用户</Button>,
+                    <Button primary onClick={this.onCloseModal}>确认</Button>
                 ]}
                 onClose={this.onCloseModal}
             >
@@ -269,13 +268,14 @@ export default class PeopleListingApp extends Component {
             <Modal small
                 title={"Remove "+user.common_name}
                 footer={[
-                    <Button onClick={this.onCloseModal}>Cancel</Button>,
+                    <Button onClick={this.onCloseModal}>取消</Button>,
                     <Button warning onClick={() => this.onRemoveUserConfirm(user)}>Remove</Button>
                 ]}
                 onClose={this.onCloseModal}
             >
                 <div className="px4 pb4">
                     Are you sure you want to do this? {user.first_name} won't be able to log in anymore.  This can't be undone.
+                    确认是否进行此操作？ {user.first_name}将不能再登录，此操作不可撤销。
                 </div>
             </Modal>
         );
@@ -310,7 +310,7 @@ export default class PeopleListingApp extends Component {
                 onClose={this.onCloseModal}
             >
                 <div className="px4 pb4">
-                    <span className="pb3 block">Here’s a temporary password they can use to log in and then change their password.</span>
+                    <span className="pb3 block">这是一个临时密码，用户可以此登陆并修改密码。</span>
 
                     <PasswordReveal password={password} />
                 </div>

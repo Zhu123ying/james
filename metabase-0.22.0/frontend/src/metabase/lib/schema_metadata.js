@@ -359,14 +359,14 @@ function dimensionFields(fields) {
 var Aggregators = [{
     name: "Raw data",
     short: "rows",
-    description: "Just a table with the rows in the answer, no additional operations.",
+    description: "Raw data函数返回对应行",
     validFieldsFilters: [],
     requiresField: false,
     requiredDriverFeature: "basic-aggregations"
 }, {
     name: "Count of rows",
     short: "count",
-    description: "Total number of rows in the answer.",
+    description: "Count of rows",
     validFieldsFilters: [],
     requiresField: false,
     requiredDriverFeature: "basic-aggregations"
