@@ -2,7 +2,7 @@
 import React, { Component, PropTypes } from "react";
 import { Link } from "react-router";
 
-import LogoIcon from 'metabase/components/LogoIcon.jsx';
+//import LogoIcon from 'metabase/components/LogoIcon.jsx';
 import NewsletterForm from 'metabase/components/NewsletterForm.jsx';
 import MetabaseAnalytics from "metabase/lib/analytics";
 import MetabaseSettings from "metabase/lib/settings";
@@ -37,8 +37,8 @@ export default class Setup extends Component {
     renderFooter() {
         const { tag } = MetabaseSettings.get('version');
         return (
-            <div className="SetupHelp p2 rounded mb4" >
-                &nbsp;
+            <div className="SetupHelp bordered border-dashed p2 rounded mb4" >
+                If you feel stuck, <a className="link" href={"http://www.metabase.com/docs/"+tag+"/setting-up-metabase"} target="_blank">our getting started guide</a> is just a click away.
             </div>
         );
     }

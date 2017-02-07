@@ -53,7 +53,7 @@ const SECTIONS = [
         ]
     },
     {
-        name: "Email服务设置",
+        name: "Email",
         settings: [
             {
                 key: "email-smtp-host",
@@ -69,7 +69,7 @@ const SECTIONS = [
                 placeholder: "587",
                 type: "string",
                 required: true,
-                validations: [["integer", "这不是一个有效的端口号"]]
+                validations: [["integer", "That's not a valid port number"]]
             },
             {
                 key: "email-smtp-security",
@@ -83,27 +83,78 @@ const SECTIONS = [
                 key: "email-smtp-username",
                 display_name: "SMTP Username",
                 description: null,
-                placeholder: "example",
+                placeholder: "youlooknicetoday",
                 type: "string"
             },
             {
                 key: "email-smtp-password",
                 display_name: "SMTP Password",
                 description: null,
-                placeholder: "...",
+                placeholder: "Shh...",
                 type: "password"
             },
             {
                 key: "email-from-address",
                 display_name: "From Address",
-                placeholder: "example@chinac.com",
+                placeholder: "metabase@yourcompany.com",
                 type: "string",
                 required: true,
-                validations: [["email", "这不是一个有效的email地址"]]
+                validations: [["email", "That's not a valid email address"]]
+            }
+        ]
+    },
+    {
+        name: "Slack",
+        settings: [
+            {
+                key: "slack-token",
+                display_name: "Slack API Token",
+                description: "",
+                placeholder: "Enter the token you received from Slack",
+                type: "string",
+                required: false,
+                autoFocus: true
+            },
+            {
+                key: "metabot-enabled",
+                display_name: "Metabot",
+                type: "boolean",
+                // TODO: why do we have "defaultValue" in addition to "default" in the backend?
+                defaultValue: false,
+                required: true,
+                autoFocus: false
+            },
+        ]
+    },
+    {
+        name: "Single Sign-On",
+        settings: [
+            {
+                key: "google-auth-client-id"
+            },
+            {
+                key: "google-auth-auto-create-accounts-domain"
+            }
+        ]
+    },
+    {
+        name: "Maps",
+        settings: [
+            {
+                key: "map-tile-server-url",
+                display_name: "Map tile server URL",
+                note: "Metabase uses OpenStreetMaps by default.",
+                type: "string"
+            },
+            {
+                key: "custom-geojson",
+                display_name: "Custom Maps",
+                description: "Add your own GeoJSON files to enable different region map visualizations",
+                widget: CustomGeoJSONWidget,
+                noHeader: true
             }
         ]
     }
-    
 ];
 for (const section of SECTIONS) {
     section.slug = slugify(section.name);
