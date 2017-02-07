@@ -146,8 +146,8 @@ const SETTINGS = {
         useRawSeries: true
     },
     "graph.dimensions": {
-        section: "Data",
-        title: "X-axis",
+        section: "数据",
+        title: "X轴",
         widget: ChartSettingFieldsPicker,
         isValid: ([{ card, data }], vizSettings) =>
             columnsAreValid(card.visualization_settings["graph.dimensions"], data, vizSettings["graph._dimension_filter"]) &&
@@ -169,8 +169,8 @@ const SETTINGS = {
         useRawSeries: true
     },
     "graph.metrics": {
-        section: "Data",
-        title: "Y-axis",
+        section: "数据",
+        title: "Y轴",
         widget: ChartSettingFieldsPicker,
         isValid: ([{ card, data }], vizSettings) =>
             columnsAreValid(card.visualization_settings["graph.dimensions"], data, vizSettings["graph._dimension_filter"]) &&
@@ -192,8 +192,8 @@ const SETTINGS = {
         useRawSeries: true
     },
     "scatter.bubble": {
-        section: "Data",
-        title: "Bubble size",
+        section: "数据",
+        title: "气泡大小",
         widget: ChartSettingFieldPicker,
         isValid: ([{ card, data }], vizSettings) =>
             columnsAreValid([card.visualization_settings["scatter.bubble"]], data, isNumeric),
@@ -211,8 +211,8 @@ const SETTINGS = {
         useRawSeries: true
     },
     "line.interpolate": {
-        section: "Display",
-        title: "Style",
+        section: "显示",
+        title: "样式",
         widget: ChartSettingSelect,
         props: {
             options: [
@@ -224,12 +224,12 @@ const SETTINGS = {
         getDefault: () => "linear"
     },
     "line.marker_enabled": {
-        section: "Display",
-        title: "Show point markers on lines",
+        section: "显示",
+        title: "在折线上显示点",
         widget: ChartSettingToggle
     },
     "stackable.stack_type": {
-        section: "Display",
+        section: "显示",
         title: "Stacking",
         widget: ChartSettingRadio,
         getProps: (series, vizSettings) => ({
@@ -253,29 +253,29 @@ const SETTINGS = {
         )
     },
     "graph.show_goal": {
-        section: "Display",
-        title: "Show goal",
+        section: "显示",
+        title: "显示目标",
         widget: ChartSettingToggle,
         default: false
     },
     "graph.goal_value": {
-        section: "Display",
-        title: "Goal value",
+        section: "显示",
+        title: "目标值",
         widget: ChartSettingInputNumeric,
         default: 0,
         getHidden: (series, vizSettings) => vizSettings["graph.show_goal"] !== true,
         readDependencies: ["graph.show_goal"]
     },
     "line.missing": {
-        section: "Display",
-        title: "Replace missing values with",
+        section: "显示",
+        title: "将缺失值替换为",
         widget: ChartSettingSelect,
         default: "interpolate",
         getProps: (series, vizSettings) => ({
             options: [
-                { name: "Zero", value: "zero" },
-                { name: "Nothing", value: "none" },
-                { name: "Linear Interpolated", value: "interpolate" },
+                { name: "0", value: "zero" },
+                { name: "Null", value: "none" },
+                { name: "线性补完", value: "interpolate" },
             ]
         })
     },
@@ -290,22 +290,22 @@ const SETTINGS = {
             dimensionIsNumeric(data, _.findIndex(data.cols, (c) => c.name === vizSettings["graph.dimensions"].filter(d => d)[0]))
     },
     "graph.x_axis.scale": {
-        section: "Axes",
-        title: "X-axis scale",
+        section: "轴",
+        title: "X轴刻度",
         widget: ChartSettingSelect,
         default: "ordinal",
         readDependencies: ["graph.x_axis._is_timeseries", "graph.x_axis._is_numeric"],
         getDefault: (series, vizSettings) =>
             vizSettings["graph.x_axis._is_timeseries"] ? "timeseries" :
-            vizSettings["graph.x_axis._is_numeric"] ? "linear" :
-            "ordinal",
+            vizSettings["graph.x_axis._is_numeric"] ? "线性" :
+            "有序",
         getProps: (series, vizSettings) => {
             const options = [];
             if (vizSettings["graph.x_axis._is_timeseries"]) {
                 options.push({ name: "Timeseries", value: "timeseries" });
             }
             if (vizSettings["graph.x_axis._is_numeric"]) {
-                options.push({ name: "Linear", value: "linear" });
+                options.push({ name: "线性", value: "linear" });
                 options.push({ name: "Power", value: "pow" });
                 options.push({ name: "Log", value: "log" });
             }
@@ -314,13 +314,13 @@ const SETTINGS = {
         }
     },
     "graph.y_axis.scale": {
-        section: "Axes",
-        title: "Y-axis scale",
+        section: "轴",
+        title: "Y轴刻度",
         widget: ChartSettingSelect,
         default: "linear",
         getProps: (series, vizSettings) => ({
             options: [
-                { name: "Linear", value: "linear" },
+                { name: "线性", value: "linear" },
                 { name: "Power", value: "pow" },
                 { name: "Log", value: "log" }
             ]
@@ -329,7 +329,7 @@ const SETTINGS = {
     "graph.colors": {
         section: "Display",
         getTitle: ([{ card: { display } }]) =>
-            capitalize(display === "scatter" ? "bubble" : display) + " colors",
+            capitalize(display === "scatter" ? "bubble" : display) + " 颜色",
         widget: ChartSettingColorsPicker,
         readDependencies: ["graph.dimensions", "graph.metrics"],
         getDefault: ([{ card, data }], vizSettings) => {
@@ -340,33 +340,33 @@ const SETTINGS = {
         }
     },
     "graph.x_axis.axis_enabled": {
-        section: "Axes",
-        title: "Show x-axis line and marks",
+        section: "轴",
+        title: "显示X轴线及刻度",
         widget: ChartSettingToggle,
         default: true
     },
     "graph.y_axis.axis_enabled": {
-        section: "Axes",
-        title: "Show y-axis line and marks",
+        section: "轴",
+        title: "显示X轴线及刻度",
         widget: ChartSettingToggle,
         default: true
     },
     "graph.y_axis.auto_range": {
-        section: "Axes",
-        title: "Auto y-axis range",
+        section: "轴",
+        title: "Y轴自动缩放",
         widget: ChartSettingToggle,
         default: true
     },
     "graph.y_axis.min": {
-        section: "Axes",
-        title: "Min",
+        section: "轴",
+        title: "最小值",
         widget: ChartSettingInputNumeric,
         default: 0,
         getHidden: (series, vizSettings) => vizSettings["graph.y_axis.auto_range"] !== false
     },
     "graph.y_axis.max": {
-        section: "Axes",
-        title: "Max",
+        section: "轴",
+        title: "最大值",
         widget: ChartSettingInputNumeric,
         default: 100,
         getHidden: (series, vizSettings) => vizSettings["graph.y_axis.auto_range"] !== false
@@ -394,21 +394,21 @@ const SETTINGS = {
     },
 */
     "graph.y_axis.auto_split": {
-        section: "Axes",
-        title: "Use a split y-axis when necessary",
+        section: "轴",
+        title: "显示分段Y轴",
         widget: ChartSettingToggle,
         default: true,
         getHidden: (series) => series.length < 2
     },
     "graph.x_axis.labels_enabled": {
-        section: "Labels",
-        title: "Show label on x-axis",
+        section: "标签",
+        title: "显示X轴标签",
         widget: ChartSettingToggle,
         default: true
     },
     "graph.x_axis.title_text": {
-        section: "Labels",
-        title: "X-axis label",
+        section: "标签",
+        title: "X轴标签",
         widget: ChartSettingInput,
         getHidden: (series, vizSettings) =>
             vizSettings["graph.x_axis.labels_enabled"] === false,
@@ -416,14 +416,14 @@ const SETTINGS = {
             series.length === 1 ? getFriendlyName(series[0].data.cols[0]) : null
     },
     "graph.y_axis.labels_enabled": {
-        section: "Labels",
-        title: "Show label on y-axis",
+        section: "标签",
+        title: "显示X轴标签",
         widget: ChartSettingToggle,
         default: true
     },
     "graph.y_axis.title_text": {
-        section: "Labels",
-        title: "Y-axis label",
+        section: "标签",
+        title: "X轴标签",
         widget: ChartSettingInput,
         getHidden: (series, vizSettings) =>
             vizSettings["graph.y_axis.labels_enabled"] === false,
@@ -471,7 +471,7 @@ const SETTINGS = {
         widget: ChartSettingInputNumeric
     },
     "scalar.locale": {
-        title: "Separator style",
+        title: "数值分割样式",
         widget: ChartSettingSelect,
         props: {
             options: [
@@ -495,35 +495,35 @@ const SETTINGS = {
     //     default: null
     // },
     "scalar.decimals": {
-        title: "Number of decimal places",
+        title: "数据精度",
         widget: ChartSettingInputNumeric
     },
     "scalar.prefix": {
-        title: "Add a prefix",
+        title: "增加一个前缀",
         widget: ChartSettingInput
     },
     "scalar.suffix": {
-        title: "Add a suffix",
+        title: "增加一个后缀",
         widget: ChartSettingInput
     },
     "scalar.scale": {
-        title: "Multiply by a number",
+        title: "乘基",
         widget: ChartSettingInputNumeric
     },
     "progress.goal": {
-        section: "Display",
-        title: "Goal",
+        section: "显示",
+        title: "目标",
         widget: ChartSettingInputNumeric,
         default: 0
     },
     "progress.color": {
-        section: "Display",
-        title: "Color",
+        section: "显示",
+        title: "颜色",
         widget: ChartSettingColorPicker,
         default: normal.green
     },
     "table.pivot": {
-        title: "Pivot the table",
+        title: "Pivot表",
         widget: ChartSettingToggle,
         getHidden: ([{ card, data }]) => (
             data && data.cols.length !== 3
@@ -553,12 +553,12 @@ const SETTINGS = {
     "table.column_widths": {
     },
     "map.type": {
-        title: "Map type",
+        title: "地图类型",
         widget: ChartSettingSelect,
         props: {
             options: [
-                { name: "Pin map", value: "pin" },
-                { name: "Region map", value: "region" }
+                { name: "别针地图", value: "pin" },
+                { name: "区域地图", value: "region" }
             ]
         },
         getDefault: ([{ card, data: { cols } }]) => {

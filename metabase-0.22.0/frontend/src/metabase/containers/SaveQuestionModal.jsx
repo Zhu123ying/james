@@ -118,7 +118,7 @@ export default class SaveQuestionModal extends Component {
         if (error) {
             var errorMessage;
             if (error.status === 500) {
-                errorMessage = "Server error encountered";
+                errorMessage = "服务器错误";
             }
 
             if (error.data && error.data.message) {
@@ -140,7 +140,7 @@ export default class SaveQuestionModal extends Component {
         if (!this.props.card.id && this.props.originalCard) {
             saveOrUpdate = (
                 <FormField
-                    displayName="Replace or save as new?"
+                    displayName="替换或保存为新查询？"
                     fieldName="saveType"
                     errors={this.state.errors}
                 >
@@ -148,7 +148,7 @@ export default class SaveQuestionModal extends Component {
                         value={this.state.details.saveType}
                         onChange={(value) => this.onChange("saveType", value)}
                         options={[
-                            { name: `Replace original question, "${this.props.originalCard.name}"`, value: "overwrite" },
+                            { name: `替换原来的查询： "${this.props.originalCard.name}"`, value: "overwrite" },
                             { name: "保存为一个新查询", value: "保存" },
                         ]}
                         isVertical
@@ -166,10 +166,10 @@ export default class SaveQuestionModal extends Component {
                 footer={[
                         formError,
                         <Button onClick={this.props.onClose}>
-                            Cancel
+                            取消
                         </Button>,
                         <Button primary={this.state.valid} disabled={!this.state.valid} onClick={this.formSubmitted}>
-                            Save
+                            保存
                         </Button>
                 ]}
                 onClose={this.props.onClose}
@@ -190,7 +190,8 @@ export default class SaveQuestionModal extends Component {
                                 >
                                     <input
                                         className="Form-input full"
-                                        name="name" placeholder="What is the name of your card?"
+                                        name="名称" 
+                                        placeholder="请输入名称"
                                         value={this.state.details.name}
                                         onChange={(e) => this.onChange("name", e.target.value)}
                                         autoFocus
@@ -203,8 +204,8 @@ export default class SaveQuestionModal extends Component {
                                 >
                                     <textarea
                                         className="Form-input full"
-                                        name="description"
-                                        placeholder="It's optional but oh, so helpful"
+                                        name="备注"
+                                        placeholder="请填写备注"
                                         value={this.state.details.description}
                                         onChange={(e) => this.onChange("description", e.target.value)}
                                     />

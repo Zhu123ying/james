@@ -49,13 +49,13 @@ export const NumberLiteral = extendToken("NumberLiteral", /-?(0|[1-9]\d*)(\.\d+)
 export const StringLiteral = extendToken("StringLiteral", /"(?:[^\\"]+|\\(?:[bfnrtv"\\/]|u[0-9a-fA-F]{4}))*"/);
 
 export const Comma = extendToken('Comma', /,/);
-Comma.LABEL = "comma";
+Comma.LABEL = ",";
 
 export const LParen = extendToken('LParen', /\(/);
-LParen.LABEL = "opening parenthesis";
+LParen.LABEL = "(";
 
 export const RParen = extendToken('RParen', /\)/);
-RParen.LABEL = "closing parenthesis";
+RParen.LABEL = ")";
 
 export const WhiteSpace = extendToken("WhiteSpace", /\s+/);
 WhiteSpace.GROUP = Lexer.SKIPPED;

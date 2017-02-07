@@ -238,7 +238,7 @@ export default class GuiQueryEditor extends Component {
                     );
                 }
             }
-            return aggregationList
+            // return aggregationList 
         } else {
             // TODO: move this into AggregationWidget?
             return (

@@ -15,7 +15,7 @@ import _ from "underscore";
 
 import ExpressionEditorTextfield from "./expressions/ExpressionEditorTextfield.jsx"
 
-const CUSTOM_SECTION_NAME = "Custom Expression";
+const CUSTOM_SECTION_NAME = "自定义表达式";
 
 export default class AggregationPopover extends Component {
     constructor(props, context) {
@@ -208,7 +208,7 @@ export default class AggregationPopover extends Component {
                             placeholder="Name (optional)"
                         />
                         <Button className="full" primary disabled={this.state.error} onClick={() => this.commitAggregation(this.state.aggregation)}>
-                            Done
+                            确认
                         </Button>
                     </div>
                 </div>

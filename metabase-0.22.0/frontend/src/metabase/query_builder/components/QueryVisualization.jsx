@@ -121,7 +121,7 @@ export default class QueryVisualization extends Component {
                 <div>
                     { result.data.rows_truncated != null ? ("显示前 ") : ("显示 ")}
                     <b>{formatNumber(result.row_count)}</b>
-                    { " " + inflect("行", result.data.rows.length) }.
+                    { " " + inflect("行") }.
                 </div>
             );
         }

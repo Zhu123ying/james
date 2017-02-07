@@ -89,7 +89,7 @@ export default class CreateDashboardModal extends Component {
                             fieldName="name"
                             errors={this.state.errors}
                         >
-                            <input className="Form-input full" name="name" placeholder="请输入数据集名称" value={this.state.name} onChange={this.setName} autoFocus />
+                            <input className="Form-input full" name="name" placeholder="请输入数据面板名称" value={this.state.name} onChange={this.setName} autoFocus />
                         </FormField>
 
                         <FormField
