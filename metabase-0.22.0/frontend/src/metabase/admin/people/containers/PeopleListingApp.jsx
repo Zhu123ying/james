@@ -223,7 +223,10 @@ export default class PeopleListingApp extends Component {
 
                     <PasswordReveal password={user.password} />
 
-                    <div style={{paddingLeft: "5em", paddingRight: "5em"}} className="pt4 text-centered">如果您希望通过发送账户信息, 您只需要 <Link to="/admin/settings/email" className="link text-bold">Email 设置</Link> 来完成设定。</div>
+                    <div style={{paddingLeft: "5em", paddingRight: "5em"}} className="pt4 text-centered">
+                    如果您希望通过发送账户信息, 您只需要 <Link to="/admin/settings/email" className="link text-bold">Email 设置</Link> 来完成设定。
+                    </div>
+                </div>
             </Modal>
         );
     }
