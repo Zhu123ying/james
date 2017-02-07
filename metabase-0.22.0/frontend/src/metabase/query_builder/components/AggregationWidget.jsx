@@ -91,14 +91,14 @@ export default class AggregationWidget extends Component {
         const { aggregation, tableMetadata } = this.props;
 
         if (this.state.isOpen) {
-            /*return (
+            return (
                 <Popover
                     id="AggregationPopover"
                     ref="aggregationPopover"
                     className="FilterPopover"
                     isInitiallyOpen={true}
                     onClose={this.close}
-                    dismissOnEscape={false} // disable for expression editor
+                    dismissOnEscape={true} // disable for expression editor
                 >
                     <AggregationPopover
                         aggregation={aggregation}
@@ -109,7 +109,7 @@ export default class AggregationWidget extends Component {
                         onClose={this.close}
                     />
                 </Popover>
-            );*/
+            );
         }
     }
 
