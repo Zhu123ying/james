@@ -67,8 +67,8 @@ class VisualizationError extends Component {
               <div className="QueryError2 flex full justify-center">
                   <div className="QueryError-image QueryError-image--queryError mr4"></div>
                   <div className="QueryError2-details">
-                      <h1 className="text-bold">There was a problem with your question</h1>
-                      <p className="QueryError-messageText">Most of the time this is caused by an invalid selection or bad input value.  Double check your inputs and retry your query.</p>
+                      <h1 className="text-bold">当前查询出错</h1>
+                      <p className="QueryError-messageText">此问题通常由错误数据或无效选项引起，请在修改后重新尝试提交。</p>
                       <div className="pt2">
                           <a onClick={() => this.setState({ showError: true })} className="link cursor-pointer">Show error details</a>
                       </div>

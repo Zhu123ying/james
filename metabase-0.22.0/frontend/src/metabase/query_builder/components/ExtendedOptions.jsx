@@ -151,7 +151,7 @@ export default class ExtendedOptions extends Component {
             const remainingExpressions = Object.keys(_.omit(expressions, usedExpressions));
             if ((remainingFieldOptions.count > 0 || remainingExpressions.length > 1) &&
                 (sorts.length === 0 || sorts[sorts.length - 1][0] != null)) {
-                addSortButton = (<AddClauseButton text="Pick a field to sort by" onClick={this.addOrderBy} />);
+                addSortButton = (<AddClauseButton text="选择一个排序字段" onClick={this.addOrderBy} />);
             }
         }
 

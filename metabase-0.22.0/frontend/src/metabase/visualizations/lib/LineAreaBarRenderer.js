@@ -44,8 +44,8 @@ const VORONOI_TARGET_RADIUS = 50;
 const VORONOI_MAX_POINTS = 300;
 
 
-const UNAGGREGATED_DATA_WARNING = (col) => `"${getFriendlyName(col)}" is an unaggregated field: if it has more than one value at a point on the x-axis, the values will be summed.`
-const NULL_DIMENSION_WARNING = "Data includes missing dimension values.";
+const UNAGGREGATED_DATA_WARNING = (col) => `"${getFriendlyName(col)}" 是一个独立的筛选条件，当节点上存在多个数据时，我们将使用SUM函数合并这些值。`
+const NULL_DIMENSION_WARNING = "数据中包含缺失值";
 
 function adjustTicksIfNeeded(axis, axisSize, minPixelsPerTick) {
     let numTicks = axis.ticks();

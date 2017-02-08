@@ -109,7 +109,7 @@ export default class Visualization extends Component {
         if (state.series[0].card.display !== "table") {
             warnings = warnings.concat(props.series
                 .filter(s => s.data && s.data.rows_truncated != null)
-                .map(s => `Data truncated to ${formatNumber(s.data.rows_truncated)} rows.`));
+                .map(s => `截取前 to ${formatNumber(s.data.rows_truncated)} 行.`));
         }
         return warnings;
     }

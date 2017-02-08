@@ -131,7 +131,7 @@ const isAnyField = () => true;
 
 const SETTINGS = {
     "card.title": {
-        title: "Title",
+        title: "标题",
         widget: ChartSettingInput,
         getDefault: (series) => series.length === 1 ? series[0].card.name : null,
         dashboard: true,
@@ -230,13 +230,13 @@ const SETTINGS = {
     },
     "stackable.stack_type": {
         section: "显示",
-        title: "堆积图",
+        title: "堆叠柱",
         widget: ChartSettingRadio,
         getProps: (series, vizSettings) => ({
             options: [
-                { name: "Don't stack", value: null },
-                { name: "Stack", value: "stacked" },
-                { name: "Stack - 100%", value: "normalized" }
+                { name: "不堆叠", value: null },
+                { name: "堆叠", value: "stacked" },
+                { name: "堆叠 - 100%", value: "normalized" }
             ]
         }),
         getDefault: (series, vizSettings) =>
@@ -511,14 +511,14 @@ const SETTINGS = {
         widget: ChartSettingInputNumeric
     },
     "progress.goal": {
-        section: "Display",
-        title: "Goal",
+        section: "显示",
+        title: "目标",
         widget: ChartSettingInputNumeric,
         default: 0
     },
     "progress.color": {
-        section: "Display",
-        title: "Color",
+        section: "显示",
+        title: "颜色",
         widget: ChartSettingColorPicker,
         default: normal.green
     },

@@ -104,7 +104,7 @@ export default class DashboardHeader extends Component {
                 key="delete"
                 ref="deleteDashboardModal"
                 triggerClasses="Button Button--small"
-                triggerElement="Delete"
+                triggerElement="删除"
             >
                 <DeleteDashboardModal
                     dashboard={this.props.dashboard}
@@ -140,7 +140,7 @@ export default class DashboardHeader extends Component {
             // Parameters
             buttons.push(
                 <span>
-                    <Tooltip tooltip="Add a Filter">
+                    <Tooltip tooltip="新增筛选">
                         <a
                           key="parameters"
                           className={cx("text-brand-hover", { "text-brand": this.state.modal == "parameters" })}
@@ -167,7 +167,7 @@ export default class DashboardHeader extends Component {
                     key="history"
                     ref="dashboardHistory"
                     triggerElement={
-                        <Tooltip tooltip="Revision History">
+                        <Tooltip tooltip="修改记录">
                             <span data-metabase-event={"Dashboard;Revisions"}>
                                 <Icon className="text-brand-hover" name="history" size={16} />
                             </span>

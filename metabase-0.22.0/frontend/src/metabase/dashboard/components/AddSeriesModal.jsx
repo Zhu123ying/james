@@ -219,9 +219,9 @@ export default class AddSeriesModal extends Component {
                         { this.state.state &&
                             <div className="spred flex layout-centered" style={{ backgroundColor: "rgba(255,255,255,0.80)" }}>
                                 { this.state.state === "loading" ?
-                                    <div className="h3 rounded bordered p3 bg-white shadowed">Applying Question</div>
+                                    <div className="h3 rounded bordered p3 bg-white shadowed">应用此查询</div>
                                 : this.state.state === "incompatible" ?
-                                    <div className="h3 rounded bordered p3 bg-error border-error text-white">That question isn't compatible</div>
+                                    <div className="h3 rounded bordered p3 bg-error border-error text-white">可视化样式与此查询不匹配</div>
                                 : null }
                             </div>
                         }
@@ -248,7 +248,7 @@ export default class AddSeriesModal extends Component {
                                     {card.name}
                                 </span>
                                 { card.dataset_query.type !== "query" &&
-                                    <Tooltip tooltip="We're not sure if this question is compatible">
+                                    <Tooltip tooltip="可视化样式可能与此查询的数据格式并不匹配">
                                         <Icon className="px1 flex-align-right text-grey-2 text-grey-4-hover cursor-pointer flex-no-shrink" name="warning" size={20} />
                                     </Tooltip>
                                 }
