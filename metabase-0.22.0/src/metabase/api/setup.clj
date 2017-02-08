@@ -108,58 +108,64 @@
         num-tables         (db/select-one-count 'Table)
         num-cards          (db/select-one-count 'Card)
         num-users          (db/select-one-count 'User)]
-    [{:title       "新增一个数据库"
-      :group       "Get connected"
-      :description "Connect to your data so your whole team can start to explore.连接一个数据库，您的团队就可以围绕这些数据展开工作了！"
+
+
+
+      [
+      {:title       "新增一个数据库"
+      :group       "连接数据"
+      :description "连接一个数据库，您的团队就可以围绕这些数据展开工作了！"
       :link        "/admin/databases/create"
       :completed   has-dbs?
       :triggered   :always}
-     {;:title       "Set up email"
-      ;:group       "Get connected"
-      ;:description "Add email credentials so you can more easily invite team members and get updates via Pulses."
-      ;:link        "/admin/settings/email"
-      ;:completed   (email/email-configured?)
-      ;:triggered   :always
-      }
-     {;:title       "Set Slack credentials"
-      ;:group       "Get connected"
-      ;:description "Does your team use Slack?  If so, you can send automated updates via pulses and ask questions with Metabot."
-      ;:link        "/admin/settings/slack"
-      ;:completed   (slack/slack-configured?)
-      ;:triggered   :always
-    }
+
+     {:title       "设置Email服务"
+      :group       "连接Email"
+      :description "Add email credentials so you can more easily invite team members and get updates via Pulses."
+      :link        "/admin/settings/email"
+      :completed   (email/email-configured?)
+      :triggered   :always}
+     ; {:title       "Set Slack credentials"
+     ;  :group       "Get connected"
+     ;  :description "Does your team use Slack?  If so, you can send automated updates via pulses and ask questions with Metabot."
+     ;  :link        "/admin/settings/slack"
+     ;  :completed   (slack/slack-configured?)
+     ;  :triggered   :always}
      {:title       "邀请团队成员"
-      :group       "Get connected"
+      :group       "连接用户"
       :description "将您的查询分享给您的团队成员。"
       :link        "/admin/people/"
       :completed   (> num-users 1)
       :triggered   (or has-dashboards?
                        has-pulses?
                        (>= num-cards 5))}
-     {:title       "隐藏不相关的表"
+     ; {:title       "Hide irrelevant tables"
+     ;  :group       "Curate your data"
+     ;  :description "If your data contains technical or irrelevant info you can hide it."
+     ;  :link        "/admin/datamodel/database"
+     ;  :completed   has-hidden-tables?
+     ;  :triggered   (>= num-tables 20)}
+     ; {:title       "Organize questions"
+     ;  :group       "Curate your data"
+     ;  :description "Have a lot of saved questions in Metabase? Create labels to help manage them and add context."
+     ;  :link        "/questions/all"
+     ;  :completed   has-labels?
+     ;  :triggered   (>= num-cards 30)}
+     ; {:title       "Create metrics"
+     ;  :group       "Curate your data"
+     ;  :description "Define canonical metrics to make it easier for the rest of your team to get the right answers."
+     ;  :link        "/admin/datamodel/database"
+     ;  :completed   has-metrics?
+     ;  :triggered   (>= num-cards 30)}
+     {:title       "Create segments"
       :group       "Curate your data"
-      :description "当您的数据中包含不相关或需要保密的部分，您可以隐藏他们。"
-      :link        "/admin/datamodel/database"
-      :completed   has-hidden-tables?
-      :triggered   (>= num-tables 20)}
-     {:title       "组织查询"
-      :group       "Curate your data"
-      :description "当您有许多查询需要管理时，您可以使用标签，方便管理它们。"
-      :link        "/questions/all"
-      :completed   has-labels?
-      :triggered   (>= num-cards 30)}
-     {:title       "创建指标"
-      :group       "Curate your data"
-      :description "为了方便您的团队能够更方便的获得正确答案，您可以定义通用指标。"
-      :link        "/admin/datamodel/database"
-      :completed   has-metrics?
-      :triggered   (>= num-cards 30)}
-     {:title       "创建 segments"
-      :group       "Curate your data"
-      :description "创建segments可以确保所有同事，都在同样的数据上开展工作。"
+      :description "Keep everyone on the same page by creating canonnical sets of filters anyone can use while asking questions."
       :link        "/admin/datamodel/database"
       :completed   has-segments?
-      :triggered   (>= num-cards 30)}]))
+      :triggered   (>= num-cards 30)}
+      ]
+
+    ))
 
 (defn- add-next-step-info
   "Add `is_next_step` key to all the STEPS from `admin-checklist`.

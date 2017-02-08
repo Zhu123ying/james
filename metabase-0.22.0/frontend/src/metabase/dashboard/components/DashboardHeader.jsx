@@ -138,29 +138,29 @@ export default class DashboardHeader extends Component {
         if (isEditing) {
 
             // Parameters
-            buttons.push(
-                <span>
-                    <Tooltip tooltip="新增筛选">
-                        <a
-                          key="parameters"
-                          className={cx("text-brand-hover", { "text-brand": this.state.modal == "parameters" })}
-                          title="Parameters"
-                          onClick={() => this.setState({ modal: "parameters" })}
-                        >
-                            <Icon name="funneladd" size={16} />
-                        </a>
-                    </Tooltip>
+            // buttons.push(
+            //     <span>
+            //         <Tooltip tooltip="新增筛选">
+            //             <a
+            //               key="parameters"
+            //               className={cx("text-brand-hover", { "text-brand": this.state.modal == "parameters" })}
+            //               title="Parameters"
+            //               onClick={() => this.setState({ modal: "parameters" })}
+            //             >
+            //                 <Icon name="funneladd" size={16} />
+            //             </a>
+            //         </Tooltip>
 
-                    {this.state.modal && this.state.modal === "parameters" &&
-                        <Popover onClose={() => this.setState({modal: false})}>
-                            <ParametersPopover
-                                onAddParameter={this.props.addParameter}
-                                onClose={() => this.setState({modal: false})}
-                            />
-                        </Popover>
-                    }
-                </span>
-            );
+            //         {this.state.modal && this.state.modal === "parameters" &&
+            //             <Popover onClose={() => this.setState({modal: false})}>
+            //                 <ParametersPopover
+            //                     onAddParameter={this.props.addParameter}
+            //                     onClose={() => this.setState({modal: false})}
+            //                 />
+            //             </Popover>
+            //         }
+            //     </span>
+            // );
 
             buttons.push(
                 <ModalWithTrigger

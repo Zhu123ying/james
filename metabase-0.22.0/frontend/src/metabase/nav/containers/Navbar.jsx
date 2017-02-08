@@ -81,7 +81,7 @@ export default class Navbar extends Component {
                         <AdminNavItem name="用户管理"      path="/admin/people"       currentPath={this.props.path} />
                         <AdminNavItem name="数据模型"  path="/admin/datamodel"    currentPath={this.props.path} />
                         <AdminNavItem name="数据库管理"   path="/admin/databases"    currentPath={this.props.path} />
-                        <AdminNavItem name="查询管理" path="/admin/permissions"  currentPath={this.props.path} />
+                        <AdminNavItem name="查询权限管理" path="/admin/permissions"  currentPath={this.props.path} />
                     </ul>
 
                     <ProfileLink {...this.props} />

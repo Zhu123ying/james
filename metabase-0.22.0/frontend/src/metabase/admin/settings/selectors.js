@@ -8,11 +8,11 @@ import CustomGeoJSONWidget from "./components/widgets/CustomGeoJSONWidget.jsx";
 
 const SECTIONS = [
     {
-        name: "Setup",
+        name: "起始设置",
         settings: []
     },
     {
-        name: "General",
+        name: "全局设置",
         settings: [
             {
                 key: "site-name",
@@ -53,7 +53,7 @@ const SECTIONS = [
         ]
     },
     {
-        name: "Email",
+        name: "Email服务器设置",
         settings: [
             {
                 key: "email-smtp-host",
@@ -102,8 +102,8 @@ const SECTIONS = [
                 validations: [["email", "That's not a valid email address"]]
             }
         ]
-    },
-    {
+    }
+    /*,{
         name: "Slack",
         settings: [
             {
@@ -125,8 +125,8 @@ const SECTIONS = [
                 autoFocus: false
             },
         ]
-    },
-    {
+    }*/
+    /*,{
         name: "Single Sign-On",
         settings: [
             {
@@ -136,8 +136,8 @@ const SECTIONS = [
                 key: "google-auth-auto-create-accounts-domain"
             }
         ]
-    },
-    {
+    }
+    /*,{
         name: "Maps",
         settings: [
             {
@@ -154,7 +154,7 @@ const SECTIONS = [
                 noHeader: true
             }
         ]
-    }
+    }*/
 ];
 for (const section of SECTIONS) {
     section.slug = slugify(section.name);

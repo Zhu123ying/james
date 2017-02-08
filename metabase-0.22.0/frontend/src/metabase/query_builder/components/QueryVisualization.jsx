@@ -167,7 +167,7 @@ export default class QueryVisualization extends Component {
                 { isRunning && (
                     <div className="Loading spread flex flex-column layout-centered text-brand z2">
                         <LoadingSpinner />
-                        <h2 className="Loading-message text-brand text-uppercase my3">Doing science...</h2>
+                        <h2 className="Loading-message text-brand text-uppercase my3">加载中...</h2>
                     </div>
                 )}
                 <div className={visualizationClasses}>
