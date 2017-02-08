@@ -364,21 +364,21 @@ var Aggregators = [{
     requiresField: false,
     requiredDriverFeature: "basic-aggregations"
 }, {
-    name: "Count of rows",
+    name: "Count",
     short: "count",
     description: "返回对应行数",
     validFieldsFilters: [],
     requiresField: false,
     requiredDriverFeature: "basic-aggregations"
 }, {
-    name: "Sum of ...",
+    name: "Sum",
     short: "sum",
     description: "返回匹配列的数值之和",
     validFieldsFilters: [summableFields],
     requiresField: true,
     requiredDriverFeature: "basic-aggregations"
 }, {
-    name: "Average of ...",
+    name: "Average",
     short: "avg",
     description: "返回匹配列的数值平均值",
     validFieldsFilters: [summableFields],

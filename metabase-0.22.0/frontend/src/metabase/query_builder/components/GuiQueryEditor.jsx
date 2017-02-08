@@ -162,11 +162,11 @@ export default class GuiQueryEditor extends Component {
             }
 
             if (Query.canAddFilter(this.props.query.query)) {
-                addFilterButton = this.renderAdd((filterList ? null : "Add filters to narrow your answer"), null, "addFilterTarget");
+                addFilterButton = this.renderAdd((filterList ? null : "增加条件缩小答案范围"), null, "addFilterTarget");
             }
         } else {
             enabled = false;
-            addFilterButton = this.renderAdd("Add filters to narrow your answer", null, "addFilterTarget");
+            addFilterButton = this.renderAdd("增加条件缩小答案范围", null, "addFilterTarget");
         }
 
         return (
@@ -311,7 +311,7 @@ export default class GuiQueryEditor extends Component {
     renderDataSection() {
         return (
             <div className={"GuiBuilder-section GuiBuilder-data flex align-center arrow-right"}>
-                <span className="GuiBuilder-section-label Query-label">Select</span>
+                <span className="GuiBuilder-section-label Query-label">From</span>
                 { this.props.features.data ?
                     <DataSelector
                         ref="dataSection"

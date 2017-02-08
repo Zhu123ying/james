@@ -49,7 +49,7 @@ class CollectionButton extends Component {
                     { isAdmin &&
                         <div className="absolute top right mt2 mr2 hover-child">
                             <Link to={"/collections/permissions?collectionId=" + id} className="mr1">
-                                <Icon name="lockoutline" tooltip="Set collection permissions" />
+                                <Icon name="lockoutline" tooltip="设置分类使用权限" />
                             </Link>
                             <ArchiveCollectionWidget collectionId={id} />
                         </div>
@@ -94,7 +94,7 @@ const NewCollectionButton = ({ push }) =>
                 />
             </div>
         </div>
-        <h3>New collection</h3>
+        <h3>新增分类</h3>
     </div>
 
 export default CollectionButtons;

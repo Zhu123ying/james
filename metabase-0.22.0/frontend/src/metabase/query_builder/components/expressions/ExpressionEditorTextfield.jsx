@@ -43,7 +43,7 @@ export default class ExpressionEditorTextfield extends Component {
     static defaultProps = {
         expression: [null, ""],
         startRule: "expression",
-        placeholder: "write some math!"
+        placeholder: "请输入公式"
     }
 
     _getParserInfo(props = this.props) {

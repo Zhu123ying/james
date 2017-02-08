@@ -82,7 +82,7 @@ export default class SettingsSetupList extends Component {
         return (
             <div className="px2">
               <h2>开始设置</h2>
-              <p className="mt1">您可以按以下步骤设置您的DataUltra以便于更好的完成工作</p>
+              <p className="mt1">您可以按以下步骤设置您的DataUltra BI 以便于更好的完成工作</p>
               <LoadingAndErrorWrapper loading={!this.state.tasks} error={this.state.error} >
               { () =>
                   <div style={{maxWidth: 468}}>

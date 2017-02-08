@@ -48,14 +48,14 @@ export default class CollectionPage extends Component {
                     <div className="ml-auto">
                         <CollectionActions>
                             { canEdit && <ArchiveCollectionWidget collectionId={this.props.collection.id} onArchived={this.props.goToQuestions}/> }
-                            { canEdit && <Icon name="pencil" tooltip="Edit collection" onClick={() => this.props.editCollection(this.props.collection.id)} /> }
-                            { canEdit && <Icon name="lock" tooltip="Set permissions" onClick={() => this.props.editPermissions(this.props.collection.id)} /> }
+                            { canEdit && <Icon name="pencil" tooltip="编辑" onClick={() => this.props.editCollection(this.props.collection.id)} /> }
+                            { canEdit && <Icon name="lock" tooltip="设置权限" onClick={() => this.props.editPermissions(this.props.collection.id)} /> }
                         </CollectionActions>
                     </div>
                 </div>
                 <div className="mt4">
                     <EntityList
-                        defaultEmptyState="No questions have been added to this collection yet."
+                        defaultEmptyState="当前分类中还未加入查询"
                         entityType="cards"
                         entityQuery={{ f: "all", collection: params.collectionSlug, ...location.query }}
                         // use replace when changing sections so back button still takes you back to collections page

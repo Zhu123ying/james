@@ -56,7 +56,7 @@ export default class QuestionIndex extends Component {
         return (
             <div className="relative mx4">
                 <div className="flex align-center pt4 pb2">
-                    <TitleAndDescription title={ showCollections ? "收藏夹" : "已保存问题" } />
+                    <TitleAndDescription title={ showCollections ? "查询列表" : "查询列表" } />
                     <div className="flex align-center ml-auto">
                         <ExpandingSearchField className="mr2" onSearch={this.props.search} />
 
@@ -114,14 +114,13 @@ const CollectionEmptyState = () =>
     <div className="flex align-center p2 bordered border-med border-brand rounded bg-grey-0 text-brand">
         <Icon name="collection" size={32} className="mr2"/>
         <div className="flex-full">
-            <h3>Create collections for your saved questions</h3>
+            <h3>为您的查询分配一些分类</h3>
             <div className="mt1">
-                Collections help you organize your questions and allow you to decide who gets to see what.
+                将查询分类可以帮助您更好的管理和应用查询。
                 {" "}
-                <Link to="http://metabase.com/FIXME">Learn more</Link>
             </div>
         </div>
         <Link to="/collections/create">
-            <Button primary>Create a collection</Button>
+            <Button primary>创建分类</Button>
         </Link>
     </div>

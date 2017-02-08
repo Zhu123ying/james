@@ -15,7 +15,7 @@ import _ from "underscore";
 
 import ExpressionEditorTextfield from "./expressions/ExpressionEditorTextfield.jsx"
 
-const CUSTOM_SECTION_NAME = "Custom Expression";
+const CUSTOM_SECTION_NAME = "自定义表达式";
 
 export default class AggregationPopover extends Component {
     constructor(props, context) {
@@ -129,7 +129,7 @@ export default class AggregationPopover extends Component {
 
         if (availableAggregations.length > 0) {
             sections.push({
-                name: "Metabasics",
+                name: "基础函数",
                 items: availableAggregations.map(aggregation => ({
                     name: aggregation.name,
                     value: [aggregation.short].concat(aggregation.fields.map(field => null)),
