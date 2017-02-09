@@ -43,11 +43,11 @@ const SPECIAL_GROUP_FILTERS = [isAdminGroup, isDefaultGroup, isMetaBotGroup].rev
 
 function getTooltipForGroup(group) {
     if (isAdminGroup(group)) {
-        return "Administrators always have the highest level of acess to everything in Metabase."
+        return "Administrators总是有最高级别的访问DataUltra BI的一切。"
     } else if (isDefaultGroup(group)) {
-        return "Every Metabase user belongs to the All Users group. If you want to limit or restrict a group's access to something, make sure the All Users group has an equal or lower level of access.";
+        return "每个数DataUltra BI都属于All Users用户组。如果要限制或限制组的访问权限，请确保所有用户组具有相等或较低的访问级别。";
     } else if (isMetaBotGroup(group)) {
-        return "Metabot is Metabase's Slack bot. You can choose what it has access to here.";
+        return "DataUltra BIbot DataUltra BI的源数据管控服务，您可以设置他具体访问哪些数据。";
     }
     return null;
 }
@@ -91,10 +91,13 @@ function getPermissionWarning(getter, entityType, defaultGroup, permissions, gro
     let perm = value || getter(permissions, groupId, entityId);
     let defaultPerm = getter(permissions, defaultGroup.id, entityId);
     if (perm === "controlled" && defaultPerm === "controlled") {
-        return `The "${defaultGroup.name}" group may have access to a different set of ${entityType} than this group, which may give this group additional access to some ${entityType}.`;
+        //return `The "${defaultGroup.name}" group may have access to a different set of ${entityType} than this group, which may give this group additional access to some ${entityType}.`;
+        return `警告："${defaultGroup.name}" 用户组在 ${entityType} 项上的权限设置与此处有差异,这将是您的此项设置不能完全正确工作。 `;
     }
     if (hasGreaterPermissions(defaultPerm, perm)) {
-        return `The "${defaultGroup.name}" group has a higher level of access than this, which will override this setting. You should limit or revoke the "${defaultGroup.name}" group's access to this item.`;
+        //return `The "${defaultGroup.name}" group has a higher level of access than this, which will override this setting. You should limit or revoke the "${defaultGroup.name}" group's access to this item.`;
+        return `警告："${defaultGroup.name}" 用户组对此项目拥有更高的权限，这将导致您对当前组做的设置被更高级的权限所覆盖。建议您您修改"${defaultGroup.name}" 的相应权限。`;
+
     }
     return null;
 }
@@ -103,10 +106,10 @@ function getPermissionWarningModal(entityType, getter, defaultGroup, permissions
     let permissionWarning = getPermissionWarning(entityType, getter, defaultGroup, permissions, groupId, entityId, value);
     if (permissionWarning) {
         return {
-            title: `${value === "controlled" ? "Limit" : "Revoke"} access even though "${defaultGroup.name}" has greater access?`,
+            title: `${value === "controlled" ? "限制" : "撤销"} 访问, 当前 "${defaultGroup.name}" 用户组拥有更高的访问权限?`,
             message: permissionWarning,
-            confirmButtonText: (value === "controlled" ? "Limit" : "Revoke") + " access",
-            cancelButtonText: "Cancel"
+            confirmButtonText: (value === "controlled" ? "限制" : "撤销") + " 访问",
+            cancelButtonText: "取消"
         };
     }
 }
@@ -114,9 +117,9 @@ function getPermissionWarningModal(entityType, getter, defaultGroup, permissions
 function getControlledDatabaseWarningModal(permissions, groupId, entityId) {
     if (getSchemasPermission(permissions, groupId, entityId) !== "controlled") {
         return {
-            title: "Changing this database to limited access",
-            confirmButtonText: "Change",
-            cancelButtonText: "Cancel"
+            title: "变更数据库访问设置",
+            confirmButtonText: "确认",
+            cancelButtonText: "取消"
         };
     }
 }
@@ -127,10 +130,10 @@ function getRawQueryWarningModal(permissions, groupId, entityId, value) {
         getSchemasPermission(permissions, groupId, entityId) !== "all"
     ) {
         return {
-            title: "Allow Raw Query Writing?",
-            message: "This will also change this group's data access to Unrestricted for this database.",
-            confirmButtonText: "Allow",
-            cancelButtonText: "Cancel"
+            title: "允许对源数据查询的写入？",
+            message: "这也将改变该组对数据库的访问权限。",
+            confirmButtonText: "确认",
+            cancelButtonText: "取消"
         };
     }
 }
@@ -156,14 +159,14 @@ const OPTION_ALL = {
     ...OPTION_GREEN,
     value: "all",
     title: "Grant unrestricted access",
-    tooltip: "Unrestricted access",
+    tooltip: "无限制访问",
 };
 
 const OPTION_CONTROLLED = {
     ...OPTION_YELLOW,
     value: "controlled",
     title: "Limit access",
-    tooltip: "Limited access",
+    tooltip: "限制访问",
     icon: "permissionsLimited",
 };
 
@@ -171,14 +174,14 @@ const OPTION_NONE = {
     ...OPTION_RED,
     value: "none",
     title: "Revoke access",
-    tooltip: "No access",
+    tooltip: "禁止访问",
 };
 
 const OPTION_NATIVE_WRITE = {
     ...OPTION_GREEN,
     value: "write",
     title: "Write raw queries",
-    tooltip: "Can write raw queries",
+    tooltip: "可新增查询",
     icon: "sql",
 };
 
@@ -186,21 +189,21 @@ const OPTION_NATIVE_READ = {
     ...OPTION_YELLOW,
     value: "read",
     title: "View raw queries",
-    tooltip: "Can view raw queries",
+    tooltip: "可查看查询",
 };
 
 const OPTION_COLLECTION_WRITE = {
     ...OPTION_GREEN,
     value: "write",
     title: "Curate collection",
-    tooltip: "Can add and remove questions from this collection",
+    tooltip: "能对此分类新增或移除查询",
 };
 
 const OPTION_COLLECTION_READ = {
     ...OPTION_YELLOW,
     value: "read",
     title: "View collection",
-    tooltip: "Can view questions in this collection",
+    tooltip: "能查看此分类中的查询",
 };
 
 export const getTablesPermissionsGrid = createSelector(
@@ -228,7 +231,7 @@ export const getTablesPermissionsGrid = createSelector(
             groups,
             permissions: {
                 "fields": {
-                    header: "Data Access",
+                    header: "数据访问",
                     options(groupId, entityId) {
                         return [OPTION_ALL, OPTION_NONE]
                     },
@@ -283,7 +286,7 @@ export const getSchemasPermissionsGrid = createSelector(
             ],
             groups,
             permissions: {
-                header: "Data Access",
+                header: "数据访问",
                 "tables": {
                     options(groupId, entityId) {
                         return [OPTION_ALL, OPTION_CONTROLLED, OPTION_NONE]
@@ -317,7 +320,7 @@ export const getSchemasPermissionsGrid = createSelector(
                     schemaName
                 },
                 name: schemaName,
-                link: { name: "View tables", url: `/admin/permissions/databases/${databaseId}/schemas/${encodeURIComponent(schemaName)}/tables`}
+                link: { name: "查看表", url: `/admin/permissions/databases/${databaseId}/schemas/${encodeURIComponent(schemaName)}/tables`}
             }))
         }
     }
@@ -338,7 +341,7 @@ export const getDatabasesPermissionsGrid = createSelector(
             groups,
             permissions: {
                 "schemas": {
-                    header: "Data Access",
+                    header: "数据访问",
                     options(groupId, entityId) {
                         return [OPTION_ALL, OPTION_CONTROLLED, OPTION_NONE]
                     },
@@ -372,7 +375,7 @@ export const getDatabasesPermissionsGrid = createSelector(
                     }
                 },
                 "native": {
-                    header: "SQL Queries",
+                    header: "SQL查询",
                     options(groupId, entityId) {
                         if (getSchemasPermission(permissions, groupId, entityId) === "none") {
                             return [OPTION_NONE];
