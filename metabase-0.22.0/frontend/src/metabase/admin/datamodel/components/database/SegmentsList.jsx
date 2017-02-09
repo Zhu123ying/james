@@ -18,15 +18,15 @@ export default class SegmentsList extends Component {
         return (
             <div id="SegmentsList" className="my3">
                 <div className="flex mb1">
-                    <h2 className="px1 text-purple">Segments</h2>
-                    <Link to={"/admin/datamodel/segment/create?table="+tableMetadata.id} data-metabase-event="Data Model;Add Segment Page" className="flex-align-right float-right text-bold text-brand no-decoration">+ Add a Segment</Link>
+                    <h2 className="px1 text-purple">数据段</h2>
+                    <Link to={"/admin/datamodel/segment/create?table="+tableMetadata.id} data-metabase-event="Data Model;Add Segment Page" className="flex-align-right float-right text-bold text-brand no-decoration">+ 新增一个数据段</Link>
                 </div>
                 <table className="AdminTable">
                     <thead>
                         <tr>
-                            <th style={{ minWidth: "200px" }}>Name</th>
-                            <th className="full">Definition</th>
-                            <th>Actions</th>
+                            <th style={{ minWidth: "200px" }}>名称</th>
+                            <th className="full">定义</th>
+                            <th>操作</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -42,7 +42,7 @@ export default class SegmentsList extends Component {
                 </table>
                 { tableMetadata.segments.length === 0 &&
                     <div className="flex layout-centered m4 text-grey-3">
-                        Create segments to add them to the Filter dropdown in the query builder
+                        创建数据段，他们将显示在查询生成器过滤的下拉菜单中。
                     </div>
                 }
             </div>

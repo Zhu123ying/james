@@ -73,8 +73,8 @@ export default class MetricForm extends Component {
                         <FormLabel
                             title={(metric && metric.id != null ? "Edit" : "Create") + " Your Metric"}
                             description={metric && metric.id != null ?
-                                "Make changes to your metric and leave an explanatory note." :
-                                "You can create saved metrics to add a named metric option to this table. Saved metrics include the aggregation type, the aggregated field, and optionally any filter you add. As an example, you might use this to create something like the official way of calculating \"Average Price\" for an Orders table."
+                                "修改查询条件并留下说明性的注释" :
+                                "您可以创建自己的产讯条件，并保存到这张表中。包括聚合类型、聚合字段和任意添加的筛选器。例如，您可以创建一个针对订单表的《平均价格》专有计算方法。"
                             }
                         >
                         <PartialQueryBuilder
@@ -87,14 +87,14 @@ export default class MetricForm extends Component {
                                 aggregation_options: tableMetadata.aggregation_options.filter(a => a.short !== "rows"),
                                 metrics: null
                             }}
-                            previewSummary={previewSummary == null ? "" : "Result: " + formatValue(previewSummary)}
+                            previewSummary={previewSummary == null ? "" : "结果: " + formatValue(previewSummary)}
                             updatePreviewSummary={this.updatePreviewSummary.bind(this)}
                             {...definition}
                         />
                         </FormLabel>
                         <div style={{ maxWidth: "575px" }}>
                             <FormLabel
-                                title="Name Your Metric"
+                                title="查询条件名称"
                                 description="Give your metric a name to help others find it."
                             >
                                 <FormInput
