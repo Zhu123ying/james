@@ -114,7 +114,7 @@ export default class EditUserForm extends Component {
                     </FormField>
 
                     <FormField fieldName="email" formError={formError}>
-                        <FormLabel title="Email address" fieldName="email" formError={formError} offset={false}></FormLabel>
+                        <FormLabel title="Email" fieldName="email" formError={formError} offset={false}></FormLabel>
                         <input ref="email" className="Form-input full" name="email" defaultValue={(user) ? user.email : null} placeholder="DataUltra@chinac.com" required onChange={this.onChange.bind(this)} />
                     </FormField>
 
@@ -152,7 +152,7 @@ export default class EditUserForm extends Component {
 
                 <ModalFooter>
                     <Button type="button" onClick={this.cancel.bind(this)}>
-                        Cancel
+                        取消
                     </Button>
                     <Button primary disabled={!valid}>
                         { buttonText ? buttonText : "保存修改" }

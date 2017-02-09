@@ -62,16 +62,16 @@ export default class MetadataTable extends Component {
         if (this.props.tableMetadata.visibility_type) {
             subTypes = (
                 <span id="VisibilitySubTypes" className="border-left mx2">
-                    <span className="mx2 text-uppercase text-grey-3">Why Hide?</span>
-                    {this.renderVisibilityType("Technical Data", "technical")}
-                    {this.renderVisibilityType("Irrelevant/Cruft", "cruft")}
+                    <span className="mx2 text-uppercase text-grey-3">隐藏原因?</span>
+                    {this.renderVisibilityType("技术参数", "technical")}
+                    {this.renderVisibilityType("无关数据/残缺数据", "cruft")}
                 </span>
             );
         }
         return (
             <span id="VisibilityTypes">
-                {this.renderVisibilityType("Queryable", null)}
-                {this.renderVisibilityType("Hidden", "hidden", true)}
+                {this.renderVisibilityType("可用", null)}
+                {this.renderVisibilityType("隐藏", "hidden", true)}
                 {subTypes}
             </span>
         );
@@ -87,13 +87,13 @@ export default class MetadataTable extends Component {
             <div className="MetadataTable px3 flex-full">
                 <div className="MetadataTable-title flex flex-column bordered rounded">
                     <Input className="AdminInput TableEditor-table-name text-bold border-bottom rounded-top" type="text" value={tableMetadata.display_name || ""} onBlurChange={this.onNameChange}/>
-                    <Input className="AdminInput TableEditor-table-description rounded-bottom" type="text" value={tableMetadata.description || ""} onBlurChange={this.onDescriptionChange} placeholder="No table description yet" />
+                    <Input className="AdminInput TableEditor-table-description rounded-bottom" type="text" value={tableMetadata.description || ""} onBlurChange={this.onDescriptionChange} placeholder="暂无描述" />
                 </div>
                 <div className="MetadataTable-header flex align-center py2 text-grey-3">
-                    <span className="mx1 text-uppercase">Visibility</span>
+                    <span className="mx1 text-uppercase">是否可用：</span>
                     {this.renderVisibilityWidget()}
                     <span className="flex-align-right flex align-center">
-                        <span className="text-uppercase mr1">Metadata Strength</span>
+                        <span className="text-uppercase mr1">源数据管理</span>
                         <ProgressBar percentage={tableMetadata.metadataStrength} />
                     </span>
                 </div>

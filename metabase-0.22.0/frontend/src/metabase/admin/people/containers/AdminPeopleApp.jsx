@@ -16,8 +16,8 @@ export default class AdminPeopleApp extends Component {
             <AdminLayout
                 sidebar={
                     <LeftNavPane>
-                        <LeftNavPaneItem name="People" path="/admin/people" index />
-                        <LeftNavPaneItem name="Groups" path="/admin/people/groups" />
+                        <LeftNavPaneItem name="用户" path="/admin/people" index />
+                        <LeftNavPaneItem name="用户组" path="/admin/people/groups" />
                     </LeftNavPane>
                 }
             >

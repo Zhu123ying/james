@@ -195,7 +195,7 @@ export default class PeopleListingApp extends Component {
         let { user } = modalDetails;
 
         return (
-            <Modal full form title="Edit Details" onClose={this.onCloseModal}>
+            <Modal full form title="编辑详情" onClose={this.onCloseModal}>
                 <EditUserForm
                     user={user}
                     submitFn={this.onEditDetails.bind(this)}
@@ -211,8 +211,8 @@ export default class PeopleListingApp extends Component {
             <Modal small
                 title={user.first_name+" 已存在，请不要重复添加"}
                 footer={[
-                    <Button onClick={() => this.props.showModal({type: MODAL_ADD_PERSON})}>Add another person</Button>,
-                    <Button primary onClick={this.onCloseModal}>Done</Button>
+                    <Button onClick={() => this.props.showModal({type: MODAL_ADD_PERSON})}>再次新增用户</Button>,
+                    <Button primary onClick={this.onCloseModal}>确认</Button>
                 ]}
                 onClose={this.onCloseModal}
             >
@@ -236,7 +236,7 @@ export default class PeopleListingApp extends Component {
 
         return (
             <Modal small
-                title={user.first_name+" has been added"}
+                title={user.first_name+" 添加成功"}
                 footer={[
                     <Button onClick={() => this.props.showModal({type: MODAL_ADD_PERSON})}>继续新增用户</Button>,
                     <Button primary onClick={this.onCloseModal}>确认</Button>
@@ -255,11 +255,11 @@ export default class PeopleListingApp extends Component {
             <Modal small form
                 title={"We've Re-sent "+user.first_name+"'s Invite"}
                 footer={[
-                    <Button primary onClick={this.onCloseModal}>Okay</Button>
+                    <Button primary onClick={this.onCloseModal}>确认</Button>
                 ]}
                 onClose={this.onCloseModal}
             >
-                <div>Any previous email invites they have will no longer work.</div>
+                <div>此前发出的所有邮件邀请将失效</div>
             </Modal>
         );
     }
@@ -277,7 +277,6 @@ export default class PeopleListingApp extends Component {
                 onClose={this.onCloseModal}
             >
                 <div className="px4 pb4">
-                    Are you sure you want to do this? {user.first_name} won't be able to log in anymore.  This can't be undone.
                     确认是否进行此操作？ {user.first_name}将不能再登录，此操作不可撤销。
                 </div>
             </Modal>
@@ -291,8 +290,8 @@ export default class PeopleListingApp extends Component {
             <Modal small
                 title={"Reset "+user.first_name+"'s Password"}
                 footer={[
-                    <Button onClick={this.onCloseModal}>Cancel</Button>,
-                    <Button warning onClick={() => this.onPasswordResetConfirm(user)}>Reset</Button>
+                    <Button onClick={this.onCloseModal}>取消</Button>,
+                    <Button warning onClick={() => this.onPasswordResetConfirm(user)}>重置</Button>
                 ]}
                 onClose={this.onCloseModal}
             >
@@ -363,19 +362,19 @@ export default class PeopleListingApp extends Component {
             <LoadingAndErrorWrapper loading={!users} error={error}>
             {() =>
                 <AdminPaneLayout
-                    title="People"
-                    buttonText="Add person"
+                    title="用户"
+                    buttonText="新增用户"
                     buttonAction={() => this.props.showModal({type: MODAL_ADD_PERSON})}
                 >
                     <section className="pb4">
                         <table className="ContentTable">
                             <thead>
                                 <tr>
-                                    <th>Name</th>
+                                    <th>用户名</th>
                                     <th></th>
                                     <th>Email</th>
-                                    <th>Groups</th>
-                                    <th>Last Login</th>
+                                    <th>用户组</th>
+                                    <th>上次登陆</th>
                                     <th></th>
                                 </tr>
                             </thead>

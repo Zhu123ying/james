@@ -15,10 +15,10 @@ const AddRow = ({ value, isValid, placeholder, onKeyDown, onChange, onDone, onCa
             onChange={onChange}
         />
         <span className="link no-decoration cursor-pointer" onClick={onCancel}>
-            Cancel
+            取消
         </span>
         <button className={cx("Button ml2", {"Button--primary": !!isValid})} disabled={!isValid} onClick={onDone}>
-            Add
+            新增
         </button>
     </div>
 

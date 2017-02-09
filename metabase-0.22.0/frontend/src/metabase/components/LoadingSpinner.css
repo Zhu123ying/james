@@ -28,6 +28,10 @@
   left: -4px;
 }
 
+.forgroupName {
+
+}
+
 @keyframes LoadingSpinner-transition {
   from {
     transform: rotate(0deg);

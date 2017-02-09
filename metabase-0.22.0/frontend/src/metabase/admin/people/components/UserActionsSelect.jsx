@@ -53,16 +53,16 @@ export default class UserActionsSelect extends Component {
                                 className="block"
                                 triggerElement={<span className="text-grey-1"><Icon name={'ellipsis'}></Icon></span>}>
                 <ul className="UserActionsSelect">
-                    <li className="py1 px2 bg-brand-hover text-white-hover cursor-pointer" onClick={this.onEditDetails.bind(this)}>Edit Details</li>
+                    <li className="py1 px2 bg-brand-hover text-white-hover cursor-pointer" onClick={this.onEditDetails.bind(this)}>编辑详情</li>
 
                     { (user.last_login === null && MetabaseSettings.isEmailConfigured()) ?
-                        <li className="pt1 pb2 px2 bg-brand-hover text-white-hover cursor-pointer" onClick={this.onResendInvite.bind(this)}>Re-send Invite</li>
+                        <li className="pt1 pb2 px2 bg-brand-hover text-white-hover cursor-pointer" onClick={this.onResendInvite.bind(this)}>重新发送邀请</li>
                     :
-                        <li className="pt1 pb2 px2 bg-brand-hover text-white-hover cursor-pointer" onClick={this.onResetPassword.bind(this)}>Reset Password</li>
+                        <li className="pt1 pb2 px2 bg-brand-hover text-white-hover cursor-pointer" onClick={this.onResetPassword.bind(this)}>重置密码</li>
                     }
 
                     { !isActiveUser &&
-                        <li className="p2 border-top bg-error-hover text-error text-white-hover cursor-pointer"  onClick={this.onRemoveUser.bind(this)}>Remove</li>
+                        <li className="p2 border-top bg-error-hover text-error text-white-hover cursor-pointer"  onClick={this.onRemoveUser.bind(this)}>移除</li>
                     }
                 </ul>
             </PopoverWithTrigger>
