@@ -170,7 +170,7 @@ export default class SettingsEditorApp extends Component {
         return (
             <AdminLayout
                 ref="layout"
-                title="设置"
+                title="Settings"
                 sidebar={this.renderSettingsSections()}
             >
                 {this.renderSettingsPane()}

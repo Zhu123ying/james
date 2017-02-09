@@ -103,58 +103,7 @@ const SECTIONS = [
             }
         ]
     }
-    /*,{
-        name: "Slack",
-        settings: [
-            {
-                key: "slack-token",
-                display_name: "Slack API Token",
-                description: "",
-                placeholder: "Enter the token you received from Slack",
-                type: "string",
-                required: false,
-                autoFocus: true
-            },
-            {
-                key: "metabot-enabled",
-                display_name: "Metabot",
-                type: "boolean",
-                // TODO: why do we have "defaultValue" in addition to "default" in the backend?
-                defaultValue: false,
-                required: true,
-                autoFocus: false
-            },
-        ]
-    }*/
-    /*,{
-        name: "Single Sign-On",
-        settings: [
-            {
-                key: "google-auth-client-id"
-            },
-            {
-                key: "google-auth-auto-create-accounts-domain"
-            }
-        ]
-    }
-    /*,{
-        name: "Maps",
-        settings: [
-            {
-                key: "map-tile-server-url",
-                display_name: "Map tile server URL",
-                note: "Metabase uses OpenStreetMaps by default.",
-                type: "string"
-            },
-            {
-                key: "custom-geojson",
-                display_name: "Custom Maps",
-                description: "Add your own GeoJSON files to enable different region map visualizations",
-                widget: CustomGeoJSONWidget,
-                noHeader: true
-            }
-        ]
-    }*/
+    
 ];
 for (const section of SECTIONS) {
     section.slug = slugify(section.name);
