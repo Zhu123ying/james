@@ -120,7 +120,7 @@ export default class EditUserForm extends Component {
 
                     { groups && groups.filter(g => canEditMembership(g) && !isAdminGroup(g)).length > 0 ?
                         <FormField>
-                            <FormLabel title="Permission Groups" offset={false}></FormLabel>
+                            <FormLabel title="用户组" offset={false}></FormLabel>
                             <PopoverWithTrigger
                                 triggerElement={
                                     <SelectButton>

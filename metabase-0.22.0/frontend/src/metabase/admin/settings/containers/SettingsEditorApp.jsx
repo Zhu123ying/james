@@ -76,7 +76,7 @@ export default class SettingsEditorApp extends Component {
 
         let section = this.props.activeSection; // this.props.sections[this.state.currentSection];
 
-        if (section.name === "Email") {
+        if (section.name === "Email服务器设置") {
             return (
                 <SettingsEmailForm
                     ref="emailForm"
@@ -85,7 +85,7 @@ export default class SettingsEditorApp extends Component {
                     sendTestEmail={this.props.sendTestEmail}
                 />
             );
-        } else if (section.name === "Setup") {
+        } else if (section.name === "起始设置") {
             return (
                 <SettingsSetupList
                     ref="settingsForm"
@@ -170,7 +170,7 @@ export default class SettingsEditorApp extends Component {
         return (
             <AdminLayout
                 ref="layout"
-                title="Settings"
+                title="设置"
                 sidebar={this.renderSettingsSections()}
             >
                 {this.renderSettingsPane()}

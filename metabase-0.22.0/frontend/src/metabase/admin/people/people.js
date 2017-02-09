@@ -178,9 +178,9 @@ const group = handleActions({
 }, null);
 
 export default combineReducers({
-    modal,
-    users,
-    groups,
-    group,
-    memberships
+    模式,
+    用户,
+    组,
+    组,
+    身份
 });
