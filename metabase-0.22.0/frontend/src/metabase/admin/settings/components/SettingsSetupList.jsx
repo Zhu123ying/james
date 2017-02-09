@@ -86,9 +86,9 @@ export default class SettingsSetupList extends Component {
               <LoadingAndErrorWrapper loading={!this.state.tasks} error={this.state.error} >
               { () =>
                   <div style={{maxWidth: 468}}>
-                      // { nextTask &&
-                      //     <TaskSection name="推荐的第一步" tasks={[nextTask]} />
-                      // }
+                       { nextTask &&
+                           <TaskSection name="推荐的第一步" tasks={[nextTask]} />
+                       }
                       {
                         tasks.map((section, index) =>
                           <TaskSection {...section} key={index} />
