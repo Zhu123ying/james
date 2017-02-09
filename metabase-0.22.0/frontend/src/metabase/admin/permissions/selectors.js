@@ -91,11 +91,9 @@ function getPermissionWarning(getter, entityType, defaultGroup, permissions, gro
     let perm = value || getter(permissions, groupId, entityId);
     let defaultPerm = getter(permissions, defaultGroup.id, entityId);
     if (perm === "controlled" && defaultPerm === "controlled") {
-        //return `The "${defaultGroup.name}" group may have access to a different set of ${entityType} than this group, which may give this group additional access to some ${entityType}.`;
         return `警告："${defaultGroup.name}" 用户组在 ${entityType} 项上的权限设置与此处有差异,这将是您的此项设置不能完全正确工作。 `;
     }
     if (hasGreaterPermissions(defaultPerm, perm)) {
-        //return `The "${defaultGroup.name}" group has a higher level of access than this, which will override this setting. You should limit or revoke the "${defaultGroup.name}" group's access to this item.`;
         return `警告："${defaultGroup.name}" 用户组对此项目拥有更高的权限，这将导致您对当前组做的设置被更高级的权限所覆盖。建议您您修改"${defaultGroup.name}" 的相应权限。`;
 
     }
