@@ -112,7 +112,7 @@ const saveError = handleActions({
     [RESET]: { next: () => null },
     [SAVE_PERMISSIONS]: {
         next: (state) => null,
-        throw: (state, { payload }) => (payload && typeof payload.data === "string" ? payload.data : payload.data.message) || "Sorry, an error occurred."
+        throw: (state, { payload }) => (payload && typeof payload.data === "string" ? payload.data : payload.data.message) || "抱歉，此处出现一个异常情况。"
     },
     [LOAD_PERMISSIONS]: {
         next: (state) => null,

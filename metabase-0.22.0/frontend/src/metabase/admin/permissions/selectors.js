@@ -43,9 +43,9 @@ const SPECIAL_GROUP_FILTERS = [isAdminGroup, isDefaultGroup, isMetaBotGroup].rev
 
 function getTooltipForGroup(group) {
     if (isAdminGroup(group)) {
-        return "Administrators总是有最高级别的访问DataUltra BI的一切。"
+        return "Administrators总是有最高级别的权限，能访问DataUltra BI的一切。"
     } else if (isDefaultGroup(group)) {
-        return "每个数DataUltra BI都属于All Users用户组。如果要限制或限制组的访问权限，请确保所有用户组具有相等或较低的访问级别。";
+        return "每个DataUltra BI用户都属于All Users用户组。如果要限制或限制组的访问权限，请确保所有用户组具有相等或较低的访问权限。";
     } else if (isMetaBotGroup(group)) {
         return "DataUltra BIbot DataUltra BI的源数据管控服务，您可以设置他具体访问哪些数据。";
     }

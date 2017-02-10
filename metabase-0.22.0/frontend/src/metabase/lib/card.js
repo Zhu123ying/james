@@ -27,10 +27,10 @@ export function startNewCard(type, databaseId, tableId) {
 // load a card either by ID or from a base64 serialization.  if both are present then they are merged, which the serialized version taking precedence
 export async function loadCard(cardId) {
     try {
-        let card = await CardApi.get({ "cardId": cardId });
+        let card = await CardApi.get({ "查询Id": cardId });
         return card && cleanCopyCard(card);
     } catch (error) {
-        console.log("error loading card", error);
+        console.log("查询加载失败", error);
         throw error;
     }
 }

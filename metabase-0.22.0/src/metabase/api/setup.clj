@@ -19,14 +19,14 @@
             [metabase.util.schema :as su]))
 
 (def ^:private SetupToken
-  "Schema for a string that matches the instance setup token."
+  "匹配实例Token"
   (su/with-api-error-message (s/constrained su/NonBlankString setup/token-match?)
-    "Token does not match the setup token."))
+    "Token不匹配"))
 
 
 (defendpoint POST "/"
-  "Special endpoint for creating the first user during setup.
-   This endpoint both creates the user AND logs them in and returns a session ID."
+  " 在安装过程中会创建一个特殊的端点。
+    这个端点将用来创建用户，记录它们并返回会话ID。"
   [:as {{:keys [token] {:keys [name engine details is_full_sync]} :database, {:keys [first_name last_name email password]} :user, {:keys [allow_tracking site_name]} :prefs} :body, :as request}]
   {token      SetupToken
    site_name  su/NonBlankString
@@ -75,7 +75,7 @@
 
 
 (defendpoint POST "/validate"
-  "Validate that we can connect to a database given a set of details."
+  "我们可以连接一组数据库。"
   [:as {{{:keys [engine] {:keys [host port] :as details} :details} :details, token :token} :body}]
   {token  SetupToken
    engine DBEngine}
@@ -119,12 +119,12 @@
       :completed   has-dbs?
       :triggered   :always}
 
-     {:title       "设置Email服务"
-      :group       "连接Email"
-      :description "Add email credentials so you can more easily invite team members and get updates via Pulses."
-      :link        "/admin/settings/email"
-      :completed   (email/email-configured?)
-      :triggered   :always}
+     ; {:title       "设置Email服务"
+     ;  :group       "连接Email"
+     ;  :description "Add email credentials so you can more easily invite team members and get updates via Pulses."
+     ;  :link        "/admin/settings/email"
+     ;  :completed   (email/email-configured?)
+     ;  :triggered   :always}
      ; {:title       "Set Slack credentials"
      ;  :group       "Get connected"
      ;  :description "Does your team use Slack?  If so, you can send automated updates via pulses and ask questions with Metabot."
@@ -132,7 +132,7 @@
      ;  :completed   (slack/slack-configured?)
      ;  :triggered   :always}
      {:title       "邀请团队成员"
-      :group       "连接用户"
+      :group       "邀请用户"
       :description "将您的查询分享给您的团队成员。"
       :link        "/admin/people/"
       :completed   (> num-users 1)
@@ -157,12 +157,12 @@
      ;  :link        "/admin/datamodel/database"
      ;  :completed   has-metrics?
      ;  :triggered   (>= num-cards 30)}
-     {:title       "Create segments"
-      :group       "Curate your data"
-      :description "Keep everyone on the same page by creating canonnical sets of filters anyone can use while asking questions."
-      :link        "/admin/datamodel/database"
-      :completed   has-segments?
-      :triggered   (>= num-cards 30)}
+     ; {:title       "Create segments"
+     ;  :group       "Curate your data"
+     ;  :description "Keep everyone on the same page by creating canonnical sets of filters anyone can use while asking questions."
+     ;  :link        "/admin/datamodel/database"
+     ;  :completed   has-segments?
+     ;  :triggered   (>= num-cards 30)}
       ]
 
     ))
