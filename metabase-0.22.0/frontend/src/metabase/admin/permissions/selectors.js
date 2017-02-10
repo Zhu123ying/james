@@ -94,7 +94,7 @@ function getPermissionWarning(getter, entityType, defaultGroup, permissions, gro
         return `警告："${defaultGroup.name}" 用户组在 ${entityType} 项上的权限设置与此处有差异,这将是您的此项设置不能完全正确工作。 `;
     }
     if (hasGreaterPermissions(defaultPerm, perm)) {
-        return `警告："${defaultGroup.name}" 用户组对此项目拥有更高的权限，这将导致您对当前组做的设置被更高级的权限所覆盖。建议您您修改"${defaultGroup.name}" 的相应权限。`;
+        return `警告："${defaultGroup.name}" 用户组对此项目拥有更高的权限，这将导致您对当前组做的设置被更高级的权限所覆盖。建议您修改"${defaultGroup.name}" 的相应权限。`;
 
     }
     return null;
@@ -157,13 +157,13 @@ const OPTION_ALL = {
     ...OPTION_GREEN,
     value: "all",
     title: "Grant unrestricted access",
-    tooltip: "无限制访问",
+    tooltip: "无访问限制",
 };
 
 const OPTION_CONTROLLED = {
     ...OPTION_YELLOW,
     value: "controlled",
-    title: "Limit access",
+    title: "限制访问",
     tooltip: "限制访问",
     icon: "permissionsLimited",
 };
@@ -171,7 +171,7 @@ const OPTION_CONTROLLED = {
 const OPTION_NONE = {
     ...OPTION_RED,
     value: "none",
-    title: "Revoke access",
+    title: "禁止访问",
     tooltip: "禁止访问",
 };
 

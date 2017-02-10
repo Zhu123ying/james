@@ -21,18 +21,18 @@ import cx from "classnames";
     validate: (values) => {
         const errors = {};
         if (!values.name) {
-            errors.name = "Name is required";
+            errors.name = "必须填写名称";
         }
         if (!values.description) {
-            errors.description = "Description is required";
+            errors.description = "必须填写描述";
         }
         if (values.id != null) {
             if (!values.revision_message) {
-                errors.revision_message = "Revision message is required";
+                errors.revision_message = "必须填写修改信息";
             }
         }
         if (!values.definition || !values.definition.filter || values.definition.filter.length < 1) {
-            errors.definition = "At least one filter is required";
+            errors.definition = "必须使用至少一条筛选条件";
         }
         return errors;
     },
@@ -69,7 +69,7 @@ export default class SegmentForm extends Component {
                 <form className="full" onSubmit={handleSubmit}>
                     <div className="wrapper py4">
                         <FormLabel
-                            title={(segment && segment.id != null ? "编辑" : "新增") + " 您的数据段"}
+                            title={(segment && segment.id != null ? "编辑" : "新增") + " 数据段"}
                             description={segment && segment.id != null ?
                                 "对你的部分进行修改并留下说明性的注释。" :
                                 "为"+ tableMetadata.display_name +"选择并添加筛选器以创建 " 
@@ -83,7 +83,7 @@ export default class SegmentForm extends Component {
                                     ...tableMetadata,
                                     segments: null
                                 }}
-                                previewSummary={previewSummary == null ? "" : formatValue(previewSummary) + " rows"}
+                                previewSummary={previewSummary == null ? "" : formatValue(previewSummary) + " 行"}
                                 updatePreviewSummary={this.updatePreviewSummary.bind(this)}
                                 {...definition}
                             />

@@ -23,19 +23,19 @@ import cx from "classnames";
     validate: (values) => {
         const errors = {};
         if (!values.name) {
-            errors.name = "Name is required";
+            errors.name = "必须填写名称";
         }
         if (!values.description) {
-            errors.description = "Description is required";
+            errors.description = "必须填写修改信息";
         }
         if (values.id != null) {
             if (!values.revision_message) {
-                errors.revision_message = "Revision message is required";
+                errors.revision_message = "必须填写修改信息";
             }
         }
         let aggregations = values.definition && Query.getAggregations(values.definition);
         if (!aggregations || aggregations.length === 0) {
-            errors.definition = "Aggregation is required";
+            errors.definition = "必须选择集合";
         }
         return errors;
     }
@@ -57,7 +57,7 @@ export default class MetricForm extends Component {
         return (
             <div>
                 <button className={cx("Button", { "Button--primary": !invalid, "disabled": invalid })} onClick={handleSubmit}>保存</button>
-                <Link to={"/admin/datamodel/database/" + tableMetadata.db_id + "/table/" + tableMetadata.id} className="Button Button--borderless mx1">Cancel</Link>
+                <Link to={"/admin/datamodel/database/" + tableMetadata.db_id + "/table/" + tableMetadata.id} className="Button Button--borderless mx1">取消</Link>
             </div>
         )
     }
@@ -71,7 +71,7 @@ export default class MetricForm extends Component {
                 <form className="full" onSubmit={handleSubmit}>
                     <div className="wrapper py4">
                         <FormLabel
-                            title={(metric && metric.id != null ? "Edit" : "Create") + " Your Metric"}
+                            title={(metric && metric.id != null ? "编辑" : "新增") + " 查询条件"}
                             description={metric && metric.id != null ?
                                 "修改查询条件并留下说明性的注释" :
                                 "您可以创建自己的产讯条件，并保存到这张表中。包括聚合类型、聚合字段和任意添加的筛选器。例如，您可以创建一个针对订单表的《平均价格》专有计算方法。"
@@ -95,28 +95,28 @@ export default class MetricForm extends Component {
                         <div style={{ maxWidth: "575px" }}>
                             <FormLabel
                                 title="查询条件名称"
-                                description="Give your metric a name to help others find it."
+                                description="为您的查询条件命名"
                             >
                                 <FormInput
                                     field={name}
-                                    placeholder="Something descriptive but not too long"
+                                    placeholder="请输入名称"
                                 />
                             </FormLabel>
                             <FormLabel
-                                title="Describe Your Metric"
-                                description="Give your metric a description to help others understand what it's about."
+                                title="查询条件描述"
+                                description="为您的查询条件增加描述，方便其他用户调用"
                             >
                                 <FormTextArea
                                     field={description}
-                                    placeholder="This is a good place to be more specific about less obvious metric rules"
+                                    placeholder="请输入描述"
                                 />
                             </FormLabel>
                             { id.value != null &&
-                                <FieldSet legend="Reason For Changes">
-                                    <FormLabel description="Leave a note to explain what changes you made and why they were required.">
+                                <FieldSet legend="修改原因">
+                                    <FormLabel description="描述修改内容及必要性">
                                         <FormTextArea
                                             field={revision_message}
-                                            placeholder="This will show up in the revision history for this metric to help everyone remember why things changed"
+                                            placeholder="修改原因将显示在历史记录中，方便团队成员及时了解变更情况"
                                         />
                                     </FormLabel>
                                     <div className="flex align-center">

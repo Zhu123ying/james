@@ -209,7 +209,7 @@ export default class PeopleListingApp extends Component {
 
         return (
             <Modal small
-                title={"用户："+user.first_name+" 已新增成功"}
+                title={user.first_name+" 已存在，请不要重复添加"}
                 footer={[
                     <Button onClick={() => this.props.showModal({type: MODAL_ADD_PERSON})}>再次新增用户</Button>,
                     <Button primary onClick={this.onCloseModal}>确认</Button>
