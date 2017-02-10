@@ -8,7 +8,7 @@ import CustomGeoJSONWidget from "./components/widgets/CustomGeoJSONWidget.jsx";
 
 const SECTIONS = [
     {
-        name: "安装",
+        name: "Setup",
         settings: []
     },
     {

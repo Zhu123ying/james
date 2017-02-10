@@ -33,31 +33,31 @@ const PermissionsConfirm = ({ diff }) =>
                     { (database.grantedTables || database.revokedTables) &&
                         <div>
                             <GroupName group={group} />
-                            {" will be "}
-                            {database.grantedTables && <TableAccessChange verb="given access to" color="text-success" tables={database.grantedTables} /> }
-                            {database.grantedTables && database.revokedTables && " and "}
-                            {database.revokedTables && <TableAccessChange verb="denied access to" color="text-warning" tables={database.revokedTables} /> }
-                            {" in "}
+                            {" 将 "}
+                            {database.grantedTables && <TableAccessChange verb="可以访问" color="text-success" tables={database.grantedTables} /> }
+                            {database.grantedTables && database.revokedTables && " 同时 "}
+                            {database.revokedTables && <TableAccessChange verb="禁止访问" color="text-warning" tables={database.revokedTables} /> }
+                            {" - "}
                             <DatabaseName database={database} />
-                            {"."}
+                            {"。"}
                         </div>
                     }
                     { database.native &&
                         <div>
                             <GroupName group={group} />
                             { database.native === "none" ?
-                                " will no longer able to "
+                                " 不再可以 "
                             :
-                                " will now be able to "
+                                " 可以 "
                             }
                             { database.native === "read" ?
-                                <span className="text-gold">read</span>
+                                <span className="text-gold">读</span>
                             : database.native === "write" ?
-                                <span className="text-success">write</span>
+                                <span className="text-success">写</span>
                             :
-                                <span>read or write</span>
+                                <span>读或写</span>
                             }
-                            {" native queries for "}
+                            {" 本地查询 "}
                             <DatabaseName database={database} />
                             {"."}
                         </div>

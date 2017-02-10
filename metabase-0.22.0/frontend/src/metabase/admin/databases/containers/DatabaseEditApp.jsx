@@ -87,7 +87,7 @@ export default class DatabaseEditApp extends Component {
                         <div className="Grid-cell Cell--1of3">
                             <div className="Actions  bordered rounded shadowed">
                                 <div className="Actions-group">
-                                    <label className="Actions-groupLabel block text-bold">Actions</label>
+                                    <label className="Actions-groupLabel block text-bold">操作</label>
                                     <ActionButton
                                         actionFn={() => this.props.syncDatabase(database.id)}
                                         className="Button"

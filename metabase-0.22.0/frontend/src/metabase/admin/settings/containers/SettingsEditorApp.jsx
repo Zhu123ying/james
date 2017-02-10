@@ -85,7 +85,7 @@ export default class SettingsEditorApp extends Component {
                     sendTestEmail={this.props.sendTestEmail}
                 />
             );
-        } else if (section.name === "安装") {
+        } else if (section.name === "Setup") {
             return (
                 <SettingsSetupList
                     ref="settingsForm"

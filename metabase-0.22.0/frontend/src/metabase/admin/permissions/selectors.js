@@ -156,7 +156,7 @@ const OPTION_RED = {
 const OPTION_ALL = {
     ...OPTION_GREEN,
     value: "all",
-    title: "Grant unrestricted access",
+    title: "无访问限制",
     tooltip: "无访问限制",
 };
 
@@ -178,7 +178,7 @@ const OPTION_NONE = {
 const OPTION_NATIVE_WRITE = {
     ...OPTION_GREEN,
     value: "write",
-    title: "Write raw queries",
+    title: "可新增查询",
     tooltip: "可新增查询",
     icon: "sql",
 };
@@ -186,21 +186,21 @@ const OPTION_NATIVE_WRITE = {
 const OPTION_NATIVE_READ = {
     ...OPTION_YELLOW,
     value: "read",
-    title: "View raw queries",
+    title: "可查看查询",
     tooltip: "可查看查询",
 };
 
 const OPTION_COLLECTION_WRITE = {
     ...OPTION_GREEN,
     value: "write",
-    title: "Curate collection",
+    title: "能对此分类新增或移除查询",
     tooltip: "能对此分类新增或移除查询",
 };
 
 const OPTION_COLLECTION_READ = {
     ...OPTION_YELLOW,
     value: "read",
-    title: "View collection",
+    title: "能查看此分类中的查询",
     tooltip: "能查看此分类中的查询",
 };
 
@@ -347,7 +347,7 @@ export const getDatabasesPermissionsGrid = createSelector(
                         return getSchemasPermission(permissions, groupId, entityId);
                     },
                     updater(groupId, entityId, value) {
-                        MetabaseAnalytics.trackEvent("Permissions", "schemas", value);
+                        MetabaseAnalytics.trackEvent("查询权限管理", "schemas", value);
                         return updateSchemasPermission(permissions, groupId, entityId, value, metadata)
                     },
                     postAction(groupId, { databaseId }, value) {
@@ -385,7 +385,7 @@ export const getDatabasesPermissionsGrid = createSelector(
                         return getNativePermission(permissions, groupId, entityId);
                     },
                     updater(groupId, entityId, value) {
-                        MetabaseAnalytics.trackEvent("Permissions", "native", value);
+                        MetabaseAnalytics.trackEvent("查询权限管理", "native", value);
                         return updateNativePermission(permissions, groupId, entityId, value, metadata);
                     },
                     confirm(groupId, entityId, value) {
@@ -408,11 +408,11 @@ export const getDatabasesPermissionsGrid = createSelector(
                     name: database.name,
                     link:
                         schemas.length === 0 || (schemas.length === 1 && schemas[0] === "") ?
-                            { name: "View tables", url: `/admin/permissions/databases/${database.id}/tables` }
+                            { name: "查看所有数据", url: `/admin/permissions/databases/${database.id}/tables` }
                         : schemas.length === 1 ?
-                            { name: "View tables", url: `/admin/permissions/databases/${database.id}/schemas/${schemas[0]}/tables` }
+                            { name: "查看所有数据", url: `/admin/permissions/databases/${database.id}/schemas/${schemas[0]}/tables` }
                         :
-                            { name: "View schemas", url: `/admin/permissions/databases/${database.id}/schemas`}
+                            { name: "查看所有数据", url: `/admin/permissions/databases/${database.id}/schemas`}
                 }
             })
         }

@@ -64,10 +64,10 @@ export const addSampleDataset = createThunkAction(ADD_SAMPLE_DATASET, function()
     return async function(dispatch, getState) {
         try {
             let sampleDataset = await MetabaseApi.db_add_sample_dataset();
-            MetabaseAnalytics.trackEvent("Databases", "Add Sample Data");
+            MetabaseAnalytics.trackEvent("数据库管理", "导入测试数据");
             return sampleDataset;
         } catch(error) {
-            console.error("error adding sample dataset", error);
+            console.error("测试数据导入失败", error);
             return error;
         }
     };
@@ -94,12 +94,12 @@ export const saveDatabase = createThunkAction(SAVE_DATABASE, function(database, 
             }
 
             // this object format is what FormMessage expects:
-            formState = { formSuccess: { data: { message: "Successfully saved!" }}};
+            formState = { formSuccess: { data: { message: "保存成功!" }}};
 
         } catch (error) {
             //$scope.$broadcast("form:api-error", error);
             console.error("error saving database", error);
-            MetabaseAnalytics.trackEvent("Databases", database.id ? "Update Failed" : "Create Failed", database.engine);
+            MetabaseAnalytics.trackEvent("Databases", database.id ? "更新失败" : "创建失败", database.engine);
             formState = { formError: error };
         }
 

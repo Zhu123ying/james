@@ -47,7 +47,7 @@ export default class QueryModeButton extends Component {
             tooltip = nativeForm ? `查看 ${nativeQueryName}` : `切换到 ${nativeQueryName}`;
         } else if (mode === "native" && allowNativeToQuery) {
             onClick = () => onSetMode("query");
-            tooltip = "Switch to Builder";
+            tooltip = "可视化编辑";
         }
 
         return (
