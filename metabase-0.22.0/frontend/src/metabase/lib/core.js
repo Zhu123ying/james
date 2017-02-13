@@ -2,12 +2,12 @@ import { TYPE } from "metabase/lib/types";
 
 export const field_special_types = [{
     'id': TYPE.PK,
-    'name': 'Key',
+    'name': '主键',
     'section': '全局',
     'description': '将当前字段设置为主键。'
 }, {
     'id': TYPE.Name,
-    'name': 'Entity Name',
+    'name': '名称',
     'section': '全局',
     'description': '将当前字段设置为查询结果的名称。通常会选择如"名称","标题"这样的字段。'
 }, {
@@ -42,7 +42,7 @@ export const field_special_types = [{
 }, {
     'id': TYPE.ImageURL,
     'name': 'Image URL',
-    'section': 'Common'
+    'section': '通用'
 }, {
     'id': TYPE.SerializedJSON,
     'name': 'Field containing JSON',

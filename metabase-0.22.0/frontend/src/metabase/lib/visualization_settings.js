@@ -329,7 +329,7 @@ const SETTINGS = {
     "graph.colors": {
         section: "显示",
         getTitle: ([{ card: { display } }]) =>
-            capitalize(display === "scatter" ? "bubble" : display) + " colors",
+            capitalize(display === "scatter" ? "bubble" : display) + " 标识色",
         widget: ChartSettingColorsPicker,
         readDependencies: ["graph.dimensions", "graph.metrics"],
         getDefault: ([{ card, data }], vizSettings) => {

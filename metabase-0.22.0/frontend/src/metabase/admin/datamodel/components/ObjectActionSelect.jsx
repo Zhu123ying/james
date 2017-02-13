@@ -37,7 +37,7 @@ export default class ObjectActionsSelect extends Component {
                         </li>
                         <li>
                             <Link to={"/admin/datamodel/" + objectType + "/" + object.id + "/revisions"} data-metabase-event={"Data Model;"+objectType+" History"} className="py1 px2 block bg-brand-hover text-white-hover no-decoration cursor-pointer">
-                                Revision History
+                                修改记录
                             </Link>
                         </li>
                         <li className="mt1 border-top">

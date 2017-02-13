@@ -28,10 +28,10 @@ export default class RevisionHistory extends Component {
                 <div className="wrapper">
                     <Breadcrumbs className="py4" crumbs={[
                         ["Datamodel", "/admin/datamodel/database/" + tableMetadata.db_id + "/table/" + tableMetadata.id],
-                        [this.props.objectType + " History"]
+                        [this.props.objectType + " 记录"]
                     ]}/>
                     <div className="wrapper py4" style={{maxWidth: 950}}>
-                        <h2 className="mb4">Revision History for "{object.name}"</h2>
+                        <h2 className="mb4">"{object.name}"修订记录</h2>
                         <ol>
                         {revisions.map(revision =>
                             <Revision

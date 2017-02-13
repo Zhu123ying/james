@@ -142,7 +142,7 @@ export default class LoginApp extends Component {
 
                             <div className="Form-field">
                                 <ul className="Form-offset">
-                                    <input name="remember" type="checkbox" defaultChecked /> <label className="inline-block">记住我：</label>
+                                    <input name="remember" type="checkbox" defaultChecked /> <label className="inline-block">保存登陆信息：</label>
                                 </ul>
                             </div>
 
