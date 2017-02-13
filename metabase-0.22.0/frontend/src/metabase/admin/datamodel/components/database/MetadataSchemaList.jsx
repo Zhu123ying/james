@@ -38,7 +38,7 @@ export default class MetadataSchemaList extends Component {
                     <input
                         className="AdminInput pl4 border-bottom"
                         type="text"
-                        placeholder="Find a schema"
+                        placeholder="查找一个数据模式"
                         value={this.state.searchText}
                         onChange={this.updateSearchText}
                     />

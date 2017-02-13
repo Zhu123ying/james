@@ -2,43 +2,43 @@ import { TYPE } from "metabase/lib/types";
 
 export const field_special_types = [{
     'id': TYPE.PK,
-    'name': 'Entity Key',
-    'section': 'Overall Row',
-    'description': 'The primary key for this table.'
+    'name': 'Key',
+    'section': '全局',
+    'description': '将当前字段设置为主键。'
 }, {
     'id': TYPE.Name,
     'name': 'Entity Name',
-    'section': 'Overall Row',
-    'description': 'The "name" of each record. Usually a column called "name", "title", etc.'
+    'section': '全局',
+    'description': '将当前字段设置为查询结果的名称。通常会选择如"名称","标题"这样的字段。'
 }, {
     'id': TYPE.FK,
-    'name': 'Foreign Key',
-    'section': 'Overall Row',
-    'description': 'Points to another table to make a connection.'
+    'name': '外键',
+    'section': '全局',
+    'description': '关联到另外一张表的某一行。'
 }, {
     'id': TYPE.AvatarURL,
     'name': 'Avatar Image URL',
-    'section': 'Common'
+    'section': '通用'
 }, {
     'id': TYPE.Category,
     'name': 'Category',
-    'section': 'Common'
+    'section': '通用'
 }, {
     'id': TYPE.City,
     'name': 'City',
-    'section': 'Common'
+    'section': '通用'
 }, {
     'id': TYPE.Country,
     'name': 'Country',
-    'section': 'Common'
+    'section': '通用'
 }, {
     'id': TYPE.Description,
     'name': 'Description',
-    'section': 'Common'
+    'section': '通用'
 }, {
     'id': TYPE.Email,
     'name': 'Email',
-    'section': 'Common'
+    'section': '通用'
 }, {
     'id': TYPE.ImageURL,
     'name': 'Image URL',
@@ -46,39 +46,39 @@ export const field_special_types = [{
 }, {
     'id': TYPE.SerializedJSON,
     'name': 'Field containing JSON',
-    'section': 'Common'
+    'section': '通用'
 }, {
     'id': TYPE.Latitude,
     'name': 'Latitude',
-    'section': 'Common'
+    'section': '通用'
 }, {
     'id': TYPE.Longitude,
     'name': 'Longitude',
-    'section': 'Common'
+    'section': '通用'
 }, {
     'id': TYPE.Number,
     'name': 'Number',
-    'section': 'Common'
+    'section': '通用'
 }, {
     'id': TYPE.State,
     'name': 'State',
-    'section': 'Common'
+    'section': '通用'
 }, {
     id: TYPE.UNIXTimestampSeconds,
     name: 'UNIX Timestamp (Seconds)',
-    'section': 'Common'
+    'section': '通用'
 }, {
     id: TYPE.UNIXTimestampMilliseconds,
     name: 'UNIX Timestamp (Milliseconds)',
-    'section': 'Common'
+    'section': '通用'
 }, {
     'id': TYPE.URL,
     'name': 'URL',
-    'section': 'Common'
+    'section': '通用'
 }, {
     'id': TYPE.ZipCode,
     'name': 'Zip Code',
-    'section': 'Common'
+    'section': '通用'
 }];
 
 export const field_special_types_map = field_special_types
@@ -94,6 +94,6 @@ export const field_visibility_types = [{
     'description': "只显示在单独查询的详情中。通常此项用户数据冗余且不必显示在图标中时。"
 }, {
     'id': 'sensitive',
-    'name': 'Do Not Include',
-    'description': 'Metabase will never retrieve this field. Use this for sensitive or irrelevant information.'
+    'name': '不显示',
+    'description': '不再显示此字段内容。通常用于不完整数据或不相关数据的隐藏。'
 }];
