@@ -54,7 +54,7 @@ function DeleteGroupModal({ group, onConfirm = () => {} , onClose = () => {} }) 
     return (
         <ModalContent title="移除用户组?" onClose={onClose}>
             <p className="px4 pb4">
-                请确定，此组的所有成员将丢失基于此组的任何权限设置。此操作无法撤销。
+                请确认，此组的所有成员将丢失基于此组的任何权限设置。此操作无法撤销。
             </p>
             <div className="Form-actions">
                 <button className="Button Button--danger" onClick={() => { onClose(); onConfirm(group); }}>

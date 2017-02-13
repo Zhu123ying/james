@@ -308,7 +308,7 @@ export default class PeopleListingApp extends Component {
         return (
             <Modal small
                 title={user.first_name+"的密码已被重置"}
-                footer={<button className="Button Button--primary mr2" onClick={this.onCloseModal}>Done</button>}
+                footer={<button className="Button Button--primary mr2" onClick={this.onCloseModal}>确认</button>}
                 onClose={this.onCloseModal}
             >
                 <div className="px4 pb4">
@@ -327,7 +327,7 @@ export default class PeopleListingApp extends Component {
             <Modal
                 small
                 title={user.first_name+"的密码已被重置"}
-                footer={<Button primary onClick={this.onCloseModal}>确定</Button>}
+                footer={<Button primary onClick={this.onCloseModal}>确认</Button>}
                 onClose={this.onCloseModal}
             >
                 <div className="px4 pb4">我们已经发送邮件，邀请其修改密码</div>
@@ -397,7 +397,7 @@ export default class PeopleListingApp extends Component {
                                             deleteMembership={this.props.deleteMembership}
                                         />
                                     </td>
-                                    <td>{ user.last_login ? user.last_login.fromNow() : "永不" }</td>
+                                    <td>{ user.last_login ? user.last_login.fromNow() : "无登录记录" }</td>
                                     <td className="text-right">
                                         <UserActionsSelect user={user} showModal={this.props.showModal} resendInvite={this.props.resendInvite} isActiveUser={this.props.user.id === user.id} />
                                     </td>

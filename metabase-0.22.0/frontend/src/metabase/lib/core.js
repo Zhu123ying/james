@@ -86,12 +86,12 @@ export const field_special_types_map = field_special_types
 
 export const field_visibility_types = [{
     'id': 'normal',
-    'name': 'Everywhere',
-    'description': 'The default setting.  This field will be displayed normally in tables and charts.'
+    'name': '全部',
+    'description': '默认选项。这些数据将在数据表及查询中可见。'
 }, {
     'id': 'details-only',
-    'name': 'Only in Detail Views',
-    'description': "This field will only be displayed when viewing the details of a single record. Use this for information that's lengthy or that isn't useful in a table or chart."
+    'name': '数据详情',
+    'description': "只显示在单独查询的详情中。通常此项用户数据冗余且不必显示在图标中时。"
 }, {
     'id': 'sensitive',
     'name': 'Do Not Include',

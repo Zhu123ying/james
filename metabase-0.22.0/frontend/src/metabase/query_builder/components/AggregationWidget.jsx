@@ -132,7 +132,7 @@ export default class AggregationWidget extends Component {
                             <div id="Query-section-aggregation" onClick={this.open} className="Query-section Query-section-aggregation cursor-pointer">
                                 <span className="View-section-aggregation QueryOption py1 mx1">
                                     { aggregationName == null ?
-                                        "Choose an aggregation"
+                                        "请选择函数"
                                     : name ?
                                         name
                                     :

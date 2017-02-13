@@ -76,6 +76,21 @@ export default class ProfileLink extends Component {
                     <OnClickOutsideWrapper handleDismissal={this.closeDropdown}>
                         <div className="NavDropdown-content right">
                             <ul className="NavDropdown-content-layer">
+                                { user.is_superuser && context !== 'admin' ?
+                                    <li>
+                                        <Link to="/" data-metabase-event={"Navbar;Profile Dropdown;Exit Admin"} onClick={this.closeDropdown} className="Dropdown-item block text-white no-decoration">
+                                            查询列表
+                                        </Link>
+                                    </li>
+                                : null }
+                                { user.is_superuser && context === 'admin' ?
+                                    <li>
+                                        <Link to="/questions" data-metabase-event={"Navbar;Profile Dropdown;Exit Admin"} onClick={this.closeDropdown} className="Dropdown-item block text-white no-decoration">
+                                            查询列表
+                                        </Link>
+                                    </li>
+                                : null }
+
                                 <li>
                                     <Link to="/user/edit_current" data-metabase-event={"Navbar;Profile Dropdown;Edit Profile"} onClick={this.closeDropdown} className="Dropdown-item block text-white no-decoration">
                                         账户设置

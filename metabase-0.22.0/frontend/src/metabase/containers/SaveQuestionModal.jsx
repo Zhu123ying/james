@@ -140,7 +140,7 @@ export default class SaveQuestionModal extends Component {
         if (!this.props.card.id && this.props.originalCard) {
             saveOrUpdate = (
                 <FormField
-                    displayName="Replace or save as new?"
+                    displayName="替换当前查询或保存为一个新的查询?"
                     fieldName="saveType"
                     errors={this.state.errors}
                 >
@@ -166,10 +166,10 @@ export default class SaveQuestionModal extends Component {
                 footer={[
                         formError,
                         <Button onClick={this.props.onClose}>
-                            Cancel
+                            取消
                         </Button>,
                         <Button primary={this.state.valid} disabled={!this.state.valid} onClick={this.formSubmitted}>
-                            Save
+                            保存
                         </Button>
                 ]}
                 onClose={this.props.onClose}
@@ -184,27 +184,27 @@ export default class SaveQuestionModal extends Component {
                         { details.saveType === "create" &&
                             <div key="saveQuestionModalFields" className="saveQuestionModalFields">
                                 <FormField
-                                    displayName="Name"
+                                    displayName="名称"
                                     fieldName="name"
                                     errors={this.state.errors}
                                 >
                                     <input
                                         className="Form-input full"
-                                        name="name" placeholder="What is the name of your card?"
+                                        name="name" placeholder="请输入查询名称?"
                                         value={this.state.details.name}
                                         onChange={(e) => this.onChange("name", e.target.value)}
                                         autoFocus
                                     />
                                 </FormField>
                                 <FormField
-                                    displayName="Description"
+                                    displayName="描述"
                                     fieldName="description"
                                     errors={this.state.errors}
                                 >
                                     <textarea
                                         className="Form-input full"
                                         name="description"
-                                        placeholder="It's optional but oh, so helpful"
+                                        placeholder="请输入描述描述"
                                         value={this.state.details.description}
                                         onChange={(e) => this.onChange("description", e.target.value)}
                                     />
@@ -212,7 +212,7 @@ export default class SaveQuestionModal extends Component {
                                 <CollectionList writable>
                                 { (collections) => collections.length > 0 &&
                                     <FormField
-                                        displayName="Which collection should this go in?"
+                                        displayName="请选择分类"
                                         fieldName="collection_id"
                                         errors={this.state.errors}
                                     >
@@ -221,7 +221,7 @@ export default class SaveQuestionModal extends Component {
                                             value={this.state.details.collection_id}
                                             onChange={e => this.onChange("collection_id", e.target.value)}
                                         >
-                                            {[{ name: "None", id: null }]
+                                            {[{ name: "无", id: null }]
                                             .concat(collections)
                                             .map((collection, index) =>
                                                 <Option
