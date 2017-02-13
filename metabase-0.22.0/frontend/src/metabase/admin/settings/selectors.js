@@ -12,7 +12,7 @@ const SECTIONS = [
         settings: []
     },
     {
-        name: "General",
+        name: "站点设置",
         settings: [
             {
                 key: "site-name",
@@ -27,7 +27,7 @@ const SECTIONS = [
         ]
     },
     {
-        name: "Email",
+        name: "Email设置",
         settings: [
             {
                 key: "email-smtp-host",
