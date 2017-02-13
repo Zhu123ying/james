@@ -77,7 +77,7 @@ export default class Navbar extends Component {
                     </div>
 
                     <ul className="sm-ml4 flex flex-full text-strong">
-                        <AdminNavItem name="基础设置"    path="/admin/settings"     currentPath={this.props.path} />
+                        <AdminNavItem name="设置"    path="/admin/settings"     currentPath={this.props.path} />
                         <AdminNavItem name="用户管理"      path="/admin/people"       currentPath={this.props.path} />
                         <AdminNavItem name="数据模型"  path="/admin/datamodel"    currentPath={this.props.path} />
                         <AdminNavItem name="数据库管理"   path="/admin/databases"    currentPath={this.props.path} />
@@ -148,7 +148,7 @@ export default class Navbar extends Component {
             case "admin": return this.renderAdminNav();
             case "auth": return null;
             case "none": return this.renderEmptyNav();
-            case "setup": return null;
+            case "初始设置": return null;
             default: return this.renderMainNav();
         }
     }

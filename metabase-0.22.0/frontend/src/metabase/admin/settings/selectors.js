@@ -8,7 +8,7 @@ import CustomGeoJSONWidget from "./components/widgets/CustomGeoJSONWidget.jsx";
 
 const SECTIONS = [
     {
-        name: "Setup",
+        name: "初始设置",
         settings: []
     },
     {
@@ -124,7 +124,7 @@ export const getActiveSectionName = (state, props) => props.params.section
 export const getActiveSection = createSelector(
     getActiveSectionName,
     getSections,
-    (section = "setup", sections) => {
+    (section = "初始设置", sections) => {
         if (sections) {
             return _.findWhere(sections, { slug: section });
         } else {

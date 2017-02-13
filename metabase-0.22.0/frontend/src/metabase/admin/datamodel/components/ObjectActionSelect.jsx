@@ -32,7 +32,7 @@ export default class ObjectActionsSelect extends Component {
                     <ul className="UserActionsSelect">
                         <li>
                             <Link to={"/admin/datamodel/" + objectType + "/" + object.id} data-metabase-event={"Data Model;"+objectType+" Edit Page"} className="py1 px2 block bg-brand-hover text-white-hover no-decoration cursor-pointer">
-                                Edit {capitalize(objectType)}
+                                编辑 {capitalize(objectType)}
                             </Link>
                         </li>
                         <li>

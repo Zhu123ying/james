@@ -13,7 +13,7 @@ import cx from "classnames";
 
 import _ from "underscore";
 
-const PermissionsEditor = ({ title = "Permissions", modal, admin, grid, onUpdatePermission, onSave, onCancel, confirmCancel, isDirty, saveError, diff, location }) => {
+const PermissionsEditor = ({ title = "查询权限", modal, admin, grid, onUpdatePermission, onSave, onCancel, confirmCancel, isDirty, saveError, diff, location }) => {
     const saveButton =
         <Confirm
             title="保存权限设置?"

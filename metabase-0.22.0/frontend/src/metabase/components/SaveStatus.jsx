@@ -42,7 +42,7 @@ export default class SaveStatus extends Component {
             return (
                 <div className="SaveStatus mx2 px2 border-right flex align-center text-success">
                     <Icon name="check" size={16} />
-                    <div className="ml1 h3 text-bold">Saved</div>
+                    <div className="ml1 h3 text-bold">已保存</div>
                 </div>
             )
         } else {

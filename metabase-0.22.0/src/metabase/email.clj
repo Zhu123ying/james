@@ -9,7 +9,7 @@
 
 ;; ## CONFIG
 
-(defsetting email-from-address  "Email address you want to use as the sender of Metabase." :default "notifications@metabase.com")
+(defsetting email-from-address  "你想使用的发件邮箱。" :default "notifications@dataultra.com")
 (defsetting email-smtp-host     "The address of the SMTP server that handles your emails.")
 (defsetting email-smtp-username "SMTP username.")
 (defsetting email-smtp-password "SMTP password.")

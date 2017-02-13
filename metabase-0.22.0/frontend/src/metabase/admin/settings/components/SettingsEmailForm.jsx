@@ -194,15 +194,15 @@ export default class SettingsEmailForm extends Component {
         });
 
         let sendTestButtonStates = {
-            default: "Send test email",
-            working: "Sending...",
-            success: "Sent!"
+            default: "发送测试邮件",
+            working: "发送中...",
+            success: "发送成功!"
         };
 
         let saveSettingsButtonStates = {
-            default: "Save changes",
-            working: "Saving...",
-            success: "Changes saved!"
+            default: "保存修改",
+            working: "保存中...",
+            success: "保存成功!"
         };
 
         let disabled = (!valid || submitting !== "default" || sendingEmail !== "default"),
