@@ -43,7 +43,7 @@ export default class ObjectActionsSelect extends Component {
                         <li className="mt1 border-top">
                             <ModalWithTrigger
                                 ref="retireModal"
-                                triggerElement={"Retire " + capitalize(objectType)}
+                                triggerElement={"撤销 "}
                                 triggerClasses="block p2 bg-error-hover text-error text-white-hover cursor-pointer"
                             >
                                 <ObjectRetireModal

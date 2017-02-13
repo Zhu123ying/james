@@ -31,7 +31,7 @@ export default class ObjectRetireModal extends Component {
         const { valid } = this.state;
         return (
             <ModalContent
-                title={"撤销 " + capitalize(objectType)}
+                title={"撤销"}
                 onClose={this.props.onClose}
             >
                 <form className="flex flex-column flex-full">

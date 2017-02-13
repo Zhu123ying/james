@@ -57,7 +57,7 @@ const PermissionsConfirm = ({ diff }) =>
                             :
                                 <span>读或写</span>
                             }
-                            {" 本地查询 "}
+                            {" 以下数据库的查询： "}
                             <DatabaseName database={database} />
                             {"."}
                         </div>

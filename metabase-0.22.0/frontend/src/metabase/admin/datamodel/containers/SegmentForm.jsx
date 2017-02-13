@@ -72,7 +72,7 @@ export default class SegmentForm extends Component {
                             title={(segment && segment.id != null ? "编辑" : "新增") + " 数据段"}
                             description={segment && segment.id != null ?
                                 "对你的部分进行修改并留下说明性的注释。" :
-                                "为"+ tableMetadata.display_name +"选择并添加筛选器以创建 " 
+                                "为"+ tableMetadata.display_name +"选择并添加筛选器 " 
                             }
                         >
                             <PartialQueryBuilder
