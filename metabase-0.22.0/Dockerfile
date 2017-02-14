@@ -25,6 +25,8 @@ RUN tar -xzf "/node-v$NODE_VERSION-linux-x64.tar.gz" -C /usr/local --strip-compo
 RUN npm install --registry=http://103.231.69.114:8081/repository/npm-central/ -g yarn && \
     ln -sf "${JAVA_HOME}/bin/"* "/usr/bin/"
 
+RUN mkdir -p /root/.lein/self-installs/
+COPY leiningen-2.7.1-standalone.zip /root/.lein/self-installs/leiningen-2.7.1-standalone.jar 
 
 # install lein
 ADD https://raw.github.com/technomancy/leiningen/stable/bin/lein /usr/local/bin/lein
