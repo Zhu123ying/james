@@ -131,7 +131,7 @@ const isAnyField = () => true;
 
 const SETTINGS = {
     "card.title": {
-        title: "Title",
+        title: "标题",
         widget: ChartSettingInput,
         getDefault: (series) => series.length === 1 ? series[0].card.name : null,
         dashboard: true,
@@ -146,8 +146,8 @@ const SETTINGS = {
         useRawSeries: true
     },
     "graph.dimensions": {
-        section: "Data",
-        title: "X-axis",
+        section: "数据",
+        title: "X轴",
         widget: ChartSettingFieldsPicker,
         isValid: ([{ card, data }], vizSettings) =>
             columnsAreValid(card.visualization_settings["graph.dimensions"], data, vizSettings["graph._dimension_filter"]) &&
@@ -169,8 +169,8 @@ const SETTINGS = {
         useRawSeries: true
     },
     "graph.metrics": {
-        section: "Data",
-        title: "Y-axis",
+        section: "数据",
+        title: "Y轴",
         widget: ChartSettingFieldsPicker,
         isValid: ([{ card, data }], vizSettings) =>
             columnsAreValid(card.visualization_settings["graph.dimensions"], data, vizSettings["graph._dimension_filter"]) &&
@@ -192,8 +192,8 @@ const SETTINGS = {
         useRawSeries: true
     },
     "scatter.bubble": {
-        section: "Data",
-        title: "Bubble size",
+        section: "数据",
+        title: "气泡尺寸",
         widget: ChartSettingFieldPicker,
         isValid: ([{ card, data }], vizSettings) =>
             columnsAreValid([card.visualization_settings["scatter.bubble"]], data, isNumeric),
@@ -211,8 +211,8 @@ const SETTINGS = {
         useRawSeries: true
     },
     "line.interpolate": {
-        section: "Display",
-        title: "Style",
+        section: "显示",
+        title: "样式",
         widget: ChartSettingSelect,
         props: {
             options: [
@@ -224,19 +224,19 @@ const SETTINGS = {
         getDefault: () => "linear"
     },
     "line.marker_enabled": {
-        section: "Display",
-        title: "Show point markers on lines",
+        section: "显示",
+        title: "显示点",
         widget: ChartSettingToggle
     },
     "stackable.stack_type": {
-        section: "Display",
-        title: "Stacking",
+        section: "显示",
+        title: "堆叠柱",
         widget: ChartSettingRadio,
         getProps: (series, vizSettings) => ({
             options: [
-                { name: "Don't stack", value: null },
-                { name: "Stack", value: "stacked" },
-                { name: "Stack - 100%", value: "normalized" }
+                { name: "不堆叠", value: null },
+                { name: "堆叠", value: "stacked" },
+                { name: "堆叠 - 100%", value: "normalized" }
             ]
         }),
         getDefault: (series, vizSettings) =>
@@ -253,29 +253,29 @@ const SETTINGS = {
         )
     },
     "graph.show_goal": {
-        section: "Display",
-        title: "Show goal",
+        section: "显示",
+        title: "显示目标",
         widget: ChartSettingToggle,
         default: false
     },
     "graph.goal_value": {
-        section: "Display",
-        title: "Goal value",
+        section: "显示",
+        title: "目标值",
         widget: ChartSettingInputNumeric,
         default: 0,
         getHidden: (series, vizSettings) => vizSettings["graph.show_goal"] !== true,
         readDependencies: ["graph.show_goal"]
     },
     "line.missing": {
-        section: "Display",
-        title: "Replace missing values with",
+        section: "显示",
+        title: "替换缺失值",
         widget: ChartSettingSelect,
         default: "interpolate",
         getProps: (series, vizSettings) => ({
             options: [
                 { name: "Zero", value: "zero" },
-                { name: "Nothing", value: "none" },
-                { name: "Linear Interpolated", value: "interpolate" },
+                { name: "Null", value: "none" },
+                { name: "线性补全", value: "interpolate" },
             ]
         })
     },
@@ -290,8 +290,8 @@ const SETTINGS = {
             dimensionIsNumeric(data, _.findIndex(data.cols, (c) => c.name === vizSettings["graph.dimensions"].filter(d => d)[0]))
     },
     "graph.x_axis.scale": {
-        section: "Axes",
-        title: "X-axis scale",
+        section: "轴",
+        title: "X轴滚动条",
         widget: ChartSettingSelect,
         default: "ordinal",
         readDependencies: ["graph.x_axis._is_timeseries", "graph.x_axis._is_numeric"],
@@ -314,8 +314,8 @@ const SETTINGS = {
         }
     },
     "graph.y_axis.scale": {
-        section: "Axes",
-        title: "Y-axis scale",
+        section: "轴",
+        title: "Y轴滚动条",
         widget: ChartSettingSelect,
         default: "linear",
         getProps: (series, vizSettings) => ({
@@ -327,9 +327,9 @@ const SETTINGS = {
         })
     },
     "graph.colors": {
-        section: "Display",
+        section: "显示",
         getTitle: ([{ card: { display } }]) =>
-            capitalize(display === "scatter" ? "bubble" : display) + " colors",
+            capitalize(display === "scatter" ? "bubble" : display) + " 标识色",
         widget: ChartSettingColorsPicker,
         readDependencies: ["graph.dimensions", "graph.metrics"],
         getDefault: ([{ card, data }], vizSettings) => {
@@ -340,33 +340,33 @@ const SETTINGS = {
         }
     },
     "graph.x_axis.axis_enabled": {
-        section: "Axes",
-        title: "Show x-axis line and marks",
+        section: "轴",
+        title: "显示X轴基准线及标识",
         widget: ChartSettingToggle,
         default: true
     },
     "graph.y_axis.axis_enabled": {
-        section: "Axes",
-        title: "Show y-axis line and marks",
+        section: "轴",
+        title: "显示Y轴基准线及标识",
         widget: ChartSettingToggle,
         default: true
     },
     "graph.y_axis.auto_range": {
-        section: "Axes",
-        title: "Auto y-axis range",
+        section: "轴",
+        title: "Y轴自动伸缩",
         widget: ChartSettingToggle,
         default: true
     },
     "graph.y_axis.min": {
-        section: "Axes",
-        title: "Min",
+        section: "轴",
+        title: "最小值",
         widget: ChartSettingInputNumeric,
         default: 0,
         getHidden: (series, vizSettings) => vizSettings["graph.y_axis.auto_range"] !== false
     },
     "graph.y_axis.max": {
-        section: "Axes",
-        title: "Max",
+        section: "轴",
+        title: "最大值",
         widget: ChartSettingInputNumeric,
         default: 100,
         getHidden: (series, vizSettings) => vizSettings["graph.y_axis.auto_range"] !== false
@@ -394,21 +394,21 @@ const SETTINGS = {
     },
 */
     "graph.y_axis.auto_split": {
-        section: "Axes",
-        title: "Use a split y-axis when necessary",
+        section: "轴",
+        title: "必要时使用分段Y轴",
         widget: ChartSettingToggle,
         default: true,
         getHidden: (series) => series.length < 2
     },
     "graph.x_axis.labels_enabled": {
-        section: "Labels",
-        title: "Show label on x-axis",
+        section: "标签",
+        title: "X轴显示标签",
         widget: ChartSettingToggle,
         default: true
     },
     "graph.x_axis.title_text": {
-        section: "Labels",
-        title: "X-axis label",
+        section: "标签",
+        title: "X轴标签",
         widget: ChartSettingInput,
         getHidden: (series, vizSettings) =>
             vizSettings["graph.x_axis.labels_enabled"] === false,
@@ -416,14 +416,14 @@ const SETTINGS = {
             series.length === 1 ? getFriendlyName(series[0].data.cols[0]) : null
     },
     "graph.y_axis.labels_enabled": {
-        section: "Labels",
-        title: "Show label on y-axis",
+        section: "标签",
+        title: "Y轴显示标签",
         widget: ChartSettingToggle,
         default: true
     },
     "graph.y_axis.title_text": {
-        section: "Labels",
-        title: "Y-axis label",
+        section: "标签",
+        title: "Y轴标签",
         widget: ChartSettingInput,
         getHidden: (series, vizSettings) =>
             vizSettings["graph.y_axis.labels_enabled"] === false,
@@ -511,14 +511,14 @@ const SETTINGS = {
         widget: ChartSettingInputNumeric
     },
     "progress.goal": {
-        section: "Display",
-        title: "Goal",
+        section: "显示",
+        title: "目标",
         widget: ChartSettingInputNumeric,
         default: 0
     },
     "progress.color": {
-        section: "Display",
-        title: "Color",
+        section: "显示",
+        title: "颜色",
         widget: ChartSettingColorPicker,
         default: normal.green
     },

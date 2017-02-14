@@ -21,18 +21,18 @@ import cx from "classnames";
     validate: (values) => {
         const errors = {};
         if (!values.name) {
-            errors.name = "Name is required";
+            errors.name = "必须填写名称";
         }
         if (!values.description) {
-            errors.description = "Description is required";
+            errors.description = "必须填写描述";
         }
         if (values.id != null) {
             if (!values.revision_message) {
-                errors.revision_message = "Revision message is required";
+                errors.revision_message = "必须填写修改信息";
             }
         }
         if (!values.definition || !values.definition.filter || values.definition.filter.length < 1) {
-            errors.definition = "At least one filter is required";
+            errors.definition = "必须使用至少一条筛选条件";
         }
         return errors;
     },
@@ -55,7 +55,7 @@ export default class SegmentForm extends Component {
         return (
             <div>
                 <button className={cx("Button", { "Button--primary": !invalid, "disabled": invalid })} onClick={handleSubmit}>保存</button>
-                <Link to={"/admin/datamodel/database/" + tableMetadata.db_id + "/table/" + tableMetadata.id} className="Button Button--borderless mx1">Cancel</Link>
+                <Link to={"/admin/datamodel/database/" + tableMetadata.db_id + "/table/" + tableMetadata.id} className="Button Button--borderless mx1">取消</Link>
             </div>
         )
     }
@@ -69,10 +69,10 @@ export default class SegmentForm extends Component {
                 <form className="full" onSubmit={handleSubmit}>
                     <div className="wrapper py4">
                         <FormLabel
-                            title={(segment && segment.id != null ? "Edit" : "Create") + " Your Segment"}
+                            title={(segment && segment.id != null ? "编辑" : "新增") + " 数据段"}
                             description={segment && segment.id != null ?
-                                "Make changes to your segment and leave an explanatory note." :
-                                "Select and add filters to create your new segment for the " + tableMetadata.display_name + " table"
+                                "对你的部分进行修改并留下说明性的注释。" :
+                                "为"+ tableMetadata.display_name +"选择并添加筛选器 " 
                             }
                         >
                             <PartialQueryBuilder
@@ -83,36 +83,36 @@ export default class SegmentForm extends Component {
                                     ...tableMetadata,
                                     segments: null
                                 }}
-                                previewSummary={previewSummary == null ? "" : formatValue(previewSummary) + " rows"}
+                                previewSummary={previewSummary == null ? "" : formatValue(previewSummary) + " 行"}
                                 updatePreviewSummary={this.updatePreviewSummary.bind(this)}
                                 {...definition}
                             />
                         </FormLabel>
                         <div style={{ maxWidth: "575px" }}>
                             <FormLabel
-                                title="Name Your Segment"
-                                description="Give your segment a name to help others find it."
+                                title="数据段名称"
+                                description="请为您的数据段录入一个名称"
                             >
                                 <FormInput
                                     field={name}
-                                    placeholder="Something descriptive but not too long"
+                                    placeholder="请输入名称"
                                 />
                             </FormLabel>
                             <FormLabel
-                                title="Describe Your Segment"
-                                description="Give your segment a description to help others understand what it's about."
+                                title="数据段描述"
+                                description="请为您的数据段录入一些描述"
                             >
                                 <FormTextArea
                                     field={description}
-                                    placeholder="This is a good place to be more specific about less obvious segment rules"
+                                    placeholder="请输入描述"
                                 />
                             </FormLabel>
                             { id.value != null &&
-                                <FieldSet legend="Reason For Changes">
-                                    <FormLabel description="Leave a note to explain what changes you made and why they were required.">
+                                <FieldSet legend="修改原因">
+                                    <FormLabel description="您可以填写对数据段做出调整的原因">
                                         <FormTextArea
                                             field={revision_message}
-                                            placeholder="This will show up in the revision history for this segment to help everyone remember why things changed"
+                                            placeholder="请输入修改原因"
                                         />
                                     </FormLabel>
                                     <div className="flex align-center">

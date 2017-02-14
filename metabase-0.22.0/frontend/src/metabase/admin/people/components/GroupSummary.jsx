@@ -11,17 +11,17 @@ const GroupSummary = ({ groups, selectedGroups }) => {
     if (selectedGroups[adminGroup.id]) {
         return (
             <span>
-                <span className="text-purple">Admin</span>
-                { otherGroups.length > 0 && " and " }
-                { otherGroups.length > 0 && <span className="text-brand">{otherGroups.length + " other " + inflect("group", otherGroups.length)}</span> }
+                <span className="text-purple">Administrators组</span>
+                { otherGroups.length > 0 && " + " }
+                { otherGroups.length > 0 && <span className="text-brand">{" 其他 " + otherGroups.length + "组"}</span> }
             </span>
         );
     } else if (otherGroups.length === 1) {
         return <span className="text-brand">{otherGroups[0].name}</span>;
     } else if (otherGroups.length > 1) {
-        return <span className="text-brand">{otherGroups.length + " " + inflect("group", otherGroups.length)}</span>;
+        return <span className="text-brand">{otherGroups.length + " " + "组"}</span>;
     } else {
-        return <span>Default</span>;
+        return <span>默认</span>;
     }
 }
 

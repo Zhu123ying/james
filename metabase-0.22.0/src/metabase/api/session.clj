@@ -49,8 +49,8 @@
     ;; Don't leak whether the account doesn't exist or the password was incorrect
     (when-not (and user
                    (pass/verify-password password (:password_salt user) (:password user)))
-      (throw (ex-info "Password did not match stored password." {:status-code 400
-                                                                 :errors      {:password "did not match stored password"}})))
+      (throw (ex-info "密码不匹配" {:status-code 400
+                                                                 :errors      {:password "密码不匹配"}})))
     {:id (create-session! user)}))
 
 

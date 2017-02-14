@@ -47,7 +47,7 @@ export const saveCollection = createThunkAction(SAVE_COLLECTION, (collection) =>
             } else if (e.data && e.data.message) {
                 throw { _error: e.data.message };
             } else {
-                throw { _error: "An unknown error occured" };
+                throw { _error: "一个未知错误" };
             }
         }
     }

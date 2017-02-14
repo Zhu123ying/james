@@ -104,7 +104,7 @@ export default class DashboardHeader extends Component {
                 key="delete"
                 ref="deleteDashboardModal"
                 triggerClasses="Button Button--small"
-                triggerElement="Delete"
+                triggerElement="删除"
             >
                 <DeleteDashboardModal
                     dashboard={this.props.dashboard}
@@ -137,37 +137,14 @@ export default class DashboardHeader extends Component {
 
         if (isEditing) {
 
-            // Parameters
-            buttons.push(
-                <span>
-                    <Tooltip tooltip="Add a Filter">
-                        <a
-                          key="parameters"
-                          className={cx("text-brand-hover", { "text-brand": this.state.modal == "parameters" })}
-                          title="Parameters"
-                          onClick={() => this.setState({ modal: "parameters" })}
-                        >
-                            <Icon name="funneladd" size={16} />
-                        </a>
-                    </Tooltip>
-
-                    {this.state.modal && this.state.modal === "parameters" &&
-                        <Popover onClose={() => this.setState({modal: false})}>
-                            <ParametersPopover
-                                onAddParameter={this.props.addParameter}
-                                onClose={() => this.setState({modal: false})}
-                            />
-                        </Popover>
-                    }
-                </span>
-            );
+            
 
             buttons.push(
                 <ModalWithTrigger
                     key="history"
                     ref="dashboardHistory"
                     triggerElement={
-                        <Tooltip tooltip="Revision History">
+                        <Tooltip tooltip="修改记录">
                             <span data-metabase-event={"Dashboard;Revisions"}>
                                 <Icon className="text-brand-hover" name="history" size={16} />
                             </span>

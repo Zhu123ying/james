@@ -77,11 +77,11 @@ export default class Navbar extends Component {
                     </div>
 
                     <ul className="sm-ml4 flex flex-full text-strong">
-                        <AdminNavItem name="基础设置"    path="/admin/settings"     currentPath={this.props.path} />
+                        <AdminNavItem name="设置"    path="/admin/settings"     currentPath={this.props.path} />
                         <AdminNavItem name="用户管理"      path="/admin/people"       currentPath={this.props.path} />
                         <AdminNavItem name="数据模型"  path="/admin/datamodel"    currentPath={this.props.path} />
                         <AdminNavItem name="数据库管理"   path="/admin/databases"    currentPath={this.props.path} />
-                        <AdminNavItem name="查询管理" path="/admin/permissions"  currentPath={this.props.path} />
+                        <AdminNavItem name="查询权限管理" path="/admin/permissions"  currentPath={this.props.path} />
                     </ul>
 
                     <ProfileLink {...this.props} />
@@ -110,6 +110,7 @@ export default class Navbar extends Component {
                 <ul className="pl4 pr1 flex align-center">
                     <li>
                         <Link to="/" data-metabase-event={"Navbar;Logo"} className="NavItem cursor-pointer text-white flex align-center my1 transition-background">
+                            <LogoIcon className="text-white m1"></LogoIcon>
                             <h2>DataUltra BI</h2>
                         </Link>
                     </li>
@@ -147,7 +148,7 @@ export default class Navbar extends Component {
             case "admin": return this.renderAdminNav();
             case "auth": return null;
             case "none": return this.renderEmptyNav();
-            case "setup": return null;
+            case "初始设置": return null;
             default: return this.renderMainNav();
         }
     }

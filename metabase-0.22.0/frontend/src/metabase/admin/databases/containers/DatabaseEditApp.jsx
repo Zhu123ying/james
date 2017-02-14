@@ -64,8 +64,8 @@ export default class DatabaseEditApp extends Component {
         return (
             <div className="wrapper">
                 <Breadcrumbs className="py4" crumbs={[
-                    ["Databases", "/admin/databases"],
-                    [database && database.id != null ? database.name : "Add Database"]
+                    ["数据库管理", "/admin/databases"],
+                    [database && database.id != null ? database.name : "新增数据库"]
                 ]} />
                 <section className="Grid Grid--gutters Grid--2-of-3">
                     <div className="Grid-cell">
@@ -87,7 +87,7 @@ export default class DatabaseEditApp extends Component {
                         <div className="Grid-cell Cell--1of3">
                             <div className="Actions  bordered rounded shadowed">
                                 <div className="Actions-group">
-                                    <label className="Actions-groupLabel block text-bold">Actions</label>
+                                    <label className="Actions-groupLabel block text-bold">操作</label>
                                     <ActionButton
                                         actionFn={() => this.props.syncDatabase(database.id)}
                                         className="Button"

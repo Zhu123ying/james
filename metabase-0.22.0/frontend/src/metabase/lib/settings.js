@@ -72,7 +72,7 @@ const MetabaseSettings = {
             }
         };
 
-        let description = (capitalize === false) ? "must be "+complexity.total+" characters long" : "Must be "+complexity.total+" characters long",
+        let description = (capitalize === false) ? "字符长度必须大于 "+complexity.total+" 位" : "字符长度必须大于 "+complexity.total+" 位",
             clauses = [];
 
         ["lower", "upper", "digit", "special"].forEach(function(clause) {
@@ -83,7 +83,7 @@ const MetabaseSettings = {
         });
 
         if (clauses.length > 0) {
-            return description+" and include "+clauses.join(", ");
+            return description+" 且包含 "+clauses.join(", ");
         } else {
             return description;
         }

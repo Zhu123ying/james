@@ -20,7 +20,7 @@ export default class NumberPicker extends Component {
     };
 
     static defaultProps = {
-        placeholder: "Enter desired number"
+        placeholder: "请输入需要的数量"
     };
 
     _validate(values) {

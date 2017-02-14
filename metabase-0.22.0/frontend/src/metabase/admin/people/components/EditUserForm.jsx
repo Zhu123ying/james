@@ -69,7 +69,7 @@ export default class EditUserForm extends Component {
         // validate email address
         let email = ReactDOM.findDOMNode(this.refs.email).value ? ReactDOM.findDOMNode(this.refs.email).value.trim() : null;
         if (!MetabaseUtils.validEmail(email)) {
-            formErrors.data.errors.email = "Not a valid formatted email address";
+            formErrors.data.errors.email = "不是一个有效的email地址";
         }
 
         if (_.keys(formErrors.data.errors).length > 0) {
@@ -104,23 +104,23 @@ export default class EditUserForm extends Component {
             <form onSubmit={this.formSubmitted.bind(this)} noValidate>
                 <div className="px4 pb2">
                     <FormField fieldName="first_name" formError={formError}>
-                        <FormLabel title="First name" fieldName="first_name" formError={formError} offset={false}></FormLabel>
+                        <FormLabel title="姓氏" fieldName="first_name" formError={formError} offset={false}></FormLabel>
                         <input ref="firstName" className="Form-input full" name="firstName" defaultValue={(user) ? user.first_name : null} placeholder="姓" onChange={this.onChange.bind(this)} />
                     </FormField>
 
                     <FormField fieldName="last_name" formError={formError}>
-                        <FormLabel title="Last name" fieldName="last_name" formError={formError} offset={false}></FormLabel>
+                        <FormLabel title="名字" fieldName="last_name" formError={formError} offset={false}></FormLabel>
                         <input ref="lastName" className="Form-input full" name="lastName" defaultValue={(user) ? user.last_name : null} placeholder="名" required onChange={this.onChange.bind(this)} />
                     </FormField>
 
                     <FormField fieldName="email" formError={formError}>
-                        <FormLabel title="Email address" fieldName="email" formError={formError} offset={false}></FormLabel>
+                        <FormLabel title="Email" fieldName="email" formError={formError} offset={false}></FormLabel>
                         <input ref="email" className="Form-input full" name="email" defaultValue={(user) ? user.email : null} placeholder="DataUltra@chinac.com" required onChange={this.onChange.bind(this)} />
                     </FormField>
 
                     { groups && groups.filter(g => canEditMembership(g) && !isAdminGroup(g)).length > 0 ?
                         <FormField>
-                            <FormLabel title="Permission Groups" offset={false}></FormLabel>
+                            <FormLabel title="用户组" offset={false}></FormLabel>
                             <PopoverWithTrigger
                                 triggerElement={
                                     <SelectButton>
@@ -145,17 +145,17 @@ export default class EditUserForm extends Component {
                                     this.setState({ selectedGroups: isAdmin ? { [adminGroup.id]: true } : {} })
                                 }}
                             />
-                            <span className="ml2">Make this user an admin</span>
+                            <span className="ml2">将此用户添加到管理员组</span>
                         </div>
                     : null }
                 </div>
 
                 <ModalFooter>
                     <Button type="button" onClick={this.cancel.bind(this)}>
-                        Cancel
+                        取消
                     </Button>
                     <Button primary disabled={!valid}>
-                        { buttonText ? buttonText : "Save Changes" }
+                        { buttonText ? buttonText : "保存修改" }
                     </Button>
                 </ModalFooter>
             </form>

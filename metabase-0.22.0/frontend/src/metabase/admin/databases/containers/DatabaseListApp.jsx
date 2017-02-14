@@ -48,15 +48,15 @@ export default class DatabaseList extends Component {
         return (
             <div className="wrapper">
                 <section className="PageHeader px2 clearfix">
-                    <Link to="/admin/databases/create" className="Button Button--primary float-right">Add database</Link>
-                    <h2 className="PageTitle">Databases</h2>
+                    <Link to="/admin/databases/create" className="Button Button--primary float-right">新增数据库</Link>
+                    <h2 className="PageTitle">数据库管理</h2>
                 </section>
                 <section>
                     <table className="ContentTable">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Engine</th>
+                                <th>名称</th>
+                                <th>类型</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -74,7 +74,7 @@ export default class DatabaseList extends Component {
                                             <ModalWithTrigger
                                                 ref={"deleteDatabaseModal_"+database.id}
                                                 triggerClasses="Button Button--danger"
-                                                triggerElement="Delete"
+                                                triggerElement="删除"
                                             >
                                                 <DeleteDatabaseModal
                                                     database={database}
@@ -89,7 +89,7 @@ export default class DatabaseList extends Component {
                                 <tr>
                                     <td colSpan={4}>
                                         <LoadingSpinner />
-                                        <h3>Loading ...</h3>
+                                        <h3>加载中 ...</h3>
                                     </td>
                                 </tr>
                             }
@@ -98,7 +98,7 @@ export default class DatabaseList extends Component {
                     { !hasSampleDataset ?
                         <div className="pt4">
                             <span className={cx("p2 text-italic", {"border-top": databases && databases.length > 0})}>
-                                <a className="text-grey-2 text-brand-hover no-decoration" onClick={() => this.props.addSampleDataset()}>Bring the sample dataset back</a>
+                                <a className="text-grey-2 text-brand-hover no-decoration" onClick={() => this.props.addSampleDataset()}>还原样本数据库</a>
                             </span>
                         </div>
                     : null }

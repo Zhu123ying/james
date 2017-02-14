@@ -76,7 +76,7 @@ export default class Column extends Component {
         }
 
         let specialTypes = MetabaseCore.field_special_types.slice(0);
-        specialTypes.push({'id': null, 'name': 'No special type', 'section': 'Other'});
+        specialTypes.push({'id': null, 'name': '无特殊类型', 'section': '其他'});
         // if we don't have a numeric base-type then prevent the options for unix timestamp conversion (#823)
         if (!isNumericBaseType(this.props.field)) {
             specialTypes = specialTypes.filter((f) => !isa(f.id, TYPE.UNIXTimestamp));
@@ -111,7 +111,7 @@ export default class Column extends Component {
                     </div>
                 </div>
                 <div className="MetadataTable-title flex flex-column flex-full bordered rounded mt1 mr1">
-                    <Input className="AdminInput TableEditor-field-description" type="text" value={this.props.field.description || ""} onBlurChange={this.onDescriptionChange} placeholder="No column description yet" />
+                    <Input className="AdminInput TableEditor-field-description" type="text" value={this.props.field.description || ""} onBlurChange={this.onDescriptionChange} placeholder="暂无描述" />
                 </div>
             </li>
         )

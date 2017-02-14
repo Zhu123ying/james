@@ -13,7 +13,7 @@ import cx from "classnames";
 
 import _ from "underscore";
 
-const PermissionsEditor = ({ title = "Permissions", modal, admin, grid, onUpdatePermission, onSave, onCancel, confirmCancel, isDirty, saveError, diff, location }) => {
+const PermissionsEditor = ({ title = "查询权限", modal, admin, grid, onUpdatePermission, onSave, onCancel, confirmCancel, isDirty, saveError, diff, location }) => {
     const saveButton =
         <Confirm
             title="保存权限设置?"
@@ -21,19 +21,19 @@ const PermissionsEditor = ({ title = "Permissions", modal, admin, grid, onUpdate
             content={<PermissionsConfirm diff={diff} />}
             triggerClasses={cx({ disabled: !isDirty })}
         >
-            <Button primary small={!modal}>保存</Button>
+            <Button primary small={!modal}>确认</Button>
         </Confirm>;
 
     const cancelButton = confirmCancel ?
         <Confirm
-            title="Discard changes?"
+            title="放弃变更？"
             action={onCancel}
-            content="No changes to permissions will be made."
+            content="变更操作将不会被执行"
         >
-            <Button small={!modal}>Cancel</Button>
+            <Button small={!modal}>取消</Button>
         </Confirm>
     :
-        <Button small={!modal} onClick={onCancel}>Cancel</Button>;
+        <Button small={!modal} onClick={onCancel}>取消</Button>;
 
     return (
         <LoadingAndErrorWrapper loading={!grid} className="flex-full flex flex-column">
@@ -52,7 +52,7 @@ const PermissionsEditor = ({ title = "Permissions", modal, admin, grid, onUpdate
                 { isDirty &&
                     <EditBar
                         admin={admin}
-                        title="您成功修改了权限设置."
+                        title="您变更了权限设置."
                         buttons={[cancelButton, saveButton]}
                     />
                 }

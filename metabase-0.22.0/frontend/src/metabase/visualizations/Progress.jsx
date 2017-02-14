@@ -11,7 +11,7 @@ import Color from "color";
 const BORDER_RADIUS = 5;
 
 export default class Progress extends Component {
-    static displayName = "Progress";
+    static displayName = "增长图";
     static identifier = "progress";
     static iconName = "progress";
 
@@ -23,7 +23,7 @@ export default class Progress extends Component {
 
     static checkRenderable(cols, rows) {
         if (!isNumeric(cols[0])) {
-            throw new Error("Progress visualization requires a number.");
+            throw new Error("增长图需要提供数值");
         }
     }
 

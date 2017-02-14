@@ -38,8 +38,10 @@ class VisualizationError extends Component {
           if (duration > 15*1000) {
               return <VisualizationErrorMessage
                         type="timeout"
-                        title="Your question took too long"
-                        message="We didn't get an answer back from your database in time, so we had to stop. You can try again in a minute, or if the problem persists, you can email an admin to let them know."
+                        title="查询超时"
+                        //message="We didn't get an answer back from your database in time, so we had to stop. You can try again in a minute, or if the problem persists, you can email an admin to let them know."
+                        message="查询超时，我们不得不暂停这次查询，您可以稍后再试。如果问题依然复现，请联系我们予以，感谢您对DataUlrta BI系统的支持。"
+
                         action={<EmailAdmin />}
                     />
           } else {
@@ -67,13 +69,13 @@ class VisualizationError extends Component {
               <div className="QueryError2 flex full justify-center">
                   <div className="QueryError-image QueryError-image--queryError mr4"></div>
                   <div className="QueryError2-details">
-                      <h1 className="text-bold">There was a problem with your question</h1>
-                      <p className="QueryError-messageText">Most of the time this is caused by an invalid selection or bad input value.  Double check your inputs and retry your query.</p>
+                      <h1 className="text-bold">当前查询出错</h1>
+                      <p className="QueryError-messageText">此问题通常由错误数据或无效选项引起，请在修改后重新尝试提交。</p>
                       <div className="pt2">
-                          <a onClick={() => this.setState({ showError: true })} className="link cursor-pointer">Show error details</a>
+                          <a onClick={() => this.setState({ showError: true })} className="link cursor-pointer">显示错误详情</a>
                       </div>
                       <div style={{ display: this.state.showError? 'inherit': 'none'}} className="pt3 text-left">
-                          <h2>Error 详情</h2>
+                          <h2>错误详情</h2>
                           <div style={{fontFamily: "monospace"}} className="QueryError2-detailBody bordered rounded bg-grey-0 text-bold p2 mt1">{error}</div>
                       </div>
                   </div>

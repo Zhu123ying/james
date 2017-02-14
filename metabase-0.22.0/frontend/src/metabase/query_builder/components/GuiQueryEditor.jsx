@@ -162,11 +162,11 @@ export default class GuiQueryEditor extends Component {
             }
 
             if (Query.canAddFilter(this.props.query.query)) {
-                addFilterButton = this.renderAdd((filterList ? null : "Add filters to narrow your answer"), null, "addFilterTarget");
+                addFilterButton = this.renderAdd((filterList ? null : "增加条件缩小答案范围"), null, "addFilterTarget");
             }
         } else {
             enabled = false;
-            addFilterButton = this.renderAdd("Add filters to narrow your answer", null, "addFilterTarget");
+            addFilterButton = this.renderAdd("增加条件缩小答案范围", null, "addFilterTarget");
         }
 
         return (
@@ -311,7 +311,7 @@ export default class GuiQueryEditor extends Component {
     renderDataSection() {
         return (
             <div className={"GuiBuilder-section GuiBuilder-data flex align-center arrow-right"}>
-                <span className="GuiBuilder-section-label Query-label">数据源</span>
+                <span className="GuiBuilder-section-label Query-label">From</span>
                 { this.props.features.data ?
                     <DataSelector
                         ref="dataSection"
@@ -339,7 +339,7 @@ export default class GuiQueryEditor extends Component {
 
         return (
             <div className="GuiBuilder-section GuiBuilder-filtered-by flex align-center" ref="filterSection">
-                <span className="GuiBuilder-section-label Query-label">筛选</span>
+                <span className="GuiBuilder-section-label Query-label">Where</span>
                 {this.renderFilters()}
             </div>
         );
@@ -353,7 +353,7 @@ export default class GuiQueryEditor extends Component {
 
         return (
             <div className="GuiBuilder-section GuiBuilder-view flex align-center px1 pr2" ref="viewSection">
-                <span className="GuiBuilder-section-label Query-label">处理</span>
+                <span className="GuiBuilder-section-label Query-label">函数</span>
                 {this.renderAggregation()}
             </div>
         );
@@ -367,7 +367,7 @@ export default class GuiQueryEditor extends Component {
 
         return (
             <div className="GuiBuilder-section GuiBuilder-groupedBy flex align-center px1" ref="viewSection">
-                <span className="GuiBuilder-section-label Query-label">分组</span>
+                <span className="GuiBuilder-section-label Query-label">Group by</span>
                 {this.renderBreakouts()}
             </div>
         );

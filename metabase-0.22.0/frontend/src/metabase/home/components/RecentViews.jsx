@@ -49,7 +49,7 @@ export default class RecentViews extends Component {
         let { recentViews } = this.props;
 
         return (
-            <SidebarSection title="Recently Viewed" icon="clock">
+            <SidebarSection title="浏览记录" icon="clock">
                 {recentViews.length > 0 ?
                     <ul className="p2">
                         {recentViews.map((item, index) =>
@@ -61,7 +61,7 @@ export default class RecentViews extends Component {
                     </ul>
                 :
                     <div className="flex flex-column layout-centered text-normal text-grey-2">
-                        <p className="p3 text-centered text-grey-2" style={{ "maxWidth": "100%" }}>You haven't looked at any dashboards or questions recently</p>
+                        <p className="p3 text-centered text-grey-2" style={{ "maxWidth": "100%" }}>暂无记录</p>
                     </div>
                 }
             </SidebarSection>

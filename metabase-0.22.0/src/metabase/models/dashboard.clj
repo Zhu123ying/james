@@ -160,9 +160,9 @@
              (let [num-cards₁  (count (:cards dashboard₁))
                    num-cards₂  (count (:cards dashboard₂))]
                (cond
-                 (< num-cards₁ num-cards₂) "added a card"
-                 (> num-cards₁ num-cards₂) "removed a card"
-                 :else                     "rearranged the cards")))]
+                 (< num-cards₁ num-cards₂) "新增了一个查询"
+                 (> num-cards₁ num-cards₂) "移除了一个查询"
+                 :else                     "重新绘制了一个查询")))]
           (concat (map-indexed check-series-change (:cards changes)))
           (->> (filter identity)
                build-sentence)))))

@@ -43,12 +43,12 @@ export default class AddToDashboard extends Component {
                     }
                     { query &&
                         <div className="ml-auto flex align-center">
-                            <h5>Sort by</h5>
+                            <h5>排序</h5>
                             <Button borderless>
-                                Last modified
+                                编辑时间
                             </Button>
                             <Button borderless>
-                                Alphabetical order
+                                字母排序
                             </Button>
                         </div>
                     }

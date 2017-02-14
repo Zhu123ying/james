@@ -31,17 +31,17 @@ export default class ObjectRetireModal extends Component {
         const { valid } = this.state;
         return (
             <ModalContent
-                title={"Retire This " + capitalize(objectType)}
+                title={"撤销"}
                 onClose={this.props.onClose}
             >
                 <form className="flex flex-column flex-full">
                     <div className="Form-inputs pb4">
-                        <p>Saved questions and other things that depend on this {objectType} will continue to work, but this {objectType} will no longer be selectable from the query builder.</p>
-                        <p>If you're sure you want to retire this {objectType}, please write a quick explanation of why it's being retired:</p>
+                        <p>基于它的查询依然可以使用，但您下次创建查询时，它将不在可用。</p>
+                        <p>如果您确认撤销此, 请简要描述撤销原因:</p>
                         <textarea
                             ref="revision_message"
                             className="input full"
-                            placeholder={"This will show up in the activity feed and in an email that will be sent to anyone on your team who created something that uses this " + objectType + "."}
+                            placeholder={"撤销原因将显示在修改记录中，并将发送邮件通知其他使用此服务的用户。 "}
                             onChange={(e) => this.setState({ valid: !!e.target.value })}
                         />
                     </div>
@@ -50,13 +50,13 @@ export default class ObjectRetireModal extends Component {
                         <ActionButton
                             actionFn={this.handleSubmit.bind(this)}
                             className={cx("Button", { "Button--primary": valid, "disabled": !valid })}
-                            normalText="Retire"
-                            activeText="Retiring…"
-                            failedText="Failed"
-                            successText="Success"
+                            normalText="撤销"
+                            activeText="撤销中..."
+                            failedText="F撤销失败"
+                            successText="撤销成功"
                         />
                         <a className="Button Button--borderless" onClick={this.props.onClose}>
-                            Cancel
+                            取消
                         </a>
                     </div>
                 </form>

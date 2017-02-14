@@ -8,56 +8,30 @@ import CustomGeoJSONWidget from "./components/widgets/CustomGeoJSONWidget.jsx";
 
 const SECTIONS = [
     {
-        name: "设置引导",
+        name: "初始设置",
         settings: []
     },
     {
-        name: "常规设置",
+        name: "站点设置",
         settings: [
             {
                 key: "site-name",
-                display_name: "Site Name",
+                display_name: "站点名称",
                 type: "string"
             },
             {
                 key: "-site-url",
-                display_name: "Site URL",
+                display_name: "站点 URL",
                 type: "string"
-            },
-            {
-                key: "admin-email",
-                display_name: "Email Address for Help Requests",
-                type: "string"
-            },
-            {
-                key: "report-timezone",
-                display_name: "Report Timezone",
-                type: "select",
-                options: [
-                    { name: "Database Default", value: "" },
-                    ...MetabaseSettings.get('timezones')
-                ],
-                placeholder: "Select a timezone",
-                note: "Not all databases support timezones, in which case this setting won't take effect."
-            },
-            {
-                key: "anon-tracking-enabled",
-                display_name: "Anonymous Tracking",
-                type: "boolean"
-            },
-            {
-                key: "enable-advanced-humanization",
-                display_name: "Friendly Table and Field Names",
-                type: "boolean"
             }
         ]
     },
     {
-        name: "Email",
+        name: "Email设置",
         settings: [
             {
                 key: "email-smtp-host",
-                display_name: "SMTP Host",
+                display_name: "SMTP 服务器",
                 placeholder: "smtp.yourservice.com",
                 type: "string",
                 required: true,
@@ -65,7 +39,7 @@ const SECTIONS = [
             },
             {
                 key: "email-smtp-port",
-                display_name: "SMTP Port",
+                display_name: "SMTP 端口",
                 placeholder: "587",
                 type: "string",
                 required: true,
@@ -73,7 +47,7 @@ const SECTIONS = [
             },
             {
                 key: "email-smtp-security",
-                display_name: "SMTP Security",
+                display_name: "SMTP 模式",
                 description: null,
                 type: "radio",
                 options: { none: "None", ssl: "SSL", tls: "TLS" },
@@ -81,80 +55,29 @@ const SECTIONS = [
             },
             {
                 key: "email-smtp-username",
-                display_name: "SMTP Username",
+                display_name: "SMTP 用户名",
                 description: null,
                 placeholder: "youlooknicetoday",
                 type: "string"
             },
             {
                 key: "email-smtp-password",
-                display_name: "SMTP Password",
+                display_name: "SMTP 密码",
                 description: null,
                 placeholder: "Shh...",
                 type: "password"
             },
             {
                 key: "email-from-address",
-                display_name: "From Address",
-                placeholder: "metabase@yourcompany.com",
+                display_name: "发件邮箱地址",
+                placeholder: "dataUltra@yourcompany.com",
                 type: "string",
                 required: true,
-                validations: [["email", "That's not a valid email address"]]
-            }
-        ]
-    },
-    {
-        name: "Slack",
-        settings: [
-            {
-                key: "slack-token",
-                display_name: "Slack API Token",
-                description: "",
-                placeholder: "Enter the token you received from Slack",
-                type: "string",
-                required: false,
-                autoFocus: true
-            },
-            {
-                key: "metabot-enabled",
-                display_name: "Metabot",
-                type: "boolean",
-                // TODO: why do we have "defaultValue" in addition to "default" in the backend?
-                defaultValue: false,
-                required: true,
-                autoFocus: false
-            },
-        ]
-    },
-    {
-        name: "Single Sign-On",
-        settings: [
-            {
-                key: "google-auth-client-id"
-            },
-            {
-                key: "google-auth-auto-create-accounts-domain"
-            }
-        ]
-    },
-    {
-        name: "Maps",
-        settings: [
-            {
-                key: "map-tile-server-url",
-                display_name: "Map tile server URL",
-                note: "Metabase uses OpenStreetMaps by default.",
-                type: "string"
-            },
-            {
-                key: "custom-geojson",
-                display_name: "Custom Maps",
-                description: "Add your own GeoJSON files to enable different region map visualizations",
-                widget: CustomGeoJSONWidget,
-                noHeader: true
+                validations: [["email", "这不是一个有效的Email地址"]]
             }
         ]
     }
+    
 ];
 for (const section of SECTIONS) {
     section.slug = slugify(section.name);
@@ -201,7 +124,7 @@ export const getActiveSectionName = (state, props) => props.params.section
 export const getActiveSection = createSelector(
     getActiveSectionName,
     getSections,
-    (section = "setup", sections) => {
+    (section = "初始设置", sections) => {
         if (sections) {
             return _.findWhere(sections, { slug: section });
         } else {

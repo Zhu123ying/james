@@ -145,12 +145,12 @@ export default class PulseEdit extends Component {
                     <ActionButton
                         actionFn={this.save}
                         className={cx("Button Button--primary", { "disabled": !isValid })}
-                        normalText={pulse.id != null ? "Save changes" : "Create pulse"}
-                        activeText="Saving…"
-                        failedText="Save failed"
-                        successText="Saved"
+                        normalText={pulse.id != null ? "保存修改" : "新增通知"}
+                        activeText="保存中…"
+                        failedText="保存失败"
+                        successText="保存成功"
                     />
-                    <Link to="/pulse" className="text-bold flex-align-right no-decoration text-brand-hover">Cancel</Link>
+                    <Link to="/pulse" className="text-bold flex-align-right no-decoration text-brand-hover">取消</Link>
                 </div>
             </div>
         );

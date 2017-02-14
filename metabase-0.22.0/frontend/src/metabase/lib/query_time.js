@@ -127,9 +127,9 @@ export function generateTimeValueDescription(value, bucketing) {
         } else {
             // FIXME: what to do if the bucketing and unit don't match?
             if (n === 0) {
-                return "Now";
+                return "现在";
             } else {
-                return Math.abs(n) + " " + inflection.inflect(unit, Math.abs(n)) + (n < 0 ? " ago" : " from now");
+                return Math.abs(n) + " " + inflection.inflect(unit, Math.abs(n)) + (n < 0 ? " 前" : " 距现在");
             }
         }
     } else {

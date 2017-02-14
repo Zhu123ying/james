@@ -3,13 +3,17 @@ import { inflect } from "metabase/lib/formatting";
 
 export class MinColumnsError {
     constructor(minColumns, actualColumns) {
-        this.message = `Doh! The data from your query doesn't fit the chosen display choice. This visualization requires at least ${actualColumns} ${inflect("column", actualColumns)} of data.`;
+        //this.message = `OUCH! The data from your query doesn't fit the chosen display choice. This visualization requires at least ${actualColumns} ${inflect("column", actualColumns)} of data.`;
+        this.message = `当前数据格式不匹配所选的可视化样式`;
+
     }
 }
 
 export class MinRowsError {
     constructor(minRows, actualRows) {
-        this.message = `No dice. We have ${actualRows} data ${inflect("point", actualRows)} to show and that's not enough for this visualization.`;
+        //this.message = `No dice. We have ${actualRows} data ${inflect("点", actualRows)} to show and that's not enough for this visualization.`;
+        this.message = `当前数据格式不匹配所选的可视化样式`;
+
         this.minRows = minRows;
         this.actualRows = actualRows;
     }
@@ -17,14 +21,14 @@ export class MinRowsError {
 
 export class LatitudeLongitudeError {
     constructor(minRows, actualRows) {
-        this.message = "Bummer. We can't actually do a pin map for this data because we require both a latitude and longitude column.";
+        this.message = "当前数据格式不匹配所选的可视化样式";
     }
 }
 
 export class ChartSettingsError {
     constructor(message, section, buttonText) {
-        this.message = message || "Please configure this chart in the chart settings";
+        this.message = message || "您可以自定义配置当前图标";
         this.section = section;
-        this.buttonText = buttonText || "Edit Settings";
+        this.buttonText = buttonText || "编辑";
     }
 }

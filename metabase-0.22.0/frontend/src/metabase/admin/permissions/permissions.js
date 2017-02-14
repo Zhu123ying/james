@@ -55,7 +55,7 @@ export const updatePermission = createThunkAction(UPDATE_PERMISSION, ({ groupId,
 const SAVE_PERMISSIONS = "metabase/admin/permissions/SAVE_PERMISSIONS";
 export const savePermissions = createThunkAction(SAVE_PERMISSIONS, () =>
     async (dispatch, getState) => {
-        MetabaseAnalytics.trackEvent("Permissions", "save");
+        MetabaseAnalytics.trackEvent("查询权限", "保存");
         const { permissions, revision, save } = getState().permissions;
         let result = await save({
             revision: revision,
@@ -112,7 +112,7 @@ const saveError = handleActions({
     [RESET]: { next: () => null },
     [SAVE_PERMISSIONS]: {
         next: (state) => null,
-        throw: (state, { payload }) => (payload && typeof payload.data === "string" ? payload.data : payload.data.message) || "Sorry, an error occurred."
+        throw: (state, { payload }) => (payload && typeof payload.data === "string" ? payload.data : payload.data.message) || "抱歉，此处出现一个异常情况。"
     },
     [LOAD_PERMISSIONS]: {
         next: (state) => null,

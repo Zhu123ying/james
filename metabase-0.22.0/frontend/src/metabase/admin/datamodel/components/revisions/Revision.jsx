@@ -20,7 +20,7 @@ export default class Revision extends Component {
     getAction() {
         const { revision, objectName } = this.props;
         if (revision.is_creation) {
-            return "created \"" + revision.diff.name.after + "\"";
+            return "创建了 \"" + revision.diff.name.after + "\"";
         }
         if (revision.is_reversion) {
             return "reverted to a previous version";
@@ -29,20 +29,20 @@ export default class Revision extends Component {
         if (changedKeys.length === 1) {
             switch (changedKeys[0]) {
                 case "name":
-                    return "edited the title";
+                    return "编辑了标题";
                 case "description":
-                    return "edited the description";
+                    return "编辑了描述";
                 case "defintion":
-                    return "edited the " + objectName;
+                    return "编辑了 " + objectName;
             }
         }
-        return "made some changes";
+        return "完成了调整";
     }
 
     getName() {
         const { revision: { user }, currentUser } = this.props;
         if (user.id === currentUser.id) {
-            return "You"
+            return "您"
         } else {
             return user.first_name;
         }

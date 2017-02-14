@@ -64,7 +64,7 @@ export default class MetadataHeader extends Component {
                 </div>
                 <div className="MetadataEditor-headerSection flex flex-align-right align-center flex-no-shrink">
                     <SaveStatus ref="status" />
-                    <span className="mr1">显示初始格式</span>
+                    <span className="mr1">基础</span>
                     <Toggle value={this.props.isShowingSchema} onChange={this.props.toggleShowSchema} />
                 </div>
             </div>

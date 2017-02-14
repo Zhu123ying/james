@@ -76,6 +76,21 @@ export default class ProfileLink extends Component {
                     <OnClickOutsideWrapper handleDismissal={this.closeDropdown}>
                         <div className="NavDropdown-content right">
                             <ul className="NavDropdown-content-layer">
+                                { user.is_superuser && context !== 'admin' ?
+                                    <li>
+                                        <Link to="/" data-metabase-event={"Navbar;Profile Dropdown;Exit Admin"} onClick={this.closeDropdown} className="Dropdown-item block text-white no-decoration">
+                                            查询列表
+                                        </Link>
+                                    </li>
+                                : null }
+                                { user.is_superuser && context === 'admin' ?
+                                    <li>
+                                        <Link to="/questions" data-metabase-event={"Navbar;Profile Dropdown;Exit Admin"} onClick={this.closeDropdown} className="Dropdown-item block text-white no-decoration">
+                                            查询列表
+                                        </Link>
+                                    </li>
+                                : null }
+
                                 <li>
                                     <Link to="/user/edit_current" data-metabase-event={"Navbar;Profile Dropdown;Edit Profile"} onClick={this.closeDropdown} className="Dropdown-item block text-white no-decoration">
                                         账户设置
@@ -98,11 +113,7 @@ export default class ProfileLink extends Component {
                                     </li>
                                 : null }
 
-                                <li>
-                                    <a data-metabase-event={"Navbar;Profile Dropdown;Help "+tag} className="Dropdown-item block text-white no-decoration" href={"http://www.metabase.com/docs/"+tag} target="_blank">
-                                        帮助
-                                    </a>
-                                </li>
+                                
 
                                 { user.is_superuser &&
                                     <li>
@@ -141,10 +152,10 @@ export default class ProfileLink extends Component {
                             <div className="text-brand pb2">
                                 <LogoIcon width={48} height={48} />
                             </div>
-                            <h2 style={{fontSize: "1.75em"}} className="text-dark">Thanks for using Metabase!</h2>
+                            <h2 style={{fontSize: "1.75em"}} className="text-dark">感谢您对DataUltra的支持！</h2>
                             <div className="pt2">
-                                <h3 className="text-dark mb1">You're on version {tag}</h3>
-                                <p className="text-grey-3 text-bold">Built on {date}</p>
+                                <h3 className="text-dark mb1">当前版本 {tag}</h3>
+                                
                                 { !/^v\d+\.\d+\.\d+$/.test(tag) &&
                                     <div>
                                     { _.map(versionExtra, (value, key) =>
@@ -155,8 +166,7 @@ export default class ProfileLink extends Component {
                             </div>
                         </div>
                         <div style={{borderWidth: "2px"}} className="p2 h5 text-centered text-grey-3 border-top">
-                            <span className="block"><span className="text-bold">Metabase</span> is a Trademark of Metabase, Inc</span>
-                            <span>and is built with care in San Francisco, CA</span>
+                            <span className="block"><span className="text-bold">DataUltra BI</span>提供简单易用，功能明确的企业BI应用服务</span>
                         </div>
                     </Modal>
                 : modalOpen === "logs" ?

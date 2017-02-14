@@ -15,12 +15,12 @@ export default class ColumnsList extends Component {
         let { tableMetadata } = this.props;
         return (
             <div id="ColumnsList" className="my3">
-                <h2 className="px1 text-orange">Columns</h2>
+                <h2 className="px1 text-orange">列</h2>
                 <div className="text-uppercase text-grey-3 py1">
-                    <div style={{minWidth: 420}} className="float-left px1">Column</div>
+                    <div style={{minWidth: 420}} className="float-left px1">列名</div>
                     <div className="flex clearfix">
-                        <div className="flex-half px1">Visibility</div>
-                        <div className="flex-half px1">Type</div>
+                        <div className="flex-half px1">可用范围</div>
+                        <div className="flex-half px1">数据类型</div>
                     </div>
                 </div>
                 <ol className="border-top border-bottom">

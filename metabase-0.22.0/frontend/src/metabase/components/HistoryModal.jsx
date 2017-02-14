@@ -79,9 +79,9 @@ export default class HistoryModal extends Component {
                 {() =>
                     <div className="pb4 flex-full">
                         <div className="border-bottom flex px4 py1 text-uppercase text-grey-3 text-bold h5">
-                            <span className="flex-half">When</span>
-                            <span className="flex-half">Who</span>
-                            <span className="flex-full">What</span>
+                            <span className="flex-half">操作时间</span>
+                            <span className="flex-half">操作人</span>
+                            <span className="flex-full">操作内容</span>
                         </div>
                         <div className="px2 scroll-y">
                             {revisions.map((revision, index) =>

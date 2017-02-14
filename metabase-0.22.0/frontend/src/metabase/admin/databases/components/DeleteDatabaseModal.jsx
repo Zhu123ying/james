@@ -58,7 +58,8 @@ export default class DeleteDatabaseModal extends Component {
                         <p><strong>提示:</strong> 当删除测试数据后, 教学案例将无法使用。 当然您也可以恢复测试数据。</p>
                     }
                     <p>
-                        确认删除此数据库? 所有基于此数据库的查询均会被删除。 <strong>这个操作无法撤销</strong>。 确认删除？
+                        删除此数据库? 所有基于此数据库的查询均会被删除。 <strong>这个操作无法撤销</strong>。
+                        您必须在下面输入框中输入"delete"来确认删除。
                     </p>
                     <input className="Form-input" type="text" onChange={(e) => this.setState({ confirmValue: e.target.value })} autoFocus />
                 </div>

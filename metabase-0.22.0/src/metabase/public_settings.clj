@@ -23,7 +23,7 @@
   :default "Metabase")
 
 (defsetting -site-url
-  "The base URL of this Metabase instance, e.g. \"http://DataUltra.my-company.com\"")
+  "设置实例URL地址，比如有\"dataultra.chinac.com\"")
 
 (defsetting admin-email
   "The email address users should be referred to if they encounter a problem.")

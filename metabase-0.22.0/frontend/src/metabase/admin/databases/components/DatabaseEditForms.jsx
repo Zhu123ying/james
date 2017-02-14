@@ -25,10 +25,10 @@ export default class DatabaseEditForms extends Component {
                 {() =>
                     <div>
                         <div className={cx("Form-field", { "Form--fieldError": errors["engine"] })}>
-                            <label className="Form-label Form-offset">Database type: <span>{errors["engine"]}</span></label>
+                            <label className="Form-label Form-offset">数据库类型: <span>{errors["engine"]}</span></label>
                             <label className="Select Form-offset mt1">
                                 <select className="Select" defaultValue={database.engine} onChange={(e) => this.props.selectEngine(e.target.value)}>
-                                    <option value="" disabled>Select a database type</option>
+                                    <option value="" disabled>请选择数据库类型</option>
                                     {Object.keys(engines).sort().map(opt => <option key={opt} value={opt}>{engines[opt]['driver-name']}</option>)}
                                 </select>
                             </label>
@@ -43,7 +43,7 @@ export default class DatabaseEditForms extends Component {
                               formSuccess={formSuccess}
                               hiddenFields={hiddenFields}
                               submitFn={(database) => this.props.save({ ...database, id: this.props.database.id }, database.details)}
-                              submitButtonText={'Save'}>
+                              submitButtonText={'确认'}>
                           </DatabaseDetailsForm>
                           : null }
                     </div>

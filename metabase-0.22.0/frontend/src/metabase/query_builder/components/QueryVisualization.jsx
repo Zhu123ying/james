@@ -121,7 +121,7 @@ export default class QueryVisualization extends Component {
                 <div>
                     { result.data.rows_truncated != null ? ("显示前 ") : ("显示 ")}
                     <b>{formatNumber(result.row_count)}</b>
-                    { " " + inflect("行", result.data.rows.length) }.
+                    { " " + inflect("行"/* , result.data.rows.length*/) }.
                 </div>
             );
         }
@@ -167,7 +167,7 @@ export default class QueryVisualization extends Component {
                 { isRunning && (
                     <div className="Loading spread flex flex-column layout-centered text-brand z2">
                         <LoadingSpinner />
-                        <h2 className="Loading-message text-brand text-uppercase my3">Doing science...</h2>
+                        <h2 className="Loading-message text-brand text-uppercase my3">加载中...</h2>
                     </div>
                 )}
                 <div className={visualizationClasses}>
