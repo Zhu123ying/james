@@ -9,11 +9,11 @@
 
 ;; ## CONFIG
 
-(defsetting email-from-address  "你想使用的发件邮箱。" :default "notifications@dataultra.com")
-(defsetting email-smtp-host     "The address of the SMTP server that handles your emails.")
-(defsetting email-smtp-username "SMTP username.")
-(defsetting email-smtp-password "SMTP password.")
-(defsetting email-smtp-port     "The port your SMTP server uses for outgoing emails.")
+(defsetting email-from-address  "你想使用的发件邮箱。" :default "notifications@DataUltra.com")
+(defsetting email-smtp-host     "SMTP 服务器地址")
+(defsetting email-smtp-username "SMTP 用户名")
+(defsetting email-smtp-password "SMTP 密码")
+(defsetting email-smtp-port     "SMTP发件端口")
 (defsetting email-smtp-security
   "SMTP secure connection protocol. (tls, ssl, or none)"
   :default "none"

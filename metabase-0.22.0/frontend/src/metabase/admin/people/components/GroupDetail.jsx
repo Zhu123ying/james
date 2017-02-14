@@ -31,11 +31,10 @@ const GroupDescription = ({ group }) =>
     : isAdminGroup(group) ?
         <div className="px2 text-measure">
             <p>
-                This is a special group whose members can see everything in the Metabase instance, and who can access and make changes to the
-                settings in the Admin Panel, including changing permissions! So, add people to this group with care.
+                这是一个特殊的群体，成员可以看到在配置数据库实例的一切。请谨慎添加成员。
             </p>
             <p>
-                To make sure you don't get locked out of Metabase, there always has to be at least one user in this group.
+               请确保您没有将自己移除出此群组。我们至少会为此群组保留一个用户。
             </p>
         </div>
     :
@@ -82,7 +81,7 @@ const AddUserRow = ({ users, text, selectedUsers, onCancel, onDone, onTextChange
             <AddRow
                 value={text}
                 isValid={selectedUsers.length}
-                placeholder="Julie McMemberson"
+                placeholder="请输入用户名"
                 onChange={(e) => onTextChange(e.target.value)}
                 onDone={onDone}
                 onCancel={onCancel}
@@ -128,7 +127,7 @@ const MembersTable = ({
 
     return (
         <div>
-            <AdminContentTable columnTitles={["Members", "Email"]}>
+            <AdminContentTable columnTitles={["成员", "Email"]}>
                 { showAddUser && (
                     <AddUserRow
                         users={users}
@@ -229,7 +228,7 @@ export default class GroupDetail extends Component {
             const newMembers = _.reject(this.getMembers(), (m) => m.user_id === membership.user_id);
             this.setState({ members: newMembers });
         } catch (error) {
-            console.error("Error deleting PermissionsMembership:", error);
+            console.error("错误的用户权限删除操作:", error);
             this.alert(error && typeof error.data ? error.data : error);
         }
     }
@@ -258,7 +257,7 @@ export default class GroupDetail extends Component {
         return (
             <AdminPaneLayout
                 title={group.name}
-                buttonText="Add members"
+                buttonText="新增成员"
                 buttonAction={canEditMembership(group) ? this.onAddUsersClicked.bind(this) : null}
                 buttonDisabled={addUserVisible}
             >

@@ -22,17 +22,17 @@ export default class SetupMessage extends Component {
         if (user.is_superuser) {
             heading = (
                 <span className="flex align-center">
-                    <span className="ml1 h5 text-uppercase text-bold">Great News</span>
+                    <span className="ml1 h5 text-uppercase text-bold">新特性</span>
                 </span>
             );
             content = (
                 <div className="m4 h4 text-bold">
                     <div className="h4 text-bold text-green">
-                        You're an admin, so you can set up integrations
+                        作为一名管理员，您可以设置标准。
                     </div>
                     <div className="mt2">
                         {channels.map(c =>
-                            <Link to={"/admin/settings/"+c.toLowerCase()} key={c.toLowerCase()} className="Button Button--primary mr1" target={window.OSX ? null : "_blank"}>Configure {c}</Link>
+                            <Link to={"/admin/settings/"+c.toLowerCase()} key={c.toLowerCase()} className="Button Button--primary mr1" target={window.OSX ? null : "_blank"}>配置 {c}</Link>
                         )}
                     </div>
                 </div>
@@ -43,7 +43,7 @@ export default class SetupMessage extends Component {
             heading = (
                 <span className="flex align-center relative" style={{top: "-10px"}}>
                     <Icon name="mail" size={20} />
-                    <span className="ml1 h5 text-uppercase text-bold">Admin Email</span>
+                    <span className="ml1 h5 text-uppercase text-bold">管理员 Email</span>
                 </span>
             );
             content = (

@@ -81,7 +81,7 @@ export default class Setup extends Component {
 
                             { setupComplete ?
                                 <section className="SetupStep rounded SetupStep--active flex flex-column layout-centered p4">
-                                    <h1 style={{fontSize: "xx-large"}} className="text-light pt2 pb2">You're all set up!</h1>
+                                    <h1 style={{fontSize: "xx-large"}} className="text-light pt2 pb2">初始设置完成!</h1>
                                     <div className="pt4">
                                         <NewsletterForm initialEmail={userDetails && userDetails.email} />
                                     </div>

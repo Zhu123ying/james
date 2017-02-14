@@ -60,16 +60,16 @@ export default class PreferencesStep extends Component {
                         <div className="Form-field Form-offset mr4" stytle="display:none">
                             <div style={{borderWidth: "2px"}} className="flex align-center bordered rounded p2">
                                 <Toggle value={allowTracking} onChange={this.toggleTracking.bind(this)} className="inline-block" />
-                                <span className="ml1">Allow Metabase to anonymously collect usage events</span>
+                                <span className="ml1">允许Database BI匿名访问并收集用户事件</span>
                             </div>
                         </div>
 
                         { allowTracking ?
                             <div className="Form-field Form-offset" stytle="display:none">
                                 <ul style={{listStyle: "disc inside", lineHeight: "200%"}}>
-                                    <li>Metabase <span style={{fontWeight: "bold"}}>never</span> collects anything about your data or question results.</li>
-                                    <li>All collection is completely anonymous.</li>
-                                    <li>Collection can be turned off at any point in your admin settings.</li>
+                                    <li><span style={{fontWeight: "bold"}}>禁止</span>Database BI 收集您的数据或查询。</li>
+                                    <li>我们的所有查询完全匿名的</li>
+                                    <li>采集也将可以在任何时间被禁止。</li>
                                 </ul>
                             </div>
                         : null }

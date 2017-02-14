@@ -28,7 +28,7 @@ class SearchResults extends Component {
             <div className="px4 pt3">
                 <div className="flex align-center mb3">
                     <HeaderWithBack name={totalCount != null ?
-                        `${totalCount} ${inflect("result", totalCount)}` :
+                        `${totalCount} ${inflect("条记录")}` :
                         "Search results"}
                     />
                     <div className="ml-auto flex align-center">

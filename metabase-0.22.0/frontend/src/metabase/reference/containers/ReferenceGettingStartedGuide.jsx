@@ -432,7 +432,7 @@ export default class ReferenceGettingStartedGuide extends Component {
                                         <h3 className="mb1">Name</h3>
                                         <input
                                             className="input text-paragraph"
-                                            placeholder="Julie McHelpfulson"
+                                            placeholder="张三"
                                             type="text"
                                             {...contact.name}
                                         />
@@ -441,7 +441,7 @@ export default class ReferenceGettingStartedGuide extends Component {
                                         <h3 className="mb1">Email address</h3>
                                         <input
                                             className="input text-paragraph"
-                                            placeholder="julie.mchelpfulson@acme.com"
+                                            placeholder="zhangsan@sina.com.cn"
                                             type="text"
                                             {...contact.email}
                                         />

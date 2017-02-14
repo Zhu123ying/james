@@ -51,37 +51,7 @@ export default class NewsletterForm extends Component {
         const { submitted } = this.state;
 
         return (
-            <div style={this.styles.container} className="bordered rounded p4 relative">
-                <div style={this.styles.label} className="absolute text-centered left right">
-                    <div className="px3 bg-white h5 text-bold text-grey-4 text-uppercase inline-block">
-                      <Icon className="mr1 float-left" name="mail" size={16} />
-                      <span className="inline-block" style={{marginTop: 1}}>DataUltra BI RSS</span>
-                    </div>
-                </div>
-
-                <div className="MB-Newsletter sm-float-right">
-                    <div>
-                        <div style={{color: "#878E95"}} className="text-grey-4 text-strong h3 pb3">
-                            订阅DataUltra BI的最新更新信息及使用教程
-                        </div>
-
-                        <form onSubmit={this.subscribeUser.bind(this)} noValidate>
-                            <div>
-                                { !submitted ?
-                                    <div className="">
-                                        <input ref="email" style={this.styles.input} className="AdminInput bordered rounded h3 inline-block" type="email" defaultValue={initialEmail} placeholder="Email 地址" />
-                                        <input className="Button float-right inline-block ml1" type="submit" value="Subscribe" name="subscribe" />
-                                    </div>
-                                :
-                                    <div className="text-success text-centered text-bold h3 p1">
-                                        <Icon className="mr2" name="check" size={16} />订阅成功，感谢对DataUltra的信赖。
-                                    </div>
-                                }
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+            " "
         );
     }
 }
