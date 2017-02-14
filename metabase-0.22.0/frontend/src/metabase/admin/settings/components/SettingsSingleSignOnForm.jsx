@@ -134,7 +134,7 @@ export default class SettingsSingleSignOnForm extends Component {
                     <button className={cx("Button mr2", {"Button--primary": hasChanges})}
                             disabled={!hasChanges}
                             onClick={this.saveChanges}>
-                        {this.state.recentlySaved ? "Changes saved!" : "Save Changes"}
+                        {this.state.recentlySaved ? "保存成功!" : "保存修改"}
                     </button>
                 </div>
             </form>

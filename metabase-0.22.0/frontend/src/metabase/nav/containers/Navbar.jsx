@@ -148,7 +148,7 @@ export default class Navbar extends Component {
             case "admin": return this.renderAdminNav();
             case "auth": return null;
             case "none": return this.renderEmptyNav();
-            case "初始设置": return null;
+            case "setup": return null;
             default: return this.renderMainNav();
         }
     }

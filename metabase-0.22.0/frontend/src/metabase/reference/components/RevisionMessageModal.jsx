@@ -29,20 +29,20 @@ export default class RevisionMessageModal extends Component {
         return (
             <ModalWithTrigger ref="modal" triggerElement={children}>
                 <ModalContent
-                    title="Reason for changes"
+                    title="修改原因"
                     onClose={onClose}
                 >
                     <div className={S.modalBody}>
                         <textarea
                             className={S.modalTextArea}
-                            placeholder="Leave a note to explain what changes you made and why they were required"
+                            placeholder="请输入修改原因，方便其他用户知道您这样做的原因"
                             {...field}
                         />
                     </div>
 
                     <div className="Form-actions">
-                        <button type="button" className="Button Button--primary" onClick={onAction} disabled={submitting || field.error}>Save changes</button>
-                        <button type="button" className="Button ml1" onClick={onClose}>Cancel</button>
+                        <button type="button" className="Button Button--primary" onClick={onAction} disabled={submitting || field.error}>保存修改</button>
+                        <button type="button" className="Button ml1" onClick={onClose}>取消</button>
                     </div>
                 </ModalContent>
             </ModalWithTrigger>

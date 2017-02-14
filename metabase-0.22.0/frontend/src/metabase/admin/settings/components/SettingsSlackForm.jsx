@@ -184,9 +184,9 @@ export default class SettingsSlackForm extends Component {
         });
 
         let saveSettingsButtonStates = {
-            default: "Save changes",
-            working: "Saving...",
-            success: "Changes saved!"
+            default: "保存修改",
+            working: "保存中...",
+            success: "保存成功"
         };
 
         let disabled = (!valid || submitting !== "default"),

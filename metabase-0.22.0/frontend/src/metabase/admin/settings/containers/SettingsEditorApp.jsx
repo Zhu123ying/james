@@ -150,7 +150,7 @@ export default class SettingsEditorApp extends Component {
             return (
                 <li key={section.name}>
                     <Link to={"/admin/settings/" + section.slug}  className={classes}>
-                        <span>{section.name}</span>
+                        <span>{section.cname}</span>
                         {newVersionIndicator}
                     </Link>
                 </li>

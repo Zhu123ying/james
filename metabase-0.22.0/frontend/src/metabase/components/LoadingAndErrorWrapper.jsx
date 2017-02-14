@@ -64,7 +64,7 @@ export default class LoadingAndErrorWrapper extends Component {
                 : loading ?
                     <div className={contentClassName}>
                         <LoadingSpinner />
-                        <h2 className="text-normal text-grey-2 mt1">Loading...</h2>
+                        <h2 className="text-normal text-grey-2 mt1">加载中...</h2>
                      </div>
                 :
                     this.getChildren()

@@ -241,7 +241,7 @@ const EntityRowHeader = ({ entity, type }) =>
 const CornerHeader = ({ grid }) =>
     <div className="absolute bottom left right flex flex-column align-center pb1">
         <div className="flex align-center">
-            <h3 className="ml1">查询权限管理{capitalize(pluralize(grid.type))}</h3>
+            <h3 className="ml1">权限管理-{capitalize(pluralize(grid.type))}</h3>
         </div>
     </div>
 

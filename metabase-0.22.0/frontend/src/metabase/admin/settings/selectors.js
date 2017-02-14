@@ -8,11 +8,13 @@ import CustomGeoJSONWidget from "./components/widgets/CustomGeoJSONWidget.jsx";
 
 const SECTIONS = [
     {
-        name: "初始设置",
+        cname: "初始设置",
+        name: "Setup",
         settings: []
     },
     {
-        name: "站点设置",
+        cname: "站点设置",
+        name: "General",
         settings: [
             {
                 key: "site-name",
@@ -27,7 +29,8 @@ const SECTIONS = [
         ]
     },
     {
-        name: "Email设置",
+        cname: "Email设置",
+        name: "Email",
         settings: [
             {
                 key: "email-smtp-host",
@@ -43,7 +46,7 @@ const SECTIONS = [
                 placeholder: "587",
                 type: "string",
                 required: true,
-                validations: [["integer", "That's not a valid port number"]]
+                validations: [["integer", "这不是一个有效的端口号"]]
             },
             {
                 key: "email-smtp-security",
@@ -124,7 +127,7 @@ export const getActiveSectionName = (state, props) => props.params.section
 export const getActiveSection = createSelector(
     getActiveSectionName,
     getSections,
-    (section = "初始设置", sections) => {
+    (section = "Setup", sections) => {
         if (sections) {
             return _.findWhere(sections, { slug: section });
         } else {

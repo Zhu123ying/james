@@ -223,8 +223,8 @@ export default class DatabaseDetailsForm extends Component {
         let fields = [
             {
                 name: 'name',
-                'display-name': 'Name',
-                placeholder: "How would you like to refer to this database?",
+                'display-name': '名称',
+                placeholder: "为您的数据库设置一个名称，方便以后使用。",
                 required: true
             },
             ...engines[engine]['details-fields'],
