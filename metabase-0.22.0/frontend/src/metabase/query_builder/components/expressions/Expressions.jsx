@@ -27,7 +27,7 @@ export default class Expressions extends Component {
         let sortedNames = _.sortBy(_.keys(expressions), _.identity);
         return (
             <div className="pb3">
-                <div className="pb1 h6 text-uppercase text-grey-3 text-bold">自定义过滤条件</div>
+                <div className="pb1 h6 text-uppercase text-grey-3 text-bold">自定义公式</div>
 
                 { sortedNames && sortedNames.map(name =>
                     <div key={name} className="pb1 text-brand text-bold cursor-pointer flex flex-row align-center justify-between" onClick={() => onEditExpression(name)}>
@@ -45,7 +45,7 @@ export default class Expressions extends Component {
                         <IconBorder borderRadius="3px">
                             <Icon name="add" size={14} />
                         </IconBorder>
-                        <span className="ml1">新增自定义过滤条件</span>
+                        <span className="ml1">新增自定义公式，将查询结果修改后呈现</span>
                     </a>
             </div>
         );
