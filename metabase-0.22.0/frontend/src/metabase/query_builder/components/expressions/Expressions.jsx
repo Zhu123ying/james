@@ -45,7 +45,7 @@ export default class Expressions extends Component {
                         <IconBorder borderRadius="3px">
                             <Icon name="add" size={14} />
                         </IconBorder>
-                        <span className="ml1">新增自定义公式，将查询结果修改后呈现。</span>
+                        <span className="ml1">新增自定义公式，将查询结果修改后呈现</span>
                     </a>
             </div>
         );
