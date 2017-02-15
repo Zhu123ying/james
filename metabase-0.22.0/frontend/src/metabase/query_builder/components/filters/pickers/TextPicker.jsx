@@ -14,7 +14,7 @@ export default class TextPicker extends Component {
 
     static defaultProps = {
         validations: [],
-        placeholder: "Enter desired text"
+        placeholder: "请输入文本内容"
     }
 
     addValue() {

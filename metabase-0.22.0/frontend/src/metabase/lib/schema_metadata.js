@@ -259,61 +259,61 @@ const OPERATORS = {
 // ordered list of operators and metadata per type
 const OPERATORS_BY_TYPE_ORDERED = {
     [NUMBER]: [
-        { name: "=",                verboseName: "Equal" },
-        { name: "!=",               verboseName: "Not equal" },
-        { name: ">",                verboseName: "Greater than" },
-        { name: "<",                verboseName: "Less than" },
+        { name: "=",                verboseName: "=" },
+        { name: "!=",               verboseName: "!=" },
+        { name: ">",                verboseName: ">" },
+        { name: "<",                verboseName: "<" },
         { name: "BETWEEN",          verboseName: "Between" },
-        { name: ">=",               verboseName: "Greater than or equal to", advanced: true },
-        { name: "<=",               verboseName: "Less than or equal to", advanced: true },
-        { name: "IS_NULL",          verboseName: "Is empty", advanced: true },
-        { name: "NOT_NULL",         verboseName: "Not empty", advanced: true }
+        { name: ">=",               verboseName: ">=", advanced: true },
+        { name: "<=",               verboseName: "<=", advanced: true },
+        { name: "IS_NULL",          verboseName: "NULL", advanced: true },
+        { name: "NOT_NULL",         verboseName: "Not NULL", advanced: true }
     ],
     [STRING]: [
-        { name: "=",                verboseName: "Is" },
-        { name: "!=",               verboseName: "Is not" },
-        { name: "CONTAINS",         verboseName: "Contains"},
-        { name: "DOES_NOT_CONTAIN", verboseName: "Does not contain"},
-        { name: "IS_NULL",          verboseName: "Is empty", advanced: true },
-        { name: "NOT_NULL",         verboseName: "Not empty", advanced: true },
-        { name: "STARTS_WITH",      verboseName: "Starts with", advanced: true},
-        { name: "ENDS_WITH",        verboseName: "Ends with", advanced: true}
+        { name: "=",                verboseName: "=" },
+        { name: "!=",               verboseName: "!=" },
+        { name: "CONTAINS",         verboseName: "包含"},
+        { name: "DOES_NOT_CONTAIN", verboseName: "不包含"},
+        { name: "IS_NULL",          verboseName: "NULL", advanced: true },
+        { name: "NOT_NULL",         verboseName: "Not NULL", advanced: true },
+        { name: "STARTS_WITH",      verboseName: "Start with", advanced: true},
+        { name: "ENDS_WITH",        verboseName: "End with", advanced: true}
     ],
     [STRING_LIKE]: [
-        { name: "=",                verboseName: "Is" },
-        { name: "!=",               verboseName: "Is not" },
+        { name: "=",                verboseName: "=" },
+        { name: "!=",               verboseName: "!=" },
         { name: "IS_NULL",          verboseName: "Is empty", advanced: true },
-        { name: "NOT_NULL",         verboseName: "Not empty", advanced: true }
+        { name: "NOT_NULL",         verboseName: "Not NULL", advanced: true }
     ],
     [DATE_TIME]: [
-        { name: "=",                verboseName: "Is" },
-        { name: "<",                verboseName: "Before" },
-        { name: ">",                verboseName: "After" },
+        { name: "=",                verboseName: "=" },
+        { name: "<",                verboseName: "<" },
+        { name: ">",                verboseName: ">" },
         { name: "BETWEEN",          verboseName: "Between" },
-        { name: "IS_NULL",          verboseName: "Is empty", advanced: true },
-        { name: "NOT_NULL",         verboseName: "Not empty", advanced: true }
+        { name: "IS_NULL",          verboseName: "NULL", advanced: true },
+        { name: "NOT_NULL",         verboseName: "Not NULL", advanced: true }
     ],
     [LOCATION]: [
-        { name: "=",                verboseName: "Is" },
-        { name: "!=",               verboseName: "Is not" },
-        { name: "IS_NULL",          verboseName: "Is empty", advanced: true },
-        { name: "NOT_NULL",         verboseName: "Not empty", advanced: true }
+        { name: "=",                verboseName: "=" },
+        { name: "!=",               verboseName: "!=" },
+        { name: "IS_NULL",          verboseName: "NULL", advanced: true },
+        { name: "NOT_NULL",         verboseName: "Not NULL", advanced: true }
     ],
     [COORDINATE]: [
-        { name: "=",                verboseName: "Is" },
-        { name: "!=",               verboseName: "Is not" },
+        { name: "=",                verboseName: "=" },
+        { name: "!=",               verboseName: "!=" },
         { name: "INSIDE",           verboseName: "Inside" }
     ],
     [BOOLEAN]: [
-        { name: "=",                verboseName: "Is", multi: false, defaults: [true] },
-        { name: "IS_NULL",          verboseName: "Is empty" },
-        { name: "NOT_NULL",         verboseName: "Not empty" }
+        { name: "=",                verboseName: "=", multi: false, defaults: [true] },
+        { name: "IS_NULL",          verboseName: "NULL" },
+        { name: "NOT_NULL",         verboseName: "Not NULL" }
     ],
     [UNKNOWN]: [
-        { name: "=",                verboseName: "Is" },
-        { name: "!=",               verboseName: "Is not" },
-        { name: "IS_NULL",          verboseName: "Is empty", advanced: true },
-        { name: "NOT_NULL",         verboseName: "Not empty", advanced: true }
+        { name: "=",                verboseName: "=" },
+        { name: "!=",               verboseName: "!=" },
+        { name: "IS_NULL",          verboseName: "NULL", advanced: true },
+        { name: "NOT_NULL",         verboseName: "Not NULL", advanced: true }
     ]
 };
 

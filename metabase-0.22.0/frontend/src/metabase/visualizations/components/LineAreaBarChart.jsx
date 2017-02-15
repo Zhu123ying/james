@@ -35,7 +35,7 @@ export default class LineAreaBarChart extends Component {
         const dimensions = (settings["graph.dimensions"] || []).filter(name => name);
         const metrics = (settings["graph.metrics"] || []).filter(name => name);
         if (dimensions.length < 1 || metrics.length < 1) {
-            throw new ChartSettingsError("Which fields do you want to use for the X and Y axes?", "Data", "Choose fields");
+            throw new ChartSettingsError("您希望将哪些域加入X轴和Y轴中", "Data", "选择域");
         }
     }
 

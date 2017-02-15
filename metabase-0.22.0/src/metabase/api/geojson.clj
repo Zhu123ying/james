@@ -46,12 +46,12 @@
               (s/optional-key :builtin) s/Bool}})
 
 (def ^:private ^:const builtin-geojson
-  {:us_states       {:name        "United States"
+  {:us_states       {:name        "美国地图"
                      :url         "/app/charts/us-states.json"
                      :region_key  "name"
                      :region_name "name"
                      :builtin     true}
-   :world_countries {:name        "World"
+   :world_countries {:name        "世界地图"
                      :url         "/app/charts/world.json"
                      :region_key  "ISO_A2"
                      :region_name "NAME"

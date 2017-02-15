@@ -553,12 +553,12 @@ const SETTINGS = {
     "table.column_widths": {
     },
     "map.type": {
-        title: "Map type",
+        title: "地图类型",
         widget: ChartSettingSelect,
         props: {
             options: [
-                { name: "Pin map", value: "pin" },
-                { name: "Region map", value: "region" }
+                { name: "标针地图", value: "pin" },
+                { name: "区域地图", value: "region" }
             ]
         },
         getDefault: ([{ card, data: { cols } }]) => {
@@ -578,7 +578,7 @@ const SETTINGS = {
         }
     },
     "map.latitude_column": {
-        title: "Latitude field",
+        title: "纬度范围",
         widget: ChartSettingSelect,
         getDefault: ([{ card, data: { cols }}]) =>
             (_.find(cols, isLatitude) || {}).name,
@@ -588,7 +588,7 @@ const SETTINGS = {
         getHidden: (series, vizSettings) => vizSettings["map.type"] !== "pin"
     },
     "map.longitude_column": {
-        title: "Longitude field",
+        title: "经度范围",
         widget: ChartSettingSelect,
         getDefault: ([{ card, data: { cols }}]) =>
             (_.find(cols, isLongitude) || {}).name,
@@ -598,7 +598,7 @@ const SETTINGS = {
         getHidden: (series, vizSettings) => vizSettings["map.type"] !== "pin"
     },
     "map.region": {
-        title: "Region map",
+        title: "区域地图",
         widget: ChartSettingSelect,
         getDefault: ([{ card, data: { cols }}]) => {
             switch (card.display) {
@@ -615,7 +615,7 @@ const SETTINGS = {
         getHidden: (series, vizSettings) => vizSettings["map.type"] !== "region"
     },
     "map.metric": {
-        title: "Metric field",
+        title: "数据范围",
         widget: ChartSettingSelect,
         isValid: ([{ card, data }], vizSettings) =>
             card.visualization_settings["map.metric"] &&
@@ -628,7 +628,7 @@ const SETTINGS = {
         getHidden: (series, vizSettings) => vizSettings["map.type"] !== "region"
     },
     "map.dimension": {
-        title: "Region field",
+        title: "区域范围",
         widget: ChartSettingSelect,
         isValid: ([{ card, data }], vizSettings) =>
             card.visualization_settings["map.dimension"] &&
@@ -647,11 +647,11 @@ const SETTINGS = {
     "map.center_longitude": {
     },
     "map.pin_type": {
-        title: "Pin type",
+        title: "标针类型",
         // Don't expose this in the UI for now
         // widget: ChartSettingSelect,
         props: {
-            options: [{ name: "Tiles", value: "tiles" }, { name: "Markers", value: "markers" }]
+            options: [{ name: "标题", value: "tiles" }, { name: "标记", value: "markers" }]
         },
         getDefault: (series) => series[0].data.rows.length >= 1000 ? "tiles" : "markers",
         getHidden: (series, vizSettings) => vizSettings["map.type"] !== "pin"

@@ -21,11 +21,11 @@ export default class Map extends Component {
     static checkRenderable(cols, rows, settings) {
         if (settings["map.type"] === "pin") {
             if (!settings["map.longitude_column"] || !settings["map.latitude_column"]) {
-                throw new ChartSettingsError("Please select longitude and latitude columns in the chart settings.", "Data");
+                throw new ChartSettingsError("使用地图类型的展示方式前，请在图表设置中选择经度和纬度列。", "Data");
             }
         } else if (settings["map.type"] === "region"){
             if (!settings["map.dimension"] || !settings["map.metric"]) {
-                throw new ChartSettingsError("Please select region and metric columns in the chart settings.", "Data");
+                throw new ChartSettingsError("使用地图类型的展示方式前，您需要先设置地图区域和要展示的数据段。", "Data");
             }
         }
     }

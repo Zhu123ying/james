@@ -130,7 +130,8 @@ export default class DatabaseStep extends Component {
                     <StepTitle title={stepText} number={stepNumber} />
                     <div className="mb4">
                         <div style={{maxWidth: 600}} className="Form-field Form-offset">
-                            链接您的数据库，请确认您拥有对应的用户名、密码。当然，我们也会提供给您一份简单的数据作为测试使用。
+                            <p>链接您的数据库，请确认您拥有对应的用户名、密码。</p>
+                            <p>当然，我们也会提供给您一份简单的数据作为测试使用。</p>
                         </div>
 
                         <FormField fieldName="engine">

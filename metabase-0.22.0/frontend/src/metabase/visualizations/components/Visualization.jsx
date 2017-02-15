@@ -163,14 +163,14 @@ export default class Visualization extends Component {
         if (!loading && !error) {
             settings = this.props.settings || getSettings(series);
             if (!CardVisualization) {
-                error = "Could not find visualization";
+                error = "无法找到可视化";
             } else {
                 try {
                     if (CardVisualization.checkRenderable) {
                         CardVisualization.checkRenderable(series[0].data.cols, series[0].data.rows, settings);
                     }
                 } catch (e) {
-                    error = e.message || "Could not display this chart with this data.";
+                    error = e.message || "当前数据无法以这种形式展示";
                     if (e instanceof ChartSettingsError && this.props.onOpenChartSettings) {
                         error = (
                             <div>
@@ -230,7 +230,7 @@ export default class Visualization extends Component {
                 // on dashboards we should show the "No results!" warning if there are no rows or there's a MinRowsError and actualRows === 0
                 : isDashboard && noResults ?
                     <div className={"flex-full px1 pb1 text-centered flex flex-column layout-centered " + (isDashboard ? "text-slate-light" : "text-slate")}>
-                        <Tooltip tooltip="No results!" isEnabled={small}>
+                        <Tooltip tooltip="无对应内容!" isEnabled={small}>
                             <img src="/app/img/no_results.svg" />
                         </Tooltip>
                         { !small &&
@@ -257,13 +257,13 @@ export default class Visualization extends Component {
                                 <div className="h4 text-bold mb1">Still Waiting...</div>
                                 { isSlow === "usually-slow" ?
                                     <div>
-                                        This usually takes an average of <span style={{whiteSpace: "nowrap"}}>{duration(expectedDuration)}</span>.
+                                        这儿常见的平均值为：<span style={{whiteSpace: "nowrap"}}>{duration(expectedDuration)}</span>.
                                         <br />
-                                        (This is a bit long for a dashboard)
+                                        (这对于数据面板来说有点儿长)
                                     </div>
                                 :
                                     <div>
-                                        This is usually pretty fast, but seems to be taking awhile right now.
+                                        计算过程通常较短，请您耐心等待。
                                     </div>
                                 }
                             </div>

@@ -2,7 +2,7 @@
 import React, { Component, PropTypes } from "react";
 import { Link } from "react-router";
 
-//import LogoIcon from 'metabase/components/LogoIcon.jsx';
+import LogoIcon from 'metabase/components/LogoIcon.jsx';
 import NewsletterForm from 'metabase/components/NewsletterForm.jsx';
 import MetabaseAnalytics from "metabase/lib/analytics";
 import MetabaseSettings from "metabase/lib/settings";
@@ -37,9 +37,7 @@ export default class Setup extends Component {
     renderFooter() {
         const { tag } = MetabaseSettings.get('version');
         return (
-            <div className="SetupHelp bordered border-dashed p2 rounded mb4" >
-                If you feel stuck, <a className="link" href={"http://www.metabase.com/docs/"+tag+"/setting-up-metabase"} target="_blank">our getting started guide</a> is just a click away.
-            </div>
+            " "
         );
     }
 
@@ -50,8 +48,7 @@ export default class Setup extends Component {
             return (
                 <div className="relative full-height flex flex-full layout-centered">
                     <div className="wrapper wrapper--trim text-centered">
-                        <h1>DataUltra BI</h1>
-                        
+                        <LogoIcon className="text-brand mb4" width={89} height={118}></LogoIcon>
                         <div className="relative z2 text-centered ml-auto mr-auto" style={{maxWidth: 550}}>
                             <h1 style={{fontSize: '2.2rem'}} className="text-brand">欢迎使用DataUltra BI</h1>
                             <p className="text-body">部署完成！现在链接数据库，然后开始工作吧！</p>
@@ -82,9 +79,6 @@ export default class Setup extends Component {
                             { setupComplete ?
                                 <section className="SetupStep rounded SetupStep--active flex flex-column layout-centered p4">
                                     <h1 style={{fontSize: "xx-large"}} className="text-light pt2 pb2">初始设置完成!</h1>
-                                    <div className="pt4">
-                                        <NewsletterForm initialEmail={userDetails && userDetails.email} />
-                                    </div>
                                     <div className="pt4 pb2">
                                         <Link to="/?new" className="Button Button--primary" onClick={this.completeSetup.bind(this)}>开始使用</Link>
                                     </div>

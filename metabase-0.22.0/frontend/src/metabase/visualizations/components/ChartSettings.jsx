@@ -71,7 +71,7 @@ class ChartSettings extends Component {
 
     onChangeSettings = (newSettings) => {
         for (const key of Object.keys(newSettings)) {
-            MetabaseAnalytics.trackEvent("Chart Settings", "Change Setting", key);
+            MetabaseAnalytics.trackEvent("图标设置", "更改设置", key);
         }
         const settings = {
             ...this.state.settings,

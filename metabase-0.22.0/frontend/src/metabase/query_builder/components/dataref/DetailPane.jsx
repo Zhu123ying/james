@@ -11,7 +11,7 @@ const DetailPane = ({ name, description, error, usefulQuestions, useForCurrentQu
         </p>
         { useForCurrentQuestion && useForCurrentQuestion.length > 0 ?
             <div className="py1">
-                <p className="text-bold">Use for current question</p>
+                <p className="text-bold">添加到当前查询中</p>
                 <ul className="my2">
                 {useForCurrentQuestion.map((item, index) =>
                     <li className="mt1" key={index}>

@@ -100,7 +100,7 @@ export default class Column extends Component {
                             <div className="flex-full px1">
                                 <Select
                                     className="TableEditor-field-special-type block"
-                                    placeholder="Select a special type"
+                                    placeholder="选择一个特殊的类型"
                                     value={_.find(MetabaseCore.field_special_types, (type) => type.id === this.props.field.special_type)}
                                     options={specialTypes}
                                     onChange={this.onSpecialTypeChange}

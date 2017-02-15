@@ -41,7 +41,7 @@ export default class PreferencesStep extends Component {
         let { activeStep, allowTracking, setupComplete, stepNumber, setActiveStep } = this.props;
         const { tag } = MetabaseSettings.get('version');
 
-        let stepText = '您已完成基础设置';
+        let stepText = '基础设置';
         if (setupComplete) {
             stepText = allowTracking ? "开始使用！" : "开始使用！";
         }
@@ -76,7 +76,7 @@ export default class PreferencesStep extends Component {
 
                         <div className="Form-actions">
                             <button className="Button Button--primary">
-                                Next
+                                下一步
                             </button>
                             { /* FIXME: <mb-form-message form="usageForm"></mb-form-message>*/ }
                         </div>

@@ -134,32 +134,32 @@ export default class Activity extends Component {
                 break;
             case "metric-create":
                 if(item.model_exists) {
-                    description.summary = (<span>added the metric <Link to={Urls.tableRowsQuery(item.database_id, item.table_id, item.model_id)} data-metabase-event={"Activity Feed;Header Clicked;Metric -> "+item.topic} className="link text-dark">{item.details.name}</Link> to the <Link to={Urls.tableRowsQuery(item.database_id, item.table_id)} data-metabase-event={"Activity Feed;Header Clicked;Table -> "+item.topic} className="link text-dark">{item.table.display_name}</Link> table</span>);
+                    description.summary = (<span>新增查询条件：<Link to={Urls.tableRowsQuery(item.database_id, item.table_id, item.model_id)} data-metabase-event={"Activity Feed;Header Clicked;Metric -> "+item.topic} className="link text-dark">{item.details.name}</Link> - <Link to={Urls.tableRowsQuery(item.database_id, item.table_id)} data-metabase-event={"Activity Feed;Header Clicked;Table -> "+item.topic} className="link text-dark">{item.table.display_name}</Link></span>);
                 } else {
-                    description.summary = (<span>added the metric <span className="text-dark">{item.details.name}</span></span>);
+                    description.summary = (<span>新增查询条件：<span className="text-dark">{item.details.name}</span></span>);
                 }
                 break;
             case "metric-update":
                 if(item.model_exists) {
-                    description.summary = (<span>made changes to the metric <Link to={Urls.tableRowsQuery(item.database_id, item.table_id, item.model_id)} data-metabase-event={"Activity Feed;Header Clicked;Metric -> "+item.topic} className="link text-dark">{item.details.name}</Link> in the <Link to={Urls.tableRowsQuery(item.database_id, item.table_id)} data-metabase-event={"Activity Feed;Header Clicked;Table -> "+item.topic} className="link text-dark">{item.table.display_name}</Link> table</span>);
+                    description.summary = (<span>修改了查询条件：<Link to={Urls.tableRowsQuery(item.database_id, item.table_id, item.model_id)} data-metabase-event={"Activity Feed;Header Clicked;Metric -> "+item.topic} className="link text-dark">{item.details.name}</Link> - <Link to={Urls.tableRowsQuery(item.database_id, item.table_id)} data-metabase-event={"Activity Feed;Header Clicked;Table -> "+item.topic} className="link text-dark">{item.table.display_name}</Link></span>);
                 } else {
-                    description.summary = (<span>made changes to the metric <span className="text-dark">{item.details.name}</span></span>);
+                    description.summary = (<span>修改了查询条件：<span className="text-dark">{item.details.name}</span></span>);
                 }
                 break;
             case "metric-delete":
-                description.summary = "removed the metric "+item.details.name;
+                description.summary = "移除了查询条件："+item.details.name;
                 break;
             case "pulse-create":
-                description.summary = "created a pulse";
+                description.summary = "创建了一条推送";
                 break;
             case "pulse-delete":
-                description.summary = "deleted a pulse";
+                description.summary = "删除了一条推送";
                 break;
             case "segment-create":
                 if(item.model_exists) {
                     description.summary = (
                         <span>
-                            added the filter <Link to={Urls.tableRowsQuery(item.database_id, item.table_id, null, item.model_id)} data-metabase-event={"Activity Feed;Header Clicked;Segment -> "+item.topic} className="link text-dark">{item.details.name}</Link> to the <Link to={Urls.tableRowsQuery(item.database_id, item.table_id)} data-metabase-event={"Activity Feed;Header Clicked;Table -> "+item.topic} className="link text-dark">{item.table.display_name}</Link> table
+                            新增筛选器：<Link to={Urls.tableRowsQuery(item.database_id, item.table_id, null, item.model_id)} data-metabase-event={"Activity Feed;Header Clicked;Segment -> "+item.topic} className="link text-dark">{item.details.name}</Link> - <Link to={Urls.tableRowsQuery(item.database_id, item.table_id)} data-metabase-event={"Activity Feed;Header Clicked;Table -> "+item.topic} className="link text-dark">{item.table.display_name}</Link>
                         </span>
                     );
                 } else {
@@ -168,9 +168,9 @@ export default class Activity extends Component {
                 break;
             case "segment-update":
                 if(item.model_exists) {
-                    description.summary = (<span>made changes to the filter <Link to={Urls.tableRowsQuery(item.database_id, item.table_id, null, item.model_id)} data-metabase-event={"Activity Feed;Header Clicked;Segment -> "+item.topic} className="link text-dark">{item.details.name}</Link> in the <Link to={Urls.tableRowsQuery(item.database_id, item.table_id)} data-metabase-event={"Activity Feed;Header Clicked;Table -> "+item.topic} className="link text-dark">{item.table.display_name}</Link> table</span>);
+                    description.summary = (<span>修改筛选器：<Link to={Urls.tableRowsQuery(item.database_id, item.table_id, null, item.model_id)} data-metabase-event={"Activity Feed;Header Clicked;Segment -> "+item.topic} className="link text-dark">{item.details.name}</Link> - <Link to={Urls.tableRowsQuery(item.database_id, item.table_id)} data-metabase-event={"Activity Feed;Header Clicked;Table -> "+item.topic} className="link text-dark">{item.table.display_name}</Link></span>);
                 } else {
-                    description.summary = (<span>made changes to the filter <span className="text-dark">{item.details.name}</span></span>);
+                    description.summary = (<span>修改筛选器：<span className="text-dark">{item.details.name}</span></span>);
                 }
                 break;
             case "segment-delete":

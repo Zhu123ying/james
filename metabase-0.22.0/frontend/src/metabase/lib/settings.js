@@ -83,7 +83,7 @@ const MetabaseSettings = {
         });
 
         if (clauses.length > 0) {
-            return description+" 且包含 "+clauses.join(", ");
+            return description+" 且包含数字";
         } else {
             return description;
         }

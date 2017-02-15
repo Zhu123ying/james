@@ -292,13 +292,7 @@ export default class QueryHeader extends Component {
                 'text-brand': this.props.uiControls.isShowingTemplateTagsEditor,
                 'text-brand-hover': !this.props.uiControls.isShowingTemplateTagsEditor
             });
-            buttonSections.push([
-                <Tooltip key="parameterEdititor" tooltip="变量">
-                    <a className={parametersButtonClasses}>
-                        <Icon name="variable" size={16} onClick={this.props.toggleTemplateTagsEditor}></Icon>
-                    </a>
-                </Tooltip>
-            ]);
+           
         }
 
         // add to dashboard

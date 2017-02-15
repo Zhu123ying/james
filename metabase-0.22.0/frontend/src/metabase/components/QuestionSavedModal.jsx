@@ -13,13 +13,13 @@ export default class QuestionSavedModal extends Component {
         return (
             <ModalContent
                 id="QuestionSavedModal"
-                title="Saved! Add this to a dashboard?"
+                title="已保存! 要添加到数据面板吗?"
                 onClose={this.props.onClose}
                 className="Modal-content Modal-content--small NewForm"
             >
                 <div className="Form-inputs mb4">
-                    <button className="Button Button--primary" onClick={this.props.addToDashboardFn}>Yes please!</button>
-                    <button className="Button ml3" onClick={this.props.onClose}>Not now</button>
+                    <button className="Button Button--primary" onClick={this.props.addToDashboardFn}>立即加入!</button>
+                    <button className="Button ml3" onClick={this.props.onClose}>稍后加入</button>
                 </div>
             </ModalContent>
         );
