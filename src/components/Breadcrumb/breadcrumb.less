@@ -1,0 +1,82 @@
+/*
+ * @Author: SiMeiyu
+ * @Date: 2017-07-04 09:57:16
+ */
+
+@import (reference) '../../css/variables.less';
+.@{ult-prefix}-breadcrumb {
+  padding: @base-space @base-space * 3;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  div {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: flex-end;
+  }
+  span {
+    padding: @base-space @base-space @base-space 0;
+    color: @text-body;
+    &.title {
+      line-height: @base-space * 3;
+      font-size: 20px;
+    }
+    &.description {
+      font-size: 12px;
+    }
+  }
+  ul {
+    list-style-type: none;
+    font-size: 12px;
+    flex: 0 0 auto;
+    li {
+      color: #7c7c7c;
+      display: inline-block;
+      &:first-child a:before {
+        content: '\e634';
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        font-size: 14px;
+        font-family: 'iconfont';
+        margin-right: @base-space;
+        color: @text-caption;
+      }
+      &:not(:last-child) {
+        padding-right: @base-space * 3;
+        position: relative;
+        // &::after {
+        //   position: absolute;
+        //   content: '/ ';
+        //   right: @base-space;
+        //   top: 0;
+        //   color: @text-disable;
+        //   font-size: 12px;
+        // }
+        .@{ult-prefix}-breadcrumb-separator {
+          position: absolute;
+          right: @base-space;
+          top: 0;
+          color: @text-disable;
+          font-size: 12px;
+          padding: 0;
+        }
+      }
+      a {
+        text-decoration: none;
+        color: @text-caption;
+        font-size: 12px;
+        &:hover,
+        &:hover:before {
+          color: @text-caption;
+        }
+      }
+      &:last-child {
+        font-weight: bold;
+      }
+    }
+    li.disabled {
+      color: @btn-disable-color;
+    }
+  }
+}

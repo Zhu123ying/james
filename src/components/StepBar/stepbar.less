@@ -1,0 +1,108 @@
+@import '../../css/variables.less';
+.@{ult-prefix}-stepbar {
+  height: 70px;
+  line-height: 50px;
+  // padding-top: 10px;
+  padding-bottom: 8px;
+  .stepbar-item {
+    background-color: #ffffff;
+    display: inline-block;
+    text-align: center;
+    &.isFirst {
+      .stepbar-body {
+        .stepbar-line.left {
+          display: none;
+        }
+      }
+    }
+    &.isLast {
+      .stepbar-body {
+        .stepbar-line.right {
+          display: none;
+        }
+      }
+    }
+    &.past {
+      .stepbar-body {
+        .stepbar-line {
+          border-top-color: @primary-quick;
+        }
+      }
+    }
+    &.now {
+      .stepbar-body {
+        .stepbar-title {
+          color: @text-headline;
+        }
+        .stepbar-line {
+          &.left {
+            border-top-color: @primary-quick;
+          }
+          &.right {
+            border-top-color: @border;
+          }
+        }
+      }
+    }
+    &.future {
+      .stepbar-body {
+        .stepbar-line {
+          border-top-color: @border;
+        }
+      }
+    }
+    .stepbar-body {
+      position: relative;
+      .stepbar-title {
+        color: @text-caption;
+        display: inline-block;
+        position: relative;
+        z-index: 2;
+        background-color: white;
+        padding: 8px;
+        line-height: 18px;
+      }
+      .circle {
+        width: 18px;
+        height: 18px;
+        border: 3px solid fade(@primary-quick, 50%);
+        border-radius: 50%;
+        vertical-align: middle;
+        margin-right: 8px;
+        display: inline-block;
+        &.past {
+          border-color: fade(@primary-quick, 50%);
+        }
+        &.future {
+          border-color: @border;
+        }
+        &.now {
+          border-color: @primary-quick;
+          .inner-circle {
+            width: 6px;
+            height: 6px;
+            border: 3px solid @primary-quick;
+            border-radius: 50%;
+            position: relative;
+            top: 3px;
+            left: 3px;
+          }
+        }
+      }
+      .stepbar-line {
+        border-top: 1px solid black;
+        position: absolute;
+        top: 50%;
+        z-index: 1;
+        &.left {
+          left: 0;
+          right: 50%;
+        }
+        &.right {
+          left: 50%;
+          right: 0;
+        }
+      }
+    }
+  }
+}

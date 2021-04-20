@@ -1,0 +1,46 @@
+@import (reference) '../../css/variables.less';
+
+.@{ult-prefix}-error-page {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    .error-page-image {
+        width: 260px;
+        height: 160px;
+        float: right;
+        background-repeat: no-repeat;
+        background-position: 100%;
+        &.select-cloud-env {
+            background-image: url(../../assets/errors/10001.png);
+        }
+        
+        &.page-not-found {
+            background-image: url(../../assets/errors/404.png);
+        }
+
+        &.has-no-vdc {
+            background-image: url(../../assets/errors/10002.svg);
+        }
+    }
+
+    .error-page-detail {
+        .error-page-detail-message {
+            font-size: 18px;
+            color: @text-body;
+            margin-bottom: 10px;
+        }
+
+        .error-page-detail-submessage {
+            font-size: 14px;
+            color: @text-caption;
+        }
+
+        .error-page-detail-strong {
+            color: @text-body;
+            background-color: fade(@success, 20%);
+            padding: 3px 5px;
+            margin: 0px 3px;
+        }
+    }
+}

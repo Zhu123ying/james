@@ -1,0 +1,27 @@
+const zh_CN = {
+    userName: '用户名',
+    password: '密码',
+    LoginInputLoginNamePlaceholder: '请输入用户名',
+    InputPasswordPlaceholder: '请输入密码',
+    login: '登录',
+    PageNotFoundMessage: '资源无法找到，请重新查找！',
+    SignOut: '退出',
+    Cancel: '取消',
+    Create: '创建',
+    SettingBaseInfo: '基本信息',
+    PrivateNetworkDetails: '创建新的虚拟网络（网络模式为VLAN，由部署人员在云平台初始化时设置）。<br /><br />VLAN ID通过下拉的方式选取可用ID。',
+    AddSubnet: '添加子网',
+    PrivateNetworkDetailsAddSubnet: '可选择创建虚拟网络的同时创建子网，最多创建10个子网。也可在创建好的虚拟网络详情按需创建更多子网，或设置其他高级选项。<br /><br />每个子网默认会占用1个最小的IP作为网关，以及除网关之外2个IP作为DHCP端口。',
+    ArcherCreateBaseInfo: '创建多台桌面时，单个用户只会绑定一个桌面。<br /><br />单台桌面最多挂载14块数据盘。<br /><br />单次最多可开通10台桌面。',
+    NoPrivilegeMessage: '抱歉，您的访问请求失败！',
+    NoPrivilegeSubMessage: '您可能没有访问该页面的权限，请与平台管理员联系。',
+    PageNotFoundSubMessage: '你可以尝试',
+    Return: '返回',
+    Dashboard: '主页',
+    Or: '或者',
+    Refresh: '刷新',
+    OperationManagementPlatform: '运营管理平台',
+    PortalOperationPlatform: '运维管理平台',
+    MenuName: '菜单'
+}
+export default zh_CN

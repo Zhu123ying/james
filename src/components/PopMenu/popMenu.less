@@ -1,0 +1,204 @@
+@import '~/css/variables.less';
+@import '~/css/iconfont/iconfont.css';
+
+.ult-sider-menu {
+  padding: 8px 0;
+  .ult-sider-menu-item {
+    padding: 10px 16px;
+    color: @main-left-bar-text;
+    cursor: pointer;
+    .iconfont {
+      font-size: 14px;
+    }
+    .icon-down,
+    .icon-up {
+      font-size: 12px;
+      float: right;
+      color: #4C8CCA;
+      transition: all 0.2s;
+      transform: rotate(0deg);
+      &.close {
+        transform: rotate(180deg);
+      }
+    }
+    .ult-sider-menu-item-title {
+      display: inline-block;
+      color: @main-left-bar-icon;
+      font-family: SourceHanSansSC-Normal;
+      letter-spacing: 0;
+    }
+    &.open {
+      color: @main-left-bar-blue;
+    }
+    &.oneline {
+      .ult-sider-menu-item-title {
+        color: @main-left-bar-text;
+      }
+      height: 33px;
+      line-height: 33px;
+      padding: 0 16px;
+      position: relative;
+      i {
+        margin-right: 16px;
+      }
+      &::after {
+        content: '';
+        position: absolute;
+        height: 0;
+        width: 0;
+        background: @main-left-bar-blue;
+        top: 50%;
+        left: 0;
+        transition: height 0.4s;
+        transform: translate(0, -50%);
+      }
+      &.active {
+        &::after {
+          width: 3px;
+          height: 24px;
+        }
+      }
+    }
+    &.active {
+      color: @main-left-bar-blue;
+      .ult-sider-menu-item-title {
+        color: @main-left-bar-blue;
+      }
+      .icon-down,
+      .icon-up {
+        font-size: 12px;
+        float: right;
+        color: @main-left-bar-blue;
+      }
+    }
+    &.oneline:hover {
+      cursor: pointer;
+      background: #d4d9e1;
+    }
+    &:not(.active):hover {
+      // color: #fff;
+    }
+  }
+
+  &.ult-sider-menu-collapsed {
+    .ult-sider-menu-item {
+      cursor: pointer;
+      padding: 7px 22px;
+      .iconfont {
+        font-size: 20px;
+      }
+      .icon-down,
+      .icon-up {
+        display: none;
+      }
+      .ult-sider-menu-item-title {
+        display: none;
+      }
+    }
+  }
+}
+
+.ult-sider-submenu {
+  background: transparent;
+  border: none;
+  width: 100%;
+  max-height: 500px;
+  width: 100%;
+  overflow: hidden;
+  transition: max-height 0.2s;
+  &.hidden {
+    max-height: 0;
+  }
+  &.collapsed.hidden {
+    width: 0;
+  }
+  &.collapsed {
+    background: @main-left-bar-bg;
+    border-radius: 4px;
+    width: 160px;
+    margin-left: 4px;
+    .ult-sider-submenu-item {
+      &:first-child {
+        margin-top: 4px;
+      }
+      &:last-child {
+        margin-bottom: 4px;
+      }
+      &.active > a::after {
+        display: none;
+      }
+    }
+  }
+  .ult-sider-submenu-item {
+    > a {
+      transition: color 0.2s;
+      display: inline-block;
+      width: 100%;
+      color: @main-left-bar-text;
+      padding: 0 16px;
+      box-sizing: border-box;
+      cursor: pointer;
+      > span {
+        font-family: SourceHanSansSC-Normal;
+        font-size: 14px;
+        color: #33475B;
+        letter-spacing: 0;
+      }
+      .iconfont {
+        margin-right: 16px;
+        color:  #99ACC2;;
+      }
+    }
+    &.active > a {
+      color: @main-left-bar-blue;
+      position: relative;
+      background: #EAF0F6;
+      border-radius: 3px 0 0 3px;
+      > span {
+        font-family: SourceHanSansSC-Medium;
+        font-size: 14px;
+        color: #33475B;
+        letter-spacing: 0;
+      }
+    }
+    &:hover {
+      background: #EAF0F6;
+    }
+    .ult-sider-child-submenu-title {
+      font-size: 14px;
+      color: hsla(0, 0%, 100%, 0.25);
+    }
+    .ult-sider-child-submenu-item {
+      > a {
+        display: inline-block;
+        width: 100%;
+        color: rgba(255, 255, 255, 0.57);
+      }
+      &.active > a {
+        color: @main-left-bar-blue;
+      }
+
+      &:not(.active):hover > a {
+        color: #fff;
+      }
+    }
+    .ult-silder-menu-badge {
+      margin-left: 8px;
+      min-width: 20px;
+      height: 20px;
+      padding: 0 6px;
+      color: #fff;
+      font-weight: normal;
+      font-size: 12px;
+      line-height: 20px;
+      white-space: nowrap;
+      text-align: center;
+      border-radius: 10px;
+      background: #eb5f5c;
+    }
+    .single {
+      border-radius: 50%;
+      padding: 0 4px;
+    }
+  }
+}

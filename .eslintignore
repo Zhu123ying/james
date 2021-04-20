@@ -1,0 +1,20 @@
+# dependencies
+/node_modules/*
+
+# production
+/dist/*
+
+# config
+/projectconfig/*
+
+# scripts
+/scripts/*
+
+/cache
+/mockServer/*
+
+/libs/*
+*.break.js
+*.min.js
+
+/src/libs/*

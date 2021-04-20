@@ -1,0 +1,64 @@
+@import './variables.less';
+/**
+ * margin
+ * @param  {int} @multiple: 1   基础间隔(8px)的倍数，默认1倍
+ */
+.margin(@multiple: 1) {
+    margin: @base-space * @multiple;
+}
+
+.m-r(@multiple: 1) {
+    margin-right: @base-space * @multiple;
+}
+
+.m-l(@multiple: 1) {
+    margin-left: @base-space * @multiple;
+}
+
+.m-t(@multiple: 1) {
+    margin-top: @base-space * @multiple;
+}
+
+.m-b(@multiple: 1) {
+    margin-bottom: @base-space * @multiple;
+}
+
+.m-r-l(@multiple: 1) {
+    margin: 0 @base-space * @multiple;
+}
+
+.m-t-b(@multiple: 1) {
+    margin: @base-space * @multiple 0;
+}
+
+/**
+ * padding
+ * @param  {int} @multiple: 1   基础间隔(8px)的倍数，默认1倍
+ */
+.padding(@multiple: 1) {
+    padding: @base-space * @multiple;
+}
+
+.p-r(@multiple: 1) {
+    padding-right: @base-space * @multiple;
+}
+
+.p-l(@multiple: 1) {
+    padding-left: @base-space * @multiple;
+}
+
+.p-t(@multiple: 1) {
+    padding-top: @base-space * @multiple;
+}
+
+.p-b(@multiple: 1) {
+    padding-bottom: @base-space * @multiple;
+}
+
+.p-r-l(@multiple: 1) {
+    padding: 0 @base-space * @multiple;
+}
+
+.p-t-b(@multiple: 1) {
+    padding: @base-space * @multiple 0;
+}
