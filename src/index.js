@@ -23,7 +23,9 @@ export async function mount(props) {
       <IntlProvider locale={navigator.language} messages={zh}>
         <Provider store={store}>
           <ConnectedRouter history={history}>
-            <App />
+            <ConfigProvider prefixCls="ult" locale={window.LangCode === 'zh_CN' ? zhCN : en}>
+              <App />
+            </ConfigProvider>
           </ConnectedRouter>
         </Provider>
       </IntlProvider>
