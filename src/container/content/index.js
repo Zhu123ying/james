@@ -4,6 +4,7 @@ import { renderRoutes } from 'react-router-config'
 import routes from '~/router/routes'
 
 const Container = props => {
+    const { route: { routes } } = props
     return (
         <div>
             Container

@@ -3,6 +3,7 @@ import { Row, Col } from '@huayun/ultraui'
 import { useIntl } from 'react-intl'
 
 const PageNotFound = props => {
+    console.log(props)
     let { prefixCls = 'ult' } = props
     const intl = useIntl()
     return (
