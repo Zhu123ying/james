@@ -1,5 +1,5 @@
 const en = {
-    'app.learn': 'Learn {name}'
+    'app.learn': 'asaas'
 }
 
 export default en
