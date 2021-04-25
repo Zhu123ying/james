@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 const zh_CN = {
     userName: '用户名',
     password: '密码',
@@ -22,6 +24,11 @@ const zh_CN = {
     Refresh: '刷新',
     OperationManagementPlatform: '运营管理平台',
     PortalOperationPlatform: '运维管理平台',
-    MenuName: '菜单'
+    MenuName: '菜单',
+    '-': '-',
+    ApplicationManage: '应用管理',
+    DesApplicationManage: '这是应用管理的描述',
+    ApplicationCenter: '应用中心',
+    DesApplicationCenter: '这是应用中心的描述',
 }
 export default zh_CN

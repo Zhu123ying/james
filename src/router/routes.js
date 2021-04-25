@@ -1,3 +1,4 @@
+/* eslint-disable */
 import ApplicationCenter from '~/container/content'
 import ApplicationManage from '~/pages/applicationManage'
 import PageNotFound from '~/container/error'
@@ -12,10 +13,11 @@ const routers = [
       {
         path: "/applicationCenter/appManage",
         component: ApplicationManage,
-        title: '应用管理',
-        desc: '这是应用管理的描述',
+        name: 'ApplicationManage',
         key: 'applicationManage',
-        exact: true
+        exact: true,
+        langCode: 'ApplicationManage',
+        descLangCode: 'DesApplicationManage',
       }
     ]
   },

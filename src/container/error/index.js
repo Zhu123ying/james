@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import { Row, Col } from '@huayun/ultraui'
 import { useIntl } from 'react-intl'
+import './index.less'
 
 const PageNotFound = props => {
     let { prefixCls = 'ult' } = props
