@@ -7,11 +7,13 @@ const routers = [
   {
     path: '/applicationCenter',
     key: 'applicationCenter',
-    name: '应用中心',
+    name: 'ApplicationCenter',
     component: ApplicationCenter,
+    langCode: 'ApplicationCenter',
+    descLangCode: 'DesApplicationCenter',
     routes: [
       {
-        path: "/applicationCenter/appManage",
+        path: "/applicationCenter/applicationManage",
         component: ApplicationManage,
         name: 'ApplicationManage',
         key: 'applicationManage',

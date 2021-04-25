@@ -9,7 +9,7 @@ const App = () => {
     <>
       <Switch>
         <Route exact path="/">
-          <Redirect to="/applicationCenter/appManage" />
+          <Redirect to="/applicationCenter/applicationManage" />
         </Route>
         {renderRoutes(routes)}
       </Switch>

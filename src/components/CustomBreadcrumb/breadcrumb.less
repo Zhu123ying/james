@@ -1,0 +1,124 @@
+@import '~/css/variables.less';
+.@{ult-prefix}-breadcrumb {
+	padding: @base-space @base-space * 3;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	div {
+		flex: 0 0 auto;
+		display: flex;
+		align-items: flex-end;
+	}
+	span {
+		padding: @base-space @base-space @base-space 0;
+		color: @text-body;
+		&.title {
+			line-height: @base-space * 3;
+			font-size: 20px;
+		}
+		&.description {
+			font-size: 12px;
+		}
+	}
+	ul {
+		list-style-type: none;
+		font-size: 12px;
+		flex: 0 0 auto;
+		li {
+			color: #7c7c7c;
+			display: inline-block;
+			&:first-child a:before {
+				content: "\e634";
+				display: inline-block;
+				width: 12px;
+				height: 12px;
+				font-size: 14px;
+				font-family: "iconfont";
+				margin-right: @base-space;
+				color: @text-caption;
+			}
+			&:not(:last-child) {
+				padding-right: @base-space * 3;
+				position: relative;
+				&::after {
+					position: absolute;
+					content: '/ ';
+					right: @base-space;
+					top: 0;
+					color: @text-disable;
+					font-size: 12px;
+				}
+			}
+			a {
+				text-decoration: none;
+				color: @text-caption;
+				font-size: 12px;
+				&:hover,
+				&:hover:before {
+					color: @text-caption;
+				}
+			}
+			&:last-child {
+				font-weight: bold;
+			}
+		}
+		li.disabled {
+			color: @btn-disable-color;
+		}
+	}
+}
+
+.ult-breadCrumb-border {
+	border-top: 1px solid #ededed;
+	border-bottom: 1px solid #ededed;
+}
+.ult-breadCrumb-block {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 58px;
+	background: #fff;
+	.ult-breadCrumb-block-left {
+		flex: 1;
+		.ult-breadCrumb-module {
+			display: flex;
+			padding-left: 25px;
+			.ult-breadCrumb-module-title {
+				span:nth-child(1) {
+					font-family: 'SourceHanSansSC-Medium', 'Source Han Sans SC Medium', 'Source Han Sans SC Normal',
+						'Source Han Sans SC', sans-serif;
+					font-weight: 500;
+					font-style: normal;
+					font-size: 20px;
+					color: #33475b;
+					text-align: left;
+					margin-right: 4px;
+					line-height: 20px;
+				}
+				.anticon-question-circle {
+					color: #7c98b6;
+				}
+			}
+		}
+	}
+	.ult-breadCrumb-block-right {
+		padding-right: 25px;
+	}
+	.ult-breadCrumb {
+		display: flex;
+		padding-left: 25px;
+		font-size: 12px;
+		.ult-breadcrumb-link {
+			a {
+				color: #7c98b6;
+			}
+		}
+	}
+}
+.ult-breadcrumb {
+	.ult-breadcrumb-link {
+		a {
+			color: #7c98b6;
+		}
+	}
+}
