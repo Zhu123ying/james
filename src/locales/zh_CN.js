@@ -30,5 +30,7 @@ const zh_CN = {
     DesApplicationManage: '这是应用管理的描述',
     ApplicationCenter: '应用中心',
     DesApplicationCenter: '这是应用中心的描述',
+    ApplicationPackageManage: '应用包管理',
+    DesApplicationPackageManage: '这是应用包管理的描述',
 }
 export default zh_CN

@@ -11,12 +11,12 @@ import { useIntl } from 'react-intl'
 import './breadcrumb.less'
 
 const CustomBreadcrumb = ({
-    prefixCls,
+    prefixCls = 'ult',
     routes,
     params,
-    hiddenLinkDesc,
+    hiddenLinkDesc = false,
     webName,
-    show,
+    show = true,
     extraItem
 }) => {
     const intl = useIntl()

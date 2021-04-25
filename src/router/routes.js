@@ -1,6 +1,7 @@
 /* eslint-disable */
 import ApplicationCenter from '~/container/content'
 import ApplicationManage from '~/pages/applicationManage'
+import ApplicationPackageManage from '~/pages/applicationPackageManage'
 import PageNotFound from '~/container/error'
 
 const routers = [
@@ -20,6 +21,15 @@ const routers = [
         exact: true,
         langCode: 'ApplicationManage',
         descLangCode: 'DesApplicationManage',
+      },
+      {
+        path: "/applicationCenter/applicationPackageManage",
+        component: ApplicationPackageManage,
+        name: 'ApplicationPackageManage',
+        key: 'ApplicationPackageManage',
+        exact: true,
+        langCode: 'ApplicationPackageManage',
+        descLangCode: 'DesApplicationPackageManage',
       }
     ]
   },

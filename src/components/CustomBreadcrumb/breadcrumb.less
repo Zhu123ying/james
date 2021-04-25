@@ -1,73 +1,3 @@
-@import '~/css/variables.less';
-.@{ult-prefix}-breadcrumb {
-	padding: @base-space @base-space * 3;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	div {
-		flex: 0 0 auto;
-		display: flex;
-		align-items: flex-end;
-	}
-	span {
-		padding: @base-space @base-space @base-space 0;
-		color: @text-body;
-		&.title {
-			line-height: @base-space * 3;
-			font-size: 20px;
-		}
-		&.description {
-			font-size: 12px;
-		}
-	}
-	ul {
-		list-style-type: none;
-		font-size: 12px;
-		flex: 0 0 auto;
-		li {
-			color: #7c7c7c;
-			display: inline-block;
-			&:first-child a:before {
-				content: "\e634";
-				display: inline-block;
-				width: 12px;
-				height: 12px;
-				font-size: 14px;
-				font-family: "iconfont";
-				margin-right: @base-space;
-				color: @text-caption;
-			}
-			&:not(:last-child) {
-				padding-right: @base-space * 3;
-				position: relative;
-				&::after {
-					position: absolute;
-					content: '/ ';
-					right: @base-space;
-					top: 0;
-					color: @text-disable;
-					font-size: 12px;
-				}
-			}
-			a {
-				text-decoration: none;
-				color: @text-caption;
-				font-size: 12px;
-				&:hover,
-				&:hover:before {
-					color: @text-caption;
-				}
-			}
-			&:last-child {
-				font-weight: bold;
-			}
-		}
-		li.disabled {
-			color: @btn-disable-color;
-		}
-	}
-}
-
 .ult-breadCrumb-border {
 	border-top: 1px solid #ededed;
 	border-bottom: 1px solid #ededed;
@@ -108,17 +38,19 @@
 		display: flex;
 		padding-left: 25px;
 		font-size: 12px;
-		.ult-breadcrumb-link {
+		.archer-breadcrumb-link {
 			a {
 				color: #7c98b6;
 			}
 		}
 	}
 }
-.ult-breadcrumb {
-	.ult-breadcrumb-link {
-		a {
-			color: #7c98b6;
-		}
-	}
+
+.ult-breadCrumb > span:last-child .archer-breadcrumb-separator {
+    display: none;
+}
+
+.archer-breadcrumb-separator {
+    margin: 0 8px;
+    color: #516f90;
 }

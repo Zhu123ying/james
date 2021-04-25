@@ -6,8 +6,7 @@ import routes from '~/router/routes'
 import Breadcrumb from '~/components/CustomBreadcrumb'
 
 const Container = props => {
-    console.log(props.route)
-    const { route: currentRoute, match } = props
+    const { route: currentRoute, match, location: { pathname } } = props
     const intl = useIntl()
     const [extraItem, setExtraItem] = useState({})
     // 添加slot模块
@@ -17,26 +16,31 @@ const Container = props => {
         },
         [setExtraItem]
     )
+    let breadcrumbRoutes = []
+    const getBreadcrumbRoutes = (arr) => {
+        return arr.map(item => {
+            if ((pathname.indexOf(item.path) > -1) && (item.path !== '/')) {
+                breadcrumbRoutes.push(item)
+                if ((pathname !== item.path) && item.routes) {
+                    item.routes && getBreadcrumbRoutes(item.routes)
+                }
+            }
+        })
+    }
+    getBreadcrumbRoutes(routes)
     return (
         <div>
             <Breadcrumb
-                // show={isShow}
-                mode="menu"
-                routes={routes}
+                routes={breadcrumbRoutes}
                 params={match.params}
                 webName={_.get(localStorage, 'siteTitle', '')}
-                // hiddenLinkDesc={hiddenLinkDesc}
                 extraItem={extraItem}
             />
             {
-                renderRoutes(currentRoute.routes)
+                renderRoutes(currentRoute.routes, { intl })
             }
         </div>
     )
 }
-
-// Container.propTypes = {
-//     prefixCls: PropTypes.string
-// }
 
 export default Container

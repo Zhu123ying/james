@@ -7,6 +7,9 @@ import { IntlProvider } from 'react-intl'
 import { ConnectedRouter } from 'connected-react-router'
 import zh from './locales/zh_CN'
 import { ConfigProvider } from 'huayunui'
+import 'huayunui/dist/index.css'
+import '~/css/common.less'
+import '~/css/newstyle.less'
 
 export async function bootstrap() {
   console.log('子应用初始化成功')
@@ -24,7 +27,7 @@ export async function mount(props) {
       <IntlProvider locale={navigator.language} messages={zh}>
         <Provider store={store}>
           <ConnectedRouter history={history}>
-            <ConfigProvider prefixCls="ult" locale={navigator.language}>
+            <ConfigProvider prefixCls="archer" locale={navigator.language}>
               <App />
             </ConfigProvider>
           </ConnectedRouter>
@@ -54,7 +57,7 @@ if (!window.__POWERED_BY_QIANKUN__) {
       <IntlProvider locale={navigator.language} messages={zh}>
         <Provider store={store}>
           <ConnectedRouter history={history}>
-            <ConfigProvider prefixCls="ult" locale={navigator.language}>
+            <ConfigProvider prefixCls="archer" locale={navigator.language}>
               <App />
             </ConfigProvider>
           </ConnectedRouter>

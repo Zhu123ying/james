@@ -7,8 +7,8 @@ const ApplicationPackageManage = props => {
     return 'ApplicationPackageManage'
 }
 
-ApplicationManage.propTypes = {
+ApplicationPackageManage.propTypes = {
     prefixCls: PropTypes.string
 }
 
-export default ApplicationManage
+export default ApplicationPackageManage
