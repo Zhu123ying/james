@@ -1,5 +1,11 @@
-const testApi = {
-    getSite: 'platform/getSite'
-}
+import application from './application'
+import applicationPackage from './applicationPackage'
+import applicationStore from './applicationStore'
+import resource from './resource'
 
-export default testApi
+export {
+    application,
+    applicationPackage,
+    applicationStore,
+    resource
+}

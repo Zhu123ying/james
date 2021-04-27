@@ -5,7 +5,7 @@
   "dependencies": {
     "huayunui": "^1.1.11",
     "@craco/craco": "^5.9.0",
-    "@huayun/ultraui": "^2.1.46",
+    "@huayun/ultraui": "^3.0.0-beta.2",
     "@reduxjs/toolkit": "^1.5.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",

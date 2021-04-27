@@ -29,7 +29,7 @@ const Container = props => {
     }
     getBreadcrumbRoutes(routes)
     return (
-        <div>
+        <div className='rootContent'>
             <Breadcrumb
                 routes={breadcrumbRoutes}
                 params={match.params}
