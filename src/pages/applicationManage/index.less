@@ -1,3 +1,35 @@
 .applicationManage{
+    .tableList{
+        .tableItem{
+            padding: 6px 10px;
+            display: flex;
+            justify-content: space-between;
+            cursor: pointer;
+            .appInfor{
+                .appName{
+                    display: flex;
+                    align-items: center;
+                    font-size: 14px;
+                    color: #4c8cca;
+                    .appSecondStatu{
+                        width: 6px;
+                        height: 6px;
+                        border-radius: 50px;
+                        margin-right: 6px;
+                    }
+                }
+                .projectName{
+                    font-size: 12px;
+                    color: #7c98b6;
+                    padding-left: 12px;
+                }
+            }
+            .appStatu{
 
+            }
+        }
+        .tableItem:hover, .activeItem{
+            background-color: white;
+        }
+    }
 }

@@ -10,14 +10,15 @@ import { ConfigProvider } from 'huayunui'
 import 'huayunui/dist/index.css'
 import '~/css/common.less'
 import '~/css/newstyle.less'
+import { getUserPermission } from '~/utils'
 
 export async function bootstrap() {
   console.log('子应用初始化成功')
 }
 
-export async function mount(props) {
+export async function mount({ permission }) {
   console.log('子应用加载成功')
-
+  // getUserPermission(permission) // 设置用户权限
   // 在主应用提供的dom节点下插入子应用index.html定义的节点，保证style顺利加载
   let appDom = document.createElement('div')
   appDom.id = 'childapp'

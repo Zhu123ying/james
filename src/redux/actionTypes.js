@@ -1,0 +1,1 @@
+export const GET_USER_PERMISSION = 'GET_USER_PERMISSION' // 获取用户权限

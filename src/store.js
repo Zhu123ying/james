@@ -1,6 +1,6 @@
 import { combineReducers, createStore } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
-import { CounterReducer } from './redux/counter'
+import ApplicationCenterReducer from './redux'
 import { createBrowserHistory } from 'history'
 import thunk from 'redux-thunk'
 import { routerMiddleware, connectRouter } from 'connected-react-router'
@@ -12,7 +12,7 @@ export const history = createBrowserHistory()
 /* Create root reducer, containing all features of the application */
 const rootReducer = combineReducers({
   router: connectRouter(history),
-  count: CounterReducer
+  applicationCenter: ApplicationCenterReducer
 })
 
 // 预先定义的状态

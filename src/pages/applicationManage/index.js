@@ -4,10 +4,10 @@ import PropTypes from 'prop-types'
 import { application as api } from '~/http/api'
 import HuayunRequest from '~/http/request'
 import { DatePicker, Select, Input, message } from 'huayunui';
-import { Icon } from 'ultraui'
 import ApplicationDetail from './detail'
 import './index.less'
-import { Notification } from 'ultraui'
+import { Notification, Loading, Icon } from 'ultraui'
+import { ApplicationStatuList, ApplicationSecondStatuColor } from '~/constants'
 const notification = Notification.newInstance()
 const { RangePicker } = DatePicker;
 class ApplicationManage extends React.Component {
@@ -19,9 +19,10 @@ class ApplicationManage extends React.Component {
             tags: [],
             projectId: '',
             dataList: [], // 列表数据
-            applicationId: '', // 当前的应用
+            currentApplication: {}, // 当前的应用
             pageNumber: 1,
             pageSize: 10,
+            isFetching: false
         }
     }
     componentDidMount() {
@@ -47,10 +48,16 @@ class ApplicationManage extends React.Component {
                 projectId
             }
         }
+        this.setState({
+            isFetching: true
+        })
         HuayunRequest(api.list, params, {
             success: (res) => {
+                const { data: { datas } } = res
                 this.setState({
-                    dataList: res.data.datas
+                    dataList: datas,
+                    currentApplication: datas[0] || {},
+                    isFetching: false
                 })
             },
             fail: (res) => {
@@ -63,12 +70,20 @@ class ApplicationManage extends React.Component {
                     duration: 30,
                     closable: true
                 })
+                this.setState({
+                    isFetching: false
+                })
             }
+        })
+    }
+    handleChangeTableItem = (item) => {
+        this.setState({
+            currentApplication: item
         })
     }
     render() {
         const { intl } = this.props
-        const { name, createTime, tags, projectId, dataList, applicationId } = this.state
+        const { name, createTime, tags, projectId, dataList, currentApplication, isFetching } = this.state
         const searchItems = [
             <RangePicker
                 onChange={(val) => this.handleSearchParamChange('createTime', val)}
@@ -108,14 +123,38 @@ class ApplicationManage extends React.Component {
                                 onSearch={(val) => this.handleSearchParamChange('name', val)}
                             />
                         </div>
+                        {
+                            isFetching ? <Loading /> : (
+                                <div className='tableList'>
+                                    {
+                                        dataList.map(item => {
+                                            const { id, name, projectName, state, secondState } = item
+                                            return (
+                                                <div
+                                                    className={`tableItem ${currentApplication.id === id ? 'activeItem' : ''}`}
+                                                    onClick={() => this.handleChangeTableItem(item)} >
+                                                    <div className='appInfor'>
+                                                        <div className='appName'>
+                                                            <div className={`appSecondStatu ${ApplicationSecondStatuColor[secondState]}`}></div>{name}
+                                                        </div>
+                                                        <div className='projectName'>{projectName}</div>
+                                                    </div>
+                                                    <div className='appStatu'></div>
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                </div>
+                            )
+                        }
                     </div>
                     <div className='detailContent'>
                         <ApplicationDetail
-                            applicationId={applicationId}
+                            currentApplication={currentApplication}
                             intl={intl} />
                     </div>
                 </div>
-            </div>
+            </div >
         )
     }
 }
