@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { application as api } from '~/http/api'
 import HuayunRequest from '~/http/request'
 import { DatePicker, Select, Input } from 'huayunui';
-import { Icon } from '~/pages/applicationManage/detail/log/node_modules/~/pages/applicationManage/detail/entrance/node_modules/~/pages/applicationManage/detail/detail/node_modules/ultraui'
+import { Icon } from 'ultraui'
 import './index.less'
 import ActionAuth from '~/components/ActionAuth'
 import actions from '~/constants/authAction'
@@ -22,7 +22,7 @@ class Alarm extends React.Component {
 
     }
     render() {
-        const { intl, currentApplication: { state } } = this.props
+        const { intl } = this.props
         return (
             <div className='applicationDetail_alarm'>
                 applicationDetail_preview
@@ -32,8 +32,7 @@ class Alarm extends React.Component {
 }
 
 Alarm.propTypes = {
-    intl: PropTypes.object,
-    currentApplication: PropTypes.object,
+    intl: PropTypes.object
 }
 
 export default Alarm

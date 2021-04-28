@@ -22,7 +22,7 @@ class Detail extends React.Component {
 
     }
     render() {
-        const { intl, currentApplication: { state } } = this.props
+        const { intl } = this.props
         return (
             <div className='applicationDetail_detail'>
                 applicationDetail_preview
@@ -32,8 +32,7 @@ class Detail extends React.Component {
 }
 
 Detail.propTypes = {
-    intl: PropTypes.object,
-    currentApplication: PropTypes.object,
+    intl: PropTypes.object
 }
 
 export default Detail

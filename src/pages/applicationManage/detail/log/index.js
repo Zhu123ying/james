@@ -22,7 +22,7 @@ class Log extends React.Component {
 
     }
     render() {
-        const { intl, currentApplication: { state } } = this.props
+        const { intl } = this.props
         return (
             <div className='applicationDetail_log'>
                 applicationDetail_log
@@ -32,8 +32,7 @@ class Log extends React.Component {
 }
 
 Log.propTypes = {
-    intl: PropTypes.object,
-    currentApplication: PropTypes.object,
+    intl: PropTypes.object
 }
 
 export default Log

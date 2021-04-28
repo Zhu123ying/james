@@ -22,7 +22,7 @@ class Preview extends React.Component {
 
     }
     render() {
-        const { intl, currentApplication: { state } } = this.props
+        const { intl } = this.props
         return (
             <div className='applicationDetail_preview'>
                 applicationDetail_preview
@@ -32,8 +32,7 @@ class Preview extends React.Component {
 }
 
 Preview.propTypes = {
-    intl: PropTypes.object,
-    currentApplication: PropTypes.object,
+    intl: PropTypes.object
 }
 
 export default Preview
