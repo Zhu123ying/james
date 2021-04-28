@@ -15,6 +15,9 @@ const zh_CN = {
     Create: '创建',
     Update: '更新',
     Delete: '删除',
+    Success: '成功',
+    Fail: '失败',
+    Error: '错误',
     ChangeSetting: '更改配置',
     OverView: '概览',
     Detail: '详情',
@@ -22,6 +25,7 @@ const zh_CN = {
     Alarm: '告警',
     Log: '日志',
     AppPublish: '应用发布',
+    IsSureToDelete: '确认删除{name}吗？',
     // 业务字段
     '::Manage': '管理',
     AppCenter: '应用中心',

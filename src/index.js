@@ -11,7 +11,13 @@ import 'huayunui/dist/index.css'
 import '~/css/common.less'
 import '~/css/newstyle.less'
 import { getUserPermission } from '~/utils'
+import language from '~/locales'
 
+window.LangCode = 'zh_CN'
+window.LanguageData = language
+ConfigProvider.config({
+  prefixCls: 'archer'
+})
 export async function bootstrap() {
   console.log('子应用初始化成功')
 }

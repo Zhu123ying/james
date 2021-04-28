@@ -35,11 +35,13 @@ const HuayunRequest = (api, param, callback) => http
         if (callback.fail) {
             callback.fail(response)
         } else {
+            const language = window.LanguageData[window.LangCode]
+            const { data, message } = response
             notification.notice({
                 id: new Date(),
                 type: 'danger',
                 title: '错误提示',
-                content: res.message,
+                content: data && data.errorCode ? language[data.errorCode] : message,
                 iconNode: 'icon-error-o',
                 duration: 30,
                 closable: true

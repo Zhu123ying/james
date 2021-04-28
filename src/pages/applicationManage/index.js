@@ -35,8 +35,8 @@ class ApplicationManage extends React.Component {
             this.handleSearch()
         })
     }
-    handleSearch = () => {
-        const { name, createTime, tags, projectId, pageNumber, pageSize } = this.state
+    handleSearch = (isResetCurrentApplication = false) => {
+        const { name, createTime, tags, projectId, pageNumber, pageSize, currentApplication } = this.state
         const params = {
             pageNumber,
             pageSize,
@@ -56,7 +56,7 @@ class ApplicationManage extends React.Component {
                 const { data: { datas } } = res
                 this.setState({
                     dataList: datas,
-                    currentApplication: datas[0] || {},
+                    currentApplication: (!isResetCurrentApplication && datas[0]) ? datas[0]: currentApplication,
                     isFetching: false
                 })
             },
@@ -115,16 +115,16 @@ class ApplicationManage extends React.Component {
         return (
             <div id='applicationCenter_layout' className='applicationManage'>
                 <div className='searchBar'>{searchItems}</div>
-                <div className='content'>
-                    <div className='tableContent'>
-                        <div className='nameSearch'>
-                            <Input.Search
-                                placeholder={intl.formatMessage({ id: 'Search' })}
-                                onSearch={(val) => this.handleSearchParamChange('name', val)}
-                            />
-                        </div>
-                        {
-                            isFetching ? <Loading /> : (
+                {
+                    isFetching ? <Loading /> : (
+                        <div className='content'>
+                            <div className='tableContent'>
+                                <div className='nameSearch'>
+                                    <Input.Search
+                                        placeholder={intl.formatMessage({ id: 'Search' })}
+                                        onSearch={(val) => this.handleSearchParamChange('name', val)}
+                                    />
+                                </div>
                                 <div className='tableList'>
                                     {
                                         dataList.map(item => {
@@ -145,15 +145,16 @@ class ApplicationManage extends React.Component {
                                         })
                                     }
                                 </div>
-                            )
-                        }
-                    </div>
-                    <div className='detailContent'>
-                        <ApplicationDetail
-                            currentApplication={currentApplication}
-                            intl={intl} />
-                    </div>
-                </div>
+                            </div>
+                            <div className='detailContent'>
+                                <ApplicationDetail
+                                    refreshTableList={this.handleSearch}
+                                    currentApplication={currentApplication}
+                                    intl={intl} />
+                            </div>
+                        </div>
+                    )
+                }
             </div >
         )
     }
