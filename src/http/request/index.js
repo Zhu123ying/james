@@ -43,7 +43,7 @@ const HuayunRequest = (api, param, callback) => http
                 title: '错误提示',
                 content: data && data.errorCode ? language[data.errorCode] : message,
                 iconNode: 'icon-error-o',
-                duration: 30,
+                duration: 5,
                 closable: true
             })
         }

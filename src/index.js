@@ -12,7 +12,8 @@ import '~/css/common.less'
 import '~/css/newstyle.less'
 import { getUserPermission } from '~/utils'
 import language from '~/locales'
-
+import _ from 'lodash'
+window._ = _
 window.LangCode = 'zh_CN'
 window.LanguageData = language
 ConfigProvider.config({

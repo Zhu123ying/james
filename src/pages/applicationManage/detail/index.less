@@ -37,3 +37,59 @@
         }
     }
 }
+
+.updateApplicationModal{
+    .archer-modal-content{
+        .archer-modal-body{
+            padding: 16px;
+            .codeDiff{
+                width: 100%;
+                overflow: auto;
+                .btnGroup{
+                    margin-bottom: 15px;
+                    padding-left: 130px;
+                    .archer-btn-primary{
+                        border-radius: 3px 0 0 3px;
+                    }
+                    .archer-btn-warning{
+                        border-radius: 0 3px 3px 0;
+                    }
+                }
+                .newChartValuesInput{
+                    width: 100%;
+                    // max-height: 500px;
+                    .archer-textarea{
+                        min-height: -webkit-fill-available;
+                    }
+                    .archer-label{
+                        width: 0;
+                        min-width: 0;
+                        padding-top: 0;
+                        padding-right: 0;
+                    }
+                    .archer-rcform-group-input-wrapper{
+                        width: 100%;
+                    }
+                }
+                table{
+                    border: 1px solid #d9d9d9;
+                    border-radius: 3px;
+                    padding: 4px 8px;
+                    width: calc(100% - 2px);
+                }
+            }
+            .ult-label{
+                width: 130px;
+            }
+            .ult-rcform-group-input-wrapper{
+                width: calc(100% - 130px);
+            }
+            .ult-rcform-group{
+                margin-bottom: 15px;
+            }
+            .ult-rcform-group:last-child{
+                margin-bottom: 0;
+            }
+        }
+    }
+}

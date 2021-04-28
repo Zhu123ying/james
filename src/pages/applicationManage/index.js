@@ -56,7 +56,7 @@ class ApplicationManage extends React.Component {
                 const { data: { datas } } = res
                 this.setState({
                     dataList: datas,
-                    currentApplication: (!isResetCurrentApplication && datas[0]) ? datas[0]: currentApplication,
+                    currentApplication: (!isResetCurrentApplication && datas[0]) ? datas[0] : currentApplication,
                     isFetching: false
                 })
             },
@@ -67,7 +67,7 @@ class ApplicationManage extends React.Component {
                     title: '错误提示',
                     content: res.message,
                     iconNode: 'icon-error-o',
-                    duration: 30,
+                    duration: 5,
                     closable: true
                 })
                 this.setState({
@@ -147,10 +147,14 @@ class ApplicationManage extends React.Component {
                                 </div>
                             </div>
                             <div className='detailContent'>
-                                <ApplicationDetail
-                                    refreshTableList={this.handleSearch}
-                                    currentApplication={currentApplication}
-                                    intl={intl} />
+                                {
+                                    currentApplication.id ? (
+                                        <ApplicationDetail
+                                            refreshTableList={this.handleSearch}
+                                            currentApplication={currentApplication}
+                                            intl={intl} />
+                                    ) : null
+                                }
                             </div>
                         </div>
                     )
