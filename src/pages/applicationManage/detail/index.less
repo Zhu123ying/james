@@ -2,7 +2,7 @@
     .operaBar{
         width: 100%;
         height: 30px;
-        background: #F6F8FA;
+        background: #eaf0f6;
         display: flex;
         align-items: center;
         padding: 6px 0;
@@ -94,5 +94,71 @@
                 margin-bottom: 0;
             }
         }
+    }
+}
+
+.applicationRollBackModal{
+    .des{
+        margin-bottom: 20px;
+    }
+    .ult-rcform-group{
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 15px;
+        .ult-label{
+            width: auto;
+            margin-bottom: 5px;
+        }
+        .ult-rcform-group-input-wrapper{
+            width: 100%!important;
+        }
+        .validation-error{
+            padding-left: 0!important;
+            margin-top: 60px;
+        }
+    }
+}
+
+.OutputLogList{
+    width: 400px;
+    border-left: 1px solid #ededed;
+    border-bottom: 1px solid #ededed;
+    background-color: white;
+    padding: 15px;
+    color: #4c8cca;
+    .logContent{
+        background: #F6F8FA;
+        padding: 10px;
+    }
+    .dropSelect{
+        background-color: #eaf0f6;
+        padding: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        cursor: pointer;
+        .iconfont{
+            font-size: 12px;
+        }
+    }
+}
+
+.Application_OutputHisttory_LogList{
+    background-color: white;
+    max-height: 150px;
+    overflow: auto;
+    border: 1px solid #ededed;
+    width: 250px;
+    border-radius: 4px;
+    padding: 10px 0;
+    margin: 0 auto;
+    .logItem{
+        text-align: center;
+        cursor: pointer;
+        padding: 4px 0;
+        font-size: 13px;
+    }
+    .logItem:hover{
+        background-color: #eaf0f6;
     }
 }

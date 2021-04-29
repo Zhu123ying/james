@@ -28,11 +28,12 @@ class ApplicationManage extends React.Component {
     componentDidMount() {
         this.handleSearch()
     }
-    handleSearchParamChange = (key, value) => {
+    handleSearchParamChange = (key, val, isFetch = true) => {
+        const value = _.get(val, 'target.value', val)
         this.setState({
-            key: value
+            [key]: value
         }, () => {
-            this.handleSearch()
+            isFetch && this.handleSearch()
         })
     }
     handleSearch = (isResetCurrentApplication = false) => {
@@ -121,8 +122,10 @@ class ApplicationManage extends React.Component {
                             <div className='tableContent'>
                                 <div className='nameSearch'>
                                     <Input.Search
+                                        value={name}
                                         placeholder={intl.formatMessage({ id: 'Search' })}
-                                        onSearch={(val) => this.handleSearchParamChange('name', val)}
+                                        onChange={(val) => this.handleSearchParamChange('name', val, false)}
+                                        onSearch={this.handleSearch}
                                     />
                                 </div>
                                 <div className='tableList'>
