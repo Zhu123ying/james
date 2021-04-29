@@ -46,13 +46,13 @@ class UpdateApplication extends React.Component {
         const { applicationType } = detail
         const applicationPackageVersion = _.get(detail, versionDetailKeyObject[applicationType], {}) || {}
         const applicationPackageId = _.get(applicationPackageVersion, applicationPackageVersionKey[applicationType], '')
-        // HuayunRequest(api[packageVersionListUrl[applicationType]], { applicationPackageId }, {
-        //     success: (res) => {
-        //         this.setState({
-        //             applicationVersionList: res
-        //         })
-        //     }
-        // })
+        HuayunRequest(api[packageVersionListUrl[applicationType]], { applicationPackageId }, {
+            success: (res) => {
+                this.setState({
+                    applicationVersionList: res.data
+                })
+            }
+        })
     }
 
     handleOnChange = (key, val, item) => {

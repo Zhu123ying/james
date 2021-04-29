@@ -48,7 +48,7 @@ class ApplicationDetail extends React.Component {
         HuayunRequest(api.detail, { id }, {
             success: (res) => {
                 this.setState({
-                    detail: res,
+                    detail: res.data,
                     isFetching: false
                 }, () => {
                     // // 资源概览饼图
@@ -140,10 +140,36 @@ class ApplicationDetail extends React.Component {
         })
     }
     handleConfirmUpdate = () => {
-        this.handleSetState('isApplicationUpdateModalVisible', false)
-    }
-    handleCancelUpdate = () => {
-        this.handleSetState('isApplicationUpdateModalVisible', false)
+        const { props: { form }, state: { versionId: applicationVersionId, configInfo, isCoverApplicationGateway } } = this.$UpdateApplication
+        form.validateFields((error, values) => {
+            if (error) {
+                return false
+            }
+            const { detail: { id, name } } = this.state
+            const { intl, refreshTableList } = this.props
+            const action = intl.formatMessage({ id: 'Update' })
+            const params = {
+                id,
+                applicationVersionId,
+                configInfo,
+                coverApplicationGateway: isCoverApplicationGateway === 'true' ? true : false
+            }
+            this.handleSetState('isApplicationUpdateModalVisible', false)
+            HuayunRequest(api.upgrade, params, {
+                success: (res) => {
+                    refreshTableList() // 更新应用列表
+                    notification.notice({
+                        id: 'updateSuccess',
+                        type: 'success',
+                        title: intl.formatMessage({ id: 'Success' }),
+                        content: `${action}${this.operationTarget}'${name}'${intl.formatMessage({ id: 'Success' })}`,
+                        iconNode: 'icon-success-o',
+                        duration: 5,
+                        closable: true
+                    })
+                }
+            })
+        })
     }
     render() {
         const { intl, currentApplication: { state } } = this.props
@@ -204,10 +230,13 @@ class ApplicationDetail extends React.Component {
                     title={`${intl.formatMessage({ id: 'Application' })}${intl.formatMessage({ id: 'Update' })}`}
                     visible={isApplicationUpdateModalVisible}
                     onOk={this.handleConfirmUpdate}
-                    onCancel={this.handleCancelUpdate}
+                    onCancel={() => this.handleSetState('isApplicationUpdateModalVisible', false)}
                     className='updateApplicationModal'
                 >
-                    <UpdateApplication intl={intl} detail={detail} />
+                    <UpdateApplication
+                        intl={intl}
+                        detail={detail}
+                        wrappedComponentRef={node => this.$UpdateApplication = node} />
                 </Modal>
             </div>
         )
