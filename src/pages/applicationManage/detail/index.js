@@ -212,12 +212,12 @@ class ApplicationDetail extends React.Component {
     }
     render() {
         const { intl, } = this.props
-        const { detail: { state, id } } = this.state
         const { isFetching, detail, isApplicationUpdateModalVisible, isApplicationRollBackModalVisible, isShowOutputHistory } = this.state
+        const { state, id } = detail
         const on_offLine = state === 'config' ? (<><Icon type="rise-o" />&nbsp;{intl.formatMessage({ id: 'OnLine' })}</>) : (<><Icon type="drop-o" />&nbsp;{intl.formatMessage({ id: 'OffLine' })}</>)
         const operaOptions = [
             <Button className='operaItem' type='text' onClick={this.setAppStatus}>{on_offLine}</Button>,
-            <Button className='operaItem' type='text' onClick={() => this.handleSetState('isApplicationUpdateModalVisible', true)} disabled={state === 'config' || !id}>
+            <Button className='operaItem' type='text' onClick={() => this.handleSetState('isApplicationUpdateModalVisible', true)} disabled={state === 'config'}>
                 <Icon type="reboot" />&nbsp;{intl.formatMessage({ id: 'Update' })}
             </Button>,
             <Button className='operaItem' type='text' onClick={() => this.handleSetState('isApplicationUpdateModalVisible', true)} disabled={state !== 'config'}>
@@ -229,17 +229,6 @@ class ApplicationDetail extends React.Component {
             <Button className='operaItem noborder' type='text' onClick={this.handleDelete}>
                 <Icon type="delete" />&nbsp;{intl.formatMessage({ id: 'Delete' })}
             </Button>,
-            <Dropdown
-                trigger={['click']}
-                overlay={<OutputHistory id={id} intl={intl} />}
-                placement="bottomLeft"
-                onVisibleChange={(visible) => this.handleSetState('isShowOutputHistory', visible)}
-            >
-                <div className="operaItem">
-                    {intl.formatMessage({ id: 'OutputHistory' })}
-                    <Icon type={isShowOutputHistory ? "up" : "down"} />
-                </div>
-            </Dropdown>
         ]
         return (
             <div className='applicationDetail'>
@@ -250,16 +239,29 @@ class ApplicationDetail extends React.Component {
                                 detail.id ? (
                                     <React.Fragment>
                                         <div className='operaBar'>
-                                            {
-                                                operaOptions.map((item, index) => {
-                                                    return <ActionAuth action={actions.AdminApplicationCenterApplicationMaintain} key={index}>{item}</ActionAuth>
-                                                })
-                                            }
+                                            <div className='leftGroup'>
+                                                {
+                                                    operaOptions.map((item, index) => {
+                                                        return <ActionAuth action={actions.AdminApplicationCenterApplicationMaintain} key={index}>{item}</ActionAuth>
+                                                    })
+                                                }
+                                            </div>
+                                            <Dropdown
+                                                trigger={['click']}
+                                                overlay={<OutputHistory id={id} intl={intl} />}
+                                                placement="bottomLeft"
+                                                onVisibleChange={(visible) => this.handleSetState('isShowOutputHistory', visible)}
+                                            >
+                                                <div className="operaItem">
+                                                    {intl.formatMessage({ id: 'OutputHistory' })}
+                                                    <Icon type={isShowOutputHistory ? "up" : "down"} />
+                                                </div>
+                                            </Dropdown>
                                         </div>
                                         <div className='detailContent'>
                                             <Tabs defaultActiveKey="Preview">
                                                 <TabPane tab={intl.formatMessage({ id: 'OutputHistory' })} key="Preview">
-                                                    <Preview intl={intl}></Preview>
+                                                    <Preview intl={intl} detail={detail}></Preview>
                                                 </TabPane>
                                                 <TabPane tab={intl.formatMessage({ id: 'Detail' })} key="Detail">
                                                     <Detail intl={intl}></Detail>

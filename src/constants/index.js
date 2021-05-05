@@ -13,8 +13,8 @@ export const ApplicationStatuList = {
     failed: '失败'
 }
 export const ApplicationSecondStatuList = {
-    NORMAL: 'NORMAL',
-    ABNORMAL: 'ABNORMAL'
+    NORMAL: '健康',
+    ABNORMAL: '异常'
 }
 export const ApplicationSecondStatuColor = {
     NORMAL: 'bg-success',

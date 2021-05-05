@@ -9,6 +9,7 @@ const zh_CN = {
     ApplicationPackageManage: '应用包管理',
     DesApplicationPackageManage: '这是应用包管理的描述',
     CreateTime: '创建时间',
+    CreaterName: '创建人',
     Project: '项目',
     Tag: '标签',
     Search: '搜索',
@@ -18,6 +19,8 @@ const zh_CN = {
     Success: '成功',
     Fail: '失败',
     Error: '错误',
+    Normal: '正常',
+    Abnormal: '异常',
     ChangeSetting: '更改配置',
     OverView: '概览',
     Detail: '详情',
@@ -186,6 +189,7 @@ const zh_CN = {
     Reason: '原因',
     LastUpdateTime: '最近更新时间',
     HarborAuthInfo: 'Harbor权限信息',
+    ApplicationState: '应用状态',
 
     // 接口返回提示
     UpdateApplicationSuccess: '编辑应用-{name}成功！',
