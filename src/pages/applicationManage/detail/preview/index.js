@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { application as api } from '~/http/api'
 import HuayunRequest from '~/http/request'
-import { DatePicker, Select, Input, Switch } from 'huayunui';
+import { DatePicker, Select, Input, Switch, Button, ButtonGroup } from 'huayunui';
 import { Icon, KeyValue } from 'ultraui'
 import { Row, Col, Tag, Carousel } from 'antd'
 import './index.less'
@@ -12,12 +12,14 @@ import actions from '~/constants/authAction'
 import { ApplicationStatuList, ApplicationSecondStatuList, ApplicationSecondStatuColor, DEFAULT_EMPTY_LABEL } from '~/constants'
 import echarts from 'echarts'
 
-const pageNum = 4; // 暂定每页走马灯显示4张饼图
+const _ = window._
+const pageNum = 4 // 暂定每页走马灯显示4张饼图
 class Preview extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            isAllowVisit: true
+            isAllowVisit: true,
+            currentSlide: 0
         }
     }
     componentDidMount() {
@@ -25,13 +27,10 @@ class Preview extends React.Component {
         this.renderPieChart()
     }
     // 绘制应用状态
-    renderPieChart = (pageIndex = 0) => {
+    renderPieChart = () => {
         const { detail: { resourceObjectStatistics } } = this.props
         resourceObjectStatistics && Object.keys(resourceObjectStatistics).forEach((key, index) => {
-            // 做个条件判断，只渲染区间里的饼图，算是个小优化
-            if ((index < (pageIndex + 1) * pageNum) && (index >= pageIndex * pageNum)) {
-                this.initResourcePie(key, resourceObjectStatistics[key])
-            }
+            this.initResourcePie(key, resourceObjectStatistics[key])
         })
     }
     // 先绘制Carousel的dom树结构，然后再插入pie图
@@ -59,9 +58,13 @@ class Preview extends React.Component {
             )
         }
         return (
-            <Carousel className='pieCarousel' afterChange={(index) => this.renderPieChart(index)}>
-                {carouselDom}
-            </Carousel>
+            <Carousel
+                ref={node => this.$Carousel = node}
+                dots={false}
+                className='pieCarousel' >
+                { carouselDom}
+                <div></div>
+            </Carousel >
         )
     }
     getIsolationState = () => {
@@ -137,9 +140,16 @@ class Preview extends React.Component {
         }
         this[pieKey].setOption(option)
     }
+    handleOperCarousel = (type) => {
+        const { currentSlide } = this.state
+        this.setState({
+            currentSlide: currentSlide + type
+        })
+        this.$Carousel[type === 1 ? 'next' : 'prev']()
+    }
     render() {
         const { intl, detail } = this.props
-        const { isAllowVisit } = this.state
+        const { isAllowVisit, currentSlide } = this.state
         const {
             id, name, createrName, createTime, description, tags, resourceObjectDtos, state, secondState, resourceObjectStatistics,
             commandExecuteLogs, applicationType, reversionNum, projectName, updateTime, historyResourceObjectDtos, quota, usedCpu, usedMemory
@@ -174,9 +184,7 @@ class Preview extends React.Component {
                 )
             }
         ]
-        const contentStyle = {
-
-        };
+        const carouselPages = resourceObjectStatistics ? Math.floor(Object.keys(resourceObjectStatistics).length / 4) : 0
         return (
             <div className='applicationDetail_preview'>
                 <Row gutter={20}>
@@ -204,6 +212,10 @@ class Preview extends React.Component {
                                 {
                                     this.renderCarousel()
                                 }
+                                <ButtonGroup>
+                                    <Button type="operate" size='small' icon="icon-left" onClick={() => this.handleOperCarousel(-1)} disabled={currentSlide === 0} />
+                                    <Button type="operate" size='small' icon="icon-right" onClick={() => this.handleOperCarousel(1)} disabled={currentSlide === carouselPages} />
+                                </ButtonGroup>
                             </div>
                         </div>
                     </Col>
