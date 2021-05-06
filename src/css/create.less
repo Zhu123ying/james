@@ -1,0 +1,203 @@
+@import "./variables.less";
+
+.ult-rcform{
+  &-row{
+    &-oneCol,&-separate-oneCol{
+      border-right: 1px dashed rgba(0, 0, 0, .09);
+    }
+    &-separate{
+      hr{
+        margin-bottom: 3px;
+      }
+    }
+    .limit-progress-wrapper {
+      margin-top: 8px;
+      margin-bottom: 16px;
+      padding: 4px;
+      border: 1px solid #d9d9d9;
+    }
+    .instance-create-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .instance-create-separator {
+      hr {
+        border-top: #e0e0e0;
+        margin-bottom: 3px;
+      }
+      color: #e0e0e0;
+      margin: 24px 0;
+    }
+
+    .instance-div-title {
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .limit-progress-wrapper {
+      margin-top: 8px;
+      margin-bottom: 16px;
+      padding: 4px;
+      border: 1px solid #d9d9d9;
+      .ult-progress-small{
+        height: 16px;
+      }
+    }
+  }
+  &-subMessage{
+    &.create_step{
+      background: @white;
+      padding-bottom: 1px;
+      margin-bottom: 0;
+      .ult-label{
+        width: 20%;
+      }
+      .custom-error ,
+      .ult-rcform-group-validated .validation-error,
+      .ult-rcform-group-offset-label{
+        padding-left: 20%;
+      }
+      .ult-rcform-panel{
+        width: 80%;
+      }
+      // 右侧panel
+      .panel-instance-create-content {
+          padding-right: 10%;
+      }
+      .ult-form-group-input-wrapper{
+        width: 80%;
+      }
+      .ult-rcform-subpanel .ult-form-group-input-wrapper {
+        width: 100%;
+      }
+      .ult-rcform-group-input-wrapper{
+        width: 80%;
+        textarea {
+          min-height: 77px;
+        }
+      }
+      .quota-number.quota-edit > .member-title{
+        min-width: 35%;
+      }
+    }
+    .ult-rcform-group{
+      align-items:flex-start;
+    }
+    .ult-rcform-panel{
+      .ult-rcform-static{
+        line-height: @base-space *4;
+      }
+    }
+    .ult-rcform-group.no-label .ult-rcform-label-hide {
+      display: none !important;
+    }
+    .ult-rcform-group.no-label .rcform-group-select {
+      width: 100% !important;
+    }
+    .ult-rcform-subpanel{
+      border: 1px #d9d9d9 dotted;
+      padding: @base-space *2 @base-space *2 0 @base-space *2;
+      .ult-rcform-group{
+        .ult-label{
+            width: 21%;
+            min-width: auto;
+            line-height: 25px;
+            background: #e5f7f2;
+            margin-right: 8px;
+            padding: 4px 8px;
+            text-align: left;
+            font-size: 12px;
+        }
+        span.validation-error,.custom-error{
+            padding-left: 21%;
+            margin-left: 8px;
+        }
+        @media (max-width: 1600px) {
+          .ult-label{
+            width: 20%
+          }
+          .ult-rcform-group-input-wrapper,.ult-rcform-panel{
+            width: 100%;
+          }
+           .validation-error{
+            padding-left: 20%;
+           }
+        }
+      }
+      &.form-login-key {
+        span.validation-error,.custom-error{
+          padding-left: calc(22% - 8px);
+          margin-left: 0;
+      }
+      }
+    }
+    .ult-rcform-subpanel-fusioncloud{
+      border: 1px #d9d9d9 dotted;
+      padding: @base-space *2 @base-space *2 0 @base-space *2;
+      .ult-rcform-group{
+      .ult-label{
+          width: 16%;
+          min-width: auto;
+          line-height: 25px;
+          background: #e5f7f2;
+          margin-right: 8px;
+          padding: 4px 8px;
+          text-align: left;
+          font-size: 12px;
+      }
+      span.validation-error,.custom-error{
+          padding-left: 17%;
+          // margin-left: 8px;
+      }
+      @media (max-width: 1600px) {
+          .ult-label{
+          width: 20%
+          }
+          .ult-rcform-group-input-wrapper,.ult-rcform-panel{
+          width: 100%;
+          }
+          .validation-error{
+          padding-left: 20%;
+          }
+      }
+      }
+    }
+    .ult-rcform-subpanel-foot{
+      border: 1px #d9d9d9 dotted;
+      border-top: 0;
+      background: #fafafa;
+      padding: @base-space @base-space *3;
+      color: @text-body;
+      font-size: 12px;
+      &.avail-num-hint {
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        .create-warn {
+          color: #f0a332;
+        }
+      }
+    }
+  }
+  .ult-rcform-group.network-label-tip .ult-label-tips{
+    float: right;
+    margin-top: 5px;
+    margin-left: 6px;
+  }
+}
+
+.ult-rcform-subMessage.create_aliyun_vm .ult-rcform-subpanel .ult-rcform-group {
+   .ult-label {
+      width: 15%;
+   }
+   span.validation-error, .custom-error {
+      padding-left: 15%;
+   }
+}
+
+.ult-rcform-subMessage.create_aliyun_vm .ult-text-show {
+   font-size: 12px;
+}

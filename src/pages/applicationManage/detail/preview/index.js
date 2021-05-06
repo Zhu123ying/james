@@ -209,6 +209,9 @@ class Preview extends React.Component {
         }
         return option
     }
+    handleUpdateApplication = () => {
+        this.props.history.push(`${this.props.match.path}/edit/${this.props.detail.id}`)
+    }
     render() {
         const { intl, detail } = this.props
         const { isAllowVisit, currentSlide, resourceInfor } = this.state
@@ -274,7 +277,7 @@ class Preview extends React.Component {
                                     <Tag color="geekblue" className='appState'>{ApplicationStatuList[state]}</Tag>
                                     <Tag color={secondState === 'NORMAL' ? 'green' : 'red'} className='appSecondState'>{ApplicationSecondStatuList[secondState]}</Tag>
                                 </div>
-                                <div className='update'><Icon type='edit-o' />&nbsp;编辑</div>
+                                <div className='update' onClick={this.handleUpdateApplication}><Icon type='edit-o' />&nbsp;编辑</div>
                             </div>
                             <div className='boxContent'>
                                 <div className='description'>{description || DEFAULT_EMPTY_LABEL}</div>

@@ -49,6 +49,7 @@ const CustomBreadcrumb = ({
             params={params}
             prefixCls={prefixCls}
             border
+            className='archer-breadCrumb-border'
             {...extraItem}
         />
     )

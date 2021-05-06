@@ -3,11 +3,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { application as api } from '~/http/api'
 import HuayunRequest from '~/http/request'
-import { DatePicker, Select, Input, message } from 'huayunui';
+import { DatePicker, Select, Input, message, Button } from 'huayunui';
 import ApplicationDetail from './detail'
 import './index.less'
 import { Notification, Loading, Icon } from 'ultraui'
 import { ApplicationStatuList, ApplicationSecondStatuColor } from '~/constants'
+import ActionAuth from '~/components/ActionAuth'
+import actions from '~/constants/authAction'
+
 const notification = Notification.newInstance()
 const { RangePicker } = DatePicker;
 class ApplicationManage extends React.Component {
@@ -26,7 +29,33 @@ class ApplicationManage extends React.Component {
         }
     }
     componentDidMount() {
+        this.addCreateApplicationButton()
         this.handleSearch()
+    }
+    componentWillUnmount(){
+        this.props.handleExtra({
+            extraChildren: null
+        })
+    }
+    addCreateApplicationButton = () => {
+        const { handleExtra, intl } = this.props
+        handleExtra({
+            extraChildren: (
+                <ActionAuth action={actions.AdminApplicationCenterApplicationOperate}>
+                    <Button
+                        type="primary"
+                        size="large"
+                        icon="icon-add"
+                        onClick={this.handleCreateApplication}
+                        name={intl.formatMessage({ id: 'CreateApplication' })}
+                    />
+                </ActionAuth>
+            ),
+            border: false
+        })
+    }
+    handleCreateApplication = () => {
+        this.props.history.push(`${this.props.match.path}/create`)
     }
     handleSearchParamChange = (key, val, isFetch = true) => {
         const value = _.get(val, 'target.value', val)
@@ -155,7 +184,7 @@ class ApplicationManage extends React.Component {
                                         <ApplicationDetail
                                             refreshTableList={this.handleSearch}
                                             currentApplication={currentApplication}
-                                            intl={intl} />
+                                            {...this.props} />
                                     ) : null
                                 }
                             </div>

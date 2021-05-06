@@ -34,7 +34,8 @@ const api = {
     openIsolation: `${prefix}openIsolation`, // 允许项目外部访问
     closeIsolation: `${prefix}closeIsolation`, // 不允许项目外部访问
     updateNamespaceLabels: `${prefix}updateNamespaceLabels`, // namespace标签编辑
-    deletePvc: `${prefix}deletePvc` // 删除历史pvc
+    deletePvc: `${prefix}deletePvc`, // 删除历史pvc
+    listProject: `identity/listProject`, // 获取项目列表
 }
 
 export default api

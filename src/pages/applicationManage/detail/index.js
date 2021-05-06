@@ -211,7 +211,7 @@ class ApplicationDetail extends React.Component {
         })
     }
     render() {
-        const { intl, } = this.props
+        const { intl } = this.props
         const { isFetching, detail, isApplicationUpdateModalVisible, isApplicationRollBackModalVisible, isShowOutputHistory } = this.state
         const { state, id } = detail
         const on_offLine = state === 'config' ? (<><Icon type="rise-o" />&nbsp;{intl.formatMessage({ id: 'OnLine' })}</>) : (<><Icon type="drop-o" />&nbsp;{intl.formatMessage({ id: 'OffLine' })}</>)
@@ -261,22 +261,22 @@ class ApplicationDetail extends React.Component {
                                         <div className='detailContent'>
                                             <Tabs defaultActiveKey="Preview">
                                                 <TabPane tab={intl.formatMessage({ id: 'OverView' })} key="Preview">
-                                                    <Preview intl={intl} detail={detail}></Preview>
+                                                    <Preview {...this.props} detail={detail}></Preview>
                                                 </TabPane>
                                                 <TabPane tab={intl.formatMessage({ id: 'Detail' })} key="Detail">
-                                                    <Detail intl={intl}></Detail>
+                                                    <Detail {...this.props}></Detail>
                                                 </TabPane>
                                                 <TabPane tab={intl.formatMessage({ id: 'Entrance' })} key="Entrance">
-                                                    <Entrance intl={intl}></Entrance>
+                                                    <Entrance {...this.props}></Entrance>
                                                 </TabPane>
                                                 <TabPane tab={intl.formatMessage({ id: 'Alarm' })} key="Alarm">
-                                                    <Alarm intl={intl}></Alarm>
+                                                    <Alarm {...this.props}></Alarm>
                                                 </TabPane>
                                                 <TabPane tab={intl.formatMessage({ id: 'Log' })} key="Log">
-                                                    <Log intl={intl}></Log>
+                                                    <Log {...this.props}></Log>
                                                 </TabPane>
                                                 <TabPane tab={intl.formatMessage({ id: 'AppPublish' })} key="Publish">
-                                                    <Publish intl={intl}></Publish>
+                                                    <Publish {...this.props} Z></Publish>
                                                 </TabPane>
                                             </Tabs>
                                         </div>

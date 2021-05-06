@@ -37,7 +37,7 @@ const Container = props => {
                 extraItem={extraItem}
             />
             {
-                renderRoutes(currentRoute.routes, { intl })
+                renderRoutes(currentRoute.routes, { intl, handleExtra })
             }
         </div>
     )
