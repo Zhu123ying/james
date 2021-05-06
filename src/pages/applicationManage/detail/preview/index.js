@@ -224,7 +224,7 @@ class Preview extends React.Component {
         const KeyValueData = [
             {
                 label: intl.formatMessage({ id: 'Tag' }),
-                value: tags && tags.length ? tags.map(tag => {
+                value: tags && tags.length ? tags.map(item => {
                     return <Tag color="geekblue" key={item}>{item}</Tag>
                 }) : DEFAULT_EMPTY_LABEL
             },
