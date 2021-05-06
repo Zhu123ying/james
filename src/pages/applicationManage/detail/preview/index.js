@@ -188,7 +188,9 @@ class Preview extends React.Component {
             xAxisData.push(moment(item[0] * 1000).format('HH:mm:ss'))
             seriesData.push(parseFloat(item[1]))
         })
+        const color = type === 'cpu' ? '#4c8cca' : '#ed6f4d'
         let option = {
+            color: [color],
             grid: {
                 left: 15,
                 top: 10,
