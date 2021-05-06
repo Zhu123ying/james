@@ -260,7 +260,7 @@ class ApplicationDetail extends React.Component {
                                         </div>
                                         <div className='detailContent'>
                                             <Tabs defaultActiveKey="Preview">
-                                                <TabPane tab={intl.formatMessage({ id: 'OutputHistory' })} key="Preview">
+                                                <TabPane tab={intl.formatMessage({ id: 'OverView' })} key="Preview">
                                                     <Preview intl={intl} detail={detail}></Preview>
                                                 </TabPane>
                                                 <TabPane tab={intl.formatMessage({ id: 'Detail' })} key="Detail">
