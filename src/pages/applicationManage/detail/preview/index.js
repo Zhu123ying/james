@@ -220,6 +220,29 @@ class Preview extends React.Component {
                         </div>
                     </Col>
                 </Row>
+                <Row gutter={20}>
+                        <Col span={8}>
+                            <div className='boxContainer'>
+                                <div className='boxTitle'>
+                                    <div className='name'>
+                                        {intl.formatMessage({ id: 'ApplicationQuota' })}
+                                    </div>
+                                    <div className='update'><Icon type='edit-o' />&nbsp;编辑</div>
+                                </div>
+                                <div className='boxContent'>
+
+                                </div>
+                            </div>
+                        </Col>
+                        <Col span={16}>
+                            <div className='boxContainer'>
+                                <div className='boxTitle'>{intl.formatMessage({ id: 'ResourceUsageMonitor' })}</div>
+                                <div className='boxContent'>
+
+                                </div>
+                            </div>
+                        </Col>
+                    </Row>
             </div>
         )
     }

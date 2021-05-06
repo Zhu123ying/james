@@ -190,6 +190,8 @@ const zh_CN = {
     LastUpdateTime: '最近更新时间',
     HarborAuthInfo: 'Harbor权限信息',
     ApplicationState: '应用状态',
+    ApplicationQuota: '应用配额',
+    ResourceUsageMonitor: '资源使用监控',
 
     // 接口返回提示
     UpdateApplicationSuccess: '编辑应用-{name}成功！',
