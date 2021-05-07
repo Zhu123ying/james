@@ -3,8 +3,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { application as api } from '~/http/api'
 import HuayunRequest from '~/http/request'
-import { DatePicker, Select, Input, Switch, Button, ButtonGroup, Progress } from 'huayunui';
-import { Icon, KeyValue } from 'ultraui'
+import { DatePicker, Select, Input, Switch, Button, ButtonGroup, Progress, Modal } from 'huayunui';
+import { Icon, KeyValue, Notification } from 'ultraui'
 import { Row, Col, Tag, Carousel } from 'antd'
 import './index.less'
 import ActionAuth from '~/components/ActionAuth'
@@ -12,7 +12,9 @@ import actions from '~/constants/authAction'
 import { ApplicationStatuList, ApplicationSecondStatuList, ApplicationSecondStatuColor, DEFAULT_EMPTY_LABEL } from '~/constants'
 import echarts from 'echarts'
 import moment from 'moment'
+import QuotaManage from './quotaManage'
 
+const notification = Notification.newInstance()
 const _ = window._
 const pageNum = 4 // 暂定每页走马灯显示4张饼图
 class Preview extends React.Component {
@@ -21,7 +23,8 @@ class Preview extends React.Component {
         this.state = {
             isAllowVisit: true,
             currentSlide: 0,
-            resourceInfor: {}
+            resourceInfor: {},
+            isQuotaManageModalVisible: false, // 配额管理模态框是否显示
         }
     }
     componentDidMount() {
@@ -163,8 +166,39 @@ class Preview extends React.Component {
         })
         this.$Carousel[type === 1 ? 'next' : 'prev']()
     }
-    handleQuotaManage = () => {
-
+    handleConfirmQuotaManage = () => {
+        const { intl, detail: { id }, getDetail } = this.props
+        this.$QuotaManage.props.form.validateFields((error, values) => {
+            if (error) {
+                return false
+            }
+            const { cpu, memory, storageInfo } = this.$QuotaManage.state
+            let params = {
+                id,
+                quota: {
+                    cpu, memory, storageInfo
+                }
+            }
+            HuayunRequest(api.updateApplicationQuota, params, {
+                success: (res) => {
+                    notification.notice({
+                        id: new Date(),
+                        type: 'success',
+                        title: intl.formatMessage({ id: 'Success' }),
+                        content: `${intl.formatMessage({ id: 'Operator' })}${intl.formatMessage({ id: 'Success' })}`,
+                        iconNode: 'icon-success-o',
+                        duration: 5,
+                        closable: true
+                    })
+                    this.setState({
+                        isQuotaManageModalVisible: false
+                    }, () => {
+                        // 要刷新详情页
+                        getDetail(id)
+                    })
+                }
+            })
+        })
     }
     handleSeeClusterResources = () => {
 
@@ -214,11 +248,16 @@ class Preview extends React.Component {
     handleUpdateApplication = () => {
         this.props.history.push(`${this.props.match.path}/edit/${this.props.detail.id}`)
     }
+    handleSetState = (key, value) => {
+        this.setState({
+            [key]: value
+        })
+    }
     render() {
         const { intl, detail } = this.props
-        const { isAllowVisit, currentSlide, resourceInfor } = this.state
+        const { isAllowVisit, currentSlide, resourceInfor, isQuotaManageModalVisible } = this.state
         const {
-            id, name, createrName, createTime, description, tags, resourceObjectDtos, state, secondState, resourceObjectStatistics,
+            id, name, createrName, createTime, description, tags, resourceObjectDtos, state, secondState, resourceObjectStatistics, projectId,
             commandExecuteLogs, applicationType, reversionNum, projectName, updateTime, historyResourceObjectDtos, quota, usedCpu, usedMemory
         } = detail
         const KeyValueData = [
@@ -311,7 +350,7 @@ class Preview extends React.Component {
                                     {intl.formatMessage({ id: 'ApplicationQuota' })}
                                 </div>
                                 <div className='opera'>
-                                    <div onClick={this.handleQuotaManage}><Icon type='edit-o' />&nbsp;{intl.formatMessage({ id: 'AppCenterQuotaManage' })}&nbsp;&nbsp;</div>
+                                    <div onClick={() => this.handleSetState('isQuotaManageModalVisible', true)}><Icon type='edit-o' />&nbsp;{intl.formatMessage({ id: 'AppCenterQuotaManage' })}&nbsp;&nbsp;</div>
                                     <div onClick={this.handleSeeClusterResources}><Icon type='listing' />&nbsp;{intl.formatMessage({ id: 'Cluster resources' })}</div>
                                 </div>
                             </div>
@@ -361,7 +400,21 @@ class Preview extends React.Component {
                         </div>
                     </Col>
                 </Row>
-            </div>
+                <Modal
+                    title={intl.formatMessage({ id: 'AppCenterQuotaManage' })}
+                    visible={isQuotaManageModalVisible}
+                    onOk={this.handleConfirmQuotaManage}
+                    onCancel={() => this.handleSetState('isQuotaManageModalVisible', false)}
+                    className='quotaManageDialog'
+                    destroyOnClose={true}
+                >
+                    <QuotaManage
+                        intl={intl}
+                        projectId={projectId}
+                        quota={quota}
+                        wrappedComponentRef={node => this.$QuotaManage = node} />
+                </Modal>
+            </div >
         )
     }
 }

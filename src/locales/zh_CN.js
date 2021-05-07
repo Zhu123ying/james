@@ -16,6 +16,7 @@ const zh_CN = {
     CreaterName: '创建人',
     Project: '项目',
     Tag: '标签',
+    Operator: '操作',
     Search: '搜索',
     Submit: '提交',
     Cancel: '取消',
