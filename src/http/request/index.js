@@ -31,6 +31,7 @@ const HuayunRequest = (api, param, callback) => http
         }
     }).then(function (response) {
         callback.success && callback.success(response)
+        callback.complete && callback.complete(response)
     }).catch(function (response) {
         if (callback.fail) {
             callback.fail(response)
@@ -47,6 +48,7 @@ const HuayunRequest = (api, param, callback) => http
                 closable: true
             })
         }
+        callback.complete && callback.complete(response)
     })
 
 export default HuayunRequest

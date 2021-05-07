@@ -16,7 +16,7 @@ const zh_CN = {
     CreaterName: '创建人',
     Project: '项目',
     Tag: '标签',
-    Operator: '操作',
+    Operate: '操作',
     Search: '搜索',
     Submit: '提交',
     Cancel: '取消',
@@ -200,6 +200,9 @@ const zh_CN = {
     ApplicationState: '应用状态',
     ApplicationQuota: '应用配额',
     ResourceUsageMonitor: '资源使用监控',
+    RunningState: '运行状态',
+    Name: '名称',
+    Capacity: '容量',
 
     // 接口返回提示
     UpdateApplicationSuccess: '编辑应用-{name}成功！',

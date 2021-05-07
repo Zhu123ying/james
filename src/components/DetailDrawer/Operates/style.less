@@ -1,0 +1,44 @@
+@prefix: archer;
+
+.detail-operate-wrapper {
+	background: #f5f8fa;
+    border: 1px solid #dfe3eb;
+    padding: 7px 12px;
+    margin: 9px 0;
+    padding-right: 100px;
+    position: relative;
+    .@{prefix}-divider-vertical {
+        border-color: #dfe3eb;
+    }
+	.@{prefix}-btn, .@{prefix}-btn:hover, .@{prefix}-btn-sm, .@{prefix}-btn-sm:hover, .@{prefix}-btn-sm:focus, .@{prefix}-btn-sm:active {
+		font-size: 12px;
+		padding: 0 4px;
+		.iconfont {
+			font-size: 12px;
+			margin-right: 4px;
+		}
+    }
+    .@{prefix}-btn:not([disabled]) {
+        color: #4c8cca;
+        .iconfont {
+			color: #4c8cca;
+        }
+    }
+    .operate-info {
+        color: #7c98b6;
+        font-size: 12px;
+        margin-left: -2px;
+    }
+    .@{prefix}-btn.more-operate {
+        color: #33475b;
+        position: absolute;
+        right: 12px;
+        top: 6px;
+        .iconfont {
+            color: #33475b;
+        }
+        .more-text {
+            margin-right: 2px;
+        }
+    }
+}

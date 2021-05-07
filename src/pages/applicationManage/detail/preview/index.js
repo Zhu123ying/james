@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { application as api } from '~/http/api'
 import HuayunRequest from '~/http/request'
-import { DatePicker, Select, Input, Switch, Button, ButtonGroup, Progress, Modal } from 'huayunui';
+import { DatePicker, Select, Input, Switch, Button, ButtonGroup, Progress, Modal, Drawer } from 'huayunui';
 import { Icon, KeyValue, Notification } from 'ultraui'
 import { Row, Col, Tag, Carousel } from 'antd'
 import './index.less'
@@ -13,6 +13,7 @@ import { ApplicationStatuList, ApplicationSecondStatuList, ApplicationSecondStat
 import echarts from 'echarts'
 import moment from 'moment'
 import QuotaManage from './quotaManage'
+import ClusterResources from './clusterResources'
 
 const notification = Notification.newInstance()
 const _ = window._
@@ -25,6 +26,7 @@ class Preview extends React.Component {
             currentSlide: 0,
             resourceInfor: {},
             isQuotaManageModalVisible: false, // 配额管理模态框是否显示
+            isClusterResourcesDrawerVisible: false, // 集群资源是否显示
         }
     }
     componentDidMount() {
@@ -185,7 +187,7 @@ class Preview extends React.Component {
                         id: new Date(),
                         type: 'success',
                         title: intl.formatMessage({ id: 'Success' }),
-                        content: `${intl.formatMessage({ id: 'Operator' })}${intl.formatMessage({ id: 'Success' })}`,
+                        content: `${intl.formatMessage({ id: 'Operate' })}${intl.formatMessage({ id: 'Success' })}`,
                         iconNode: 'icon-success-o',
                         duration: 5,
                         closable: true
@@ -199,9 +201,6 @@ class Preview extends React.Component {
                 }
             })
         })
-    }
-    handleSeeClusterResources = () => {
-
     }
     initLineChart = (id, detail) => {
         if (!this[`$${id}`]) {
@@ -255,7 +254,7 @@ class Preview extends React.Component {
     }
     render() {
         const { intl, detail } = this.props
-        const { isAllowVisit, currentSlide, resourceInfor, isQuotaManageModalVisible } = this.state
+        const { isAllowVisit, currentSlide, resourceInfor, isQuotaManageModalVisible, isClusterResourcesDrawerVisible } = this.state
         const {
             id, name, createrName, createTime, description, tags, resourceObjectDtos, state, secondState, resourceObjectStatistics, projectId,
             commandExecuteLogs, applicationType, reversionNum, projectName, updateTime, historyResourceObjectDtos, quota, usedCpu, usedMemory
@@ -312,7 +311,7 @@ class Preview extends React.Component {
                 <Row gutter={10}>
                     <Col span={8}>
                         <div className='boxContainer'>
-                            <div className='boxTitle'>
+                            <div className='boxTitle activeBefore'>
                                 <div className='name_state'>
                                     <div className='appName'>{name}</div>
                                     <Tag color="geekblue" className='appState'>{ApplicationStatuList[state]}</Tag>
@@ -329,7 +328,7 @@ class Preview extends React.Component {
                     </Col>
                     <Col span={16}>
                         <div className='boxContainer'>
-                            <div className='boxTitle'>{intl.formatMessage({ id: 'ApplicationState' })}</div>
+                            <div className='boxTitle activeBefore'>{intl.formatMessage({ id: 'ApplicationState' })}</div>
                             <div className='boxContent'>
                                 {
                                     this.renderCarousel()
@@ -345,13 +344,13 @@ class Preview extends React.Component {
                 <Row gutter={10}>
                     <Col span={8}>
                         <div className='boxContainer'>
-                            <div className='boxTitle'>
+                            <div className='boxTitle activeBefore'>
                                 <div className='name'>
                                     {intl.formatMessage({ id: 'ApplicationQuota' })}
                                 </div>
                                 <div className='opera'>
                                     <div onClick={() => this.handleSetState('isQuotaManageModalVisible', true)}><Icon type='edit-o' />&nbsp;{intl.formatMessage({ id: 'AppCenterQuotaManage' })}&nbsp;&nbsp;</div>
-                                    <div onClick={this.handleSeeClusterResources}><Icon type='listing' />&nbsp;{intl.formatMessage({ id: 'Cluster resources' })}</div>
+                                    <div onClick={() => this.handleSetState('isClusterResourcesDrawerVisible', true)}><Icon type='listing' />&nbsp;{intl.formatMessage({ id: 'Cluster resources' })}</div>
                                 </div>
                             </div>
                             <div className='boxContent'>
@@ -380,7 +379,7 @@ class Preview extends React.Component {
                     </Col>
                     <Col span={16}>
                         <div className='boxContainer'>
-                            <div className='boxTitle'>{intl.formatMessage({ id: 'ResourceUsageMonitor' })}</div>
+                            <div className='boxTitle activeBefore'>{intl.formatMessage({ id: 'ResourceUsageMonitor' })}</div>
                             <div className='boxContent cpu_memory_monitor'>
                                 <div className='monitorItem'>
                                     <div className='summary'>
@@ -414,6 +413,12 @@ class Preview extends React.Component {
                         quota={quota}
                         wrappedComponentRef={node => this.$QuotaManage = node} />
                 </Modal>
+                <ClusterResources
+                    intl={intl}
+                    id={id}
+                    visible={isClusterResourcesDrawerVisible}
+                    onClose={() => this.handleSetState('isClusterResourcesDrawerVisible', false)}
+                ></ClusterResources>
             </div >
         )
     }
