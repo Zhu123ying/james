@@ -30,10 +30,22 @@ class Preview extends React.Component {
         }
     }
     componentDidMount() {
-        const { detail } = this.props
-        this.getResourceInfor()
+        this.getResourceInfor() // 资源使用监控数据
         this.getIsolationState()
         this.renderPieChart() // 应用状态拼图
+    }
+    componentWillReceiveProps(nextProps){
+        this.getResourceInfor()
+        this.renderPieChart()
+    }
+    // 由于轮播图的逻辑，所以只能放componentDidUpdate
+    componentDidUpdate(preProps){
+        const { detail: { id } } = this.props
+        const { detail: { id: proId } } = preProps
+        if (id !== proId) {
+            this.getResourceInfor()
+            this.renderPieChart()
+        }
     }
     // cpu.memory,storage的饼图和折线图数据
     getResourceInfor = () => {
@@ -315,7 +327,7 @@ class Preview extends React.Component {
                                 <div className='name_state'>
                                     <div className='appName'>{name}</div>
                                     <Tag color="geekblue" className='appState'>{ApplicationStatuList[state]}</Tag>
-                                    <Tag color={secondState === 'NORMAL' ? 'green' : 'red'} className='appSecondState'>{ApplicationSecondStatuList[secondState]}</Tag>
+                                    <Tag color={secondState === 'NORMAL' ? 'green' : 'red'} className='appSecondState'>{ApplicationSecondStatuList[secondState] || '未知'}</Tag>
                                 </div>
                                 <div className='update' onClick={this.handleUpdateApplication}><Icon type='edit-o' />&nbsp;编辑</div>
                             </div>

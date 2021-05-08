@@ -38,7 +38,6 @@ class ResourceObject extends React.Component {
 
     filterData = () => {
         const { resourceObjectDtos } = this.props
-        console.log(resourceObjectDtos)
         let tableDataObj = {}
         // 根据资源类型进行归类
         resourceObjectDtos.forEach(item => {

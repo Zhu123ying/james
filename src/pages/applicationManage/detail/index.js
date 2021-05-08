@@ -20,12 +20,13 @@ import OutputHistory from './OutputHistory'
 
 const notification = Notification.newInstance()
 const { TabPane } = Tabs;
+let getDetailInterval = null // 获取详情的定时器
 class ApplicationDetail extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             detail: {}, // 应用详情
-            isFetching: false,
+            isLoading: false, // 是否需要loading，定时刷新是不需要loading的
             isApplicationUpdateModalVisible: false, // 应用更新
             isShowOutputHistory: false, // 是否展开输出历史
 
@@ -37,44 +38,43 @@ class ApplicationDetail extends React.Component {
         const { currentApplication: { id } } = this.props
         this.getDetail(id)
     }
-    componentDidUpdate(prevProps) {
+    componentWillReceiveProps(nextProps) {
         const { currentApplication: { id } } = this.props
-        const { currentApplication: { id: preId } } = prevProps
-        id !== preId && this.getDetail(id)
+        const { currentApplication: { id: nextId } } = nextProps
+        id !== nextId && this.getDetail(nextId)
     }
     // 获取应用以及资源的详情信息
-    getDetail = (id, bool = false) => {
-        this.isIntervalFetch = bool
+    getDetail = (id) => {
         const { intl } = this.props
-        this.setState({
-            isFetching: true
-        })
+        const { detail } = this.state
+        if (id !== detail.id) {
+            // 只要是应用变化了就需要loading
+            this.setState({
+                isLoading: true
+            })
+        }
         HuayunRequest(api.detail, { id }, {
             success: (res) => {
                 this.setState({
                     detail: res.data,
                 }, () => {
-                    // // 资源概览饼图
-                    // const { resourceObjectStatistics } = res
-                    // resourceObjectStatistics && Object.keys(resourceObjectStatistics).forEach(key => {
-                    //     this.initResourcePie(key, resourceObjectStatistics[key])
-                    // })
-                    // // 状态不等于config开启定时器
-                    // if (res.state !== 'config' && !this.timer) {
-                    //     this.timer = setInterval(() => {
-                    //         const { modelUndeploy, modelDeploy, modelDetail } = this.props
-                    //         // 添加modelDetail.isFetching的理由是：有时候接口返回太慢，前面的接口还没返回回来，下一个接口就已经发出去了，所以加个限制！！！
-                    //         !modelUndeploy.isFetching && !modelDeploy.isFetching && !modelDetail.isFetching && this.getDetail(true)
-                    //     }, 10000)
-                    // } else if (res.state === 'config' && this.timer) {
-                    //     clearInterval(this.timer)
-                    //     this.timer = null
-                    // }
+                    const { state, id } = res.data
+                    // 状态不等于config开启定时器
+                    if (state !== 'config' && !getDetailInterval) {
+                        setTimeout(() => {
+                            getDetailInterval = setInterval(() => {
+                                this.getDetail(id)
+                            }, 10000)
+                        }, 10000)
+                    } else if (state === 'config' && getDetailInterval) {
+                        window.clearInterval(getDetailInterval)
+                        getDetailInterval = null
+                    }
                 })
             },
             complete: (res) => {
                 this.setState({
-                    isFetching: false
+                    isLoading: false
                 })
             }
         })
@@ -115,7 +115,7 @@ class ApplicationDetail extends React.Component {
             onOk: () => {
                 HuayunRequest(api.delete, { ids: [id] }, {
                     success(res) {
-                        refreshTableList() // 更新应用列表
+                        refreshTableList(true) // 更新应用列表
                         notification.notice({
                             id: 'deleteApp',
                             type: 'success',
@@ -202,7 +202,7 @@ class ApplicationDetail extends React.Component {
     }
     render() {
         const { intl } = this.props
-        const { isFetching, detail, isApplicationUpdateModalVisible, isApplicationRollBackModalVisible, isShowOutputHistory } = this.state
+        const { isLoading, detail, isApplicationUpdateModalVisible, isApplicationRollBackModalVisible, isShowOutputHistory } = this.state
         const { state, id } = detail
         const on_offLine = state === 'config' ? (<><Icon type="rise-o" />&nbsp;{intl.formatMessage({ id: 'OnLine' })}</>) : (<><Icon type="drop-o" />&nbsp;{intl.formatMessage({ id: 'OffLine' })}</>)
         const operaOptions = [
@@ -224,7 +224,7 @@ class ApplicationDetail extends React.Component {
             <div className='applicationDetail'>
                 {
                     // 第一次请求才loading
-                    (isFetching && !id) ? <Loading /> : (
+                    isLoading ? <Loading /> : (
                         <React.Fragment>
                             {
                                 detail.id ? (
@@ -305,11 +305,6 @@ class ApplicationDetail extends React.Component {
             </div>
         )
     }
-}
-
-ApplicationDetail.propTypes = {
-    intl: PropTypes.object,
-    currentApplication: PropTypes.object,
 }
 
 export default ApplicationDetail

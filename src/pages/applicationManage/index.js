@@ -30,7 +30,7 @@ class ApplicationManage extends React.Component {
     }
     componentDidMount() {
         this.addCreateApplicationButton()
-        this.handleSearch()
+        this.handleSearch(true)
     }
     componentWillUnmount(){
         this.props.handleExtra({
@@ -58,11 +58,12 @@ class ApplicationManage extends React.Component {
         this.props.history.push(`${this.props.match.path}/create`)
     }
     handleSearchParamChange = (key, val, isFetch = true) => {
+        // 此处的请求逻辑有问题，暂不改
         const value = _.get(val, 'target.value', val)
         this.setState({
             [key]: value
         }, () => {
-            isFetch && this.handleSearch()
+            isFetch && this.handleSearch(true)
         })
     }
     handleSearch = (isResetCurrentApplication = false) => {
@@ -86,20 +87,10 @@ class ApplicationManage extends React.Component {
                 const { data: { datas } } = res
                 this.setState({
                     dataList: datas,
-                    currentApplication: (!isResetCurrentApplication && datas[0]) ? datas[0] : currentApplication,
-                    isFetching: false
+                    currentApplication: (isResetCurrentApplication && datas[0]) ? datas[0] : currentApplication,
                 })
             },
-            fail: (res) => {
-                notification.notice({
-                    id: 'getApplicationlistError',
-                    type: 'danger',
-                    title: '错误提示',
-                    content: res.message,
-                    iconNode: 'icon-error-o',
-                    duration: 5,
-                    closable: true
-                })
+            complete: (res) => {
                 this.setState({
                     isFetching: false
                 })
@@ -154,7 +145,7 @@ class ApplicationManage extends React.Component {
                                         value={name}
                                         placeholder={intl.formatMessage({ id: 'Search' })}
                                         onChange={(val) => this.handleSearchParamChange('name', val, false)}
-                                        onSearch={this.handleSearch}
+                                        onSearch={() => this.handleSearch(true)}
                                     />
                                 </div>
                                 <div className='tableList'>
@@ -194,10 +185,6 @@ class ApplicationManage extends React.Component {
             </div >
         )
     }
-}
-
-ApplicationManage.propTypes = {
-    intl: PropTypes.object
 }
 
 export default ApplicationManage
