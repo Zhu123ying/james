@@ -2,6 +2,7 @@
 import React from 'react'
 import { getDataKey, compositeStateColor } from './index'
 import { Tooltip, SortTable, Dropdown } from 'ultraui'
+import { Table } from 'huayunui'
 // CronJob下的Job
 import CronJob_Job from './CronJob_Job'
 
@@ -30,7 +31,6 @@ export default (intl, data, this_, key) => {
                 title: intl.formatMessage({ id: 'ComprehensiveState' }),
                 dataIndex: 'runInfo',
                 key: 'compositeState',
-                width: 72,
                 render(runInfo, row) {
                     const state = _.get(row, `${getDataKey(row)}compositeState`, '')
                     return <div className="compositeStateDot" style={{ backgroundColor: compositeStateColor[state] }} />
@@ -113,7 +113,6 @@ export default (intl, data, this_, key) => {
             {
                 title: intl.formatMessage({ id: 'Operate' }),
                 key: 'Operate',
-                width: 50,
                 render: (id, row) => {
                     const options = [
                         {
@@ -144,8 +143,11 @@ export default (intl, data, this_, key) => {
         rowKey: (row) => row.id,
         expandedRowRender: (row, index, indent, expanded) => {
             let tableProps = CronJob_Job(intl, row.runInfo.jobs, this_, key)
-            return (<SortTable
-                {...tableProps}
+            const { data: dataSource, ...otherTableProps } = tableProps
+            return (<Table
+                {...otherTableProps}
+                dataSource={dataSource}
+                pagination={false}
             />)
         },
         expandedRowKeys: expandedRowKeysObj[key],

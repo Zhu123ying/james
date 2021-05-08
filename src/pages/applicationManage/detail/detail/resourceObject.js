@@ -2,6 +2,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { RcForm, Button, Icon, Loading, SortTable, Dialog, confirmForm } from 'ultraui'
+import { Table } from 'huayunui'
 import './index.less'
 import { resourceTypeList } from './constant'
 import resourceTypeTableProps from './resourceTypeTableProps'
@@ -176,11 +177,14 @@ class ResourceObject extends React.Component {
                     {
                         tableDataObjKeys.map(key => {
                             let tableProps = resourceTypeTableProps(intl, key, this, type)
+                            const { data: dataSource, ...otherTableProps } = tableProps
                             return (
                                 <div id={`${key}_${type}`} key={key} className="sourceTableItem">
                                     <div className="sourceType">{key}</div>
-                                    <SortTable
-                                        {...tableProps}
+                                    <Table
+                                        {...otherTableProps}
+                                        dataSource={dataSource}
+                                        pagination={false}
                                     />
                                 </div>
                             )

@@ -2,6 +2,7 @@
 import React from 'react'
 import { getDataKey, compositeStateColor } from './index'
 import { Tooltip, SortTable, Dropdown } from 'ultraui'
+import { Table } from 'huayunui'
 // runInfo下如果有replicaSet则取runInfo下如果有replicaSet则取，否则取pods
 import ResourceType_Pod from './ResourceType_Pod'
 import ReplicaSet from './ReplicaSet'
@@ -32,7 +33,6 @@ export default (intl, data, this_, key) => {
                 title: intl.formatMessage({ id: 'ComprehensiveState' }),
                 dataIndex: 'runInfo',
                 key: 'compositeState',
-                width: 72,
                 render(runInfo, row) {
                     const state = _.get(row, `${getDataKey(row)}compositeState`, '')
                     return <div className="compositeStateDot" style={{ backgroundColor: compositeStateColor[state] }} />
@@ -102,7 +102,6 @@ export default (intl, data, this_, key) => {
             {
                 title: intl.formatMessage({ id: 'Operate' }),
                 key: 'Operate',
-                width: 50,
                 render: (id, row) => {
                     const options = [
                         {
@@ -139,16 +138,24 @@ export default (intl, data, this_, key) => {
                     <div>
                         {
                             replicaSets.map(item => {
-                                return (<SortTable
-                                    {...ReplicaSet(intl, [item], this_, key, 2)}
+                                let tableProps = ReplicaSet(intl, [item], this_, key, 2)
+                                const { data: dataSource, ...otherTableProps } = tableProps
+                                return (<Table
+                                    {...otherTableProps}
+                                    dataSource={dataSource}
+                                    pagination={false}
                                 />)
                             })
                         }
                     </div>
                 )
             } else {
-                return (<SortTable
-                    {...ResourceType_Pod(intl, pods, this_)}
+                let tableProps = ResourceType_Pod(intl, pods, this_)
+                const { data: dataSource, ...otherTableProps } = tableProps
+                return (<Table
+                    {...otherTableProps}
+                    dataSource={dataSource}
+                    pagination={false}
                 />)
             }
         },

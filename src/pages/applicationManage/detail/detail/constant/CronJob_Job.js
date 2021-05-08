@@ -2,6 +2,7 @@
 import React from 'react'
 import { getDataKey, compositeStateColor } from './index'
 import { Tooltip, SortTable } from 'ultraui'
+import { Table } from 'huayunui'
 import ResourceType_Pod from './ResourceType_Pod'
 
 const _ = window._
@@ -30,7 +31,6 @@ export default (intl, data, this_, key) => {
                 title: intl.formatMessage({ id: 'ComprehensiveState' }),
                 dataIndex: 'compositeState',
                 key: 'compositeState',
-                width: 72,
                 render(state, row) {
                     return <div className="compositeStateDot" style={{ backgroundColor: compositeStateColor[state] }} />
                 }
@@ -93,9 +93,12 @@ export default (intl, data, this_, key) => {
         rowKey: (row) => _.get(row, `metadata.name`, new Date()),
         expandedRowRender: (row, index, indent, expanded) => {
             let tableProps = ResourceType_Pod(intl, row.pods, this_)
-            return (<SortTable
-                {...tableProps}
-                    />)
+            const { data: dataSource, ...otherTableProps } = tableProps
+            return (<Table
+                {...otherTableProps}
+                dataSource={dataSource}
+                pagination={false}
+            />)
         },
         expandedRowKeys: expandedRowKeysObj[key],
         rowExpandable: row => Array.isArray(row.pods) && row.pods.length,
