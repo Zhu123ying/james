@@ -15,6 +15,9 @@ const zh_CN = {
     CreateTime: '创建时间',
     CreaterName: '创建人',
     Project: '项目',
+    Type: '类型',
+    Status: '状态',
+    Associate: '关联',
     Tag: '标签',
     Operate: '操作',
     Search: '搜索',
@@ -203,6 +206,8 @@ const zh_CN = {
     RunningState: '运行状态',
     Name: '名称',
     Capacity: '容量',
+    Default: '默认',
+    netPort: '端口',
 
     // 接口返回提示
     UpdateApplicationSuccess: '编辑应用-{name}成功！',

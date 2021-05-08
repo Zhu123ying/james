@@ -6,8 +6,9 @@ import HuayunRequest from '~/http/request'
 import { DatePicker, Select, Input } from 'huayunui';
 import { Icon } from 'ultraui'
 import './index.less'
-import ActionAuth from '~/components/ActionAuth'
-import actions from '~/constants/authAction'
+// import ActionAuth from '~/components/ActionAuth'
+// import actions from '~/constants/authAction'
+import ResourceObject from './resourceObject'
 class Detail extends React.Component {
     constructor(props) {
         super(props)
@@ -15,24 +16,20 @@ class Detail extends React.Component {
 
         }
     }
-    componentDidMount() {
-        this.getDetail()
-    }
-    getDetail = () => {
-
-    }
     render() {
-        const { intl } = this.props
+        const { intl, detail } = this.props
+        const { resourceObjectDtos, historyResourceObjectDtos, state } = detail
         return (
             <div className='applicationDetail_detail'>
-                applicationDetail_preview
+                <ResourceObject
+                    {...this.props}
+                    type='current'
+                    state={state}
+                    resourceObjectDtos={resourceObjectDtos || []}
+                />
             </div>
         )
     }
-}
-
-Detail.propTypes = {
-    intl: PropTypes.object
 }
 
 export default Detail

@@ -1,3 +1,51 @@
+@import '~/css/variables.less';
 .applicationDetail_detail{
+    width: 100%;
+    height: 100%;
+    .resourceObject{
+        display: flex;
+        width: 100%;
+        height: 100%;
+        border: 1px solid #ededed;
+        border-radius: 3px;
+        .tableList{
+            width: calc(100% - 200px);
+            height: 100%;
+            overflow: auto;
+            padding: 10px;
+            .labelList{
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+            }
+            .sourceTableItem{
+                margin-bottom: 40px;
+                .sourceType{
+                    padding-bottom: 10px;
+                }               
+            }
+        }
+        .slider{
+            position: sticky;
+            top: 20px;
+            right: 0;
+            width: 200px;
+            height: 100%;
+            background: #F6F8FA;
+            padding: 10px 15px;
+            .typeItem{
+                display: flex;
+                align-items: center;
+                padding: 5px 0;
+                cursor: pointer;
+                color: #3da4f1
+            }
+            .activeType{
+                color: #516f90;
+            }
+        }
 
+    }
 }
