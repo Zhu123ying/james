@@ -208,6 +208,8 @@ const zh_CN = {
     Capacity: '容量',
     Default: '默认',
     netPort: '端口',
+    Resource: '资源',
+    Message: '信息',
 
     // 接口返回提示
     UpdateApplicationSuccess: '编辑应用-{name}成功！',

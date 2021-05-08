@@ -2,7 +2,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { RcForm, Button, Icon, Loading, SortTable, Dialog, confirmForm } from 'ultraui'
-import { Table } from 'huayunui'
+import { Table, Modal } from 'huayunui'
 import './index.less'
 import { resourceTypeList } from './constant'
 import resourceTypeTableProps from './resourceTypeTableProps'
@@ -86,43 +86,31 @@ class ResourceObject extends React.Component {
 
     readStatementInfor = (row) => {
         const { intl } = this.props
-        Dialog(
-            <div className="chartValues" dangerouslySetInnerHTML={{ __html: formatChartValues(row.yamlConfigInfo) }}></div>,
-            {
-                title: intl.formatMessage({ id: 'ReadStatementInfor' }),
-                buttonNone: true,
-                className: 'chartValueDialog',
-                style: { width: '60%' }
-            }
-        )
+        Modal.info({
+            title: intl.formatMessage({ id: 'ReadStatementInfor' }),
+            content: (<div className="chartValues" dangerouslySetInnerHTML={{ __html: formatChartValues(row.yamlConfigInfo) }}></div>),
+            className: 'chartValueDialog',
+        })
     }
 
     readNodeEvent = (row) => {
         const { name, namespace } = _.get(row, 'metadata', {})
         const { intl } = this.props
-        Dialog(
-            <NodeEventInfo name={name} namespace={namespace} intl={intl} />,
-            {
-                title: intl.formatMessage({ id: 'ReadNodeEvent' }),
-                buttonNone: true,
-                className: 'chartValueDialog',
-                style: { width: '60%' }
-            }
-        )
+        Modal.info({
+            title: intl.formatMessage({ id: 'ReadNodeEvent' }),
+            content: (<NodeEventInfo name={name} namespace={namespace} intl={intl} />),
+            className: 'w600',
+        })
     }
 
     readNodeMessage = (row) => {
         const { intl } = this.props
         const tableData = _.get(row, 'runInfo.messages', []) || []
-        Dialog(
-            <NodeMessageInfo intl={intl} tableData={tableData} />,
-            {
-                title: intl.formatMessage({ id: 'ReadNodeMessage' }),
-                buttonNone: true,
-                className: 'chartValueDialog',
-                style: { width: '60%' }
-            }
-        )
+        Modal.info({
+            title: intl.formatMessage({ id: 'ReadNodeMessage' }),
+            content: (<NodeMessageInfo intl={intl} tableData={tableData} />),
+            className: 'w600',
+        })
     }
 
     seePodMonitorDetail = (podName, namespace) => {

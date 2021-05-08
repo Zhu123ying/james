@@ -2,6 +2,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { RcForm, Button, Icon, Loading, SortTable, Dialog } from 'ultraui'
+import { Table } from 'huayunui'
 import './index.less'
 import { resource as api } from '~/http/api'
 import HuayunRequest from '~/http/request'
@@ -27,6 +28,9 @@ class NodeEventInfo extends React.Component {
 
     getNodeEvents = () => {
         const { name, namespace } = this.props
+        this.setState({
+            isFetching: true
+        })
         HuayunRequest(api.listEvents, { name, namespace }, {
             success: (res) => {
                 this.setState({
@@ -35,7 +39,7 @@ class NodeEventInfo extends React.Component {
             },
             complete: (res) => {
                 this.setState({
-                    isFetching: res.data
+                    isFetching: false
                 })
             }
         })
@@ -93,11 +97,10 @@ class NodeEventInfo extends React.Component {
             <React.Fragment>
                 {
                     isFetching ? <Loading /> : (
-                        <SortTable
+                        <Table
                             columns={this.getNodeEventsTableColumns()}
-                            data={tableData}
-                            rowKey={(row, index) => index}
-                            prefixCls='ult'
+                            dataSource={tableData}
+                            pagination={false}
                         />
                     )
                 }

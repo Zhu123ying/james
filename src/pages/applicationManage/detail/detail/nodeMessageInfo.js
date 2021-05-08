@@ -2,6 +2,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { RcForm, Button, Icon, Loading, SortTable, Dialog } from 'ultraui'
+import { Table } from 'huayunui'
 import './index.less'
 import moment from 'moment'
 import { DEFAULT_EMPTY_LABEL } from '~/constants'
@@ -48,11 +49,10 @@ class NodeMessageInfo extends React.Component {
     render() {
         const { intl, tableData } = this.props
         return (
-            <SortTable
+            <Table
                 columns={this.getNodeEventsTableColumns()}
-                data={tableData}
-                rowKey={(row, index) => index}
-                prefixCls='ult'
+                dataSource={tableData}
+                pagination={false}
             />
         )
     }
