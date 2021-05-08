@@ -5,17 +5,8 @@ import { Tooltip, Dropdown } from 'ultraui'
 const _ = window._
 
 export default (intl, data, this_) => {
-    const { expandedRowKeysObj } = this_.state
     return {
         columns: [
-            {
-                title: '',
-                key: 'expand',
-                width: 32,
-                render: (val, row) => {
-                    return ''
-                }
-            },
             {
                 title: intl.formatMessage({ id: 'ComprehensiveState' }),
                 dataIndex: 'runInfo',

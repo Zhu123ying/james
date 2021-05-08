@@ -25,7 +25,6 @@ class ResourceObject extends React.Component {
         this.state = {
             currentResourceType: null,
             tableDataObj: {}, // 根据资源类型归类后的资源对象数据
-            expandedRowKeysObj: {}, // 所有的table的展开项的id集合
         }
     }
 
@@ -33,13 +32,14 @@ class ResourceObject extends React.Component {
         this.filterData()
     }
 
-    // componentWillReceiveProps(nextProps) {
-    //     this.filterData(nextProps) // 对返回回来的资源对象的数据进行整合归类
-    // }
+    componentWillReceiveProps(nextProps) {
+        this.filterData() // 对返回回来的资源对象的数据进行整合归类
+    }
 
     filterData = () => {
         const { resourceObjectDtos } = this.props
-        let tableDataObj = {}, expandedRowKeysObj = {}
+        console.log(resourceObjectDtos)
+        let tableDataObj = {}
         // 根据资源类型进行归类
         resourceObjectDtos.forEach(item => {
             if (!item) return
@@ -50,12 +50,9 @@ class ResourceObject extends React.Component {
             } else {
                 tableDataObj[type] = [item]
             }
-            // this.state.expandedRowKeysObj[type] || []是用来防止定时刷新重置expandedRowKeysObj的值
-            expandedRowKeysObj[type] = this.state.expandedRowKeysObj[type] || []
         })
         this.setState({
             tableDataObj,
-            expandedRowKeysObj,
             currentResourceType: resourceObjectDtos.length ? resourceObjectDtos[0].type : null
         })
     }
@@ -68,20 +65,6 @@ class ResourceObject extends React.Component {
         let anchorElement = document.getElementById(`${key}_${type}`);
         // 如果对应id的锚点存在，就跳转到锚点
         if (anchorElement) { anchorElement.scrollIntoView({ block: 'start', behavior: 'smooth' }); }
-    }
-
-    handleExpandCloseRow = (key, rowKey) => {
-        const { expandedRowKeysObj } = this.state
-        let index = expandedRowKeysObj[key].findIndex(item => item === rowKey)
-        if (index > -1) {
-            // 如果是展开的
-            expandedRowKeysObj[key].splice(index, 1)
-        } else {
-            expandedRowKeysObj[key].push(rowKey)
-        }
-        this.setState({
-            expandedRowKeysObj: { ...expandedRowKeysObj }
-        })
     }
 
     filterTableObjectKeys = (tableDataObj) => {

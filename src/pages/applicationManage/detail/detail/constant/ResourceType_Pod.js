@@ -10,14 +10,6 @@ export default (intl, data, this_) => {
     return {
         columns: [
             {
-                title: '',
-                key: 'expand',
-                width: 32,
-                render: (val, row) => {
-                    return ''
-                }
-            },
-            {
                 title: intl.formatMessage({ id: 'ComprehensiveState' }),
                 dataIndex: 'compositeState',
                 key: 'compositeState',

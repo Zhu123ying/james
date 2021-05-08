@@ -53,7 +53,6 @@ class ApplicationDetail extends React.Component {
             success: (res) => {
                 this.setState({
                     detail: res.data,
-                    isFetching: false
                 }, () => {
                     // // 资源概览饼图
                     // const { resourceObjectStatistics } = res
@@ -73,16 +72,7 @@ class ApplicationDetail extends React.Component {
                     // }
                 })
             },
-            fail: (res) => {
-                notification.notice({
-                    id: 'getAppDetailError',
-                    type: 'danger',
-                    title: '错误提示',
-                    content: res.message,
-                    iconNode: 'icon-error-o',
-                    duration: 5,
-                    closable: true
-                })
+            complete: (res) => {
                 this.setState({
                     isFetching: false
                 })
@@ -233,58 +223,60 @@ class ApplicationDetail extends React.Component {
         return (
             <div className='applicationDetail'>
                 {
-                    isFetching ? <Loading /> : null
-                }
-                <React.Fragment>
-                    {
-                        detail.id ? (
-                            <React.Fragment>
-                                <div className='operaBar'>
-                                    <div className='leftGroup'>
-                                        {
-                                            operaOptions.map((item, index) => {
-                                                return <ActionAuth action={actions.AdminApplicationCenterApplicationMaintain} key={index}>{item}</ActionAuth>
-                                            })
-                                        }
-                                    </div>
-                                    <Dropdown
-                                        trigger={['click']}
-                                        overlay={<OutputHistory id={id} intl={intl} />}
-                                        placement="bottomLeft"
-                                        onVisibleChange={(visible) => this.handleSetState('isShowOutputHistory', visible)}
-                                    >
-                                        <div className="operaItem">
-                                            {intl.formatMessage({ id: 'OutputHistory' })}
-                                            <Icon type={isShowOutputHistory ? "up" : "down"} />
+                    // 第一次请求才loading
+                    (isFetching && !id) ? <Loading /> : (
+                        <React.Fragment>
+                            {
+                                detail.id ? (
+                                    <React.Fragment>
+                                        <div className='operaBar'>
+                                            <div className='leftGroup'>
+                                                {
+                                                    operaOptions.map((item, index) => {
+                                                        return <ActionAuth action={actions.AdminApplicationCenterApplicationMaintain} key={index}>{item}</ActionAuth>
+                                                    })
+                                                }
+                                            </div>
+                                            <Dropdown
+                                                trigger={['click']}
+                                                overlay={<OutputHistory id={id} intl={intl} />}
+                                                placement="bottomLeft"
+                                                onVisibleChange={(visible) => this.handleSetState('isShowOutputHistory', visible)}
+                                            >
+                                                <div className="operaItem">
+                                                    {intl.formatMessage({ id: 'OutputHistory' })}
+                                                    <Icon type={isShowOutputHistory ? "up" : "down"} />
+                                                </div>
+                                            </Dropdown>
                                         </div>
-                                    </Dropdown>
-                                </div>
-                                <div className='detailContent'>
-                                    <Tabs defaultActiveKey="Preview">
-                                        <TabPane tab={intl.formatMessage({ id: 'OverView' })} key="Preview">
-                                            <Preview {...this.props} detail={detail} getDetail={this.getDetail}></Preview>
-                                        </TabPane>
-                                        <TabPane tab={intl.formatMessage({ id: 'Detail' })} key="Detail">
-                                            <Detail {...this.props} detail={detail} getDetail={this.getDetail}></Detail>
-                                        </TabPane>
-                                        <TabPane tab={intl.formatMessage({ id: 'Entrance' })} key="Entrance">
-                                            <Entrance {...this.props}></Entrance>
-                                        </TabPane>
-                                        <TabPane tab={intl.formatMessage({ id: 'Alarm' })} key="Alarm">
-                                            <Alarm {...this.props}></Alarm>
-                                        </TabPane>
-                                        <TabPane tab={intl.formatMessage({ id: 'Log' })} key="Log">
-                                            <Log {...this.props}></Log>
-                                        </TabPane>
-                                        <TabPane tab={intl.formatMessage({ id: 'AppPublish' })} key="Publish">
-                                            <Publish {...this.props} Z></Publish>
-                                        </TabPane>
-                                    </Tabs>
-                                </div>
-                            </React.Fragment>
-                        ) : null
-                    }
-                </React.Fragment>
+                                        <div className='detailContent'>
+                                            <Tabs defaultActiveKey="Preview">
+                                                <TabPane tab={intl.formatMessage({ id: 'OverView' })} key="Preview">
+                                                    <Preview {...this.props} detail={detail} getDetail={this.getDetail}></Preview>
+                                                </TabPane>
+                                                <TabPane tab={intl.formatMessage({ id: 'Detail' })} key="Detail">
+                                                    <Detail {...this.props} detail={detail} getDetail={this.getDetail}></Detail>
+                                                </TabPane>
+                                                <TabPane tab={intl.formatMessage({ id: 'Entrance' })} key="Entrance">
+                                                    <Entrance {...this.props}></Entrance>
+                                                </TabPane>
+                                                <TabPane tab={intl.formatMessage({ id: 'Alarm' })} key="Alarm">
+                                                    <Alarm {...this.props}></Alarm>
+                                                </TabPane>
+                                                <TabPane tab={intl.formatMessage({ id: 'Log' })} key="Log">
+                                                    <Log {...this.props}></Log>
+                                                </TabPane>
+                                                <TabPane tab={intl.formatMessage({ id: 'AppPublish' })} key="Publish">
+                                                    <Publish {...this.props} Z></Publish>
+                                                </TabPane>
+                                            </Tabs>
+                                        </div>
+                                    </React.Fragment>
+                                ) : null
+                            }
+                        </React.Fragment>
+                    )
+                }
                 <Modal
                     title={`${intl.formatMessage({ id: 'Application' })}${intl.formatMessage({ id: 'Update' })}`}
                     visible={isApplicationUpdateModalVisible}

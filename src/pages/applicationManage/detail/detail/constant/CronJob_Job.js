@@ -8,25 +8,8 @@ import ResourceType_Pod from './ResourceType_Pod'
 const _ = window._
 
 export default (intl, data, this_, key) => {
-    const { expandedRowKeysObj } = this_.state
     return {
         columns: [
-            {
-                title: '',
-                key: 'expand',
-                width: 32,
-                render: (val, row) => {
-                    let isExpandable = Array.isArray(row.pods) && row.pods.length
-                    if (isExpandable) {
-                        // 如果可以展开，则判断是展开状态还是折叠状态
-                        let rowKey = _.get(row, `metadata.name`, '')
-                        let index = expandedRowKeysObj[key].findIndex(item => item === rowKey)
-                        return <i className={`expandIcon iconfont icon-${index > -1 ? 'minus' : 'add'}`} onClick={() => this_.handleExpandCloseRow(key, rowKey)} />
-                    } else {
-                        return ''
-                    }
-                }
-            },
             {
                 title: intl.formatMessage({ id: 'ComprehensiveState' }),
                 dataIndex: 'compositeState',
@@ -100,8 +83,6 @@ export default (intl, data, this_, key) => {
                 pagination={false}
             />)
         },
-        expandedRowKeys: expandedRowKeysObj[key],
-        rowExpandable: row => Array.isArray(row.pods) && row.pods.length,
         data
     }
 }

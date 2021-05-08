@@ -9,24 +9,8 @@ import CronJob_Job from './CronJob_Job'
 const _ = window._
 
 export default (intl, data, this_, key) => {
-    const { expandedRowKeysObj } = this_.state
     return {
         columns: [
-            {
-                title: '',
-                key: 'expand',
-                width: 32,
-                render: (val, row) => {
-                    let isExpandable = row.runInfo && Array.isArray(row.runInfo.jobs) && row.runInfo.jobs.length
-                    if (isExpandable) {
-                        // 如果可以展开，则判断是展开状态还是折叠状态
-                        let index = expandedRowKeysObj[key].findIndex(item => item === row.id)
-                        return <i className={`expandIcon iconfont icon-${index > -1 ? 'minus' : 'add'}`} onClick={() => this_.handleExpandCloseRow(key, row.id)} />
-                    } else {
-                        return ''
-                    }
-                }
-            },
             {
                 title: intl.formatMessage({ id: 'ComprehensiveState' }),
                 dataIndex: 'runInfo',
@@ -150,8 +134,6 @@ export default (intl, data, this_, key) => {
                 pagination={false}
             />)
         },
-        expandedRowKeys: expandedRowKeysObj[key],
-        rowExpandable: row => row.runInfo && Array.isArray(row.runInfo.jobs) && row.runInfo.jobs.length,
         data
     }
 }
