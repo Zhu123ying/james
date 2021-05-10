@@ -11,13 +11,13 @@ import NodeEventInfo from './nodeEventInfo'
 import NodeMessageInfo from './nodeMessageInfo'
 import { application as api } from '~/http/api'
 import HuayunRequest from '~/http/request'
+import PodMonitorDetail from './podMonitorDetail'
 
 const _ = window._
 
 class ResourceObject extends React.Component {
     static propTypes = {
-        intl: PropTypes.object.isRequired,
-        history: PropTypes.object.isRequired,
+        intl: PropTypes.object.isRequired
     }
 
     constructor(props) {
@@ -26,6 +26,8 @@ class ResourceObject extends React.Component {
             currentResourceType: null,
             tableDataObj: {}, // 根据资源类型归类后的资源对象数据
             historyTableDataObj: {}, // 历史的
+            isPodMonitorDetailModalVisible: false,
+            currentPod: {}, // 查看pod监控详情的传参数据
         }
     }
 
@@ -112,8 +114,12 @@ class ResourceObject extends React.Component {
     }
 
     seePodMonitorDetail = (podName, namespace) => {
-        const { match: { url }, history } = this.props
-        history.push(`${url}/podMonitorDetail/${podName}/${namespace}`)
+        this.setState({
+            currentPod: {
+                name: podName, namespace
+            },
+            isPodMonitorDetailModalVisible: true
+        })
     }
 
     handleDeletePvc = (row) => {
@@ -134,10 +140,14 @@ class ResourceObject extends React.Component {
         //     }
         // })
     }
-
+    handleSetState = (key, value) => {
+        this.setState({
+            [key]: value
+        })
+    }
     render() {
         const { intl, type } = this.props // type用于区分是当前的资源列表还是历史的资源列表
-        const { currentResourceType, tableDataObj, historyTableDataObj } = this.state
+        const { currentResourceType, tableDataObj, historyTableDataObj, isPodMonitorDetailModalVisible, currentPod } = this.state
         const tableDataObjKeys = this.filterTableObjectKeys(type === 'current' ? tableDataObj : historyTableDataObj)
         return (
             <div className="resourceObject">
@@ -168,6 +178,12 @@ class ResourceObject extends React.Component {
                         })
                     }
                 </div>
+                <PodMonitorDetail
+                    intl={intl}
+                    {...currentPod}
+                    visible={isPodMonitorDetailModalVisible}
+                    onClose={() => this.handleSetState('isPodMonitorDetailModalVisible', false)}
+                ></PodMonitorDetail>
             </div>
         )
     }
