@@ -251,7 +251,7 @@ class ApplicationDetail extends React.Component {
                                         </div>
                                         <div className='detailContent'>
                                             <Tabs defaultActiveKey="Preview">
-                                                <TabPane tab={intl.formatMessage({ id: 'OverView' })} key="Preview">
+                                                <TabPane tab={intl.formatMessage({ id: 'OverView' })} key="Preview" forceRender={true}>
                                                     <Preview {...this.props} detail={detail} getDetail={this.getDetail}></Preview>
                                                 </TabPane>
                                                 <TabPane tab={intl.formatMessage({ id: 'Detail' })} key="Detail">
