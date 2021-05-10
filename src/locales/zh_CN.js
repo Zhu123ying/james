@@ -55,6 +55,7 @@ const zh_CN = {
     CreateAppPackageTitle: '创建应用包',
     CreateAppPackageDes: '这是创建应用包的描述信息',
     TagPlaceHolder: '请输入标签',
+    Version: '版本',
     VersionManage: '版本管理',
     NoAppPackageVersionDesc: '无版本记录',
     AppPackageVersion: '应用包版本',
@@ -90,6 +91,7 @@ const zh_CN = {
     CreateVersionSuccess: '创建版本成功！',
     CreateVersionError: '创建版本失败！',
     VersionName: '版本名称',
+    ApplicationPackageName: '应用包名称',
     SelectAppPackageVersion: '请选择应用包版本',
     'CPU Assign Rule': 'CPU值必须大于应用需求配额',
     'MEMORY Assign Rule': 'Memory值必须大于应用需求配额',
@@ -198,6 +200,7 @@ const zh_CN = {
     VersionNamePlaceHolder: '2~20个字符，支持英文大小写、数字、中划线以及下划线',
     ReadNodeMessage: '查看信息',
     Reason: '原因',
+    UpdateTime: '更新时间',
     LastUpdateTime: '最近更新时间',
     HarborAuthInfo: 'Harbor权限信息',
     ApplicationState: '应用状态',
@@ -210,6 +213,7 @@ const zh_CN = {
     netPort: '端口',
     Resource: '资源',
     Message: '信息',
+    View: '查看',
 
     // 接口返回提示
     UpdateApplicationSuccess: '编辑应用-{name}成功！',

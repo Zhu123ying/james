@@ -2,53 +2,134 @@
 .applicationDetail_detail{
     width: 100%;
     height: 100%;
-    .resourceObject{
+    .detailSummary{
+        padding: 8px 0;
+        background-color: #f5f8fa;
         display: flex;
-        width: 100%;
-        height: 100%;
-        border: 1px solid #ededed;
-        border-radius: 3px;
-        .tableList{
-            width: calc(100% - 200px);
-            height: 100%;
-            overflow: auto;
-            padding: 10px;
-            .labelList{
-                overflow: hidden;
-                text-overflow: ellipsis;
-                display: -webkit-box;
-                -webkit-line-clamp: 2;
-                -webkit-box-orient: vertical;
-            }
-            .sourceTableItem{
-                margin-bottom: 40px;
-                .sourceType{
-                    padding-bottom: 10px;
-                }               
+        align-items: center;
+        .summaryItem{
+            padding-right: 40px;
+            border-right: 1px dotted #dfe3eb;
+            padding-left: 20px;
+            .detail-icon-wrapper{
+                margin-right: 10px;
             }
         }
-        .slider{
-            position: sticky;
-            top: 20px;
-            right: 0;
-            width: 200px;
-            height: 100%;
-            background: #F6F8FA;
-            padding: 10px 15px;
-            .typeItem{
+        .summaryItem:last-child{
+            border-right: none;
+        }
+        .appVersion{
+            display: flex;
+            align-items: center;
+            .versionHistory{
+
+            }
+        }
+    }
+    .versionResource{
+        padding-top: 20px;
+        .header{
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .versionConfig{
+                font-size: 12px;
+                cursor: pointer;
                 display: flex;
                 align-items: center;
-                padding: 5px 0;
-                cursor: pointer;
-                color: #3da4f1
-            }
-            .activeType{
-                color: #516f90;
+                .iconfont{
+                    font-size: 12px;
+                }
             }
         }
-
+        .resourceObject{
+            display: flex;
+            width: 100%;
+            height: 100%;
+            border: 1px solid #ededed;
+            border-radius: 3px;
+            .tableList{
+                width: calc(100% - 200px);
+                height: 100%;
+                overflow: auto;
+                padding: 10px;
+                .labelList{
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                }
+                .sourceTableItem{
+                    margin-bottom: 40px;
+                    .sourceType{
+                        padding-bottom: 10px;
+                    }               
+                }
+            }
+            .slider{
+                position: sticky;
+                top: 0;
+                right: 0;
+                width: 200px;
+                height: 100%;
+                background: #F6F8FA;
+                padding: 10px 15px;
+                .typeItem{
+                    display: flex;
+                    align-items: center;
+                    padding: 5px 0;
+                    cursor: pointer;
+                    color: #3da4f1
+                }
+                .activeType{
+                    color: #516f90;
+                }
+            }
+    
+        }
     }
 }
 .w600{
     width: 600px!important;
+}
+.appVersionHistoryDialog{
+    width: 680px!important;
+    .chartValues{
+        line-height: 16px;
+        padding: 10px 0;
+    }
+}
+.applicationVersionConfigModal{
+    width: 600px!important;
+    .detailSummary{
+        margin-bottom: 20px;
+        padding: 8px 0;
+        background-color: #f5f8fa;
+        display: flex;
+        align-items: center;
+        .summaryItem{
+            padding-right: 40px;
+            border-right: 1px dotted #dfe3eb;
+            padding-left: 20px;
+            .detail-icon-wrapper{
+                margin-right: 10px;
+            }
+        }
+        .summaryItem:last-child{
+            border-right: none;
+        }
+        .appVersion{
+            display: flex;
+            align-items: center;
+            .versionHistory{
+
+            }
+        }
+    }
+    .statement{
+        line-height: 16px;
+        padding: 10px 0;
+    }
 }

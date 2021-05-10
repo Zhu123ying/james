@@ -25,22 +25,21 @@ class ResourceObject extends React.Component {
         this.state = {
             currentResourceType: null,
             tableDataObj: {}, // 根据资源类型归类后的资源对象数据
+            historyTableDataObj: {}, // 历史的
         }
     }
 
     componentDidMount() {
-        this.filterData()
+        const { detail: { resourceObjectDtos, historyResourceObjectDtos } } = this.props
+        this.filterData(resourceObjectDtos, 'tableDataObj')
+        this.filterData(historyResourceObjectDtos, 'historyTableDataObj')
+
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.filterData() // 对返回回来的资源对象的数据进行整合归类
-    }
-
-    filterData = () => {
-        const { resourceObjectDtos } = this.props
+    filterData = (dataArray, key) => {
         let tableDataObj = {}
         // 根据资源类型进行归类
-        resourceObjectDtos.forEach(item => {
+        dataArray.forEach(item => {
             if (!item) return
             let index = resourceTypeList.findIndex(type => type === item.type)
             let type = index > -1 ? resourceTypeList[index] : 'Other'
@@ -51,8 +50,7 @@ class ResourceObject extends React.Component {
             }
         })
         this.setState({
-            tableDataObj,
-            currentResourceType: resourceObjectDtos.length ? resourceObjectDtos[0].type : null
+            [key]: tableDataObj
         })
     }
 
@@ -139,8 +137,8 @@ class ResourceObject extends React.Component {
 
     render() {
         const { intl, type } = this.props // type用于区分是当前的资源列表还是历史的资源列表
-        const { currentResourceType, tableDataObj } = this.state
-        const tableDataObjKeys = this.filterTableObjectKeys(tableDataObj)
+        const { currentResourceType, tableDataObj, historyTableDataObj } = this.state
+        const tableDataObjKeys = this.filterTableObjectKeys(type === 'current' ? tableDataObj : historyTableDataObj)
         return (
             <div className="resourceObject">
                 <div className="tableList">
