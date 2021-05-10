@@ -1,3 +1,77 @@
-.applicationDetail_enter{
+@import '~/css/variables.less';
+@border: 1px solid #e0e0e0;
 
+#appPortalManage {
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    padding: 20px;
+    .@{ult-prefix}-loading{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 999;
+        background-color: rgba(255,255,255,0.7);
+    }
+    .dataItem{
+        margin-top: 20px;
+        padding-bottom: 15px;
+        border-bottom: @border;
+        .title{
+            color: rgba(0, 0, 0, 0.65);
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .itemLine{
+            margin: 10px 0;
+        }
+    }
+}
+
+.createAppPortDialog{
+    .ult-rcform .ult-rcform-group .ult-label{
+        width: 120px!important;
+    }
+    .ult-rcform .ult-rcform-group .ult-rcform-group-input-wrapper{
+        width: calc(100% - 120px)!important;
+    }
+    .@{ult-prefix}-rcform-group{
+        display: flex!important;
+    }
+    .ult-rcform .ult-rcform-group .ult-rcform-panel{
+        width: calc(100% - 120px)!important;
+        .radioLine{
+            background-color: initial!important;
+            border: none!important;
+            padding: 0!important;
+            margin-bottom: 10px;
+        }
+        .selectLine{
+            display: flex;
+            .@{ult-prefix}-rcform-group{
+                width: 50%!important;
+            }
+            .@{ult-prefix}-label{
+                display: none;
+            }
+            .@{ult-prefix}-rcform-group-input-wrapper{
+                width: calc(100% - 10px)!important;
+            }
+        }
+        .userInput{
+            .@{ult-prefix}-label{
+                display: none;
+            }
+            .@{ult-prefix}-rcform-group-input-wrapper{
+                width: calc(100% - 10px)!important;
+            }
+        }
+    }
+    .ult-rcform .ult-rcform-group .validation-error{
+        padding-left: 120px!important;
+        margin-top: 24px;
+    }
 }

@@ -258,7 +258,7 @@ class ApplicationDetail extends React.Component {
                                                     <Detail {...this.props} detail={detail} getDetail={this.getDetail}></Detail>
                                                 </TabPane>
                                                 <TabPane tab={intl.formatMessage({ id: 'Entrance' })} key="Entrance">
-                                                    <Entrance {...this.props}></Entrance>
+                                                    <Entrance {...this.props} detail={detail}></Entrance>
                                                 </TabPane>
                                                 <TabPane tab={intl.formatMessage({ id: 'Alarm' })} key="Alarm">
                                                     <Alarm {...this.props}></Alarm>
