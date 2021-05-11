@@ -1,13 +1,14 @@
 /* eslint-disable */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { RcForm, Button, Icon, Loading, SortTable, Dialog, confirmForm } from 'ultraui'
+import { RcForm, Button, Icon, Loading, SortTable, Dialog, confirmForm, Notification, TagItem } from 'ultraui'
 import { Modal } from 'huayunui'
 import './index.less'
 import CreateAppPort from './createAppPort'
 import HuayunRequest from '~/http/request'
 import { application as api } from '~/http/api'
 
+const notification = Notification.newInstance()
 const _ = window._
 class AppPortalManage extends React.Component {
     static propTypes = {
@@ -20,6 +21,8 @@ class AppPortalManage extends React.Component {
         this.state = {
             isFetching: false,
             dataList: [], // 应用入口列表数据
+            isManageAppPortModalVisible: false, // 管理入口的modal
+            currentPortId: '', // 当前入口的id
         }
         this.operaTarget = intl.formatMessage({ id: 'ApplicationPort' })
     }
@@ -48,127 +51,137 @@ class AppPortalManage extends React.Component {
     }
 
     manageAppPort = (id) => {
-        const { intl, dataList, detail } = this.props
-        Modal.info({
-            content: (
-                <CreateAppPort
-                    id={id}
-                    dataList={dataList}
-                    detail={detail}
-                    intl={intl}
-                    wrappedComponentRef={(node) => { this.$CreateAppPort = node }}
-                />),
-            title: `${intl.formatMessage({ id: id ? 'Edit' : 'Create' })}${this.operaTarget}`,
-            style: { width: '600px' },
-            className: 'createAppPortDialog',
-            confirm: () => {
-                let valid = true
-                this.$CreateAppPort.props.form.validateFields((error, values) => {
-                    valid = !error
-                    if (valid) {
-                        const { name, description, config, portKey } = this.$CreateAppPort.state
-                        const { type, resourceObjectId } = config
-                        config.portKey = portKey // 这个后端不需要，但是前端编辑赋初始值的时候需要
-                        const params = {
-                            name, type, description, resourceObjectId, applicationId: this.id, config, id
-                        }
-                        // baseFetch('appCenter', `app.${id ? 'updateApplicationGateway' : 'createApplicationGateway'}`, 'post', params, {}, {
-                        //     callback: (res) => {
-                        //         handleResponseStatus({
-                        //             type: HANDLE_RESPONSE_STATUS,
-                        //             code: 200,
-                        //             msg: {
-                        //                 success: `${intl.formatMessage({ id: id ? 'Edit' : 'Create' })}${this.operaTarget}${intl.formatMessage({ id: 'Success' })}`
-                        //             }
-                        //         })
-                        //         this.getData()
-                        //     },
-                        //     onError: (res) => {
-                        //         handleResponseStatus({
-                        //             type: HANDLE_RESPONSE_STATUS,
-                        //             code: 200,
-                        //             msg: {
-                        //                 error: intl.formatMessage({ id: res.code === 400 ? res.data.errorCode : 'Internal Server Error' })
-                        //             }
-                        //         })
-                        //     }
-                        // })
+        const { intl, detail } = this.props
+        const { dataList } = this.state
+        this.setState({
+            currentPortId: id,
+            isManageAppPortModalVisible: true
+        })
+    }
+    handleManageAppPortSubmit = () => {
+        const { intl, detail } = this.props
+        const { currentPortId: id } = this.state
+        this.$CreateAppPort.props.form.validateFields((error, values) => {
+            if (!error) {
+                const { name, description, config, portKey } = this.$CreateAppPort.state
+                const { type, resourceObjectId } = config
+                config.portKey = portKey // 这个后端不需要，但是前端编辑赋初始值的时候需要
+                const params = {
+                    name, type, description, resourceObjectId, applicationId: detail.id, config, id
+                }
+                let urlType = id ? 'updateApplicationGateway' : 'createApplicationGateway'
+                let action = id ? 'Update' : 'Create'
+                HuayunRequest(api[urlType], params, {
+                    success: (res) => {
+                        this.setState({
+                            isManageAppPortModalVisible: false
+                        })
+                        this.getData() // 更新应用入口列表
+                        notification.notice({
+                            id: 'updateSuccess',
+                            type: 'success',
+                            title: intl.formatMessage({ id: 'Success' }),
+                            content: `${action}${this.operaTarget}${intl.formatMessage({ id: 'Success' })}`,
+                            iconNode: 'icon-success-o',
+                            duration: 5,
+                            closable: true
+                        })
                     }
                 })
-                return valid
             }
         })
     }
 
     handleDelete = (id, name) => {
         const { intl } = this.props
-        // confirmForm({
-        //     title: `${intl.formatMessage({ id: 'Delete' })}${intl.formatMessage({ id: 'ApplicationPort' })}`,
-        //     content: `${intl.formatMessage({ id: 'IsSureToDeleteAppPort' })} - ${name}`,
-        //     type: 'warning',
-        //     prefixCls: 'ult',
-        //     confirm: () => {
-        //         baseFetch('appCenter', 'app.deleteApplicationGateway', 'post', { id }, {}, {
-        //             callback: (res) => {
-        //                 handleResponseStatus({
-        //                     type: HANDLE_RESPONSE_STATUS,
-        //                     code: 200,
-        //                     msg: {
-        //                         success: `${intl.formatMessage({ id: 'Delete' })}${this.operaTarget}${intl.formatMessage({ id: 'Success' })}`
-        //                     }
-        //                 })
-        //                 this.getData()
-        //             },
-        //             onError: (res) => {
-        //                 handleResponseStatus({
-        //                     type: HANDLE_RESPONSE_STATUS,
-        //                     code: 200,
-        //                     msg: {
-        //                         error: intl.formatMessage({ id: res.code === 400 ? res.data.errorCode : 'Internal Server Error' })
-        //                     }
-        //                 })
-        //             }
-        //         })
-        //     }
-        // })
+        const title = `${intl.formatMessage({ id: 'Delete' })}${intl.formatMessage({ id: 'ApplicationPort' })}`
+        Modal.error({
+            title,
+            content: intl.formatMessage({ id: 'IsSureToDeleteAppPort' }),
+            onOk: () => {
+                HuayunRequest(api.deleteApplicationGateway, { id }, {
+                    success: () => {
+                        this.getData() // 更新应用入口列表
+                        notification.notice({
+                            id: new Date(),
+                            type: 'success',
+                            title: intl.formatMessage({ id: 'Success' }),
+                            content: `${title} - ${name} ${intl.formatMessage({ id: 'Success' })}`,
+                            iconNode: 'icon-success-o',
+                            duration: 5,
+                            closable: true
+                        })
+                    }
+                })
+            }
+        })
     }
 
     render() {
-        const { intl } = this.props
-        const { dataList, isFetching } = this.state
+        const { intl, detail } = this.props
+        const { dataList, isFetching, isManageAppPortModalVisible, currentPortId } = this.state
 
         return (
             <div id="appPortalManage">
                 {
                     isFetching.isFetching ? (<Loading />) : null
                 }
-                <Button.List>
-                    <Button icon="refresh" type="default" onClick={() => { this.getData() }} />
-                    <Button type='primary' onClick={() => this.manageAppPort()}>{`${intl.formatMessage({ id: 'Create' })}${this.operaTarget}`}</Button>
-                </Button.List>
-                <div className='dataList'>
+                <div className='header'>
+                    <div className='title activeBefore'>{intl.formatMessage({ id: 'ApplicationPort' })}</div>
+                    <Button type='text' onClick={() => this.manageAppPort()}>
+                        <Icon type="add" />&nbsp;{`${intl.formatMessage({ id: 'Create' })}${intl.formatMessage({ id: 'ApplicationPort' })}`}
+                    </Button>
+                </div>
+                <div className='content'>
                     {
                         dataList.map(({ id, name, description, resourceObjectName, addressList }) => {
                             return (
                                 <div className='dataItem' key={id}>
-                                    <div className='title'>
-                                        <span>名称：{name}</span>&nbsp;&nbsp;
-                                        <Button.List>
-                                            <Button type="danger" onClick={() => { this.handleDelete(id, name) }} >{intl.formatMessage({ id: 'Delete' })}</Button>
-                                            <Button type='primary' onClick={() => this.manageAppPort(id)}>{intl.formatMessage({ id: '::Manage' })}</Button>
-                                        </Button.List>
+                                    <Icon type='error' className='closeIcon' onClick={() => this.handleDelete(id, name)}></Icon>
+                                    <div className='header'>
+                                        <div className='portName'>{name}</div>
+                                        <div className='des'>
+                                            <span>{description}</span>
+                                            <Button type='text' onClick={() => this.manageAppPort(id)}>
+                                                <Icon type="edit" />&nbsp;{intl.formatMessage({ id: 'Update' })}
+                                            </Button>
+                                        </div>
                                     </div>
-                                    <div className='itemLine'>入口描述：{description}</div>
-                                    <div className='itemLine'>入口对象：{resourceObjectName}</div>
-                                    {
-                                        (addressList || []).join('、')
-                                    }
+                                    <div className='body'>
+                                        <div>对象：{resourceObjectName}</div>
+                                        <div className='addressList'>
+                                            {
+                                                (addressList || []).map(item => {
+                                                    return <TagItem type='primary' size='small' name={item} className='addressItem' />
+                                                })
+                                            }
+                                        </div>
+                                    </div>
                                 </div>
                             )
                         })
                     }
                 </div>
-            </div>
+                <Modal
+                    title={`${intl.formatMessage({ id: currentPortId ? 'Update' : 'Create' })}${this.operaTarget}`}
+                    className='createAppPortDialog'
+                    visible={isManageAppPortModalVisible}
+                    onCancel={() => this.setState({
+                        isManageAppPortModalVisible: false
+                    })}
+                    onOk={this.handleManageAppPortSubmit}
+                    className='createAppPortDialog'
+                    destroyOnClose={true}
+                >
+                    <CreateAppPort
+                        id={currentPortId}
+                        dataList={dataList}
+                        detail={detail}
+                        intl={intl}
+                        wrappedComponentRef={(node) => { this.$CreateAppPort = node }}
+                    />
+                </Modal>
+            </div >
         )
     }
 }
