@@ -267,7 +267,7 @@ class ApplicationDetail extends React.Component {
                                                     <Log {...this.props}></Log>
                                                 </TabPane>
                                                 <TabPane tab={intl.formatMessage({ id: 'AppPublish' })} key="Publish">
-                                                    <Publish {...this.props} Z></Publish>
+                                                    <Publish {...this.props} detail={detail}></Publish>
                                                 </TabPane>
                                             </Tabs>
                                         </div>

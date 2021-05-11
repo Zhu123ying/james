@@ -1,5 +1,6 @@
 
 export const DEFAULT_EMPTY_LABEL = '-'
+export const DEFULT_PAGE_SIZE = 20 // 默认列表分页大小
 export const API_Prefix = 'application/v1/'
 export const ApplicationStatuList = {
     unknown: '未知状态',

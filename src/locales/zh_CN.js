@@ -217,6 +217,14 @@ const zh_CN = {
     Time: '时间',
     Description: '描述',
     Edit: '编辑',
+    Task: '任务',
+    TaskName: '任务名称',
+    TaskDescription: '任务描述',
+    TaskState: '任务状态',
+    StartTime: '开始时间',
+    FinishTime: '结束时间',
+    TargetVersion: '目标版本',
+    StartingNode: '起始节点',
 
     // 接口返回提示
     UpdateApplicationSuccess: '编辑应用-{name}成功！',

@@ -36,6 +36,8 @@ const api = {
     updateNamespaceLabels: `${prefix}updateNamespaceLabels`, // namespace标签编辑
     deletePvc: `${prefix}deletePvc`, // 删除历史pvc
     listProject: `identity/listProject`, // 获取项目列表
+    queryApplicationReleaseTasks: `${prefix}queryApplicationReleaseTasks`, // 发布任务列表
+    createApplicationReleaseTask: `${prefix}createApplicationReleaseTask`, // 创建发布任务
 }
 
 export default api
