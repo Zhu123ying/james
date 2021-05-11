@@ -34,12 +34,12 @@ class Preview extends React.Component {
         this.getIsolationState()
         this.renderPieChart() // 应用状态拼图
     }
-    componentWillReceiveProps(nextProps){
+    componentWillReceiveProps(nextProps) {
         this.getResourceInfor()
         this.renderPieChart()
     }
     // 由于轮播图的逻辑，所以只能放componentDidUpdate
-    componentDidUpdate(preProps){
+    componentDidUpdate(preProps) {
         const { detail: { id } } = this.props
         const { detail: { id: proId } } = preProps
         if (id !== proId) {
@@ -329,7 +329,7 @@ class Preview extends React.Component {
                                     <Tag color="geekblue" className='appState'>{ApplicationStatuList[state]}</Tag>
                                     <Tag color={secondState === 'NORMAL' ? 'green' : 'red'} className='appSecondState'>{ApplicationSecondStatuList[secondState] || '未知'}</Tag>
                                 </div>
-                                <div className='update' onClick={this.handleUpdateApplication}><Icon type='edit-o' />&nbsp;编辑</div>
+                                <Button type='link' className='update' onClick={this.handleUpdateApplication}><Icon type='edit-o' />&nbsp;{intl.formatMessage({ id: 'Edit' })}</Button>
                             </div>
                             <div className='boxContent'>
                                 <div className='description'>{description || DEFAULT_EMPTY_LABEL}</div>
@@ -361,8 +361,12 @@ class Preview extends React.Component {
                                     {intl.formatMessage({ id: 'ApplicationQuota' })}
                                 </div>
                                 <div className='opera'>
-                                    <div onClick={() => this.handleSetState('isQuotaManageModalVisible', true)}><Icon type='edit-o' />&nbsp;{intl.formatMessage({ id: 'AppCenterQuotaManage' })}&nbsp;&nbsp;</div>
-                                    <div onClick={() => this.handleSetState('isClusterResourcesDrawerVisible', true)}><Icon type='listing' />&nbsp;{intl.formatMessage({ id: 'Cluster resources' })}</div>
+                                    <Button type='link' onClick={() => this.handleSetState('isQuotaManageModalVisible', true)}>
+                                        <Icon type='edit-o' />&nbsp;{intl.formatMessage({ id: 'AppCenterQuotaManage' })}&nbsp;&nbsp;
+                                    </Button>
+                                    <Button type='link' onClick={() => this.handleSetState('isClusterResourcesDrawerVisible', true)}>
+                                        &nbsp;{intl.formatMessage({ id: 'Cluster resources' })}
+                                    </Button>
                                 </div>
                             </div>
                             <div className='boxContent'>

@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { RcForm, Button, Icon, Loading, SortTable, Dialog, confirmForm, Notification, TagItem } from 'ultraui'
+import { RcForm, Button, Icon, Loading, SortTable, Dialog, confirmForm, Notification, TagItem, NoData } from 'ultraui'
 import { Modal } from 'huayunui'
 import './index.less'
 import CreateAppPort from './createAppPort'
@@ -124,7 +124,7 @@ class AppPortalManage extends React.Component {
         return (
             <div id="appPortalManage">
                 {
-                    isFetching.isFetching ? (<Loading />) : null
+                    isFetching ? (<Loading />) : null
                 }
                 <div className='header'>
                     <div className='title activeBefore'>{intl.formatMessage({ id: 'ApplicationPort' })}</div>
@@ -134,7 +134,7 @@ class AppPortalManage extends React.Component {
                 </div>
                 <div className='content'>
                     {
-                        dataList.map(({ id, name, description, resourceObjectName, addressList }) => {
+                        dataList.length ? dataList.map(({ id, name, description, resourceObjectName, addressList }) => {
                             return (
                                 <div className='dataItem' key={id}>
                                     <Icon type='error' className='closeIcon' onClick={() => this.handleDelete(id, name)}></Icon>
@@ -159,7 +159,7 @@ class AppPortalManage extends React.Component {
                                     </div>
                                 </div>
                             )
-                        })
+                        }) : <NoData></NoData>
                     }
                 </div>
                 <Modal

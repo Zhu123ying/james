@@ -216,6 +216,7 @@ const zh_CN = {
     View: '查看',
     Time: '时间',
     Description: '描述',
+    Edit: '编辑',
 
     // 接口返回提示
     UpdateApplicationSuccess: '编辑应用-{name}成功！',
