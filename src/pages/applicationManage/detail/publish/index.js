@@ -4,12 +4,13 @@ import PropTypes from 'prop-types'
 import { application as api } from '~/http/api'
 import HuayunRequest from '~/http/request'
 import { DatePicker, Select, Input, SearchBar, Button, Table, Modal } from 'huayunui';
-import { Icon, NoData } from 'ultraui'
+import { Icon, NoData, Notification } from 'ultraui'
 import './index.less'
 import ActionAuth from '~/components/ActionAuth'
 import actions from '~/constants/authAction'
 import { DEFULT_PAGE_SIZE } from '~/constants'
 import ManageTask from './manageTask'
+const notification = Notification.newInstance()
 class Publish extends React.Component {
     constructor(props) {
         super(props)
@@ -19,7 +20,7 @@ class Publish extends React.Component {
             loading: false,
             pageNumber: 1,
             pageSize: window.PageSize || DEFULT_PAGE_SIZE,
-            total: 0,
+            totalCount: 0,
             isTaskModalVisible: false, // 创建编辑的modal
             currentTask: {}, // 当前task
         }
@@ -36,13 +37,21 @@ class Publish extends React.Component {
     }
     handleRefresh = () => {
         const { detail } = this.props
+        const { name, pageNumber, pageSize } = this.state
         this.setState({
             loading: true
         })
-        HuayunRequest(api.queryApplicationReleaseTasks, { applicationId: detail.id }, {
+        const params = {
+            applicationId: detail.id,
+            name,
+            pageNumber,
+            pageSize
+        }
+        HuayunRequest(api.queryApplicationReleaseTasks, params, {
             success: (res) => {
                 this.setState({
-                    tableData: res.data
+                    tableData: res.data,
+                    totalCount: res.totalCount
                 })
             },
             complete: () => {
@@ -52,9 +61,10 @@ class Publish extends React.Component {
             }
         })
     }
-    handleTableChange = (type, { name }) => {
+    handleSearchParamsChange = (type, params) => {
         this.setState({
-            name
+            ...this.state,
+            ...params
         }, () => {
             this.handleRefresh()
         })
@@ -108,9 +118,9 @@ class Publish extends React.Component {
             if (error) {
                 return false
             }
-            const { configInfo: endVersionValue, versionId: endVersionId } = this.$ManageTask.state
+            const { configInfo: endVersionValue, versionId: endVersionId, name, description } = this.$ManageTask.state
             let params = {
-                applicationId, endVersionValue, endVersionId
+                name, description, applicationId, endVersionValue, endVersionId
             }
             HuayunRequest(api.createApplicationReleaseTask, params, {
                 success: (res) => {
@@ -133,13 +143,7 @@ class Publish extends React.Component {
     }
     render() {
         const { intl } = this.props
-        const { name, tableData, loading, pageNumber, pageSize, total, isTaskModalVisible, currentTask } = this.state
-        const pagination = {
-            pageNumber,
-            pageSize,
-            total,
-            onChange: this.handlePageChange
-        }
+        const { name, tableData, loading, pageNumber, pageSize, totalCount, isTaskModalVisible, currentTask } = this.state
         const action = currentTask.id ? 'Update' : 'Create'
         return (
             <div className='applicationDetail_publish'>
@@ -157,17 +161,27 @@ class Publish extends React.Component {
                         />
                     )}
                     params={{
-                        '名称 ': name
+                        name
+                    }}
+                    paramsAlias={{
+                        name: {
+                            title: '名称'
+                        }
                     }}
                     searchOption={{
                         key: 'name',
                         title: intl.formatMessage({ id: 'Name' }),
                     }}
                     onRefresh={this.handleRefresh}
-                    onChange={this.handleTableChange}
+                    onChange={this.handleSearchParamsChange}
                 />
                 <Table
-                    pagination={pagination}
+                    pagination={{
+                        pageNumber,
+                        pageSize,
+                        totalCount
+                    }}
+                    onChange={this.handleSearchParamsChange}
                     dataSource={tableData}
                     columns={this.getColums()}
                     loading={loading}

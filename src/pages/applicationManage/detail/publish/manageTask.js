@@ -31,7 +31,7 @@ class ManageTask extends React.Component {
             name: '',
             description: '',
             chartValuesType: 1,
-            oldConfigInfo: configInfo, // 当前的chartValues
+            oldConfigInfo: '', // 当前的chartValues
             configInfo: '', // 目标版本的chartValues
             versionId: '', // 目标版本id
             applicationVersionList: [], // 应用版本列表
@@ -74,7 +74,7 @@ class ManageTask extends React.Component {
     }
 
     render() {
-        const { intl, detail: { applicationVersionId }, form } = this.props
+        const { intl, detail: { reversionNum, applicationVersionId }, form } = this.props
         const { name, description, versionId, oldConfigInfo, configInfo, chartValuesType, applicationVersionList } = this.state
         return (
             <Form form={form}>
@@ -97,7 +97,7 @@ class ManageTask extends React.Component {
                 <Input
                     disabled
                     form={form}
-                    value={applicationVersionId}
+                    value={reversionNum}
                     name='applicationVersionName'
                     className='startingNode'
                     label={intl.formatMessage({ id: 'StartingNode' })}

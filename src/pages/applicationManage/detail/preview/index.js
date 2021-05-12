@@ -365,7 +365,7 @@ class Preview extends React.Component {
                                         <Icon type='edit-o' />&nbsp;{intl.formatMessage({ id: 'AppCenterQuotaManage' })}&nbsp;&nbsp;
                                     </Button>
                                     <Button type='link' onClick={() => this.handleSetState('isClusterResourcesDrawerVisible', true)}>
-                                        &nbsp;{intl.formatMessage({ id: 'Cluster resources' })}
+                                        <Icon type='listing' />&nbsp;{intl.formatMessage({ id: 'Cluster resources' })}
                                     </Button>
                                 </div>
                             </div>

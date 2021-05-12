@@ -5,7 +5,9 @@ import { Provider } from 'react-redux'
 import store, { history } from './store'
 import { IntlProvider } from 'react-intl'
 import { ConnectedRouter } from 'connected-react-router'
-import zh from './locales/zh_CN'
+import huayun_zhCN from './locales/zh_CN'
+import ant_zhCN from 'antd/lib/locale/zh_CN'
+import ant_en from 'antd/lib/locale/en_US'
 import { ConfigProvider } from 'huayunui'
 import 'huayunui/dist/index.css'
 import '~/css/common.less'
@@ -34,10 +36,10 @@ export async function mount(props) {
   document.getElementById(props.container.id).appendChild(appDom)
   ReactDOM.render(
     <React.StrictMode>
-      <IntlProvider locale={navigator.language} messages={zh}>
+      <IntlProvider locale={navigator.language} messages={huayun_zhCN}>
         <Provider store={store}>
           <ConnectedRouter history={history}>
-            <ConfigProvider prefixCls="archer" locale={navigator.language}>
+            <ConfigProvider prefixCls="archer" locale={ant_zhCN}>
               <App />
             </ConfigProvider>
           </ConnectedRouter>
@@ -64,10 +66,10 @@ export async function update(props) {
 if (!window.__POWERED_BY_QIANKUN__) {
   ReactDOM.render(
     <React.StrictMode>
-      <IntlProvider locale={navigator.language} messages={zh}>
+      <IntlProvider locale={navigator.language} messages={huayun_zhCN}>
         <Provider store={store}>
           <ConnectedRouter history={history}>
-            <ConfigProvider prefixCls="archer" locale={navigator.language}>
+            <ConfigProvider prefixCls="archer" locale={ant_zhCN}>
               <App />
             </ConfigProvider>
           </ConnectedRouter>
