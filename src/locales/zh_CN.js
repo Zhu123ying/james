@@ -225,6 +225,15 @@ const zh_CN = {
     FinishTime: '结束时间',
     TargetVersion: '目标版本',
     StartingNode: '起始节点',
+    Manage: '管理',
+    BasicInfo: '基础信息',
+    TaskDetail: '任务详情',
+    InitialApplicationVersion: '初始应用版本',
+    CurrentNode: '当前节点',
+    StartPublish: '开始发布',
+    CancelPublish: '取消发布',
+    Node: '节点',
+    ResourceObject: '资源对象',
 
     // 接口返回提示
     UpdateApplicationSuccess: '编辑应用-{name}成功！',

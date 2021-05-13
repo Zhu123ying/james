@@ -38,6 +38,14 @@ const api = {
     listProject: `identity/listProject`, // 获取项目列表
     queryApplicationReleaseTasks: `${prefix}queryApplicationReleaseTasks`, // 发布任务列表
     createApplicationReleaseTask: `${prefix}createApplicationReleaseTask`, // 创建发布任务
+    deleteApplicationReleaseTask: `${prefix}deleteApplicationReleaseTask`, // 删除发布任务
+    updateApplicationReleaseTask: `${prefix}updateApplicationReleaseTask`, // 更新发布任务
+    queryApplicationReleaseTaskNodes: `${prefix}queryApplicationReleaseTaskNodes`, // 查询任务详情
+    executeTaskNode: `${prefix}executeTaskNode`, //开始发布任务 
+    cancelApplicationReleaseTask: `${prefix}cancelApplicationReleaseTask`, // 取消发布任务
+    updateApplicationReleaseTaskNode: `${prefix}updateApplicationReleaseTaskNode`, // 更新发布任务节点
+    deleteApplicationReleaseTaskNode: `${prefix}deleteApplicationReleaseTaskNode`, // 删除发布任务节点
+    roolbackApplicationReleaseTask: `${prefix}roolbackApplicationReleaseTask`, // 任务回滚
 }
 
 export default api

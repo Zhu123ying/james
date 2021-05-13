@@ -26,14 +26,15 @@ class ManageTask extends React.Component {
 
     constructor(props) {
         super(props)
-        const { detail: { configInfo }, currentTask } = props
+        const { detail: { configInfo }, currentTask: { id, name, description, endVersionId, endVersionValue } } = props
         this.state = {
-            name: '',
-            description: '',
+            id,
+            name,
+            description,
             chartValuesType: 1,
-            oldConfigInfo: '', // 当前的chartValues
-            configInfo: '', // 目标版本的chartValues
-            versionId: '', // 目标版本id
+            oldConfigInfo: endVersionValue, // 当前的chartValues
+            configInfo: endVersionValue, // 目标版本的chartValues
+            versionId: endVersionId, // 目标版本id
             applicationVersionList: [], // 应用版本列表
         }
     }
@@ -74,8 +75,8 @@ class ManageTask extends React.Component {
     }
 
     render() {
-        const { intl, detail: { reversionNum, applicationVersionId }, form } = this.props
-        const { name, description, versionId, oldConfigInfo, configInfo, chartValuesType, applicationVersionList } = this.state
+        const { intl, detail: { reversionNum, applicationVersionId }, form, currentTask } = this.props
+        const { id, name, description, versionId, oldConfigInfo, configInfo, chartValuesType, applicationVersionList } = this.state
         return (
             <Form form={form}>
                 <Input
@@ -94,62 +95,68 @@ class ManageTask extends React.Component {
                     label={intl.formatMessage({ id: 'TaskDescription' })}
                     maxLength={NaN}
                 />
-                <Input
-                    disabled
-                    form={form}
-                    value={reversionNum}
-                    name='applicationVersionName'
-                    className='startingNode'
-                    label={intl.formatMessage({ id: 'StartingNode' })}
-                />
-                <Select
-                    form={form}
-                    name='versionId'
-                    onChange={this.handleOnChange.bind(this, 'versionId')}
-                    optionLabelProp="children"
-                    value={versionId}
-                    label={intl.formatMessage({ id: 'TargetVersion' })}
-                    isRequired
-                    options={
-                        applicationVersionList.map((item, index) => {
-                            return {
-                                value: item.id,
-                                text: `${item.name} - ${item.packageVersion}${item.id === applicationVersionId ? ` (${intl.formatMessage({ id: 'CurrentVersion' })})` : ''}`,
-                                configInfo: item.chartValues
-                            }
-                        })
-                    }
-                    optionFilterProp='children'
-                    optionLabelProp='children'
-                />
                 {
-                    <div className='codeDiff'>
-                        <ButtonGroup className='btnGroup'>
-                            <Button type="primary" name="Values(YAML)" onClick={this.handleOnChange.bind(this, 'chartValuesType', 1)} />
-                            <Button type="warning" name="Diff" onClick={this.handleOnChange.bind(this, 'chartValuesType', 2)} />
-                        </ButtonGroup>
-                        {
-                            chartValuesType == 1 ? (
-                                <RcForm.Textarea
-                                    className='newChartValuesInput'
-                                    form={form}
-                                    value={configInfo}
-                                    name='configInfo'
-                                    onChange={this.handleOnChange.bind(this, 'configInfo')}
-                                    label=''
-                                    maxLength={NaN}
-                                />
-                            ) : (
-                                <ReactDiffViewer
-                                    className='diffView'
-                                    hideLineNumbers={true}
-                                    oldValue={oldConfigInfo}
-                                    newValue={configInfo}
-                                    splitView={false}
-                                />
-                            )
-                        }
-                    </div>
+                    id ? null : (
+                        <React.Fragment>
+                            <Input
+                                disabled
+                                form={form}
+                                value={reversionNum}
+                                name='applicationVersionName'
+                                className='startingNode'
+                                label={intl.formatMessage({ id: 'StartingNode' })}
+                            />
+                            <Select
+                                form={form}
+                                name='versionId'
+                                onChange={this.handleOnChange.bind(this, 'versionId')}
+                                optionLabelProp="children"
+                                value={versionId}
+                                label={intl.formatMessage({ id: 'TargetVersion' })}
+                                isRequired
+                                options={
+                                    applicationVersionList.map((item, index) => {
+                                        return {
+                                            value: item.id,
+                                            text: `${item.name} - ${item.packageVersion}${item.id === applicationVersionId ? ` (${intl.formatMessage({ id: 'CurrentVersion' })})` : ''}`,
+                                            configInfo: item.chartValues
+                                        }
+                                    })
+                                }
+                                optionFilterProp='children'
+                                optionLabelProp='children'
+                            />
+                            {
+                                <div className='codeDiff'>
+                                    <ButtonGroup className='btnGroup'>
+                                        <Button type="primary" name="Values(YAML)" onClick={this.handleOnChange.bind(this, 'chartValuesType', 1)} />
+                                        <Button type="warning" name="Diff" onClick={this.handleOnChange.bind(this, 'chartValuesType', 2)} />
+                                    </ButtonGroup>
+                                    {
+                                        chartValuesType == 1 ? (
+                                            <RcForm.Textarea
+                                                className='newChartValuesInput'
+                                                form={form}
+                                                value={configInfo}
+                                                name='configInfo'
+                                                onChange={this.handleOnChange.bind(this, 'configInfo')}
+                                                label=''
+                                                maxLength={NaN}
+                                            />
+                                        ) : (
+                                            <ReactDiffViewer
+                                                className='diffView'
+                                                hideLineNumbers={true}
+                                                oldValue={oldConfigInfo}
+                                                newValue={configInfo}
+                                                splitView={false}
+                                            />
+                                        )
+                                    }
+                                </div>
+                            }
+                        </React.Fragment>
+                    )
                 }
             </Form>
         )

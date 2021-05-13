@@ -1,0 +1,317 @@
+/* eslint-disable */
+import React from 'react'
+import PropTypes from 'prop-types'
+import { RcForm, Icon, Loading, SortTable, Dialog, Radio, Input, KeyValue, Button, Notification } from 'ultraui'
+import './index.less'
+import HuayunRequest from '~/http/request'
+import { application as api } from '~/http/api'
+import DetailDrawer from '~/components/DetailDrawer'
+import { Collapse, Modal, Select, Popover } from 'huayunui'
+import { Steps } from 'antd'
+import { DEFAULT_EMPTY_LABEL, ApplicationPublishTaskStatuList } from '~/constants'
+import ActionAuth from '~/components/ActionAuth'
+import actions from '~/constants/authAction'
+const { Step } = Steps
+const _ = window._
+const { Panel } = Collapse;
+const notification = Notification.newInstance()
+
+class TaskDetail extends React.Component {
+    static propTypes = {
+        intl: PropTypes.object.isRequired,
+    }
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            taskDetail: {}, // 任务基础信息
+            taskNodeList: [],
+            isFetching: false,
+        }
+    }
+    componentWillReceiveProps({ currentTask, visible }) {
+        if (currentTask.id !== this.props.currentTask.id) {
+            currentTask.id && this.getDetail(currentTask.id)
+        }
+    }
+    getDetail = (id) => {
+        this.setState({
+            isFetching: true
+        })
+        HuayunRequest(api.queryApplicationReleaseTaskNodes, { id }, {
+            success: (res) => {
+                const { applicationReleaseTaskNodes, applicationReleaseTaskDetail } = res.data
+                this.setState({
+                    taskDetail: applicationReleaseTaskDetail,
+                    taskNodeList: applicationReleaseTaskNodes
+                })
+            },
+            complete: () => {
+                this.setState({
+                    isFetching: false
+                })
+            }
+        })
+    }
+    handleStartPublish = (taskNodeId) => {
+        const { intl, currentTask: { id: taskId } } = this.props
+        const content = intl.formatMessage({ id: 'StartPublish' })
+        Modal.warning({
+            content: `确认${content} ？`,
+            onOk: () => {
+                HuayunRequest(api.executeTaskNode, { taskNodeId, taskId }, {
+                    success: (res) => {
+                        this.getDetail(taskId)
+                        notification.notice({
+                            id: new Date(),
+                            type: 'success',
+                            title: intl.formatMessage({ id: 'Success' }),
+                            content: `${content}'${intl.formatMessage({ id: 'Success' })}`,
+                            iconNode: 'icon-success-o',
+                            duration: 5,
+                            closable: true
+                        })
+                    }
+                })
+            }
+        })
+    }
+    // 取消发布任务
+    handleCancelPublish = (id) => {
+        const { intl } = this.props
+        const content = intl.formatMessage({ id: 'CancelPublish' })
+        Modal.warning({
+            content: `确认${content} ？`,
+            onOk: () => {
+                HuayunRequest(api.cancelApplicationReleaseTask, { id }, {
+                    success: (res) => {
+                        this.getDetail(id)
+                        notification.notice({
+                            id: new Date(),
+                            type: 'success',
+                            title: intl.formatMessage({ id: 'Success' }),
+                            content: `${content}'${intl.formatMessage({ id: 'Success' })}`,
+                            iconNode: 'icon-success-o',
+                            duration: 5,
+                            closable: true
+                        })
+                    }
+                })
+            }
+        })
+    }
+    // 任务回滚
+    handleRollback = (id) => {
+        const { intl } = this.props
+        const content = intl.formatMessage({ id: 'RollBack' })
+        Modal.warning({
+            content: `确认${content} ？`,
+            onOk: () => {
+                HuayunRequest(api.roolbackApplicationReleaseTask, { id }, {
+                    success: (res) => {
+                        this.getDetail(id)
+                        notification.notice({
+                            id: new Date(),
+                            type: 'success',
+                            title: intl.formatMessage({ id: 'Success' }),
+                            content: `${content}'${intl.formatMessage({ id: 'Success' })}`,
+                            iconNode: 'icon-success-o',
+                            duration: 5,
+                            closable: true
+                        })
+                    }
+                })
+            }
+        })
+    }
+    handleSeeNodeResourceInfo = () => {
+
+    }
+    handleDeleteTaskNode = (id, name) => {
+        const { intl, currentTask } = this.props
+        const content = `${intl.formatMessage({ id: 'Task' })}${intl.formatMessage({ id: 'Node' })}`
+        Modal.error({
+            content: `${intl.formatMessage({ id: 'IsSureToDelete' }, { name: `${content} - ${name}` })}`,
+            onOk: () => {
+                HuayunRequest(api.deleteApplicationReleaseTaskNode, { id }, {
+                    success: (res) => {
+                        this.getDetail(currentTask.id)
+                        notification.notice({
+                            id: new Date(),
+                            type: 'success',
+                            title: intl.formatMessage({ id: 'Success' }),
+                            content: `${intl.formatMessage({ id: 'Delete' })}${content}'${intl.formatMessage({ id: 'Success' })}`,
+                            iconNode: 'icon-success-o',
+                            duration: 5,
+                            closable: true
+                        })
+                    }
+                })
+            }
+        })
+    }
+    renderStep = (item, index) => {
+        const { intl } = this.props
+        const { taskNodeList } = this.state
+        const { name, resourceInfo, state, startTime, finishTime } = item
+        const nameObj = {
+            title: intl.formatMessage({ id: 'Node' }),
+            value: name
+        }
+        const resourceInfoObj = {
+            title: intl.formatMessage({ id: 'ResourceObject' }),
+            value: (
+                <div className='resourceInfo'>
+                    {resourceInfo.length}&nbsp;
+                    <Popover
+                        placement="top"
+                        content={<div>{intl.formatMessage({ id: 'View' })}</div>}
+                        trigger="hover"
+                        type="text"
+                    ><i className='iconfont icon-view' onClick={this.handleSeeNodeResourceInfo}></i></Popover>
+                </div>
+            )
+        }
+        const stateObj = {
+            title: intl.formatMessage({ id: 'Status' }),
+            value: ApplicationPublishTaskStatuList[state] || DEFAULT_EMPTY_LABEL
+        }
+        const startTimeObj = {
+            title: intl.formatMessage({ id: 'StartTime' }),
+            value: startTime || DEFAULT_EMPTY_LABEL
+        }
+        const finishTimeObj = {
+            title: intl.formatMessage({ id: 'FinishTime' }),
+            value: finishTime || DEFAULT_EMPTY_LABEL
+        }
+        const operate_add = <Icon type='add-o'></Icon>
+        const operate_edit = <Icon type='edit-o'></Icon>
+        const operate_delete = <Icon type='empty' onClick={() => this.handleDeleteTaskNode(item.id, item.name)}></Icon>
+        switch (index) {
+            case 0:
+                return <Step title={this.renderStepContent([nameObj, resourceInfoObj], [operate_add])} icon={<Icon type='boot' />} />
+                break
+            case parseInt(taskNodeList.length - 1):
+                return <Step title={this.renderStepContent([nameObj, resourceInfoObj, stateObj, startTimeObj, finishTimeObj])} icon={<Icon type='shutdown' />} />
+                break
+            default:
+                return <Step title={this.renderStepContent([nameObj, resourceInfoObj, stateObj], [operate_add, operate_edit, operate_delete])} icon={<Icon type='connection' />} className='middleNode' />
+                break
+        }
+    }
+    renderStepContent = (data, operaOptions = []) => {
+        return (
+            <div className='stepContent'>
+                <div className='keyValues'>
+                    {
+                        data.map(({ title, value }) => {
+                            return (
+                                <div className='valueItem' key={title}>
+                                    <div className='value'>{value}</div>
+                                    <div className='title'>{title}</div>
+                                </div>
+                            )
+                        })
+                    }
+                </div>
+                <div className='operaGroup'>{operaOptions}</div>
+            </div>
+        )
+    }
+    render() {
+        const { intl, detail, onClose, visible, currentTask, handleUpdatePublishTask } = this.props
+        const { taskNodeList, isFetching, taskDetail } = this.state
+        const { id, name, state, startTime, finishTime, createTime, createrName, description, startVersionId } = taskDetail
+        const basicInfor = [
+            {
+                label: intl.formatMessage({ id: 'TaskName' }),
+                value: (
+                    <Button type='text' onClick={() => handleUpdatePublishTask(currentTask)}>
+                        {name}&nbsp;<Icon type='edit' />
+                    </Button>
+                )
+            },
+            {
+                label: intl.formatMessage({ id: 'StartTime' }),
+                value: startTime
+            },
+            {
+                label: intl.formatMessage({ id: 'TaskState' }),
+                value: ApplicationPublishTaskStatuList[state] || DEFAULT_EMPTY_LABEL
+            },
+            {
+                label: intl.formatMessage({ id: 'FinishTime' }),
+                value: finishTime
+            },
+            {
+                label: intl.formatMessage({ id: 'CreaterName' }),
+                value: createrName
+            },
+            {
+                label: intl.formatMessage({ id: 'CreateTime' }),
+                value: createTime
+            },
+            {
+                label: intl.formatMessage({ id: 'InitialApplicationVersion' }),
+                value: detail.reversionNum
+            },
+            {
+                label: intl.formatMessage({ id: 'CurrentNode' }),
+                value: '暂无，先写死，方便后面找到'
+            },
+            {
+                label: intl.formatMessage({ id: 'TaskDescription' }),
+                value: description
+            }
+        ]
+        const operaOptions = [
+            <Button className='operaItem' type='text' onClick={() => this.handleStartPublish(startVersionId)}>
+                <Icon type="boot" />&nbsp;{intl.formatMessage({ id: 'StartPublish' })}
+            </Button>,
+            <Button className='operaItem' type='text' onClick={() => this.handleCancelPublish(id)}>
+                <Icon type="error-o" />&nbsp;{intl.formatMessage({ id: 'CancelPublish' })}
+            </Button>,
+            <Button className='operaItem' type='text' onClick={() => this.handleRollback(id)} disabled={state !== 'cancel' ? true : false}>
+                <Icon type="synchro" />&nbsp;{intl.formatMessage({ id: 'RollBack' })}
+            </Button>,
+        ]
+        return (
+            <DetailDrawer
+                name={name}
+                onRefresh={() => this.getDetail(id)}
+                onClose={onClose}
+                visible={visible}
+                icon="done"
+            >
+                {
+                    isFetching ? <Loading /> : null
+                }
+                <div className='taskDetailDrawerContent'>
+                    <div className='operaBar'>
+                        {
+                            operaOptions.map((item, index) => {
+                                return <ActionAuth action={actions.AdminApplicationCenterApplicationMaintain} key={index}>{item}</ActionAuth>
+                            })
+                        }
+                    </div>
+                    <Collapse defaultActiveKey={['BasicInfo', 'TaskDetail']} >
+                        <Panel header={intl.formatMessage({ id: 'BasicInfo' })} key='BasicInfo'>
+                            <KeyValue values={basicInfor} className='basicInfo' />
+                        </Panel>
+                        <Panel header={intl.formatMessage({ id: 'TaskDetail' })} key='TaskDetail'>
+                            <Steps direction="vertical" className='taskDetail'>
+                                {
+                                    taskNodeList.map((item, index) => {
+                                        return this.renderStep(item, index)
+                                    })
+                                }
+                            </Steps>
+                        </Panel>
+                    </Collapse>
+                </div>
+            </DetailDrawer >
+        )
+    }
+}
+
+export default TaskDetail

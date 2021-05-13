@@ -158,7 +158,7 @@ class ApplicationManage extends React.Component {
                                                     onClick={() => this.handleChangeTableItem(item)} >
                                                     <div className='appInfor'>
                                                         <div className='appName'>
-                                                            <div className={`appSecondStatu ${ApplicationSecondStatuColor[secondState]}`}></div>{name}
+                                                            <div className={`stateDot ${ApplicationSecondStatuColor[secondState]}`}></div>{name}
                                                         </div>
                                                         <div className='projectName'>{projectName}</div>
                                                     </div>
