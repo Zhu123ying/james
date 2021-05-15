@@ -238,7 +238,8 @@ class Publish extends React.Component {
                             icon={<Icon type="add" />}
                             onClick={() => {
                                 this.setState({
-                                    isTaskModalVisible: true
+                                    isTaskModalVisible: true,
+                                    currentTask: {}
                                 })
                             }}
                             name="新建发布任务"

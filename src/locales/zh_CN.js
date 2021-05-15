@@ -40,6 +40,7 @@ const zh_CN = {
     AppPublish: '应用发布',
     IsSureToDelete: '确认删除{name}吗？',
     Storage: '存储',
+    Add: '添加',
     // 业务字段
     '::Manage': '管理',
     AppCenter: '应用中心',
@@ -234,6 +235,12 @@ const zh_CN = {
     CancelPublish: '取消发布',
     Node: '节点',
     ResourceObject: '资源对象',
+    SelectResource: '选择资源',
+    InitialNodeResource: '初始节点资源',
+    TargetNodeResource: '目标节点资源',
+    PreviousNodeResource: '上一节点资源',
+    NumberOfCopies: '副本数',
+    CurrentNodeResource: '当前节点资源',
 
     // 接口返回提示
     UpdateApplicationSuccess: '编辑应用-{name}成功！',

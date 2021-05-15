@@ -11,6 +11,7 @@ import { Steps } from 'antd'
 import { DEFAULT_EMPTY_LABEL, ApplicationPublishTaskStatuList } from '~/constants'
 import ActionAuth from '~/components/ActionAuth'
 import actions from '~/constants/authAction'
+import ManageTaskNode from './manageTaskNode'
 const { Step } = Steps
 const _ = window._
 const { Panel } = Collapse;
@@ -27,6 +28,10 @@ class TaskDetail extends React.Component {
             taskDetail: {}, // 任务基础信息
             taskNodeList: [],
             isFetching: false,
+            isManageTaskNodeVisible: false, // 任务节点的添加和编辑modal
+            manageTaskNodeType: 'Create', // 添加还是编辑
+            modal_TaskNodeList: [], // 创建、编辑任务节点的左侧节点数据
+            modal_CurrentTaskNode: {}, // 创建、编辑任务节点的右侧节点详情
         }
     }
     componentWillReceiveProps({ currentTask, visible }) {
@@ -125,7 +130,10 @@ class TaskDetail extends React.Component {
         })
     }
     handleSeeNodeResourceInfo = () => {
-
+        this.setState({
+            isManageTaskNodeVisible: true,
+            manageTaskNodeType: 'create', // 操作类型
+        })
     }
     handleDeleteTaskNode = (id, name) => {
         const { intl, currentTask } = this.props
@@ -184,7 +192,7 @@ class TaskDetail extends React.Component {
             title: intl.formatMessage({ id: 'FinishTime' }),
             value: finishTime || DEFAULT_EMPTY_LABEL
         }
-        const operate_add = <Icon type='add-o'></Icon>
+        const operate_add = <Icon type='add-o' onClick={() => this.handleAddTaskNode(item, index)}></Icon>
         const operate_edit = <Icon type='edit-o'></Icon>
         const operate_delete = <Icon type='empty' onClick={() => this.handleDeleteTaskNode(item.id, item.name)}></Icon>
         switch (index) {
@@ -200,6 +208,7 @@ class TaskDetail extends React.Component {
         }
     }
     renderStepContent = (data, operaOptions = []) => {
+        const { taskDetail: { state } } = this.state
         return (
             <div className='stepContent'>
                 <div className='keyValues'>
@@ -214,13 +223,33 @@ class TaskDetail extends React.Component {
                         })
                     }
                 </div>
-                <div className='operaGroup'>{operaOptions}</div>
+                {
+                    // releasing状态下不能操作
+                    state !== 'releasing' ? (
+                        <div className='operaGroup'>{operaOptions}</div>
+                    ) : null
+                }
             </div>
         )
     }
+    handleAddTaskNode = (item, index) => {
+        const { taskNodeList } = this.state
+        const firstNode = taskNodeList[0]
+        const lastNode = taskNodeList[taskNodeList.length - 1]
+        const isMiddleNode = (index > 0) && (index < taskNodeList.length - 1)
+        this.setState({
+            isManageTaskNodeVisible: true, // 任务节点的添加和编辑modal
+            manageTaskNodeType: 'Create', // 添加还是编辑
+            modal_TaskNodeList: isMiddleNode ? [firstNode, isMiddleNode, lastNode] : [firstNode, lastNode],
+            modal_CurrentTaskNode: {}
+        })
+    }
+    handleConfirmManage = () => {
+
+    }
     render() {
         const { intl, detail, onClose, visible, currentTask, handleUpdatePublishTask } = this.props
-        const { taskNodeList, isFetching, taskDetail } = this.state
+        const { taskNodeList, isFetching, taskDetail, isManageTaskNodeVisible, manageTaskNodeType, modal_TaskNodeList, modal_CurrentTaskNode } = this.state
         const { id, name, state, startTime, finishTime, createTime, createrName, description, startVersionId } = taskDetail
         const basicInfor = [
             {
@@ -309,6 +338,23 @@ class TaskDetail extends React.Component {
                         </Panel>
                     </Collapse>
                 </div>
+                <Modal
+                    visible={isManageTaskNodeVisible}
+                    title={`${intl.formatMessage({ id: manageTaskNodeType })}${intl.formatMessage({ id: 'Node' })}`}
+                    onOk={this.handleConfirmManage}
+                    onCancel={() => {
+                        this.setState({
+                            isManageTaskNodeVisible: false
+                        })
+                    }}
+                    className='manageTaskNodeModal'
+                    destroyOnClose={true}>
+                    <ManageTaskNode
+                        intl={intl}
+                        taskNodeList={modal_TaskNodeList}
+                        currentTaskNode={modal_CurrentTaskNode}
+                        wrappedComponentRef={node => this.$ManageTaskNode = node}></ManageTaskNode>
+                </Modal>
             </DetailDrawer >
         )
     }
