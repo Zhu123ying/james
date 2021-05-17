@@ -243,6 +243,7 @@
         .body{
             display: flex;
             justify-content: space-between;
+            min-height: 450px;
             .boxItem{
                 width: calc(50% - 10px);
                 border: 1px solid #CBD6E2;
@@ -252,12 +253,64 @@
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
+                    font-size: 12px;
                     .operaGroup{
                         display: flex;
                         align-items: center;
+                        .archer-btn{
+                            padding: 0 10px;
+                        }
+                    }
+                }
+                .content{
+                    display: flex;
+                    width: 100%;
+                    height: calc(100% - 32px);
+                    .currentNodeResourceList{
+                        width: 150px;
+                        background: #F5F8FA;
+                        padding: 5px;
+                        .resourceItem{
+                            display: flex;
+                            align-items: center;
+                            margin: 10px 0;
+                            cursor: pointer;
+                            color: #7C98B6;
+                        }
+                        .activeBefore{
+                            color: #33475B;
+                        }
+                        .activeBefore::before{
+                            margin-left: -10px;
+                        }
+                    }
+                    .yamlValue{
+                        padding: 0 10px;
+                        width: calc(100% - 150px);
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                        .yamlContent{
+                            width: 100%;
+                            height: calc(100% - 50px);
+                            border: none!important;
+                            margin: 5px 0;
+                        }
+                        .title{
+                            font-size: 12px;
+                            color: #33475B;
+                        }
+                        .archer-btn{
+                            width: fit-content;
+                        }
                     }
                 }
             }
         }
+    }
+}
+.addResourceManuallyModal{
+    textarea{
+        min-height: 200px!important;
     }
 }

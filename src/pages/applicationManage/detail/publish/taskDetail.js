@@ -71,7 +71,7 @@ class TaskDetail extends React.Component {
                             id: new Date(),
                             type: 'success',
                             title: intl.formatMessage({ id: 'Success' }),
-                            content: `${content}'${intl.formatMessage({ id: 'Success' })}`,
+                            content: `${content}${intl.formatMessage({ id: 'Success' })}`,
                             iconNode: 'icon-success-o',
                             duration: 5,
                             closable: true
@@ -193,7 +193,7 @@ class TaskDetail extends React.Component {
             value: finishTime || DEFAULT_EMPTY_LABEL
         }
         const operate_add = <Icon type='add-o' onClick={() => this.handleAddTaskNode(item, index)}></Icon>
-        const operate_edit = <Icon type='edit-o'></Icon>
+        const operate_edit = <Icon type='edit-o' onClick={() => this.handleEditTaskNode(item, index)}></Icon>
         const operate_delete = <Icon type='empty' onClick={() => this.handleDeleteTaskNode(item.id, item.name)}></Icon>
         switch (index) {
             case 0:
@@ -232,7 +232,9 @@ class TaskDetail extends React.Component {
             </div>
         )
     }
+    // 添加节点
     handleAddTaskNode = (item, index) => {
+        const { currentTask } = this.props
         const { taskNodeList } = this.state
         const firstNode = taskNodeList[0]
         const lastNode = taskNodeList[taskNodeList.length - 1]
@@ -240,12 +242,51 @@ class TaskDetail extends React.Component {
         this.setState({
             isManageTaskNodeVisible: true, // 任务节点的添加和编辑modal
             manageTaskNodeType: 'Create', // 添加还是编辑
-            modal_TaskNodeList: isMiddleNode ? [firstNode, isMiddleNode, lastNode] : [firstNode, lastNode],
-            modal_CurrentTaskNode: {}
+            modal_TaskNodeList: isMiddleNode ? [firstNode, item, lastNode] : [firstNode, lastNode],
+            modal_CurrentTaskNode: {
+                applicationReleaseTaskId: currentTask.id,
+                previousTaskNode: taskNodeList[index].id,
+                nextTaskNode: taskNodeList[index + 1].id,
+                resourceInfo: [],
+            }
+        })
+    }
+    // 编辑节点
+    handleEditTaskNode = (item, index) => {
+        const { currentTask } = this.props
+        const { taskNodeList } = this.state
+        const firstNode = taskNodeList[0]
+        const lastNode = taskNodeList[taskNodeList.length - 1]
+        const isMiddleNode = (index > 1) && (index < taskNodeList.length - 1)
+        this.setState({
+            isManageTaskNodeVisible: true, // 任务节点的添加和编辑modal
+            manageTaskNodeType: 'Update', // 添加还是编辑
+            modal_TaskNodeList: isMiddleNode ? [firstNode, taskNodeList[index - 1], lastNode] : [firstNode, lastNode],
+            modal_CurrentTaskNode: item
         })
     }
     handleConfirmManage = () => {
-
+        const { currentTask, intl } = this.props
+        const { currentTaskNode } = this.$ManageTaskNode.state
+        const content = `${intl.formatMessage({ id: currentTaskNode.id ? 'Update' : 'Create' })}${intl.formatMessage({ id: 'TaskNode' })}`
+        const urlType = currentTaskNode.id ? 'updateApplicationReleaseTaskNode' : 'createApplicationReleaseTaskNode'
+        HuayunRequest(api[urlType], currentTaskNode, {
+            success: (res) => {
+                this.setState({
+                    isManageTaskNodeVisible: false
+                })
+                this.getDetail(currentTask.id)
+                notification.notice({
+                    id: new Date(),
+                    type: 'success',
+                    title: intl.formatMessage({ id: 'Success' }),
+                    content: `${content}'${intl.formatMessage({ id: 'Success' })}`,
+                    iconNode: 'icon-success-o',
+                    duration: 5,
+                    closable: true
+                })
+            }
+        })
     }
     render() {
         const { intl, detail, onClose, visible, currentTask, handleUpdatePublishTask } = this.props
@@ -353,7 +394,7 @@ class TaskDetail extends React.Component {
                         intl={intl}
                         taskNodeList={modal_TaskNodeList}
                         currentTaskNode={modal_CurrentTaskNode}
-                        wrappedComponentRef={node => this.$ManageTaskNode = node}></ManageTaskNode>
+                        ref={node => this.$ManageTaskNode = node}></ManageTaskNode>
                 </Modal>
             </DetailDrawer >
         )

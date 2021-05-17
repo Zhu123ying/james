@@ -43,9 +43,11 @@ const api = {
     queryApplicationReleaseTaskNodes: `${prefix}queryApplicationReleaseTaskNodes`, // 查询任务详情
     executeTaskNode: `${prefix}executeTaskNode`, //开始发布任务 
     cancelApplicationReleaseTask: `${prefix}cancelApplicationReleaseTask`, // 取消发布任务
+    createApplicationReleaseTaskNode: `${prefix}createApplicationReleaseTaskNode`, // 新增发布任务节点
     updateApplicationReleaseTaskNode: `${prefix}updateApplicationReleaseTaskNode`, // 更新发布任务节点
     deleteApplicationReleaseTaskNode: `${prefix}deleteApplicationReleaseTaskNode`, // 删除发布任务节点
     roolbackApplicationReleaseTask: `${prefix}roolbackApplicationReleaseTask`, // 任务回滚
+    verifyResourceInfo: `${prefix}verifyResourceInfo`, // 单个资源文件的校验
 }
 
 export default api

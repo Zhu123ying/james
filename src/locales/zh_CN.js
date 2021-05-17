@@ -41,6 +41,7 @@ const zh_CN = {
     IsSureToDelete: '确认删除{name}吗？',
     Storage: '存储',
     Add: '添加',
+    AddManually: '手动添加',
     // 业务字段
     '::Manage': '管理',
     AppCenter: '应用中心',
@@ -241,6 +242,8 @@ const zh_CN = {
     PreviousNodeResource: '上一节点资源',
     NumberOfCopies: '副本数',
     CurrentNodeResource: '当前节点资源',
+    Validate: '校验',
+    TaskNode: '任务节点',
 
     // 接口返回提示
     UpdateApplicationSuccess: '编辑应用-{name}成功！',
