@@ -7,7 +7,7 @@ import PageNotFound from '~/container/error'
 
 const routers = [
   {
-    path: '/applicationCenter',
+    path: '',
     key: 'applicationCenter',
     name: 'ApplicationCenter',
     component: ApplicationCenter,

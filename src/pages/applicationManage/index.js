@@ -32,7 +32,7 @@ class ApplicationManage extends React.Component {
         this.addCreateApplicationButton()
         this.handleSearch(true)
     }
-    componentWillUnmount(){
+    componentWillUnmount() {
         this.props.handleExtra({
             extraChildren: null
         })
@@ -135,11 +135,11 @@ class ApplicationManage extends React.Component {
         ]
         return (
             <div id='applicationCenter_layout' className='applicationManage'>
-                <div className='searchBar'>{searchItems}</div>
+                <div className='layoutSearchBar'>{searchItems}</div>
                 {
                     isFetching ? <Loading /> : (
-                        <div className='content'>
-                            <div className='tableContent'>
+                        <div className='layoutContent'>
+                            <div className='tableContainer'>
                                 <div className='nameSearch'>
                                     <Input.Search
                                         value={name}
@@ -154,22 +154,23 @@ class ApplicationManage extends React.Component {
                                             const { id, name, projectName, state, secondState } = item
                                             return (
                                                 <div
-                                                    className={`tableItem ${currentApplication.id === id ? 'activeItem' : ''}`}
+                                                    className={`tableItem ${currentApplication.id === id ? 'activeTableItem' : ''}`}
                                                     onClick={() => this.handleChangeTableItem(item)} >
-                                                    <div className='appInfor'>
-                                                        <div className='appName'>
-                                                            <div className={`stateDot ${ApplicationSecondStatuColor[secondState]}`}></div>{name}
+                                                    <div className='basicInfo'>
+                                                        <div className='name'>
+                                                            <div className={`stateDot ${ApplicationSecondStatuColor[secondState]}`}></div>
+                                                            {name}
                                                         </div>
                                                         <div className='projectName'>{projectName}</div>
                                                     </div>
-                                                    <div className='appStatu'></div>
+                                                    <div className='status'></div>
                                                 </div>
                                             )
                                         })
                                     }
                                 </div>
                             </div>
-                            <div className='detailContent'>
+                            <div className='detailContainer'>
                                 {
                                     currentApplication.id ? (
                                         <ApplicationDetail

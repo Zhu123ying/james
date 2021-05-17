@@ -38,15 +38,6 @@ class Preview extends React.Component {
         this.getResourceInfor()
         this.renderPieChart()
     }
-    // 由于轮播图的逻辑，所以只能放componentDidUpdate
-    componentDidUpdate(preProps) {
-        const { detail: { id } } = this.props
-        const { detail: { id: proId } } = preProps
-        if (id !== proId) {
-            this.getResourceInfor()
-            this.renderPieChart()
-        }
-    }
     // cpu.memory,storage的饼图和折线图数据
     getResourceInfor = () => {
         HuayunRequest(api.resourceInfor, { id: this.props.detail.id }, {
