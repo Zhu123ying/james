@@ -41,7 +41,14 @@ class ApplicationDetail extends React.Component {
     componentWillReceiveProps(nextProps) {
         const { currentApplication: { id } } = this.props
         const { currentApplication: { id: nextId } } = nextProps
-        id !== nextId && this.getDetail(nextId)
+        if (id !== nextId) {
+            this.clearDetailInterval()            // 切换应用要先清空定时器！
+            this.getDetail(nextId)
+        }
+    }
+    clearDetailInterval = () => {
+        window.clearInterval(getDetailInterval)
+        getDetailInterval = null
     }
     // 获取应用以及资源的详情信息
     getDetail = (id) => {
@@ -67,8 +74,7 @@ class ApplicationDetail extends React.Component {
                             }, 10000)
                         }, 10000)
                     } else if (state === 'config' && getDetailInterval) {
-                        window.clearInterval(getDetailInterval)
-                        getDetailInterval = null
+                        this.clearDetailInterval()
                     }
                 })
             },
