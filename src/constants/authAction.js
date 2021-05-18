@@ -9,5 +9,8 @@ export default {
     AdminApplicationCenterApplicationPackageVersionOperate: 'Admin::ApplicationCenter_ApplicationPackageVersion::Operate',
     AdminApplicationCenterApplicationCenterApplicationCreate: 'Admin::ApplicationCenter_ApplicationCenter::ApplicationCreate',
     AdminApplicationCenterApplicationCenterOperate: 'Admin::ApplicationCenter_ApplicationCenter::Operate',
-    AdminApplicationCenterClusterResourceOperate: 'Admin::ApplicationCenter_ClusterResource::Operate'
+    AdminApplicationCenterClusterResourceOperate: 'Admin::ApplicationCenter_ClusterResource::Operate',
+    // 先模拟的权限
+    AdminApplicationCenterContainerOperate: 'Admin::ApplicationCenter_Application::Operate'
+
 }

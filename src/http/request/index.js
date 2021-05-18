@@ -8,7 +8,7 @@ const set = function (name, value, day = 30) {
     exp.setTime(exp.getTime() + day * 24 * 60 * 60 * 1000)
     document.cookie = `${name}=${encodeURI(value)};expires=${exp.toGMTString()}; path=/`
 }
-set('sessionId', 'identity:login.session:9de0a582-0f01-4a19-b9a5-d9a6452295c3_10.51.60.87_b184ceeb-29a6-4473-9e03-c4fb82aa86b2')
+set('sessionId', 'identity:login.session:9de0a582-0f01-4a19-b9a5-d9a6452295c3_10.51.60.87_76ce6a6e-9db2-406c-9e47-98a868825555')
 
 
 // request拦截器

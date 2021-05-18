@@ -3,6 +3,8 @@ import ApplicationCenter from '~/container/content'
 import ApplicationManage from '~/pages/applicationManage'
 import CreateApplication from '~/pages/applicationManage/create'
 import ApplicationPackageManage from '~/pages/applicationPackageManage'
+import ContainerManage from '~/pages/containerManage'
+import CreateContainerGroup from '~/pages/containerManage/create'
 import PageNotFound from '~/container/error'
 
 const routers = [
@@ -49,7 +51,25 @@ const routers = [
         exact: true,
         langCode: 'ApplicationPackageManage',
         descLangCode: 'DesApplicationPackageManage',
-      }
+      },
+      {
+        path: "/applicationCenter/containerManage",
+        component:  ContainerManage,
+        name: 'ContainerManage',
+        key: 'ContainerManage',
+        exact: true,
+        langCode: 'ContainerManage',
+        descLangCode: 'DesContainerManage',
+      },
+      {
+        path: "/applicationCenter/containerManage/create",
+        component: CreateContainerGroup,
+        name: 'CreateContainerGroup',
+        key: 'CreateContainerGroup',
+        exact: true,
+        langCode: 'CreateContainerGroup',
+        descLangCode: 'DesCreateContainerGroup'
+      },
     ]
   },
   {

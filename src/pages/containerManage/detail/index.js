@@ -1,45 +1,37 @@
 /* eslint-disable */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { application as api } from '~/http/api'
+import { container as api } from '~/http/api'
 import HuayunRequest from '~/http/request'
 import { DatePicker, Select, Input, Tabs, Modal, Dropdown } from 'huayunui';
 import { Icon, Notification, Loading, Button } from 'ultraui'
 import './index.less'
 import ActionAuth from '~/components/ActionAuth'
 import actions from '~/constants/authAction'
-import Preview from './preview'
-import Detail from './detail'
-import Entrance from './entrance'
-import Alarm from './alarm'
-import Log from './log'
-import Publish from './publish'
-import UpdateApplication from './UpdateApplication'
-import ApplicationRollBack from './ApplicationRollBack'
-import OutputHistory from './OutputHistory'
+// import Preview from './preview'
 
 const notification = Notification.newInstance()
 const { TabPane } = Tabs;
 let getDetailInterval = null // 获取详情的定时器
-class ApplicationDetail extends React.Component {
+
+class ContainerDetail extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             detail: {}, // 应用详情
             isLoading: false, // 是否需要loading，定时刷新是不需要loading的
-            isApplicationUpdateModalVisible: false, // 应用更新
-            isShowOutputHistory: false, // 是否展开输出历史
+            isUpdateModalVisible: false, // 应用更新
 
         }
-        this.operationTarget = props.intl.formatMessage({ id: 'Application' })
+        this.operationTarget = props.intl.formatMessage({ id: 'Container' })
     }
     componentDidMount() {
-        const { currentApplication: { id } } = this.props
+        const { currentTableItem: { id } } = this.props
         this.getDetail(id)
     }
     componentWillReceiveProps(nextProps) {
-        const { currentApplication: { id } } = this.props
-        const { currentApplication: { id: nextId } } = nextProps
+        const { currentTableItem: { id } } = this.props
+        const { currentTableItem: { id: nextId } } = nextProps
         if (id !== nextId) {
             this.clearDetailInterval()            // 切换应用要先清空定时器！
             this.getDetail(nextId)
@@ -84,21 +76,21 @@ class ApplicationDetail extends React.Component {
             }
         })
     }
-    // 设置app上下线
-    setAppStatus = () => {
+    // 设置上下线
+    handleSetStatus = () => {
         const { intl, refreshTableList } = this.props
         const { detail: { state, name, id } } = this.state
         const action = intl.formatMessage({ id: state === 'config' ? 'OnLine' : 'OffLine' })
-        const content = `${action}${this.operationTarget}-${name}`
+        const content = `${action}${this.operationTarget} - ${name}`
         Modal.warning({
             content: `确认${content} ？`,
             onOk: () => {
-                const actionType = state === 'config' ? 'deploy' : 'undeploy'
+                const actionType = state === 'config' ? 'startPlatformContainer' : 'stopPlatformContainer'
                 HuayunRequest(api[actionType], { id }, {
                     success: (res) => {
-                        refreshTableList() // 更新应用列表
+                        refreshTableList() // 更新列表
                         notification.notice({
-                            id: 'setAppOn_OffLine',
+                            id: new Date(),
                             type: 'success',
                             title: intl.formatMessage({ id: 'Success' }),
                             content: `${content}'${intl.formatMessage({ id: 'Success' })}`,
@@ -111,18 +103,21 @@ class ApplicationDetail extends React.Component {
             }
         })
     }
+    handleCopy = () => {
+
+    }
     handleDelete = () => {
         const { intl, refreshTableList } = this.props
         const { detail: { state, name, id } } = this.state
         const action = intl.formatMessage({ id: 'Delete' })
         Modal.error({
-            content: `${intl.formatMessage({ id: 'IsSureToDelete' }, { name: `${this.operationTarget}-${name}` })}`,
+            content: `${intl.formatMessage({ id: 'IsSureToDelete' }, { name: `${this.operationTarget} - ${name}` })}`,
             onOk: () => {
-                HuayunRequest(api.delete, { ids: [id] }, {
+                HuayunRequest(api.delete, { id }, {
                     success(res) {
-                        refreshTableList(true) // 更新应用列表
+                        refreshTableList(true) // 更新列表
                         notification.notice({
-                            id: 'deleteApp',
+                            id: new Date(),
                             type: 'success',
                             title: intl.formatMessage({ id: 'Success' }),
                             content: `${action}${this.operationTarget}'${name}'${intl.formatMessage({ id: 'Success' })}`,
@@ -140,7 +135,7 @@ class ApplicationDetail extends React.Component {
             [key]: value
         })
     }
-    // 应用更新
+    // 更新
     handleConfirmUpdate = () => {
         const { props: { form }, state: { versionId: applicationVersionId, configInfo, isCoverApplicationGateway } } = this.$UpdateApplication
         form.validateFields((error, values) => {
@@ -156,7 +151,7 @@ class ApplicationDetail extends React.Component {
                 configInfo,
                 coverApplicationGateway: isCoverApplicationGateway === 'true' ? true : false
             }
-            this.handleSetState('isApplicationUpdateModalVisible', false)
+            this.handleSetState('isUpdateModalVisible', false)
             HuayunRequest(api.upgrade, params, {
                 success: (res) => {
                     refreshTableList() // 更新应用列表
@@ -173,60 +168,25 @@ class ApplicationDetail extends React.Component {
             })
         })
     }
-    // 应用回滚
-    handleConfirmRollBack = () => {
-        const { props: { form }, state: { versionId: id, isCoverApplicationGateway } } = this.$ApplicationRollBack
-        form.validateFields((error, values) => {
-            if (error) {
-                return false
-            }
-            const { detail } = this.state
-            const { intl, refreshTableList } = this.props
-            const action = intl.formatMessage({ id: 'RollBack' })
-            const params = {
-                id,
-                applicationId: detail.id,
-                coverApplicationGateway: isCoverApplicationGateway === 'true' ? true : false
-            }
-            this.handleSetState('isApplicationRollBackModalVisible', false)
-            HuayunRequest(api.rollBack, params, {
-                success: (res) => {
-                    refreshTableList() // 更新应用列表
-                    notification.notice({
-                        id: 'RollBackSuccess',
-                        type: 'success',
-                        title: intl.formatMessage({ id: 'Success' }),
-                        content: `${action}${this.operationTarget}'${name}'${intl.formatMessage({ id: 'Success' })}`,
-                        iconNode: 'icon-success-o',
-                        duration: 5,
-                        closable: true
-                    })
-                }
-            })
-        })
-    }
     render() {
         const { intl } = this.props
-        const { isLoading, detail, isApplicationUpdateModalVisible, isApplicationRollBackModalVisible, isShowOutputHistory } = this.state
+        const { isLoading, detail, isUpdateModalVisible } = this.state
         const { state, id } = detail
         const on_offLine = state === 'config' ? (<><Icon type="rise-o" />&nbsp;{intl.formatMessage({ id: 'OnLine' })}</>) : (<><Icon type="drop-o" />&nbsp;{intl.formatMessage({ id: 'OffLine' })}</>)
         const operaOptions = [
-            <Button className='operaItem' type='text' onClick={this.setAppStatus}>{on_offLine}</Button>,
-            <Button className='operaItem' type='text' onClick={() => this.handleSetState('isApplicationUpdateModalVisible', true)} disabled={state === 'config'}>
-                <Icon type="reboot" />&nbsp;{intl.formatMessage({ id: 'Update' })}
+            <Button className='operaItem' type='text' onClick={this.handleSetStatus}>{on_offLine}</Button>,
+            <Button className='operaItem' type='text' onClick={this.handleCopy}>
+                <Icon type="copy" />&nbsp;{intl.formatMessage({ id: 'Copy' })}
             </Button>,
-            <Button className='operaItem' type='text' onClick={() => this.handleSetState('isApplicationUpdateModalVisible', true)} disabled={state !== 'config'}>
+            <Button className='operaItem' type='text' onClick={() => this.handleSetState('isUpdateModalVisible', true)} disabled={state !== 'config'}>
                 <Icon type="release" />&nbsp;{intl.formatMessage({ id: 'ChangeSetting' })}
-            </Button>,
-            <Button className='operaItem' type='text' onClick={() => this.handleSetState('isApplicationRollBackModalVisible', true)} disabled={state === 'config' || !id}>
-                <Icon type="refresh" />&nbsp;{intl.formatMessage({ id: 'RollBack' })}
             </Button>,
             <Button className='operaItem noborder' type='text' onClick={this.handleDelete}>
                 <Icon type="delete" />&nbsp;{intl.formatMessage({ id: 'Delete' })}
             </Button>,
         ]
         return (
-            <div className='applicationDetail'>
+            <div className='detail'>
                 {
                     // 第一次请求才loading
                     isLoading ? <Loading /> : (
@@ -235,44 +195,31 @@ class ApplicationDetail extends React.Component {
                                 detail.id ? (
                                     <React.Fragment>
                                         <div className='operaBar'>
-                                            <div className='leftGroup'>
-                                                {
+                                        {
                                                     operaOptions.map((item, index) => {
-                                                        return <ActionAuth action={actions.AdminApplicationCenterApplicationMaintain} key={index}>{item}</ActionAuth>
+                                                        return <ActionAuth action={actions.AdminApplicationCenterContainerMaintain} key={index}>{item}</ActionAuth>
                                                     })
                                                 }
-                                            </div>
-                                            <Dropdown
-                                                trigger={['click']}
-                                                overlay={<OutputHistory id={id} intl={intl} />}
-                                                placement="bottomLeft"
-                                                onVisibleChange={(visible) => this.handleSetState('isShowOutputHistory', visible)}
-                                            >
-                                                <div className="operaItem">
-                                                    {intl.formatMessage({ id: 'OutputHistory' })}
-                                                    <Icon type={isShowOutputHistory ? "up" : "down"} />
-                                                </div>
-                                            </Dropdown>
                                         </div>
                                         <div className='detailContent'>
                                             <Tabs defaultActiveKey="Preview">
                                                 <TabPane tab={intl.formatMessage({ id: 'OverView' })} key="Preview">
-                                                    <Preview {...this.props} detail={detail} getDetail={this.getDetail}></Preview>
+                                                    {/* <Preview {...this.props} detail={detail} getDetail={this.getDetail}></Preview> */}
                                                 </TabPane>
-                                                <TabPane tab={intl.formatMessage({ id: 'Detail' })} key="Detail">
-                                                    <Detail {...this.props} detail={detail} getDetail={this.getDetail}></Detail>
+                                                <TabPane tab={intl.formatMessage({ id: 'ContainerInfo' })} key="ContainerInfo">
+                                                    {/* <Detail {...this.props} detail={detail} getDetail={this.getDetail}></Detail> */}
                                                 </TabPane>
-                                                <TabPane tab={intl.formatMessage({ id: 'Entrance' })} key="Entrance">
-                                                    <Entrance {...this.props} detail={detail}></Entrance>
+                                                <TabPane tab={intl.formatMessage({ id: 'Event' })} key="Event">
+                                                    {/* <Entrance {...this.props} detail={detail}></Entrance> */}
+                                                </TabPane>
+                                                <TabPane tab={intl.formatMessage({ id: 'Message' })} key="Message">
+                                                    {/* <Alarm {...this.props}></Alarm> */}
+                                                </TabPane>
+                                                <TabPane tab={intl.formatMessage({ id: 'PersistenceLog' })} key="PersistenceLog">
+                                                    {/* <Log {...this.props}></Log> */}
                                                 </TabPane>
                                                 <TabPane tab={intl.formatMessage({ id: 'Alarm' })} key="Alarm">
-                                                    <Alarm {...this.props}></Alarm>
-                                                </TabPane>
-                                                <TabPane tab={intl.formatMessage({ id: 'Log' })} key="Log">
-                                                    <Log {...this.props}></Log>
-                                                </TabPane>
-                                                <TabPane tab={intl.formatMessage({ id: 'AppPublish' })} key="Publish">
-                                                    <Publish {...this.props} detail={detail}></Publish>
+                                                    {/* <Publish {...this.props} detail={detail}></Publish> */}
                                                 </TabPane>
                                             </Tabs>
                                         </div>
@@ -282,34 +229,21 @@ class ApplicationDetail extends React.Component {
                         </React.Fragment>
                     )
                 }
-                <Modal
+                {/* <Modal
                     title={`${intl.formatMessage({ id: 'Application' })}${intl.formatMessage({ id: 'Update' })}`}
-                    visible={isApplicationUpdateModalVisible}
+                    visible={isUpdateModalVisible}
                     onOk={this.handleConfirmUpdate}
-                    onCancel={() => this.handleSetState('isApplicationUpdateModalVisible', false)}
+                    onCancel={() => this.handleSetState('isUpdateModalVisible', false)}
                     className='updateApplicationModal'
                 >
                     <UpdateApplication
                         intl={intl}
                         detail={detail}
                         wrappedComponentRef={node => this.$UpdateApplication = node} />
-                </Modal>
-                <Modal
-                    title={`${intl.formatMessage({ id: 'Application' })}${intl.formatMessage({ id: 'RollBack' })}`}
-                    visible={isApplicationRollBackModalVisible}
-                    onOk={this.handleConfirmRollBack}
-                    onCancel={() => this.handleSetState('isApplicationRollBackModalVisible', false)}
-                    className='applicationRollBackModal'
-                    destroyOnClose={true}
-                >
-                    <ApplicationRollBack
-                        intl={intl}
-                        detail={detail}
-                        wrappedComponentRef={node => this.$ApplicationRollBack = node} />
-                </Modal>
+                </Modal> */}
             </div>
         )
     }
 }
 
-export default ApplicationDetail
+export default ContainerDetail

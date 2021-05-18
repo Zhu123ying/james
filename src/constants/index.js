@@ -1,6 +1,7 @@
-
+// 分页字段
 export const DEFAULT_EMPTY_LABEL = '-'
 export const DEFULT_PAGE_SIZE = 20 // 默认列表分页大小
+// 接口前缀
 export const API_Prefix = 'application/v1/'
 // 应用一级状态（部署状态）
 export const ApplicationStatuList = {
@@ -19,10 +20,6 @@ export const ApplicationSecondStatuList = {
     NORMAL: '健康',
     ABNORMAL: '异常'
 }
-export const ApplicationSecondStatuColor = {
-    NORMAL: 'bg-success',
-    ABNORMAL: 'bg-danger'
-}
 // 应用发布任务状态
 export const ApplicationPublishTaskStatuList = {
     config: '配置中',
@@ -32,4 +29,19 @@ export const ApplicationPublishTaskStatuList = {
     rollbacked: '回滚完成',
     rollbackfail: '回滚失败',
     cancel: '取消'
+}
+// 容器一级状态
+export const ContainerStateList = {
+    config: '配置中',
+    starting: '启动中',
+    running: '运行中',
+    stopping: '停止中',
+    startFailed: '启动失败',
+    stopFailed: '停止失败'
+}
+// 容器二级状态
+export const ContainerStatuList = {
+    config: '配置中',
+    running: '运行中',
+    error: '异常'
 }

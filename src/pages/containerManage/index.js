@@ -1,28 +1,27 @@
 /* eslint-disable */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { application as api } from '~/http/api'
+import { container as api } from '~/http/api'
 import HuayunRequest from '~/http/request'
 import { DatePicker, Select, Input, message, Button } from 'huayunui';
-import ApplicationDetail from './detail'
+import ContainerDetail from './detail'
 import './index.less'
 import { Notification, Loading, Icon } from 'ultraui'
-import { ApplicationStatuList } from '~/constants'
+import { ContainerStateList, ContainerStatuList } from '~/constants'
 import ActionAuth from '~/components/ActionAuth'
 import actions from '~/constants/authAction'
 
 const notification = Notification.newInstance()
 const { RangePicker } = DatePicker;
-class ApplicationManage extends React.Component {
+class ContainerManage extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             name: '',
+            projectId: '271336de-5f26-430f-81d7-018d2a74fcf1',
             createTime: [],
-            tags: [],
-            projectId: '',
             dataList: [], // 列表数据
-            currentApplication: {}, // 当前的应用
+            currentTableItem: {}, // 当前的应用
             pageNumber: 1,
             pageSize: 10,
             isFetching: false
@@ -41,20 +40,20 @@ class ApplicationManage extends React.Component {
         const { handleExtra, intl } = this.props
         handleExtra({
             extraChildren: (
-                <ActionAuth action={actions.AdminApplicationCenterApplicationOperate}>
+                <ActionAuth action={actions.AdminApplicationCenterContainerOperate}>
                     <Button
                         type="primary"
                         size="large"
                         icon="icon-add"
-                        onClick={this.handleCreateApplication}
-                        name={intl.formatMessage({ id: 'CreateApplication' })}
+                        onClick={this.handleCreate}
+                        name={intl.formatMessage({ id: 'CreateContainerGroup' })}
                     />
                 </ActionAuth>
             ),
             border: false
         })
     }
-    handleCreateApplication = () => {
+    handleCreate = () => {
         this.props.history.push(`${this.props.match.path}/create`)
     }
     handleSearchParamChange = (key, val, isFetch = true) => {
@@ -66,28 +65,25 @@ class ApplicationManage extends React.Component {
             isFetch && this.handleSearch(true)
         })
     }
-    handleSearch = (isResetCurrentApplication = false) => {
-        const { name, createTime, tags, projectId, pageNumber, pageSize, currentApplication } = this.state
+    handleSearch = (isResetCurrentTableItem = false) => {
+        const { name: nameLike, createTime, projectId, pageNumber, pageSize, currentTableItem } = this.state
         const params = {
             pageNumber,
             pageSize,
-            conditions: {
-                name,
-                startTime: createTime[0],
-                endTime: createTime[1],
-                tags,
-                projectId
-            }
+            nameLike,
+            projectId,
+            createTimeStart: createTime[0],
+            createTimeEnd: createTime[1]
         }
         this.setState({
             isFetching: true
         })
         HuayunRequest(api.list, params, {
             success: (res) => {
-                const { data: { datas } } = res
+                const { data: { platformContainers } } = res
                 this.setState({
-                    dataList: datas,
-                    currentApplication: (isResetCurrentApplication && datas[0]) ? datas[0] : currentApplication,
+                    dataList: platformContainers,
+                    currentTableItem: (isResetCurrentTableItem && platformContainers[0]) ? platformContainers[0] : currentTableItem,
                 })
             },
             complete: (res) => {
@@ -99,12 +95,12 @@ class ApplicationManage extends React.Component {
     }
     handleChangeTableItem = (item) => {
         this.setState({
-            currentApplication: item
+            currentTableItem: item
         })
     }
     render() {
         const { intl } = this.props
-        const { name, createTime, tags, projectId, dataList, currentApplication, isFetching } = this.state
+        const { name, createTime, projectId, dataList, currentTableItem, isFetching } = this.state
         const searchItems = [
             <RangePicker
                 onChange={(val) => this.handleSearchParamChange('createTime', val)}
@@ -120,21 +116,10 @@ class ApplicationManage extends React.Component {
                 bordered={false}
                 onChange={(val) => this.handleSearchParamChange('createTime', val)}>
                 <Select.Option value="jack">Jack</Select.Option>
-            </Select>,
-            <Select
-                mode="tags"
-                allowClear
-                placeholder={intl.formatMessage({ id: 'Tag' })}
-                style={{ width: 'auto' }}
-                bordered={false}
-                onChange={(val) => this.handleSearchParamChange('tags', val)}
-                dropdownRender={(originNode) => (<div>{originNode}</div>)}
-            >
-                <Select.Option value="jack">Jaasasasck</Select.Option>
-            </Select >
+            </Select>
         ]
         return (
-            <div id='applicationCenter_layout' className='applicationManage'>
+            <div id='applicationCenter_layout' className='containerManage'>
                 <div className='layoutSearchBar'>{searchItems}</div>
                 {
                     isFetching ? <Loading /> : (
@@ -151,15 +136,15 @@ class ApplicationManage extends React.Component {
                                 <div className='tableList'>
                                     {
                                         dataList.map(item => {
-                                            const { id, name, projectName, state, secondState } = item
+                                            const { id, name, projectName, state, secondState, containerCount } = item
                                             return (
                                                 <div
-                                                    className={`tableItem ${currentApplication.id === id ? 'activeTableItem' : ''}`}
+                                                    className={`tableItem ${currentTableItem.id === id ? 'activeTableItem' : ''}`}
                                                     onClick={() => this.handleChangeTableItem(item)} >
                                                     <div className='basicInfo'>
                                                         <div className='name'>
                                                             <div className={`stateDot ${secondState === 'NORMAL' ? 'bg-success' : 'bg-danger'}`}></div>
-                                                            {name}
+                                                            {`${name}(${containerCount})`}
                                                         </div>
                                                         <div className='projectName'>{projectName}</div>
                                                     </div>
@@ -172,10 +157,10 @@ class ApplicationManage extends React.Component {
                             </div>
                             <div className='detailContainer'>
                                 {
-                                    currentApplication.id ? (
-                                        <ApplicationDetail
+                                    currentTableItem.id ? (
+                                        <ContainerDetail
                                             refreshTableList={this.handleSearch}
-                                            currentApplication={currentApplication}
+                                            currentTableItem={currentTableItem}
                                             {...this.props} />
                                     ) : null
                                 }
@@ -188,4 +173,4 @@ class ApplicationManage extends React.Component {
     }
 }
 
-export default ApplicationManage
+export default ContainerManage
