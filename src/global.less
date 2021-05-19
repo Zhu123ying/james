@@ -153,6 +153,9 @@
 }
 
 // 标题前有一个|的样式类
+.activeBefore{
+    position: relative;
+}
 .activeBefore::before {
     content: '';
     width: 2px;
@@ -187,5 +190,16 @@
             display: flex;
             align-items: center;
         }
+    }
+}
+
+.operaGroup{
+    display: flex;
+    align-items: center;
+    .iconfont{
+        font-size: 13px;
+        color: #7C98B6;
+        margin: 0 5px;
+        cursor: pointer;
     }
 }

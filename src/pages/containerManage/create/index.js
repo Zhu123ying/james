@@ -7,9 +7,10 @@ import MultiLineMessage from '~/components/MultiLineMessage'
 import Regex from '~/utils/regex'
 import './index.less'
 import HuayunRequest from '~/http/request'
-import { container as api } from '~/http/api'
+import { container as api, application } from '~/http/api'
 import ContainerGroupConfig from './containerGroupConfig'
-
+import ContainerConfig from './containerConfig'
+import ConfigFileManage from './configFileManage'
 const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select } = RcForm
 const notification = Notification.newInstance()
 const _ = window._
@@ -28,12 +29,25 @@ class ManageContainerItem extends React.Component {
         this.state = {
             currentBarType: navigationBarItems[0],
             formData: {
-
+                name: '',
+                description: '',
+                labels: [],
+                projectId: '',
+                restartPolicy: '', // 重启策略
+                resource: {    // 资源组配额
+                    cpu: 1000,
+                    memory: 1024,
+                    ephemeralStorage: 10
+                },
+                containers: [], // 容器配置
+                configurations: [], // 配置文件
             },
-            isFetching: false
+            isFetching: false,
+            projectList: [], // 项目列表
         }
     }
     componentDidMount() {
+        this.getProjectList()
         this.props.handleExtra({
             style: {
                 display: 'none'
@@ -47,6 +61,20 @@ class ManageContainerItem extends React.Component {
             }
         })
     }
+    // 获取项目列表
+    getProjectList = () => {
+        let params = {
+            pageNumber: 1,
+            pageSize: 10000
+        }
+        HuayunRequest(application.listProject, params, {
+            success: (res) => {
+                this.setState({
+                    projectList: res.data
+                })
+            }
+        })
+    }
     getDetail = () => {
         // 获取详情数据
         HuayunRequest(api.detail, { id: this.id }, {
@@ -55,9 +83,22 @@ class ManageContainerItem extends React.Component {
             }
         })
     }
-    handleChange = (key, val, item) => {
+    handleChange = (key, val) => {
         const value = _.get(val, 'target.value', val)
-
+        this.setState({
+            [key]: value
+        })
+    }
+    // 因为form表单的几个组件之间有相互关联，所以将formData作为prop传递
+    handleFormChange = (key, val) => {
+        const value = _.get(val, 'target.value', val)
+        let { formData } = this.state
+        formData[key] = value
+        this.setState({
+            formData: { ...formData }
+        }, () => {
+            console.log(this.state.formData)
+        })
     }
     handleSubmit = () => {
         const { form, history, intl } = this.props
@@ -66,18 +107,32 @@ class ManageContainerItem extends React.Component {
     handleCancel = () => {
         this.props.history.push('/applicationCenter/containerManage')
     }
-    handleTypeChange = (type) => {
-        this.setState({
-            currentBarType: type
-        })
-        // 找到锚点
-        let anchorElement = document.getElementById(type);
-        // 如果对应id的锚点存在，就跳转到锚点
-        if (anchorElement) { anchorElement.scrollIntoView({ block: 'start', behavior: 'smooth' }); }
+    renderFormComponent = (type) => {
+        const { intl, form } = this.props
+        const { projectList, formData } = this.state
+        switch (type) {
+            case 'ContainerGroupConfig':
+                return <ContainerGroupConfig
+                    intl={intl}
+                    form={form}
+                    formData={formData}
+                    handleFormChange={this.handleFormChange}
+                    projectList={projectList}
+                    ref={node => this.$ContainerGroupConfig = node} />
+                break
+            case 'ContainerConfig':
+                return <ContainerConfig
+                    intl={intl}
+                    form={form}
+                    formData={formData}
+                    handleFormChange={this.handleFormChange}
+                    ref={node => this.$ContainerConfig = node} />
+                break
+        }
     }
     render() {
         const { form, intl } = this.props
-        const { formData: { }, isFetching, currentBarType } = this.state
+        const { isFetching, currentBarType, formData } = this.state
         return (
             <div id="ManageContainerItem">
                 {
@@ -93,13 +148,27 @@ class ManageContainerItem extends React.Component {
                                 {
                                     navigationBarItems.map(item => {
                                         return (
-                                            <div className={`barItem ${currentBarType === item ? 'activeType activeBefore' : ''}`} key={item} onClick={() => this.handleTypeChange(item)}>{intl.formatMessage({ id: item })}</div>
+                                            <div className={`barItem ${currentBarType === item ? 'activeType activeBefore' : ''}`} key={item} onClick={() => this.handleChange('currentBarType', item)}>{intl.formatMessage({ id: item })}</div>
                                         )
                                     })
                                 }
                             </div>
-                            <div className='middle'></div>
-                            <div className='right'></div>
+                            <div className='middle'>
+                                <div className='title'>{intl.formatMessage({ id: currentBarType })}</div>
+                                <div className='body'>
+                                    {
+                                        this.renderFormComponent(currentBarType)
+                                    }
+                                </div>
+                            </div>
+                            <div className='right'>
+                                <ConfigFileManage
+                                    intl={intl}
+                                    form={form}
+                                    formData={formData}
+                                    handleFormChange={this.handleFormChange}
+                                />
+                            </div>
                         </Form>
                     )
                 }

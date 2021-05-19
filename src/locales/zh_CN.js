@@ -37,7 +37,10 @@ const zh_CN = {
     Version: '版本',
     Validate: '验证',
     Rename: '重命名',
-
+    InputPlaceHolder: '请输入{name}',
+    SelectPlaceHolder: '请输入{name}',
+    Memory: '内存',
+    Data: '数据',
     
     // 业务字段
     DesCreateContainerGroup: '这是创建容器的描述',
@@ -262,6 +265,15 @@ const zh_CN = {
     NetworkConfig: '网络配置',
     LogPersistence: '日志持久化',
     AlarmConfig: '告警配置',
+    ContainerGroupName: '容器组名称',
+    ContainerGroupDescription: '容器组描述',
+    ContainerGroupQuota: '容器组配额',
+    ContainerGroupTag: '容器组标签',
+    RestartPolicy: '重启策略',
+    LocalDisk: '本地磁盘',
+    SubType: '子类型',
+    LabelPanelIsRequired: '标签不能为空',
+    DataPanelIsRequired: '数据不能为空',
 
     // 接口返回提示
     UpdateApplicationSuccess: '编辑应用-{name}成功！',

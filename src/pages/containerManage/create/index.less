@@ -1,14 +1,275 @@
 @import '~/css/variables.less';
 
 #ManageContainerItem{
-    display: flex;
-    justify-content: center;
     width: 100%;
     height: calc(100% - 58px);
-    .left{
-        background: #F5F8FA;
+    padding: 20px;
+    font-size: 12px;
+    .ult-rcform{
+        display: flex;
+        justify-content: center;
+        .validation-error{
+            margin-left: 15px;
+        }
+        .left{
+            background: #F5F8FA;
+            border-radius: 3px;
+            border-radius: 3px;
+            width: 99px;
+            height: 217px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            padding: 10px 0;
+            .barItem{
+                color: #99ACC2;
+                padding: 0 15px;
+                cursor: pointer;
+                position: relative;
+            }
+            .activeType{
+                color: #33475B;
+            }
+        }
+        .middle{
+            width: 480px;
+            padding: 0 24px;
+            .title{
+                color: #33475B;
+                border-bottom: 1px solid #DFE3EB;
+                padding-bottom: 5px;
+            }
+            .body{
+                padding-top: 24px;
+                .ult-rcform-group{
+                    .ult-label{
+                        font-size: 12px;
+                        color: #7C98B6;
+                    }
+                }
+                // 容器组配置
+                .ContainerGroupConfig{
+                    .resourcePanel{
+                        .resourceItem{
+                            display: flex;
+                            flex-direction: column;
+                            margin-bottom: 0;
+                            .ult-label{
+                                width: auto;
+                                min-width: 0;
+                                margin-bottom: 5px;
+                            }
+                            .ult-rcform-panel{
+                                width: 100%;
+                                .ult-input-number{
+                                    width: 100%;
+                                }
+                            }
+                        }
+                    }
+                }
+                // 容器配置
+                .ContainerConfig{
+                    .archer-collapse{
+                        border: none;
+                        .archer-collapse-item{
+                            margin-bottom: 10px;
+                            border: 1px solid #dfe3eb;
+                            border-radius: 3px;
+                            .panelHeader{
+                                display: flex;
+                                justify-content: space-between;
+                                align-items: center;
+                            }
+                        }
+                    }
+                    .addContainerBtn{
+                        width: 100%;
+                    }
+                }
+            }
+        }
+        .right{
+            .rightItem{
+                width: 240px;
+                border: 1px solid #DFE3EB;
+                border-radius: 3px;
+                padding: 10px 15px;
+                .header{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    .ult-btn{
+                        padding: 7px 0;
+                    }
+                }
+                .dataList{
+                    .dataItem{
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        background: #F5F8FA;
+                        border-radius: 3px;
+                        padding: 5px 10px;
+                        margin: 10px 0;
+                        cursor: pointer;
+                        .title{
+                            color: #7C98B6;
+                        }
+                    }
+                    .dataItem:hover{
+                        box-shadow: 0 1px 5px 0 rgba(51,71,91,0.16);
+                    }
+                }
+            }
+            .ConfigFileManage{
+
+            }
+        }
+    }
+    // tag公用样式，目前只发现在configManage
+    .ult-tag-item{
+        display: flex;
+        background: #E6F1FD;
         border-radius: 3px;
-        border-radius: 3px;
+        padding: 8px 4px 8px 10px;
+        .tag-item-title{
+            .labelItem{
+                .key{
+                    color: #516F90;
+                }
+                .value{
+                    color: #4C8CCA;
+                }
+                .splitLine{
+                    color: #CBD6E2;
+                    margin: 0 5px;
+                }
+            }
+        }
+        .icon-error{
+            margin-left: 6px;
+        }
+    }
+    // 标签样式
+    .labelPanel{
+        margin-bottom: 0!important;
+        .ult-rcform-panel{
+            width: 100%;
+            flex-direction: column;
+            .labelLine{
+                display: flex;
+                align-items: center;
+                width: 100%;
+                border: 1px solid #CBD6E2;
+                border-radius: 3px;
+                padding: 0 2px;
+                .splitLine{
+                    color: #CBD6E2;
+                }
+                .ult-rcform-group{
+                    width: 50%;
+                    margin-bottom: 0;
+                    .ult-label{
+                        width: 0;
+                        min-width: 0;
+                        padding-right: 0;
+                    }
+                    .ult-rcform-group-input-wrapper{
+                        width: 100%;
+                        .ult-input{
+                            border: none;
+                        }
+                    }
+                }
+            }
+            .labelList{
+                margin: 10px 0 15px 0;
+                display: flex;
+                flex-wrap: wrap;
+            }
+        }
+        .custom-error{
+            padding-left: 0;
+            margin-top: -11px;
+        }
+    }
+    .configFileForm{
+        display: flex;
+        flex-direction: column;
+        .ult-rcform-group{
+            display: flex;
+            flex-direction: column;
+            flex-direction: column;
+            margin-bottom: 10px;
+            .ult-label{
+                width: auto;
+                min-width: 0;
+                margin-bottom: 5px;
+            }
+            .ult-rcform-group-input-wrapper{
+                width: 100%;
+            }
+            .validation-error{
+                margin-left: 0;
+                padding-left: 0;
+            }
+        }
+        .labelLine{
+            .ult-rcform-group{
+                .ult-label{
+                    display: none;
+                }
+            }
+        }
+        .labelList{
+            margin: 10px 0 0 0!important;
+        }
+    }
+}
+.archer-popover{
+    .archer-popover-arrow {
+        background-color: white;
+        border-color: white;
+    }
+    #configFileDetailPopover{
+        width: 380px;
+        background-color: white;
+        .archer-popover-inner-content{
+            max-width: inherit;
+            color: inherit;
+            .configDetail{
+                .title{
+                    background: #E7ECF2;
+                    border-radius: 3px 3px 0 0;
+                    padding: 10px;
+                }
+                .ult-key-value{
+                    .ult-key-value-item{
+                        padding: 0 10px;
+                        margin: 5px 0;
+                        .ult-key-value-item-label{
+                            width: 28%;
+                            padding: 4px;
+                            text-align: left;
+                            color: #516F90;
+                        }
+                        .ult-key-value-item-value{
+                            width: 72%;
+                            padding: 4px;
+                            color: #33475B;
+                            .labelList{
+                                display: flex;
+                                flex-wrap: wrap;
+                                .ult-tag-item{
+                                    padding: 8px 10px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
