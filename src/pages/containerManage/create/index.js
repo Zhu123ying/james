@@ -8,10 +8,11 @@ import Regex from '~/utils/regex'
 import './index.less'
 import HuayunRequest from '~/http/request'
 import { container as api, application } from '~/http/api'
-import ContainerGroupConfig from './containerGroupConfig'
-import ContainerConfig from './containerConfig'
-import ConfigFileManage from './configFileManage'
-import PersistentStorageManage from './persistentStorageManage'
+import ContainerGroupConfig from './containerGroupConfig' // 容器组管理
+import ContainerConfig from './containerConfig'  // 容器管理
+import NetworkConfig from './networkConfig'  // 网络管理
+import ConfigFileManage from './configFileManage' // 配置文件管理
+import PersistentStorageManage from './persistentStorageManage' // 持久存储管理
 
 const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select } = RcForm
 const notification = Notification.newInstance()
@@ -44,6 +45,18 @@ class ManageContainerItem extends React.Component {
                 containers: [], // 容器配置
                 configurations: [], // 配置文件
                 storages: [], // 持久存储
+                networkState: true, // 这个是前端自己加的字段，为true的时候要传network对象，为false不用传或者传{}
+                network: { // 容器网络
+                    containerNetworks: [],
+                    nodeNetworks: [], // 节点网络
+                    loadBalanceNetwork: { // 负载均衡
+                        name: '',
+                        ports: [], // 端口
+                        qos: true,
+                        upstream: 0, // 上行
+                        downstream: 0 // 下行
+                    }
+                }
             },
             isFetching: false,
             projectList: [], // 项目列表
@@ -130,6 +143,14 @@ class ManageContainerItem extends React.Component {
                     formData={formData}
                     handleFormChange={this.handleFormChange}
                     ref={node => this.$ContainerConfig = node} />
+                break
+            case 'NetworkConfig':
+                return <NetworkConfig
+                    intl={intl}
+                    form={form}
+                    formData={formData}
+                    handleFormChange={this.handleFormChange}
+                    ref={node => this.$NetworkConfig = node} />
                 break
         }
     }

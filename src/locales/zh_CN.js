@@ -41,6 +41,7 @@ const zh_CN = {
     SelectPlaceHolder: '请输入{name}',
     Memory: '内存',
     Data: '数据',
+    Port: '端口',
     
     // 业务字段
     DesCreateContainerGroup: '这是创建容器的描述',
@@ -277,6 +278,12 @@ const zh_CN = {
     PersistentStorage: '持久存储',
     StorageType: '存储类型',
     AccessMode: '访问类型',
+    ContainerClusterNetwork: '容器集群网络',
+    ContainerPort: '容器端口',
+    ClusterNetworkPort: '集群网络端口',
+    LoadBalancePort: '集群网络端口',
+    NodePort: '节点端口',
+    ContainerNetwork: '容器网络',
 
     // 接口返回提示
     UpdateApplicationSuccess: '编辑应用-{name}成功！',

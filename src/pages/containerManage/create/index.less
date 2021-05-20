@@ -68,23 +68,16 @@
                         }
                     }
                 }
-                // 容器配置
-                .ContainerConfig{
-                    .archer-collapse{
-                        border: none;
-                        .archer-collapse-item{
-                            margin-bottom: 10px;
-                            border: 1px solid #dfe3eb;
-                            border-radius: 3px;
-                            .panelHeader{
-                                display: flex;
-                                justify-content: space-between;
-                                align-items: center;
-                            }
+                .NetworkConfig{
+                    .lineItem {
+                        display: flex;
+                        align-items: center;
+                        margin-bottom: 16px;
+                        .lineTitle{
+                            font-size: 12px;
+                            color: #7C98B6;
+                            margin-right: 32px;
                         }
-                    }
-                    .addContainerBtn{
-                        width: 100%;
                     }
                 }
             }
@@ -149,7 +142,7 @@
             margin-left: 6px;
         }
     }
-    // 标签样式
+    // 标签公用样式
     .labelPanel{
         margin-bottom: 0!important;
         .ult-rcform-panel{
@@ -192,6 +185,7 @@
             margin-top: -11px;
         }
     }
+    // 创建、编辑modal公用样式
     .operateModalForm{
         display: flex;
         flex-direction: column;
@@ -236,6 +230,23 @@
                 }
             }
         }
+    }
+    // 折叠公用样式
+    .archer-collapse{
+        border: none;
+        .archer-collapse-item{
+            margin-bottom: 10px;
+            border: 1px solid #dfe3eb;
+            border-radius: 3px;
+            .panelHeader{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+    }
+    .addBoxItemBtn{
+        width: 100%;
     }
 }
 .archer-popover{

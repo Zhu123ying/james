@@ -78,7 +78,6 @@ class ContainerConfig extends React.Component {
     }
     render() {
         const { form, intl, formData: { containers }, handleFormChange } = this.props
-        const { currentLabel } = this.state
         return (
             <div className='ContainerConfig'>
                 {
@@ -111,7 +110,7 @@ class ContainerConfig extends React.Component {
                     icon={<Icon type="add" />}
                     onClick={this.handleAddContainer}
                     name="添加容器"
-                    className='addContainerBtn'
+                    className='addBoxItemBtn'
                 />
             </div>
         )
