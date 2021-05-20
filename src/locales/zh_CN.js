@@ -274,6 +274,9 @@ const zh_CN = {
     SubType: '子类型',
     LabelPanelIsRequired: '标签不能为空',
     DataPanelIsRequired: '数据不能为空',
+    PersistentStorage: '持久存储',
+    StorageType: '存储类型',
+    AccessMode: '访问类型',
 
     // 接口返回提示
     UpdateApplicationSuccess: '编辑应用-{name}成功！',

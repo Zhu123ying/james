@@ -11,6 +11,8 @@ import { container as api, application } from '~/http/api'
 import ContainerGroupConfig from './containerGroupConfig'
 import ContainerConfig from './containerConfig'
 import ConfigFileManage from './configFileManage'
+import PersistentStorageManage from './persistentStorageManage'
+
 const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select } = RcForm
 const notification = Notification.newInstance()
 const _ = window._
@@ -41,6 +43,7 @@ class ManageContainerItem extends React.Component {
                 },
                 containers: [], // 容器配置
                 configurations: [], // 配置文件
+                storages: [], // 持久存储
             },
             isFetching: false,
             projectList: [], // 项目列表
@@ -168,6 +171,11 @@ class ManageContainerItem extends React.Component {
                                     formData={formData}
                                     handleFormChange={this.handleFormChange}
                                 />
+                                <PersistentStorageManage
+                                    intl={intl}
+                                    form={form}
+                                    formData={formData}
+                                    handleFormChange={this.handleFormChange} />
                             </div>
                         </Form>
                     )

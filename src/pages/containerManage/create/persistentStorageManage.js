@@ -5,9 +5,9 @@ import { Button, TagItem, Icon, KeyValue } from 'ultraui'
 import { Button as HuayunButton, Modal, Popover } from 'huayunui'
 import Regex from '~/utils/regex'
 import './index.less'
-import ManageConfigFile from './operateConfigFile'
+import ManagePersistentStorage from './operatePersistentStorage'
 const _ = window._
-class ConfigFileManage extends React.Component {
+class PersistentStorageManage extends React.Component {
     static propTypes = {
         form: PropTypes.object.isRequired,
         intl: PropTypes.object.isRequired
@@ -15,8 +15,8 @@ class ConfigFileManage extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            isManageConfigFileModalVisible: false,
-            currentConfigFileIndex: -1 // 当前选中的配置文件的索引
+            isManageModalVisible: false,
+            currentItemIndex: -1 // 当前选中的配置文件的索引
         }
     }
     handleChange = (key, val) => {
@@ -26,54 +26,53 @@ class ConfigFileManage extends React.Component {
         })
     }
     handleConfirmManage = () => {
-        let { handleFormChange, formData: { configurations }, intl } = this.props
-        const { name, labels, type, subType, data } = this.$ManageConfigFile.state
-        const { currentConfigFileIndex } = this.state
-        this.$ManageConfigFile.props.form.validateFields((error, values) => {
+        let { handleFormChange, formData: { storages }, intl } = this.props
+        const { name, labels, type, typeClass, accessMode, capacity } = this.$ManagePersistentStorage.state
+        const { currentItemIndex } = this.state
+        this.$ManagePersistentStorage.props.form.validateFields((error, values) => {
             // 验证标签和数据
             const LabelPanelErrorMessage = Object.keys(labels).length === 0 ? intl.formatMessage({ id: 'LabelPanelIsRequired' }) : ''
-            const DataPanelErrorMessage = Object.keys(data).length === 0 ? intl.formatMessage({ id: 'DataPanelIsRequired' }) : ''
-            if (LabelPanelErrorMessage || DataPanelErrorMessage) {
-                this.$ManageConfigFile.setState({
-                    LabelPanelErrorMessage, DataPanelErrorMessage
+            if (LabelPanelErrorMessage) {
+                this.$ManagePersistentStorage.setState({
+                    LabelPanelErrorMessage
                 })
             }
-            if (error || LabelPanelErrorMessage || DataPanelErrorMessage) {
+            if (error || LabelPanelErrorMessage) {
                 return
             }
             this.setState({
-                isManageConfigFileModalVisible: false,
-                currentConfigFileIndex: -1
+                isManageModalVisible: false,
+                currentItemIndex: -1
             })
             let item = {
-                name, labels, type, subType, data
+                name, labels, type, typeClass, accessMode, capacity
             }
-            if (currentConfigFileIndex > -1) {
+            if (currentItemIndex > -1) {
                 // 编辑类提交
-                configurations[currentConfigFileIndex] = item
-                handleFormChange('configurations', [...configurations])
+                storages[currentItemIndex] = item
+                handleFormChange('storages', [...storages])
             } else {
                 // 添加类提交
-                handleFormChange('configurations', [...configurations, item])
+                handleFormChange('storages', [...storages, item])
             }
         })
     }
     handleEdit = (e, index) => {
         e.stopPropagation()
         this.setState({
-            currentConfigFileIndex: index,
-            isManageConfigFileModalVisible: true
+            currentItemIndex: index,
+            isManageModalVisible: true
         })
     }
     handleDelete = (e, index) => {
         e.stopPropagation()
-        let { handleFormChange, formData: { configurations } } = this.props
-        configurations.splice(index, 1)
-        handleFormChange('configurations', [...configurations])
+        let { handleFormChange, formData: { storages } } = this.props
+        storages.splice(index, 1)
+        handleFormChange('storages', [...storages])
     }
-    renderConfigDetail = (item) => {
+    renderDetail = (item) => {
         const { intl } = this.props
-        const { name, labels, type, subType, data } = item
+        const { name, labels, type, typeClass, accessMode, capacity } = item
         const infor = [
             {
                 label: intl.formatMessage({ id: 'Name' }),
@@ -104,36 +103,16 @@ class ConfigFileManage extends React.Component {
                 )
             },
             {
-                label: intl.formatMessage({ id: 'Type' }),
+                label: intl.formatMessage({ id: 'StorageType' }),
                 value: type
             },
             {
-                label: intl.formatMessage({ id: 'SubType' }),
-                value: subType
+                label: intl.formatMessage({ id: 'Capacity' }),
+                value: capacity
             },
             {
-                label: intl.formatMessage({ id: 'Data' }),
-                value: (
-                    <div className='labelList'>
-                        {
-                            Object.keys(data).map((key, index) => {
-                                return (
-                                    <TagItem
-                                        size='medium'
-                                        key={key}
-                                        name={
-                                            <div className='labelItem'>
-                                                <span className='key'>{key}</span>
-                                                <span className='splitLine'>|</span>
-                                                <span className='value'>{data[key]}</span>
-                                            </div>
-                                        }
-                                    />
-                                )
-                            })
-                        }
-                    </div>
-                )
+                label: intl.formatMessage({ id: 'AccessMode' }),
+                value: accessMode
             },
         ]
         return (
@@ -144,23 +123,23 @@ class ConfigFileManage extends React.Component {
         )
     }
     render() {
-        const { form, intl, formData: { configurations }, handleFormChange } = this.props
-        const { isManageConfigFileModalVisible, currentConfigFileIndex } = this.state
+        const { form, intl, formData: { storages }, handleFormChange } = this.props
+        const { isManageModalVisible, currentItemIndex } = this.state
         return (
-            <div className='ConfigFileManage rightItem'>
+            <div className='rightItem'>
                 <div className='header'>
-                    <div className='title activeBefore'>配置文件管理</div>
-                    <Button type='text' onClick={() => this.handleChange('isManageConfigFileModalVisible', true)}>
+                    <div className='title activeBefore'>持久存储管理</div>
+                    <Button type='text' onClick={() => this.handleChange('isManageModalVisible', true)}>
                         <Icon type="add" />&nbsp;{intl.formatMessage({ id: 'Add' })}
                     </Button>
                 </div>
                 <div className='dataList'>
                     {
-                        configurations.map((item, index) => {
+                        storages.map((item, index) => {
                             return (
                                 <Popover
                                     placement="right"
-                                    content={this.renderConfigDetail(item)}
+                                    content={this.renderDetail(item)}
                                     trigger="click"
                                     type="text"
                                     id='detailPopover'
@@ -180,22 +159,22 @@ class ConfigFileManage extends React.Component {
                     }
                 </div>
                 <Modal
-                    title={currentConfigFileIndex > -1 ? '编辑配置文件' : '添加配置文件'}
-                    visible={isManageConfigFileModalVisible}
+                    title={currentItemIndex > -1 ? '编辑持久存储' : '添加持久存储'}
+                    visible={isManageModalVisible}
                     onOk={this.handleConfirmManage}
-                    onCancel={() => this.handleChange('isManageConfigFileModalVisible', false)}
+                    onCancel={() => this.handleChange('isManageModalVisible', false)}
                     getContainer={document.getElementById('ManageContainerItem')}
                     destroyOnClose={true}
                 >
-                    <ManageConfigFile
+                    <ManagePersistentStorage
                         intl={intl}
                         handleFormChange={handleFormChange}
-                        currentConfigFile={configurations[currentConfigFileIndex]}
-                        wrappedComponentRef={node => this.$ManageConfigFile = node} />
+                        currentItem={storages[currentItemIndex]}
+                        wrappedComponentRef={node => this.$ManagePersistentStorage = node} />
                 </Modal>
             </div>
         )
     }
 }
 
-export default ConfigFileManage
+export default PersistentStorageManage

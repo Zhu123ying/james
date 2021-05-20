@@ -95,6 +95,7 @@
                 border: 1px solid #DFE3EB;
                 border-radius: 3px;
                 padding: 10px 15px;
+                margin-bottom: 25px;
                 .header{
                     display: flex;
                     justify-content: space-between;
@@ -121,9 +122,6 @@
                         box-shadow: 0 1px 5px 0 rgba(51,71,91,0.16);
                     }
                 }
-            }
-            .ConfigFileManage{
-
             }
         }
     }
@@ -194,7 +192,7 @@
             margin-top: -11px;
         }
     }
-    .configFileForm{
+    .operateModalForm{
         display: flex;
         flex-direction: column;
         .ult-rcform-group{
@@ -215,24 +213,37 @@
                 padding-left: 0;
             }
         }
-        .labelLine{
-            .ult-rcform-group{
-                .ult-label{
-                    display: none;
+        .labelPanel{
+            .labelLine{
+                .ult-rcform-group{
+                    .ult-label{
+                        display: none;
+                    }
                 }
             }
+            .labelList{
+                margin: 10px 0 0 0!important;
+            }
         }
-        .labelList{
-            margin: 10px 0 0 0!important;
+        .InputNumberPanel{
+            .ult-rcform-panel{
+                width: 100%;
+                .ult-input-number{
+                    width: 100%;
+                    .slot{
+                        width: auto;
+                    }
+                }
+            }
         }
     }
 }
 .archer-popover{
     .archer-popover-arrow {
-        background-color: white;
-        border-color: white;
+        background-color: white!important;
+        border-color: white!important;
     }
-    #configFileDetailPopover{
+    #detailPopover{
         width: 380px;
         background-color: white;
         .archer-popover-inner-content{
