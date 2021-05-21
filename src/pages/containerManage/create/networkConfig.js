@@ -1,13 +1,14 @@
 /* eslint-disable */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { RcForm, Loading, Notification, Button, KeyValue, Dialog, TagItem, InputNumber, Icon } from 'ultraui'
+import { RcForm, Loading, Notification, Button, KeyValue, Dialog, TagItem, InputNumber, Icon, Input as UltrauiInput } from 'ultraui'
 import { Collapse, Button as HuayunButton, Switch } from 'huayunui'
 import Regex from '~/utils/regex'
 import './index.less'
 
 const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select, Panel } = RcForm
 const _ = window._
+const portTypeList = ['ClusterNetworkPort', 'NodePort', 'LoadBalancePort']
 class NetworkConfig extends React.Component {
     static propTypes = {
         form: PropTypes.object.isRequired,
@@ -19,10 +20,16 @@ class NetworkConfig extends React.Component {
 
         }
     }
-    handleOnChange = (type, typeIndex, key) => {
+    handleOnChange = (type, typeIndex, key, val) => {
         const value = _.get(val, 'target.value', val)
         let { formData: { network }, handleFormChange } = this.props
-        network[type][typeIndex][key] = value
+        let dataItem = network[type]
+        // 容器网络和节点网络是数组结构，负载均衡是对象结构
+        if (Array.isArray(dataItem) && typeIndex > -1) {
+            dataItem[typeIndex][key] = value
+        } else {
+            dataItem[key] = value
+        }
         handleFormChange('network', { ...network })
     }
     // port表单元素值的变化处理
@@ -30,6 +37,10 @@ class NetworkConfig extends React.Component {
         const value = _.get(val, 'target.value', val)
         let { formData: { network }, handleFormChange } = this.props
         network[type][typeIndex][podKey][portIndex][key] = value
+        // 节点网络为手动的时候清空port
+        if (key === 'manner' && value === 'random') {
+            network[type][typeIndex][podKey][portIndex]['port'] = ''
+        }
         handleFormChange('network', { ...network })
     }
     // 容器端口表单元素
@@ -39,14 +50,14 @@ class NetworkConfig extends React.Component {
         // portIndex参数为network[type][typeIndex][podKey]的索引
         const { intl, form, formData: { network, containers } } = this.props
         const name = `${type}${typeIndex}PortSelect${portIndex}`
-        const value = network[type][typeIndex][podKey][portIndex]['containerPort']
+        const value = typeIndex > -1 ? network[type][typeIndex][podKey][portIndex]['containerPort'] : network[type][podKey][portIndex]['containerPort']
         return (
             <Select
                 form={form}
                 value={value}
                 name={name}
                 placeholder={intl.formatMessage({ id: 'SelectPlaceHolder' }, { name: intl.formatMessage({ id: 'Port' }) })}
-                onChange={(val) => this.handlePortLineChange(type, typeIndex, podKey, portIndex, 'containerPort')}
+                onChange={(val) => this.handlePortLineChange(type, typeIndex, podKey, portIndex, 'containerPort', val)}
                 label={intl.formatMessage({ id: 'ContainerPort' })}
                 isRequired
                 options={[
@@ -56,6 +67,7 @@ class NetworkConfig extends React.Component {
                 ]}
                 optionFilterProp='children'
                 optionLabelProp='children'
+                className='w50 pr'
             />
         )
     }
@@ -65,46 +77,56 @@ class NetworkConfig extends React.Component {
     renderPanelInputFormItem = (type, typeIndex, podKey, portIndex, portType) => {
         const { intl, form, formData: { network } } = this.props
         const name = `${type}${typeIndex}${portType}Input${portIndex}`
-        const value = network[type][typeIndex][podKey][portIndex]['port']
+        const value = typeIndex > -1 ? network[type][typeIndex][podKey][portIndex]['port'] : network[type][podKey][portIndex]['port']
         return (
             <Input
                 form={form}
                 value={value}
                 name={name}
                 placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'Port' }) })}
-                onChange={(val) => this.handlePortLineChange(type, typeIndex, podKey, portIndex, 'port')}
+                onChange={(val) => this.handlePortLineChange(type, typeIndex, podKey, portIndex, 'port', val)}
                 label={intl.formatMessage({ id: portType })}
                 isRequired
+                type='number'
+                className='w50 pl'
             />
         )
     }
     // 节点端口
     renderPanelNodePortInputFormItem = (type, typeIndex, podKey, portIndex, portType) => {
-        const { form, formData: { network } } = this.props
-        const name = `${type}${typeIndex}NodePortInput${portIndex}`
+        const { intl, form, formData: { network } } = this.props
         const { manner, port } = network[type][typeIndex][podKey][portIndex]
         return (
-            <Input.Group compact>
+            <div className='nodePortInputLine w50 pl'>
                 <Select
+                    form={form}
+                    name={`${type}${typeIndex}NodePortSelect${portIndex}`}
                     value={manner}
-                    onChange={(val) => this.handlePortLineChange(type, typeIndex, podKey, portIndex, 'manner')}
-                    style={{ width: '30%' }}
-                >
-                    <Option value="manual">手动</Option>
-                    <Option value="random">自动</Option>
-                </Select>
+                    onChange={(val) => this.handlePortLineChange(type, typeIndex, podKey, portIndex, 'manner', val)}
+                    label={intl.formatMessage({ id: portType })}
+                    options={[
+                        // 先写死的
+                        { value: 'manual', text: '手动' },
+                        { value: 'random', text: '自动' }
+                    ]}
+                    optionFilterProp='children'
+                    optionLabelProp='children'
+                    isRequired
+                    className='selectPart'
+                />
                 <Input
                     form={form}
                     value={port}
-                    name={name}
+                    name={`${type}${typeIndex}NodePortInput${portIndex}`}
                     placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'Port' }) })}
-                    onChange={(val) => this.handlePortLineChange(type, typeIndex, podKey, portIndex, 'port')}
-                    label={intl.formatMessage({ id: portType })}
-                    isRequired={manner === 'random'}
+                    onChange={(val) => this.handlePortLineChange(type, typeIndex, podKey, portIndex, 'port', val)}
+                    // label={intl.formatMessage({ id: portType })}
+                    // isRequired={manner === 'manual'}
                     disabled={manner === 'random'}
                     type='number'
+                    className='inputPart'
                 />
-            </Input.Group>
+            </div>
         )
     }
     handleDeletePortLine = (type, typeIndex, podKey, portIndex) => {
@@ -114,7 +136,7 @@ class NetworkConfig extends React.Component {
     }
     renderPortLine = (type, typeIndex, podKey, portIndex, portType) => {
         const { formData: { network } } = this.props
-        const lineList = network[type][typeIndex][podKey]
+        const lineList = typeIndex > -1 ? network[type][typeIndex][podKey] : network[type][podKey]
         return (
             <div className='portLine'>
                 {this.renderContainerPortFormItem(type, typeIndex, podKey, portIndex)}
@@ -125,24 +147,19 @@ class NetworkConfig extends React.Component {
                         this.renderPanelInputFormItem(type, typeIndex, podKey, portIndex, portType)
                     )
                 }
-                {/* <Button
+                <Button
                     type='text'
-                    disabled={lineList.length === 0}
-                    onClick={() => this.handleDeletePortLine(type, typeIndex, podKey, portIndex)}>
-                    <Icon type="minus-o" />&nbsp;{intl.formatMessage({ id: 'Delete' })}
-                </Button> */}
-                <HuayunButton
-                    type="operate"
-                    icon={<Icon type="minus-o" />}
-                    onClick={() => this.handleDeletePortLine(type, typeIndex, podKey, portIndex)}
                     disabled={lineList.length === 1}
-                />
+                    onClick={() => this.handleDeletePortLine(type, typeIndex, podKey, portIndex)}>
+                    <Icon type="minus-o" />
+                </Button>
             </div>
         )
     }
     renderPortPanel = (type, typeIndex, podKey, portType) => {
         const { intl, form, formData: { network } } = this.props
-        const lineList = network[type][typeIndex][podKey]
+        // 容器网络和节点网络是数组结构，负载均衡是对象结构
+        const lineList = typeIndex > -1 ? network[type][typeIndex][podKey] : network[type][podKey]
         return (
             <Panel
                 form={form}
@@ -150,6 +167,7 @@ class NetworkConfig extends React.Component {
                 name={`${type}${typeIndex}Port`}
                 label={intl.formatMessage({ id: 'Port' })}
                 isRequired
+                className='portPanel'
             >
                 {
                     lineList.map((item, index) => {
@@ -170,32 +188,60 @@ class NetworkConfig extends React.Component {
         const { formData: { network }, handleFormChange } = this.props
         const portItem = portType === 'NodePort' ? {
             containerPort: '',
-            manner: '',
+            manner: 'random', // 先给个默认值
             port: ''
         } : {
             containerPort: '',
-            manner: '',
+            port: '',
         }
-        network[type][typeIndex][podKey].push(portItem)
+        const dataItem = network[type]
+        // 容器网络和节点网络是数组结构，负载均衡是对象结构
+        if (Array.isArray(dataItem) && typeIndex > -1) {
+            dataItem[typeIndex][podKey].push(portItem)
+        } else {
+            dataItem[podKey].push(portItem)
+        }
         handleFormChange('network', { ...network })
     }
     // 渲染容器集群网络Collapse的Panel
     renderClusterNetworkCollapsePanel = (item, index) => {
         const { form, intl } = this.props
         const { name } = item
+        const title = intl.formatMessage({ id: 'ContainerClusterNetwork' })
         return (
-            <Collapse.Panel header={this.renderCollapsePanelHeader(index)} key={index}>
+            <Collapse.Panel header={this.renderCollapsePanelHeader('containerNetworks', title, index)} key={index}>
                 <Input
                     form={form}
                     name={`containerNetworks${index}Name`}
                     value={name}
-                    onChange={(val) => this.handleOnChange('containerNetworks', index, 'name')}
+                    onChange={(val) => this.handleOnChange('containerNetworks', index, 'name', val)}
                     label={intl.formatMessage({ id: 'Name' })}
                     placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'Name' }) })}
                     validRegex={Regex.isName}
                     isRequired
                 />
-                {this.renderPortPanel('containerNetworks', index, 'ports', 'ClusterNetworkPort')}
+                {this.renderPortPanel('containerNetworks', index, 'ports', portTypeList[0])}
+            </Collapse.Panel>
+        )
+    }
+    // 渲染节点网络Collapse的Panel
+    renderNodeNetworkCollapsePanel = (item, index) => {
+        const { form, intl } = this.props
+        const { name } = item
+        const title = intl.formatMessage({ id: 'NodeNetwork' })
+        return (
+            <Collapse.Panel header={this.renderCollapsePanelHeader('nodeNetworks', title, index)} key={index}>
+                <Input
+                    form={form}
+                    name={`nodeNetworks${index}Name`}
+                    value={name}
+                    onChange={(val) => this.handleOnChange('nodeNetworks', index, 'name', val)}
+                    label={intl.formatMessage({ id: 'Name' })}
+                    placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'Name' }) })}
+                    validRegex={Regex.isName}
+                    isRequired
+                />
+                {this.renderPortPanel('nodeNetworks', index, 'ports', portTypeList[1])}
             </Collapse.Panel>
         )
     }
@@ -211,7 +257,7 @@ class NetworkConfig extends React.Component {
         )
     }
     handleDeleteCollapsePanel = (type, index) => {
-        const { formData: { network } } = this.props
+        const { formData: { network }, handleFormChange } = this.props
         network[type].splice(index, 1)
         handleFormChange('network', { ...network })
     }
@@ -241,18 +287,82 @@ class NetworkConfig extends React.Component {
             </React.Fragment>
         )
     }
+    // 添加容器集群网络
     handleAddClusterNetwork = () => {
         let { intl, formData: { network }, handleFormChange } = this.props
         network.containerNetworks.push({
             name: '',
             ports: [
-                {
-                    containerPort: '',
-                    port: ''
-                }
+                // {
+                //     containerPort: '',
+                //     port: ''
+                // }
             ]
         })
         handleFormChange('network', { ...network })
+    }
+    // 渲染节点网络
+    renderNodeNetwork = () => {
+        const { intl, formData: { network: { nodeNetworks } } } = this.props
+        return (
+            <React.Fragment>
+                {
+                    nodeNetworks.length ? (
+                        <Collapse defaultActiveKey={[0]}>
+                            {
+                                nodeNetworks.map((item, index) => {
+                                    return this.renderNodeNetworkCollapsePanel(item, index)
+                                })
+                            }
+                        </Collapse>
+                    ) : null
+                }
+                <HuayunButton
+                    type="operate"
+                    icon={< Icon type="add" />}
+                    onClick={this.handleAddNodeNetwork}
+                    name="添加节点网络"
+                    className='addBoxItemBtn'
+                />
+            </React.Fragment>
+        )
+    }
+    // 添加节点网络
+    handleAddNodeNetwork = () => {
+        let { intl, formData: { network }, handleFormChange } = this.props
+        network.nodeNetworks.push({
+            name: '',
+            ports: [
+                // {
+                //     containerPort: '',
+                //     manner: '',
+                //     port: ''
+                // }
+            ]
+        })
+        handleFormChange('network', { ...network })
+    }
+    // 渲染负载均衡
+    renderLoadBalanceNetwork = () => {
+        const { intl, formData: { network: { loadBalanceNetwork } }, form } = this.props
+        const { name, ports } = loadBalanceNetwork
+        return (
+            <Collapse defaultActiveKey={[0]}>
+                <Collapse.Panel header={intl.formatMessage({ id: 'LoadBalance' })}>
+                    <Input
+                        form={form}
+                        name='loadBalanceNetworkName'
+                        value={name}
+                        onChange={(val) => this.handleOnChange('loadBalanceNetwork', -1, 'name', val)}
+                        label={intl.formatMessage({ id: 'Name' })}
+                        placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'Name' }) })}
+                        validRegex={Regex.isName}
+                        isRequired
+                    />
+                    {this.renderPortPanel('loadBalanceNetwork', -1, 'ports', portTypeList[2])}
+                </Collapse.Panel>
+            </Collapse>
+        )
     }
     render() {
         const { form, intl, formData: { networkState, network }, handleFormChange } = this.props
@@ -262,9 +372,17 @@ class NetworkConfig extends React.Component {
                     <div className='lineTitle'>{intl.formatMessage({ id: 'ContainerNetwork' })}</div>
                     <Switch onChange={() => handleFormChange('networkState', !networkState)} />
                 </div>
-                <div className='lineItem'>
+                <div className='lineItem vertical'>
                     <div className='lineTitle'>{intl.formatMessage({ id: 'ContainerClusterNetwork' })}</div>
                     {this.renderContainerClusterNetwork()}
+                </div>
+                <div className='lineItem vertical'>
+                    <div className='lineTitle'>{intl.formatMessage({ id: 'NodeNetwork' })}</div>
+                    {this.renderNodeNetwork()}
+                </div>
+                <div className='lineItem vertical'>
+                    <div className='lineTitle'>{intl.formatMessage({ id: 'LoadBalance' })}</div>
+                    {this.renderLoadBalanceNetwork()}
                 </div>
             </div>
         )

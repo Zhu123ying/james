@@ -42,7 +42,7 @@ const zh_CN = {
     Memory: '内存',
     Data: '数据',
     Port: '端口',
-    
+    LoadBalance: '负载均衡',
     // 业务字段
     DesCreateContainerGroup: '这是创建容器的描述',
     ContainerManage: '容器管理',
@@ -284,6 +284,7 @@ const zh_CN = {
     LoadBalancePort: '集群网络端口',
     NodePort: '节点端口',
     ContainerNetwork: '容器网络',
+    NodeNetwork: '节点网络',
 
     // 接口返回提示
     UpdateApplicationSuccess: '编辑应用-{name}成功！',
