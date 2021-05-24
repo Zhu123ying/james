@@ -331,7 +331,7 @@ class NetworkConfig extends React.Component {
         })
         handleFormChange('network', { ...network })
     }
-    渲染负载均衡
+    // 渲染负载均衡
     renderLoadBalanceNetwork = () => {
         const { intl, formData: { network: { loadBalanceNetwork } }, form } = this.props
         const { name, ports, qos, upstream, downstream } = loadBalanceNetwork

@@ -1,14 +1,28 @@
 /* eslint-disable */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { RcForm, Loading, Notification, Button, KeyValue, Dialog, TagItem, InputNumber, Icon } from 'ultraui'
-import { Collapse, Button as HuayunButton } from 'huayunui'
+import { RcForm, Loading, Notification, Button, KeyValue, Dialog, TagItem, InputNumber, Icon, Switch } from 'ultraui'
+import { Collapse, Button as HuayunButton, Modal } from 'huayunui'
 import Regex from '~/utils/regex'
 import './index.less'
+import Card from '~/components/Card'
+import DividerBox from '~/components/DividerBox'
+import OperateMountConfig from './operateMountConfig'
+import OperateEnvs from './operateEnvs'
 
 const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select, Panel } = RcForm
 const _ = window._
 const pullStrategyList = ['Always', 'IfNotPresent', 'Never']
+const containerTypeList = [
+    { value: 'ApplicationContainer', text: '应用容器' },
+    { value: 'InitContainer', text: '初始化容器' }
+]
+const testTypeList = [
+    { value: 'Liveness', text: '存活检测' }
+]
+const testMethodList = [
+    { value: 'exec', text: 'exec' }
+]
 class ContainerConfig extends React.Component {
     static propTypes = {
         form: PropTypes.object.isRequired,
@@ -17,7 +31,18 @@ class ContainerConfig extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-
+            currentArgs: [], // 启动参数
+            currentCommand: [], // 启动命令
+            isMountConfigModalVisible: false,
+            mountConfigParams: {
+                type: '', // 添加还是编辑，
+                path: '', // 路劲
+            },
+            isEnvsModalVisible: false,
+            envsParams: {
+                type: '', // 添加还是编辑，
+                path: '', // 路劲
+            }
         }
     }
     componentDidMount() {
@@ -28,16 +53,11 @@ class ContainerConfig extends React.Component {
         return (
             <div className='panelHeader'>
                 <div className='panelTitle'>{`${intl.formatMessage({ id: 'Container' })}${index + 1}`}</div>
-                <Button type='text' onClick={() => this.handleDeleteContainer(index)}>
+                <Button type='text' onClick={() => this.handleRemoveFormDataItem('containers', index)}>
                     <Icon type="empty" />&nbsp;{intl.formatMessage({ id: 'Delete' })}
                 </Button>
             </div>
         )
-    }
-    handleDeleteContainer = (index) => {
-        let { handleFormChange, formData: { containers } } = this.props
-        containers.splice(index, 1)
-        handleFormChange('containers', [...containers])
     }
     handleAddContainer = () => {
         const { handleFormChange, formData: { containers } } = this.props
@@ -67,17 +87,124 @@ class ContainerConfig extends React.Component {
                 failureThreshold: 0 // 失败重复
             }, // 监看检测
             ports: [], // 端口
+            mounts: [], // 挂载
         }
         handleFormChange('containers', [...containers, containerItem])
     }
-    handleOnChange = (key, val, index) => {
+    handleFormDataOnChange = (key, val) => {
         let { handleFormChange, formData: { containers } } = this.props
         const value = _.get(val, 'target.value', val)
-        containers[index][key] = value
+        _.set(containers, key, value)
         handleFormChange('containers', [...containers])
     }
+    handleStateOnChange = (key, index, val) => {
+        const value = _.get(val, 'target.value', val)
+        this.state[key][index] = value
+        this.setState({
+            [key]: this.state[key]
+        })
+    }
+    // 点击按钮，添加启动参数、启动命令到formData里
+    handleClickInputAddBtn = (formDataKey, stateKey, index) => {
+        let { handleFormChange, formData: { containers } } = this.props
+        let formData = _.get(containers, `${index}.${formDataKey}`, [])
+        let stateData = this.state[stateKey]
+        formData.push(stateData[index])
+        stateData[index] = ''
+        this.setState({
+            [stateKey]: stateData
+        })
+        handleFormChange('containers', [...containers])
+    }
+    // 删除是通用的，因为知道key了就能删
+    handleRemoveFormDataItem = (key, index) => {
+        let { handleFormChange, formData } = this.props
+        let array = _.get(formData, key, [])
+        array.splice(index, 1)
+        handleFormChange('formData', { ...formData })
+    }
+    // 提交挂载配置的modal
+    handleConfirmManageMountConfig = () => {
+        let { handleFormChange, formData: { containers }, intl } = this.props
+        const { mountConfigParams } = this.state
+        const { type, subType, mountItem, mountPath, readOnly, subPath } = this.$OperateMountConfig.state
+        this.$OperateMountConfig.props.form.validateFields((error, values) => {
+            if (!error) {
+                if (mountConfigParams.type === 'add') {
+                    let mounts = _.get(containers, mountConfigParams.path, [])
+                    mounts.push({
+                        type, subType, mountItem, mountPath, readOnly, subPath
+                    })
+                } else {
+                    _.set(containers, mountConfigParams.path, { type, subType, mountItem, mountPath, readOnly, subPath })
+                }
+                handleFormChange('containers', [...containers])
+                this.handleCancelManageMountConfig()
+            }
+        })
+    }
+    // 取消挂载配置的modal
+    handleCancelManageMountConfig = () => {
+        this.setState({
+            isMountConfigModalVisible: false,
+            mountConfigParams: {
+                type: '',
+                path: ''
+            }
+        })
+    }
+    handleManageMountConfig = (type, path) => {
+        this.setState({
+            isMountConfigModalVisible: true,
+            mountConfigParams: {
+                type, path
+            }
+        })
+    }
+    // 提交环境变量的modal
+    handleConfirmManageEnvs = () => {
+        let { handleFormChange, formData: { containers }, intl } = this.props
+        const { envsParams } = this.state
+        const { envKey, type, envValue, SelectFile, SelectKey } = this.$OperateEnvs.state
+        this.$OperateEnvs.props.form.validateFields((error, values) => {
+            if (!error) {
+                if (envsParams.type === 'add') {
+                    let envs = _.get(containers, envsParams.path, [])
+                    envs.push({
+                        envKey, type, envValue, SelectFile, SelectKey
+                    })
+                } else {
+                    _.set(containers, envsParams.path, { envKey, type, envValue, SelectFile, SelectKey })
+                }
+                handleFormChange('containers', [...containers])
+                this.handleCancelManageEnvs()
+            }
+        })
+    }
+    // 取消环境变量的modal
+    handleCancelManageEnvs = () => {
+        this.setState({
+            isEnvsModalVisible: false,
+            envsParams: {
+                type: '',
+                path: ''
+            }
+        })
+    }
+    handleManageEnvs = (type, path) => {
+        this.setState({
+            isEnvsModalVisible: true,
+            envsParams: {
+                type, path
+            }
+        })
+    }
     render() {
-        const { form, intl, formData: { containers }, handleFormChange } = this.props
+        const { form, intl, formData, handleFormChange } = this.props
+        const { containers } = formData
+        const { currentArgs, currentCommand, isMountConfigModalVisible, mountConfigParams, isEnvsModalVisible, envsParams } = this.state
+        const currentMountConfig = mountConfigParams.type === 'update' ? _.get(containers, mountConfigParams.path, {}) : {}
+        const currentEnvs = envsParams.type === 'update' ? _.get(containers, envsParams.path, {}) : {}
         return (
             <div className='ContainerConfig'>
                 {
@@ -85,19 +212,346 @@ class ContainerConfig extends React.Component {
                         <Collapse defaultActiveKey={[0]}>
                             {
                                 containers.map((item, index) => {
-                                    const { name } = item
+                                    const { name, type, image, runVar, mounts, envs, probe } = item
+                                    const { project, repo, tag, pullStrategy } = image
+                                    const { workDir, command, privileged, args } = runVar
                                     return (
                                         <Collapse.Panel header={this.renderPanelHeader(index)} key={index}>
                                             <Input
                                                 form={form}
                                                 name={`containers${index}Name`}
                                                 value={name}
-                                                onChange={(val) => this.handleOnChange('name', val, index)}
-                                                label={intl.formatMessage({ id: 'ContainerGroupName' })}
-                                                placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'ContainerGroupName' }) })}
+                                                onChange={(val) => this.handleFormDataOnChange(`${index}.name`, val)}
+                                                label={intl.formatMessage({ id: 'ContainerName' })}
+                                                placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'ContainerName' }) })}
                                                 validRegex={Regex.isName}
                                                 isRequired
                                             />
+                                            <Select
+                                                form={form}
+                                                name={`containers${index}Type`}
+                                                value={type}
+                                                onChange={(val) => this.handleFormDataOnChange(`${index}.type`, val)}
+                                                placeholder={intl.formatMessage({ id: 'SelectPlaceHolder' }, { name: intl.formatMessage({ id: 'Type' }) })}
+                                                label={`${intl.formatMessage({ id: 'Container' })}${intl.formatMessage({ id: 'Type' })}`}
+                                                options={containerTypeList}
+                                                optionFilterProp='children'
+                                                optionLabelProp='children'
+                                                isRequired
+                                            />
+                                            <Select
+                                                form={form}
+                                                name={`containers${index}ImagePullStrategy`}
+                                                value={pullStrategy}
+                                                onChange={(val) => this.handleFormDataOnChange(`${index}.image.pullStrategy`, val)}
+                                                placeholder={intl.formatMessage({ id: 'SelectPlaceHolder' }, { name: intl.formatMessage({ id: 'PullStrategy' }) })}
+                                                label={intl.formatMessage({ id: 'PullStrategy' })}
+                                                options={pullStrategyList}
+                                                optionFilterProp='children'
+                                                optionLabelProp='children'
+                                                isRequired
+                                            />
+                                            <Input
+                                                form={form}
+                                                name={`containers${index}RunVarWorkDir`}
+                                                value={workDir}
+                                                onChange={(val) => this.handleFormDataOnChange(`${index}.runVar.workDir`, val)}
+                                                label={intl.formatMessage({ id: 'WorkingDirectory' })}
+                                                placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'WorkingDirectory' }) })}
+                                                isRequired
+                                            />
+                                            {/* 启动参数 */}
+                                            <Panel
+                                                form={form}
+                                                value={args}
+                                                name={`containers${index}RunVarArgs`}
+                                                label={intl.formatMessage({ id: 'StartParameter' })}
+                                                inline
+                                                isRequired
+                                                className='labelPanel'
+                                            >
+                                                <div className='inputWithAddBtn'>
+                                                    <Input
+                                                        form={form}
+                                                        name={`containers${index}RunVarCurrentArgs`}
+                                                        value={currentArgs[index]}
+                                                        onChange={(val) => this.handleStateOnChange('currentArgs', index, val)}
+                                                        placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'StartParameter' }) })}
+                                                        label={intl.formatMessage({ id: 'StartParameter' })}
+                                                    />
+                                                    <HuayunButton
+                                                        disabled={!currentArgs[index]}
+                                                        size='small'
+                                                        type="primary"
+                                                        icon="icon-add"
+                                                        onClick={() => this.handleClickInputAddBtn(`runVar.args`, 'currentArgs', index)} />
+                                                </div>
+                                                <div className='labelList'>
+                                                    {
+                                                        args.map((item, index_) => {
+                                                            return (
+                                                                <TagItem
+                                                                    size='medium'
+                                                                    key={item}
+                                                                    name={item}
+                                                                    icon="error"
+                                                                    onClick={() => this.handleRemoveFormDataItem(`containers.${index}.runVar.args`, index_)}
+                                                                />
+                                                            )
+                                                        })
+                                                    }
+                                                </div>
+                                            </Panel>
+                                            {/* 启动命令 */}
+                                            <Panel
+                                                form={form}
+                                                value={command}
+                                                name={`containers${index}RunVarCommand`}
+                                                label={intl.formatMessage({ id: 'StartCommand' })}
+                                                inline
+                                                isRequired
+                                                className='labelPanel'
+                                            >
+                                                <div className='inputWithAddBtn'>
+                                                    <Input
+                                                        form={form}
+                                                        name={`containers${index}RunVarCurrentCommand`}
+                                                        value={currentCommand[index]}
+                                                        onChange={(val) => this.handleStateOnChange('currentCommand', index, val)}
+                                                        placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'StartCommand' }) })}
+                                                        label={intl.formatMessage({ id: 'StartCommand' })}
+                                                    />
+                                                    <HuayunButton
+                                                        disabled={!currentCommand[index]}
+                                                        size='small'
+                                                        type="primary"
+                                                        icon="icon-add"
+                                                        onClick={() => this.handleClickInputAddBtn(`runVar.command`, 'currentCommand', index)} />
+                                                </div>
+                                                <div className='labelList'>
+                                                    {
+                                                        command.map((item, index_) => {
+                                                            return (
+                                                                <TagItem
+                                                                    size='medium'
+                                                                    key={item}
+                                                                    name={item}
+                                                                    icon="error"
+                                                                    onClick={() => this.handleRemoveFormDataItem(`containers.${index}.runVar.command`, index_)}
+                                                                />
+                                                            )
+                                                        })
+                                                    }
+                                                </div>
+                                            </Panel>
+                                            {/* 挂载配置 */}
+                                            <Panel
+                                                form={form}
+                                                value={mounts}
+                                                name={`containers${index}Mounts`}
+                                                label={intl.formatMessage({ id: 'MountConfig' })}
+                                                inline
+                                                className='mountsPanel'
+                                            >
+                                                <HuayunButton
+                                                    type="operate"
+                                                    icon={<Icon type="add" />}
+                                                    onClick={() => this.handleManageMountConfig('add', `${index}.mounts`)}
+                                                    name="添加挂载配置"
+                                                    className='addBoxItemBtn'
+                                                />
+                                                {
+                                                    mounts.map((item, index_) => {
+                                                        const { type, subType, mountItem, mountPath, readOnly, subPath } = item
+                                                        return (
+                                                            <Card handleDelete={() => this.handleRemoveFormDataItem(`containers.${index}.mounts`, index_)}>
+                                                                <div className='commonSet'>
+                                                                    <div className='keyValueBox'>
+                                                                        <div className='keyValueLine'>
+                                                                            <div className='key'>类型</div>
+                                                                            <div className='value'>{type}</div>
+                                                                        </div>
+                                                                        <div className='keyValueLine'>
+                                                                            <div className='key'>挂载路径</div>
+                                                                            <div className='value'>{mountPath}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <Button type='text' onClick={() => this.handleManageMountConfig('update', `${index}.mounts.${index_}`)}>
+                                                                        <Icon type="edit" />&nbsp;{intl.formatMessage({ id: 'Edit' })}
+                                                                    </Button>
+                                                                </div>
+                                                                <DividerBox title={intl.formatMessage({ id: 'AdvancedSetting' })}>
+                                                                    <div className='keyValueBox'>
+                                                                        <div className='keyValueLine'>
+                                                                            <div className='key'>是否只读</div>
+                                                                            <div className='value'>{readOnly ? '是' : '否'}</div>
+                                                                        </div>
+                                                                        <div className='keyValueLine'>
+                                                                            <div className='key'>环境变量定义子路径</div>
+                                                                            <div className='value'>{subPath}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </DividerBox>
+                                                            </Card>
+                                                        )
+                                                    })
+                                                }
+                                            </Panel>
+                                            {/* 环境变量 */}
+                                            <Panel
+                                                form={form}
+                                                value={envs}
+                                                name={`containers${index}Envs`}
+                                                label={intl.formatMessage({ id: 'EnvironmentVariable' })}
+                                                inline
+                                                className='mountsPanel'
+                                            >
+                                                <HuayunButton
+                                                    type="operate"
+                                                    icon={<Icon type="add" />}
+                                                    onClick={() => this.handleManageEnvs('add', `${index}.envs`)}
+                                                    name="添加环境变量"
+                                                    className='addBoxItemBtn'
+                                                />
+                                                {
+                                                    envs.map((item, index_) => {
+                                                        const { envKey, type, envValue, SelectFile, SelectKey } = item
+                                                        return (
+                                                            <Card handleDelete={() => this.handleRemoveFormDataItem(`containers.${index}.envs`, index_)}>
+                                                                <div className='commonSet'>
+                                                                    <div className='keyValueBox'>
+                                                                        <div className='keyValueLine'>
+                                                                            <div className='key'>Key</div>
+                                                                            <div className='value'>{envKey}</div>
+                                                                        </div>
+                                                                        {/* <div className='keyValueLine'>
+                                                                            <div className='key'>挂载路径</div>
+                                                                            <div className='value'>{mountPath}</div>
+                                                                        </div> */}
+                                                                    </div>
+                                                                    <Button type='text' onClick={() => this.handleManageEnvs('update', `${index}.envs.${index_}`)}>
+                                                                        <Icon type="edit" />&nbsp;{intl.formatMessage({ id: 'Edit' })}
+                                                                    </Button>
+                                                                </div>
+                                                            </Card>
+                                                        )
+                                                    })
+                                                }
+                                            </Panel>
+                                            {/* 健康检测 */}
+                                            <Panel
+                                                form={form}
+                                                value={probe}
+                                                name={`containers${index}Probe`}
+                                                label='健康检测'
+                                                inline
+                                                isRequired
+                                                className='commonPanel healthyTest'
+                                            >
+                                                <Select
+                                                    form={form}
+                                                    name={`containers${index}Type`}
+                                                    value={probe.type}
+                                                    onChange={(val) => this.handleFormDataOnChange(`${index}.probe.type`, val)}
+                                                    placeholder={intl.formatMessage({ id: 'SelectPlaceHolder' }, { name: '检测类型' })}
+                                                    label='检测类型'
+                                                    options={testTypeList}
+                                                    optionFilterProp='children'
+                                                    optionLabelProp='children'
+                                                    isRequired
+                                                    className='w50'
+                                                />
+                                                <Select
+                                                    form={form}
+                                                    name={`containers${index}Manner`}
+                                                    value={probe.manner}
+                                                    onChange={(val) => this.handleFormDataOnChange(`${index}.probe.manner`, val)}
+                                                    placeholder={intl.formatMessage({ id: 'SelectPlaceHolder' }, { name: '检测方式' })}
+                                                    label='检测方式'
+                                                    options={testMethodList}
+                                                    optionFilterProp='children'
+                                                    optionLabelProp='children'
+                                                    isRequired
+                                                    className='w50'
+                                                />
+                                                <Input
+                                                    form={form}
+                                                    name={`containers${index}Command`}
+                                                    value={probe.command}
+                                                    onChange={(val) => this.handleFormDataOnChange(`${index}.probe.command`, val)}
+                                                    placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'Command' }) })}
+                                                    label={intl.formatMessage({ id: 'Command' })}
+                                                    isRequired
+                                                />
+                                                <DividerBox title={intl.formatMessage({ id: 'AdvancedSetting' })}>
+                                                    <div className='advancedSetting'>
+                                                        <InputNumber
+                                                            form={form}
+                                                            value={probe.initialDelaySeconds}
+                                                            min={0}
+                                                            slot={{
+                                                                position: 'right',
+                                                                format: () => '秒'
+                                                            }}
+                                                            type='number'
+                                                            onChange={(val) => this.handleFormDataOnChange(`${index}.probe.initialDelaySeconds`, val)}
+                                                            className='w50'
+                                                            label='初始化等待'
+                                                        />
+                                                        <InputNumber
+                                                            form={form}
+                                                            value={probe.periodSeconds}
+                                                            min={0}
+                                                            slot={{
+                                                                position: 'right',
+                                                                format: () => '秒'
+                                                            }}
+                                                            type='number'
+                                                            onChange={(val) => this.handleFormDataOnChange(`${index}.probe.periodSeconds`, val)}
+                                                            className='w50'
+                                                            label='检测间隔'
+                                                        />
+                                                        <InputNumber
+                                                            form={form}
+                                                            value={probe.timeoutSeconds}
+                                                            min={0}
+                                                            slot={{
+                                                                position: 'right',
+                                                                format: () => '秒'
+                                                            }}
+                                                            type='number'
+                                                            onChange={(val) => this.handleFormDataOnChange(`${index}.probe.timeoutSeconds`, val)}
+                                                            className='w50'
+                                                            label='检测超时'
+                                                        />
+                                                        <InputNumber
+                                                            form={form}
+                                                            value={probe.failureThreshold}
+                                                            min={0}
+                                                            slot={{
+                                                                position: 'right',
+                                                                format: () => '次'
+                                                            }}
+                                                            type='number'
+                                                            onChange={(val) => this.handleFormDataOnChange(`${index}.probe.failureThreshold`, val)}
+                                                            className='w50'
+                                                            label='失败时重复'
+                                                        />
+                                                    </div>
+                                                </DividerBox>
+                                            </Panel>
+                                            {/* 特权模式 */}
+                                            <Panel
+                                                form={form}
+                                                value={privileged}
+                                                name={`containers${index}Privileged`}
+                                                label={intl.formatMessage({ id: 'PrivilegedMode' })}
+                                                inline
+                                                isRequired
+                                                className='switchPanel'
+                                            >
+                                                <Switch onChange={() => this.handleFormDataOnChange(`${index}.runVar.privileged`, !privileged)}></Switch>
+                                            </Panel>
                                         </Collapse.Panel>
                                     )
                                 })
@@ -112,6 +566,38 @@ class ContainerConfig extends React.Component {
                     name="添加容器"
                     className='addBoxItemBtn'
                 />
+                {/* 挂载配置modal */}
+                <Modal
+                    title={mountConfigParams.type === 'update' ? '编辑挂载配置' : '添加挂载配置'}
+                    visible={isMountConfigModalVisible}
+                    onOk={this.handleConfirmManageMountConfig}
+                    onCancel={this.handleCancelManageMountConfig}
+                    getContainer={document.getElementById('ManageContainerItem')}
+                    destroyOnClose={true}
+                >
+                    <OperateMountConfig
+                        intl={intl}
+                        formData={formData}
+                        handleFormChange={handleFormChange}
+                        currentMountConfig={currentMountConfig}
+                        wrappedComponentRef={node => this.$OperateMountConfig = node} />
+                </Modal>
+                {/* 环境变量modal */}
+                <Modal
+                    title={envsParams.type === 'update' ? '编辑环境变量' : '添加环境变量'}
+                    visible={isEnvsModalVisible}
+                    onOk={this.handleConfirmManageEnvs}
+                    onCancel={this.handleCancelManageEnvs}
+                    getContainer={document.getElementById('ManageContainerItem')}
+                    destroyOnClose={true}
+                >
+                    <OperateEnvs
+                        intl={intl}
+                        formData={formData}
+                        handleFormChange={handleFormChange}
+                        currentEnvs={currentEnvs}
+                        wrappedComponentRef={node => this.$OperateEnvs = node} />
+                </Modal>
             </div>
         )
     }
