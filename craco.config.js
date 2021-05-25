@@ -25,7 +25,7 @@ module.exports = {
     },
     configure: {
       output: {
-        path: DIST_PATH + publicPath,
+        // path: DIST_PATH + publicPath,
         filename: '[name].[hash].js',
         publicPath: publicPath,
         libraryTarget: 'umd',
