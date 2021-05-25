@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { RcForm, Loading, Notification, Button, KeyValue, Dialog, TagItem, InputNumber, Icon, Input as UltrauiInput } from 'ultraui'
 import { Collapse, Button as HuayunButton, Switch } from 'huayunui'
 import Regex from '~/utils/regex'
-import './index.less'
+import '../index.less'
 
 const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select, Panel } = RcForm
 const _ = window._
@@ -42,9 +42,18 @@ class NetworkConfig extends React.Component {
     }
     // 容器端口表单元素
     renderContainerPortFormItem = (key) => {
-        const { intl, form, formData: { network } } = this.props
+        const { intl, form, formData: { network, containers } } = this.props
         const name = `${key}PortSelect`
         const value = _.get(network, `${key}.containerPort`, '')
+        const options = []
+        containers.forEach(container => {
+            container.ports.forEach(({ name, port }) => {
+                options.push({
+                    value: port,
+                    text: `${name} - ${port}`
+                })
+            })
+        })
         return (
             <Select
                 form={form}
@@ -54,11 +63,7 @@ class NetworkConfig extends React.Component {
                 onChange={(val) => this.handleOnChange(`${key}.containerPort`, val)}
                 label={intl.formatMessage({ id: 'ContainerPort' })}
                 isRequired
-                options={[
-                    // 要从容器配置获取，暂时先写死的
-                    { value: 'secret', text: 'secret' },
-                    { value: 'configMap', text: 'configMap' }
-                ]}
+                options={options}
                 optionFilterProp='children'
                 optionLabelProp='children'
                 className='w50 pr'
@@ -99,7 +104,6 @@ class NetworkConfig extends React.Component {
                     onChange={(val) => this.handleNodeNetworkTypeChange(key, val)}
                     label={intl.formatMessage({ id: 'NodePort' })}
                     options={[
-                        // 先写死的
                         { value: 'manual', text: '手动' },
                         { value: 'random', text: '自动' }
                     ]}

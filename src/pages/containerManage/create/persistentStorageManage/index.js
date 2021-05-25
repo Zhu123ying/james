@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Button, TagItem, Icon, KeyValue } from 'ultraui'
 import { Button as HuayunButton, Modal, Popover } from 'huayunui'
 import Regex from '~/utils/regex'
-import './index.less'
+import '../index.less'
 import ManagePersistentStorage from './operatePersistentStorage'
 const _ = window._
 class PersistentStorageManage extends React.Component {

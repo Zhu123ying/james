@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { RcForm, Loading, Notification, Button, KeyValue, Dialog, TagItem, InputNumber } from 'ultraui'
 import { Collapse, Button as HuayunButton } from 'huayunui'
 import Regex from '~/utils/regex'
-import './index.less'
+import '../index.less'
 const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select, Panel } = RcForm
 const _ = window._
 const restartPolicyList = ['Always', 'OnFailure', 'Never']

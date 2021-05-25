@@ -4,10 +4,10 @@ import PropTypes from 'prop-types'
 import { RcForm, Loading, Notification, Button, KeyValue, Dialog, TagItem, InputNumber } from 'ultraui'
 import { Collapse, Button as HuayunButton } from 'huayunui'
 import Regex from '~/utils/regex'
-import './index.less'
+import '../index.less'
 const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select, Panel } = RcForm
 const _ = window._
-class ManageConfigFile extends React.Component {
+class ManagePersistentStorage extends React.Component {
     static propTypes = {
         form: PropTypes.object.isRequired,
         intl: PropTypes.object.isRequired
@@ -18,20 +18,19 @@ class ManageConfigFile extends React.Component {
             name: '',
             labels: {}, // key:value形式
             type: '',
-            subType: '',
-            data: {},  // key:value形式
+            typeClass: '',
+            accessMode: '', // 容量
+            capacity: 0, // 访问类型
             currentLabel: {}, // 标签
             LabelPanelErrorMessage: '', // 标签panel的错误提示
-            currentData: {}, // 数据
-            DataPanelErrorMessage: '', // 数据panel的错误提示
         }
     }
     componentDidMount() {
-        const { currentConfigFile } = this.props
-        if (currentConfigFile && currentConfigFile.name) {
-            const { name, labels, type, subType, data } = currentConfigFile
+        const { currentItem } = this.props
+        if (currentItem && currentItem.name) {
+            const { name, labels, type, typeClass, accessMode, capacity } = currentItem
             this.setState({
-                name, labels, type, subType, data
+                name, labels, type, typeClass, accessMode, capacity
             })
         }
     }
@@ -39,12 +38,6 @@ class ManageConfigFile extends React.Component {
         const value = _.get(val, 'target.value', val)
         this.setState({
             [key]: value
-        }, () => {
-            if (key === 'type') {
-                this.setState({
-                    subType: ''
-                })
-            }
         })
     }
     // 对标签的操作
@@ -74,36 +67,9 @@ class ManageConfigFile extends React.Component {
             labels: { ...labels }
         })
     }
-    // 对数据的操作
-    handleSetCurrentData = (key, val) => {
-        const value = _.get(val, 'target.value', val)
-        let { currentData } = this.state
-        currentData[key] = value
-        this.setState({
-            currentData: { ...currentData }
-        })
-    }
-    handleAddData = () => {
-        let { currentData: { key, value }, data } = this.state
-        data[key] = value
-        this.setState({
-            currentData: {
-                key: '',
-                value: ''
-            },
-            data: { ...data }
-        })
-    }
-    handleRemoveData = (key) => {
-        let { data } = this.state
-        delete data[key]
-        this.setState({
-            data: { ...data }
-        })
-    }
     render() {
         const { form, intl } = this.props
-        const { currentLabel, currentData, name, labels, type, subType, data, LabelPanelErrorMessage, DataPanelErrorMessage } = this.state
+        const { currentLabel, name, labels, type, typeClass, accessMode, capacity, LabelPanelErrorMessage } = this.state
         return (
             <Form
                 ref={(node) => { this.form = node }}
@@ -179,11 +145,11 @@ class ManageConfigFile extends React.Component {
                 </Panel>
                 <Select
                     form={form}
-                    name="type"
-                    value={type}
-                    placeholder={intl.formatMessage({ id: 'SelectPlaceHolder' }, { name: intl.formatMessage({ id: 'Type' }) })}
-                    onChange={(val) => this.handleChange('type', val)}
-                    label={intl.formatMessage({ id: 'Type' })}
+                    name="typeClass"
+                    value={typeClass}
+                    placeholder={intl.formatMessage({ id: 'SelectPlaceHolder' }, { name: intl.formatMessage({ id: 'StorageType' }) })}
+                    onChange={(val) => this.handleChange('typeClass', val)}
+                    label={intl.formatMessage({ id: 'StorageType' })}
                     isRequired
                     options={[
                         { value: 'secret', text: 'secret' },
@@ -192,85 +158,43 @@ class ManageConfigFile extends React.Component {
                     optionFilterProp='children'
                     optionLabelProp='children'
                 />
-                {
-                    type === 'secret' ? (
-                        <Select
-                            form={form}
-                            name="subType"
-                            value={subType}
-                            placeholder={intl.formatMessage({ id: 'SelectPlaceHolder' }, { name: intl.formatMessage({ id: 'SubType' }) })}
-                            onChange={(val) => this.handleChange('subType', val)}
-                            label={intl.formatMessage({ id: 'SubType' })}
-                            isRequired
-                            options={[
-                                { value: 'Opaque', text: 'Opaque' },
-                                { value: 'kubernetes.io/dockerconfigjson', text: 'kubernetes.io/dockerconfigjson' }
-                            ]}
-                            optionFilterProp='children'
-                            optionLabelProp='children'
-                        />
-                    ) : null
-                }
                 <Panel
                     form={form}
-                    value={currentData}
-                    name="currentData"
-                    label={intl.formatMessage({ id: 'Data' })}
-                    className='labelPanel'
+                    value={capacity}
+                    name="capacity"
+                    label={intl.formatMessage({ id: 'Capacity' })}
                     isRequired
-                    errorMsg={Object.keys(data).length ? '' : DataPanelErrorMessage}
+                    className='InputNumberPanel'
                 >
-                    <div className='labelLine'>
-                        <Input
-                            form={form}
-                            name='currentDataName'
-                            value={currentData.key}
-                            onChange={(val) => this.handleSetCurrentData('key', val)}
-                            label=''
-                            placeholder='键'
-                        />
-                        <span className='splitLine'>&nbsp;|&nbsp;</span>
-                        <Input
-                            form={form}
-                            name='currentDataValue'
-                            value={currentData.value}
-                            onChange={(val) => this.handleSetCurrentData('value', val)}
-                            label=''
-                            placeholder='值'
-                        />
-                        <HuayunButton
-                            disabled={!currentData.value || !currentData.key}
-                            size='small'
-                            type="primary"
-                            icon="icon-add"
-                            onClick={this.handleAddData} />
-                    </div>
-                    <div className='labelList'>
-                        {
-                            Object.keys(data).map((key, index) => {
-                                return (
-                                    <TagItem
-                                        size='medium'
-                                        key={key}
-                                        name={
-                                            <div className='labelItem'>
-                                                <span className='key'>{key}</span>
-                                                <span className='splitLine'>|</span>
-                                                <span className='value'>{data[key]}</span>
-                                            </div>
-                                        }
-                                        icon="error"
-                                        onClick={() => this.handleRemoveData(key)}
-                                    />
-                                )
-                            })
-                        }
-                    </div>
+                    <InputNumber
+                        form={form}
+                        value={capacity}
+                        min={0}
+                        slot={{
+                            position: 'right',
+                            format: () => 'Gi'
+                        }}
+                        onChange={(val) => this.handleChange('capacity', val)}
+                    />
                 </Panel>
+                <Select
+                    form={form}
+                    name="accessMode"
+                    value={accessMode}
+                    placeholder={intl.formatMessage({ id: 'SelectPlaceHolder' }, { name: intl.formatMessage({ id: 'AccessMode' }) })}
+                    onChange={(val) => this.handleChange('accessMode', val)}
+                    label={intl.formatMessage({ id: 'AccessMode' })}
+                    isRequired
+                    options={[
+                        { value: 'ReadWriteOnce', text: 'ReadWriteOnce' },
+                        { value: 'ReadWriteMany', text: 'ReadWriteMany' }
+                    ]}
+                    optionFilterProp='children'
+                    optionLabelProp='children'
+                />
             </Form>
-
         )
     }
 }
 
-export default RcForm.create()(ManageConfigFile)
+export default RcForm.create()(ManagePersistentStorage)

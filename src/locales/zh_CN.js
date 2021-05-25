@@ -298,6 +298,7 @@ const zh_CN = {
     AdvancedSetting: '高级设置',
     IsReadOnly: '是否只读',
     EnvironmentVariable: '环境变量',
+    ContainerImage: '容器镜像',
 
     // 接口返回提示
     UpdateApplicationSuccess: '编辑应用-{name}成功！',

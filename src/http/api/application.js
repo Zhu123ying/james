@@ -35,7 +35,7 @@ const api = {
     closeIsolation: `${prefix}closeIsolation`, // 不允许项目外部访问
     updateNamespaceLabels: `${prefix}updateNamespaceLabels`, // namespace标签编辑
     deletePvc: `${prefix}deletePvc`, // 删除历史pvc
-    listProject: `identity/listProject`, // 获取项目列表
+    listProject: `${prefix}getProjecListByUserId`, // 获取项目列表
     queryApplicationReleaseTasks: `${prefix}queryApplicationReleaseTasks`, // 发布任务列表
     createApplicationReleaseTask: `${prefix}createApplicationReleaseTask`, // 创建发布任务
     deleteApplicationReleaseTask: `${prefix}deleteApplicationReleaseTask`, // 删除发布任务
@@ -48,6 +48,7 @@ const api = {
     deleteApplicationReleaseTaskNode: `${prefix}deleteApplicationReleaseTaskNode`, // 删除发布任务节点
     roolbackApplicationReleaseTask: `${prefix}roolbackApplicationReleaseTask`, // 任务回滚
     verifyResourceInfo: `${prefix}verifyResourceInfo`, // 单个资源文件的校验
+    getContainerImageArtifactList: `${prefix}getContainerImageArtifactList`, // 获取容器的镜像数据
 }
 
 export default api

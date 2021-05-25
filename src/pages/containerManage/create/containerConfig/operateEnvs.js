@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { RcForm, Notification, Button, TagItem, Switch, Input as UltrauiInput, Select as UltrauiSelect } from 'ultraui'
 import { Collapse, Button as HuayunButton } from 'huayunui'
 import Regex from '~/utils/regex'
-import './index.less'
+import '../index.less'
 const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select, Panel } = RcForm
 const _ = window._
 const addTypeList = [
@@ -48,11 +48,18 @@ class ManageEnvs extends React.Component {
                     SelectKey: ''
                 })
             }
+            if (key === 'SelectFile') {
+                this.setState({
+                    SelectKey: ''
+                })
+            }
         })
     }
     render() {
-        const { form, intl, formData } = this.props
+        const { form, intl, formData: { configurations } } = this.props
         const { envKey, type, envValue, SelectFile, SelectKey } = this.state
+        const selectFileObj = configurations.find(item => item.name === SelectFile)
+        const selectKeyData = _.get(selectFileObj, 'data', {})
         return (
             <Form
                 ref={(node) => { this.form = node }}
@@ -102,7 +109,11 @@ class ManageEnvs extends React.Component {
                                 onChange={(val) => this.handleChange('SelectFile', val)}
                                 label={intl.formatMessage({ id: 'File' })}
                                 isRequired
-                                options={[]}
+                                options={
+                                    configurations.map(({ name }) => {
+                                        return { value: name, text: name }
+                                    })
+                                }
                                 optionFilterProp='children'
                                 optionLabelProp='children'
                             />
@@ -114,7 +125,9 @@ class ManageEnvs extends React.Component {
                                 onChange={(val) => this.handleChange('SelectKey', val)}
                                 label='Key'
                                 isRequired
-                                options={[]}
+                                options={
+                                    Object.keys(selectKeyData).map(key => key)
+                                }
                                 optionFilterProp='children'
                                 optionLabelProp='children'
                             />

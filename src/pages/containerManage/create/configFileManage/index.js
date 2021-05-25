@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Button, TagItem, Icon, KeyValue } from 'ultraui'
 import { Button as HuayunButton, Modal, Popover } from 'huayunui'
 import Regex from '~/utils/regex'
-import './index.less'
+import '../index.less'
 import ManageConfigFile from './operateConfigFile'
 const _ = window._
 class ConfigFileManage extends React.Component {

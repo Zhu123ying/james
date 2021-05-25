@@ -58,6 +58,7 @@ class ManageContainerItem extends React.Component {
                     }
                 }
             },
+            containerImageList: [],
             isFetching: false,
             projectList: [], // 项目列表
         }
@@ -91,6 +92,19 @@ class ManageContainerItem extends React.Component {
             }
         })
     }
+    // 获取容器镜像下拉数据
+    getImageData = (projectId) => {
+        if (!projectId) {
+            return
+        }
+        HuayunRequest(application.getContainerImageArtifactList, { projectId }, {
+            success: (res) => {
+                this.setState({
+                    containerImageList: res.data
+                })
+            }
+        })
+    }
     getDetail = () => {
         // 获取详情数据
         HuayunRequest(api.detail, { id: this.id }, {
@@ -99,6 +113,7 @@ class ManageContainerItem extends React.Component {
             }
         })
     }
+    // 用于handleChange的切换
     handleChange = (key, val) => {
         const value = _.get(val, 'target.value', val)
         this.setState({
@@ -113,6 +128,9 @@ class ManageContainerItem extends React.Component {
         this.setState({
             formData: { ...formData }
         }, () => {
+            if (key === 'projectId') {
+                this.getImageData(value)
+            }
             console.log(this.state.formData)
         })
     }
@@ -125,7 +143,7 @@ class ManageContainerItem extends React.Component {
     }
     renderFormComponent = (type) => {
         const { intl, form } = this.props
-        const { projectList, formData } = this.state
+        const { projectList, formData, containerImageList } = this.state
         switch (type) {
             case 'ContainerGroupConfig':
                 return <ContainerGroupConfig
@@ -142,7 +160,8 @@ class ManageContainerItem extends React.Component {
                     form={form}
                     formData={formData}
                     handleFormChange={this.handleFormChange}
-                    ref={node => this.$ContainerConfig = node} />
+                    ref={node => this.$ContainerConfig = node}
+                    containerImageList={containerImageList} />
                 break
             case 'NetworkConfig':
                 return <NetworkConfig
