@@ -13,6 +13,7 @@ import ContainerConfig from './containerConfig'  // 容器管理
 import NetworkConfig from './networkConfig'  // 网络管理
 import ConfigFileManage from './configFileManage' // 配置文件管理
 import PersistentStorageManage from './persistentStorageManage' // 持久存储管理
+import LogPersistence from './logPersistence' // 持久存储管理
 
 const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select } = RcForm
 const notification = Notification.newInstance()
@@ -170,6 +171,14 @@ class ManageContainerItem extends React.Component {
                     formData={formData}
                     handleFormChange={this.handleFormChange}
                     ref={node => this.$NetworkConfig = node} />
+                break
+            case 'LogPersistence':
+                return <LogPersistence
+                    intl={intl}
+                    form={form}
+                    formData={formData}
+                    handleFormChange={this.handleFormChange}
+                    ref={node => this.$LogPersistence = node} />
                 break
         }
     }

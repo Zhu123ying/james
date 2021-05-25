@@ -262,6 +262,8 @@ class ContainerConfig extends React.Component {
                                                 isRequired
                                             >
                                                 <Cascader
+                                                    fieldNames={{ label: 'name', value: 'id' }}
+                                                    allowClear={false}
                                                     options={containerImageList}
                                                     onChange={(val) => this.handleCascaderOnChange(`${index}.Image`, val)}
                                                     placeholder={intl.formatMessage({ id: 'SelectPlaceHolder' }, { name: intl.formatMessage({ id: 'ContainerImage' }) })}
