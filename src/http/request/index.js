@@ -8,7 +8,7 @@ const set = function (name, value, day = 30) {
     exp.setTime(exp.getTime() + day * 24 * 60 * 60 * 1000)
     document.cookie = `${name}=${encodeURI(value)};expires=${exp.toGMTString()}; path=/`
 }
-set('sessionId', 'identity:login.session:9de0a582-0f01-4a19-b9a5-d9a6452295c3_10.51.60.87_d14a9a34-d6d2-4cfa-ae3a-65a3cbad8b80')
+set('sessionId', 'identity:login.session:9de0a582-0f01-4a19-b9a5-d9a6452295c3_10.51.60.87_a6c64aba-7b66-4bc5-8894-abeedf5340ca')
 
 // request拦截器
 request.interceptors.request.use((url, options) => {
@@ -34,9 +34,6 @@ const notification = Notification.newInstance()
 const HuayunRequest = (api, param, callback = {}) => http
     .post(api, {
         data: param,
-        headers: {
-            "visitorId": '9de0a582-0f01-4a19-b9a5-d9a6452295c3'
-        }
     }).then(function (response) {
         callback.success && callback.success(response)
         callback.complete && callback.complete(response)
