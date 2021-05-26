@@ -14,6 +14,7 @@ import NetworkConfig from './networkConfig'  // 网络管理
 import ConfigFileManage from './configFileManage' // 配置文件管理
 import PersistentStorageManage from './persistentStorageManage' // 持久存储管理
 import LogPersistence from './logPersistence' // 持久存储管理
+import AffinityConfig from './affinityConfig'
 
 const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select } = RcForm
 const notification = Notification.newInstance()
@@ -56,6 +57,25 @@ class ManageContainerItem extends React.Component {
                         qos: true,
                         upstream: 0, // 上行
                         downstream: 0 // 下行
+                    }
+                },
+                affinity: {            // 亲和性
+                    nodeAffinity: {
+                        prefers: [
+                            {
+                                weight: '',
+                                matchFields: [],
+                                matchExpressions: []
+                            }
+                        ],
+                        require: {
+                            matchTerms: [
+                                {
+                                    matchFields: [],
+                                    matchExpressions: []
+                                }
+                            ]
+                        }
                     }
                 }
             },
@@ -179,6 +199,14 @@ class ManageContainerItem extends React.Component {
                     formData={formData}
                     handleFormChange={this.handleFormChange}
                     ref={node => this.$LogPersistence = node} />
+                break
+            case 'AffinityConfig':
+                return <AffinityConfig
+                    intl={intl}
+                    form={form}
+                    formData={formData}
+                    handleFormChange={this.handleFormChange}
+                    ref={node => this.$AffinityConfig = node} />
                 break
         }
     }
