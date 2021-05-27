@@ -12,7 +12,8 @@ COPY jsconfig.json $BUILD_DIR/jsconfig
 COPY .eslintrc.js $BUILD_DIR/.eslintrc.js
 
 
-RUN npm install  --no-optional --registry=http://178.104.163.97:8081/repository/npm-group/ \
+#RUN npm install  --no-optional --registry=http://178.104.163.97:8081/repository/npm-group/ \
+RUN npm install  --no-optional --registry=http://npm.huayun.org:7001/ \
   && npm run build \
   && pwd \
   && ls -l $BUILD_DIR/ \
