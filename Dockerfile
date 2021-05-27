@@ -9,13 +9,7 @@ WORKDIR $BUILD_DIR
 COPY src $BUILD_DIR/src
 COPY package.json $BUILD_DIR/package.json
 COPY webpacks $BUILD_DIR/webpacks
-COPY projectconfig $BUILD_DIR/projectconfig
-COPY config $BUILD_DIR/config
-COPY deploy $BUILD_DIR/deploy
-COPY files $BUILD_DIR/files
 COPY jsconfig.json $BUILD_DIR/jsconfig
-COPY nanguo.json $BUILD_DIR/nanguo.json
-COPY .babelrc $BUILD_DIR/.babelrc
 COPY .eslintrc.js $BUILD_DIR/.eslintrc.js
 
 
