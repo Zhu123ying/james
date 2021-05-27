@@ -20,10 +20,10 @@ RUN npm install  --no-optional --registry=http://npm.huayun.org:7001/ \
   && npm run build \
   && pwd \
   && ls -l $BUILD_DIR/ \
-  && ls -l $BUILD_DIR/dist \
+  && ls -l $BUILD_DIR/build \
   && rm -rf /usr/share/nginx/html \
   && ls -l /usr/share/nginx \
-  && mv $BUILD_DIR/dist /usr/share/nginx/html \
+  && mv $BUILD_DIR/build /usr/share/nginx/html \
   && rm -rf $BUILD_DIR
 
 COPY default.conf /etc/nginx/conf.d/default.conf
