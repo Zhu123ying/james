@@ -76,6 +76,88 @@ class ManageContainerItem extends React.Component {
                                 }
                             ]
                         }
+                    },
+                    platformContainerAffinity: {
+                        prefers: [
+                            {
+                                weight: '',
+                                namespaces: [],
+                                topologyKey: '',
+                                matchLabels: [
+                                    {
+                                        labelKey: '',
+                                        labelValue: []
+                                    }
+                                ],
+                                matchExpressions: [
+                                    {
+                                        key: '',
+                                        operator: '',
+                                        values: []
+                                    }
+                                ]
+                            }
+                        ],
+                        requires: [
+                            {
+                                namespaces: [],
+                                topologyKey: '',
+                                matchLabels: [
+                                    {
+                                        labelKey: '',
+                                        labelValue: []
+                                    }
+                                ],
+                                matchExpressions: [
+                                    {
+                                        key: '',
+                                        operator: '',
+                                        values: []
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    platformContainerAntiAffinity: {
+                        prefers: [
+                            {
+                                weight: '',
+                                namespaces: [],
+                                topologyKey: '',
+                                matchLabels: [
+                                    {
+                                        labelKey: '',
+                                        labelValue: []
+                                    }
+                                ],
+                                matchExpressions: [
+                                    {
+                                        key: '',
+                                        operator: '',
+                                        values: []
+                                    }
+                                ]
+                            }
+                        ],
+                        requires: [
+                            {
+                                namespaces: [],
+                                topologyKey: '',
+                                matchLabels: [
+                                    {
+                                        labelKey: '',
+                                        labelValue: []
+                                    }
+                                ],
+                                matchExpressions: [
+                                    {
+                                        key: '',
+                                        operator: '',
+                                        values: []
+                                    }
+                                ]
+                            }
+                        ]
                     }
                 }
             },
