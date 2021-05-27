@@ -7,6 +7,7 @@ RUN mkdir -p $BUILD_DIR
 WORKDIR $BUILD_DIR
 
 COPY src $BUILD_DIR/src
+COPY public $BUILD_DIR/public
 COPY craco.config.js $BUILD_DIR/craco.config.js
 COPY husky.config.js $BUILD_DIR/husky.config.js
 COPY package.json $BUILD_DIR/package.json
