@@ -10,7 +10,7 @@ import PageNotFound from '~/container/error'
 const routers = [
   {
     path: '',
-    key: 'applicationCenter',
+    key: 'ApplicationCenter',
     name: 'ApplicationCenter',
     component: ApplicationCenter,
     langCode: 'ApplicationCenter',
@@ -20,7 +20,7 @@ const routers = [
         path: "/applicationCenter/applicationManage",
         component: ApplicationManage,
         name: 'ApplicationManage',
-        key: 'applicationManage',
+        key: 'ApplicationManage',
         exact: true,
         langCode: 'ApplicationManage',
         descLangCode: 'DesApplicationManage',
@@ -69,6 +69,43 @@ const routers = [
         exact: true,
         langCode: 'CreateContainerGroup',
         descLangCode: 'DesCreateContainerGroup'
+      },
+      // 补齐路由，先用应用顶一下
+      {
+        path: "/applicationCenter/applicationStoreManage",
+        component: ApplicationManage,
+        name: 'ApplicationStoreManage',
+        key: 'ApplicationStoreManage',
+        exact: true,
+        langCode: 'ApplicationStoreManage',
+        descLangCode: 'DesApplicationStoreManage',
+      },  
+      {
+        path: "/applicationCenter/applicationResourceManage",
+        component: ApplicationManage,
+        name: 'ApplicationResourceManage',
+        key: 'ApplicationResourceManage',
+        exact: true,
+        langCode: 'ApplicationResourceManage',
+        descLangCode: 'DesApplicationResourceManage',
+      },  
+      {
+        path: "/applicationCenter/imageManage",
+        component: ApplicationManage,
+        name: 'ImageManage',
+        key: 'ImageManage',
+        exact: true,
+        langCode: 'ImageManage',
+        descLangCode: 'DesImageManage',
+      }, 
+      {
+        path: "/applicationCenter/credentialManage",
+        component: ApplicationManage,
+        name: 'CredentialManage',
+        key: 'CredentialManage',
+        exact: true,
+        langCode: 'CredentialManage',
+        descLangCode: 'DesCredentialManage',
       },
     ]
   },
