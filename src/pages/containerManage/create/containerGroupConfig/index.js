@@ -34,9 +34,10 @@ class ContainerGroupConfig extends React.Component {
         })
     }
     handleAddLabel = () => {
-        let { currentLabel } = this.state
+        let { currentLabel: { key, value } } = this.state
         let { formData: { labels } } = this.props
-        this.props.handleFormChange('labels', [...labels, { ...currentLabel }])
+        labels[key] = value
+        this.props.handleFormChange('labels', { ...labels })
         this.setState({
             currentLabel: {
                 key: '',
@@ -44,10 +45,10 @@ class ContainerGroupConfig extends React.Component {
             }
         })
     }
-    handleRemoveLabel = (index) => {
+    handleRemoveLabel = (key) => {
         let { formData: { labels } } = this.props
-        labels.splice(index, 1)
-        this.props.handleFormChange('labels', [...labels])
+        delete labels[key]
+        this.props.handleFormChange('labels', { ...labels })
     }
     render() {
         const { form, intl, projectList, formData, handleFormChange } = this.props
@@ -111,7 +112,7 @@ class ContainerGroupConfig extends React.Component {
                     </div>
                     <div className='labelList'>
                         {
-                            labels.map(({ key, value }, index) => {
+                            Object.keys(labels).map((key, index) => {
                                 return (
                                     <TagItem
                                         size='medium'
@@ -120,11 +121,11 @@ class ContainerGroupConfig extends React.Component {
                                             <div className='labelItem'>
                                                 <span className='key'>{key}</span>
                                                 <span className='splitLine'>|</span>
-                                                <span className='value'>{value}</span>
+                                                <span className='value'>{labels[key]}</span>
                                             </div>
                                         }
                                         icon="error"
-                                        onClick={() => this.handleRemoveLabel(index)}
+                                        onClick={() => this.handleRemoveLabel(key)}
                                     />
                                 )
                             })

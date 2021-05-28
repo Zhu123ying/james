@@ -11,7 +11,7 @@ import DividerBox from '~/components/DividerBox'
 import OperateMountConfig from './operateMountConfig'
 import OperateEnvs from './operateEnvs'
 import OperatePorts from './operatePorts'
-
+import { containerConfig_containerItem } from '../constant'
 const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select, Panel } = RcForm
 const _ = window._
 const pullStrategyList = ['Always', 'IfNotPresent', 'Never']
@@ -48,6 +48,10 @@ class ContainerConfig extends React.Component {
             }
         }
     }
+    componentDidMount() {
+        // 添加初始值
+        this.props.handleFormChange('containers', [{ ...containerConfig_containerItem }])
+    }
     renderPanelHeader = (index) => {
         const { intl } = this.props
         return (
@@ -61,35 +65,7 @@ class ContainerConfig extends React.Component {
     }
     handleAddContainer = () => {
         const { handleFormChange, formData: { containers } } = this.props
-        const containerItem = {
-            name: '',
-            type: '',
-            image: {   // 镜像
-                project: '',
-                repo: '',
-                tag: '',
-                pullStrategy: ''
-            },
-            runVar: {
-                workDir: '', // 工作目录
-                command: [], // 启动命令
-                args: [], // 启动参数
-                privileged: '', // 特权
-            },
-            envs: [], // 环境变量
-            probe: {  // 健康检测
-                type: '', // Liveness只有这个选项
-                manner: '', // exec只有这个选项
-                command: '', // 指令
-                initialDelaySeconds: 0, // 初始化等待
-                periodSeconds: 0, // 检测间隔
-                timeoutSeconds: 0, // 检测超时
-                failureThreshold: 0 // 失败重复
-            }, // 监看检测
-            ports: [], // 端口
-            mounts: [], // 挂载
-        }
-        handleFormChange('containers', [...containers, containerItem])
+        handleFormChange('containers', [...containers, { ...containerConfig_containerItem }])
     }
     handleFormDataOnChange = (key, val) => {
         let { handleFormChange, formData: { containers } } = this.props
@@ -226,7 +202,7 @@ class ContainerConfig extends React.Component {
         return (
             <div className='ContainerConfig'>
                 {
-                    containers.length ? (
+                    Array.isArray(containers) && containers.length ? (
                         <Collapse defaultActiveKey={[0]}>
                             {
                                 containers.map((item, index) => {

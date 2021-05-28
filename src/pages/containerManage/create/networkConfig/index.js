@@ -9,6 +9,38 @@ import '../index.less'
 const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select, Panel } = RcForm
 const _ = window._
 const portTypeList = ['ClusterNetworkPort', 'NodePort', 'LoadBalancePort']
+const networkInitData = { // 容器网络
+    containerNetworks: [
+        {
+            name: '',
+            ports: [
+                {
+                    containerPort: '',
+                    port: ''
+                }
+            ]
+        }
+    ],
+    nodeNetworks: [
+        {
+            name: '',
+            ports: [
+                {
+                    containerPort: '',
+                    manner: '',
+                    port: ''
+                }
+            ]
+        }
+    ], // 节点网络
+    loadBalanceNetwork: { // 负载均衡
+        name: '',
+        ports: [], // 端口
+        qos: true,
+        upstream: 0, // 上行
+        downstream: 0 // 下行
+    }
+}
 class NetworkConfig extends React.Component {
     static propTypes = {
         form: PropTypes.object.isRequired,
@@ -19,6 +51,10 @@ class NetworkConfig extends React.Component {
         this.state = {
 
         }
+    }
+    componentDidMount() {
+        // 添加初始值
+        this.props.handleFormChange('network', { ...networkInitData })
     }
     handleOnChange = (key, val) => {
         const value = _.get(val, 'target.value', val)
@@ -286,10 +322,10 @@ class NetworkConfig extends React.Component {
         network.containerNetworks.push({
             name: '',
             ports: [
-                // {
-                //     containerPort: '',
-                //     port: ''
-                // }
+                {
+                    containerPort: '',
+                    port: ''
+                }
             ]
         })
         handleFormChange('network', { ...network })
@@ -326,11 +362,11 @@ class NetworkConfig extends React.Component {
         network.nodeNetworks.push({
             name: '',
             ports: [
-                // {
-                //     containerPort: '',
-                //     manner: '',
-                //     port: ''
-                // }
+                {
+                    containerPort: '',
+                    manner: '',
+                    port: ''
+                }
             ]
         })
         handleFormChange('network', { ...network })
@@ -405,25 +441,31 @@ class NetworkConfig extends React.Component {
         )
     }
     render() {
-        const { form, intl, formData: { networkState, network }, handleFormChange } = this.props
+        const { form, intl, formData: { network }, handleFormChange } = this.props
         return (
             <div className='NetworkConfig'>
                 <div className='lineItem'>
                     <div className='lineTitle'>{intl.formatMessage({ id: 'ContainerNetwork' })}</div>
-                    <Switch onChange={() => handleFormChange('networkState', !networkState)} />
+                    <Switch defaultChecked onChange={(val) => handleFormChange('network', val ? networkInitData : null)} />
                 </div>
-                <div className='lineItem vertical'>
-                    <div className='lineTitle'>{intl.formatMessage({ id: 'ContainerClusterNetwork' })}</div>
-                    {this.renderContainerClusterNetwork()}
-                </div>
-                <div className='lineItem vertical'>
-                    <div className='lineTitle'>{intl.formatMessage({ id: 'NodeNetwork' })}</div>
-                    {this.renderNodeNetwork()}
-                </div>
-                <div className='lineItem vertical'>
-                    <div className='lineTitle'>{intl.formatMessage({ id: 'LoadBalance' })}</div>
-                    {this.renderLoadBalanceNetwork()}
-                </div>
+                {
+                    network ? (
+                        <React.Fragment>
+                            <div className='lineItem vertical'>
+                                <div className='lineTitle'>{intl.formatMessage({ id: 'ContainerClusterNetwork' })}</div>
+                                {this.renderContainerClusterNetwork()}
+                            </div>
+                            <div className='lineItem vertical'>
+                                <div className='lineTitle'>{intl.formatMessage({ id: 'NodeNetwork' })}</div>
+                                {this.renderNodeNetwork()}
+                            </div>
+                            <div className='lineItem vertical'>
+                                <div className='lineTitle'>{intl.formatMessage({ id: 'LoadBalance' })}</div>
+                                {this.renderLoadBalanceNetwork()}
+                            </div>
+                        </React.Fragment>
+                    ) : null
+                }
             </div>
         )
     }

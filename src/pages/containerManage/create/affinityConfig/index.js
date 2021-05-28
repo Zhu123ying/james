@@ -6,6 +6,7 @@ import { Collapse, Button as HuayunButton, Switch } from 'huayunui'
 import Regex from '~/utils/regex'
 import '../index.less'
 import Card from '~/components/Card'
+import { affinityConfigInitData } from '../constant'
 
 const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select, Panel } = RcForm
 const _ = window._
@@ -72,6 +73,10 @@ class AffinityConfig extends React.Component {
         super(props)
         this.state = {}
     }
+    componentDidMount() {
+        // 添加初始值
+        this.props.handleFormChange('affinity', { ...affinityConfigInitData })
+    }
     // 节点亲和、容器亲和、容器反亲和的总开关
     handleSwitchOnChange = (key, value) => {
         let { formData: { affinity }, handleFormChange } = this.props
@@ -105,8 +110,6 @@ class AffinityConfig extends React.Component {
     }
     handleOnChange = (key, val) => {
         const value = _.get(val, 'target.value', val)
-        console.log(key)
-        console.log(value)
         let { formData: { affinity }, handleFormChange } = this.props
         _.set(affinity, key, value)
         handleFormChange('affinity', { ...affinity })
@@ -227,8 +230,8 @@ class AffinityConfig extends React.Component {
     }
     // 渲染节点亲和
     renderNodeAffinity = () => {
-        const { intl, form, formData: { affinity: { nodeAffinity } } } = this.props
-        const { prefers, require } = nodeAffinity || {}
+        const { intl, form, formData: { affinity } } = this.props
+        const { prefers, require } = _.get(affinity, 'nodeAffinity', {}) || {}
         return (
             <div className='nodeAffinity'>
                 <div className='lineItem'>
@@ -431,7 +434,7 @@ class AffinityConfig extends React.Component {
     // 渲染容器组亲和、容器组反亲和(因为两者一样的，所以提取出来，传Key区分)
     renderContainerGroupAffinity = (key) => {
         const { intl, form, formData: { affinity } } = this.props
-        const { prefers, requires } = affinity[key] || {}
+        const { prefers, requires } = _.get(affinity, key, {}) || {}
         return (
             <div className='nodeAffinity'>
                 <div className='lineItem'>

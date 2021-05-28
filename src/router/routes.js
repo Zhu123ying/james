@@ -79,16 +79,7 @@ const routers = [
         exact: true,
         langCode: 'ApplicationStoreManage',
         descLangCode: 'DesApplicationStoreManage',
-      },  
-      {
-        path: "/applicationCenter/applicationResourceManage",
-        component: ApplicationManage,
-        name: 'ApplicationResourceManage',
-        key: 'ApplicationResourceManage',
-        exact: true,
-        langCode: 'ApplicationResourceManage',
-        descLangCode: 'DesApplicationResourceManage',
-      },  
+      },    
       {
         path: "/applicationCenter/imageManage",
         component: ApplicationManage,

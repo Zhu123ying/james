@@ -8,6 +8,8 @@ const api = {
     startPlatformContainer: `startPlatformContainer`, // 容器组上线
     stopPlatformContainer: `stopPlatformContainer`, // 容器组下线
     abortPlatformContainer: `abortPlatformContainer`, // 容器组终止
+    listAlertUsers: `listAlertUsers`, // 告警联系人
+    listAlertTemplates: `listAlertTemplates`, // 告警模板
 }
 
 export default api

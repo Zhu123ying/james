@@ -1,8 +1,8 @@
 /* eslint-disable */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { RcForm, Loading, Notification, Button, KeyValue, Dialog } from 'ultraui'
-import { Collapse } from 'huayunui'
+import { RcForm, Loading, Notification, KeyValue, Dialog } from 'ultraui'
+import { Collapse, Button } from 'huayunui'
 import MultiLineMessage from '~/components/MultiLineMessage'
 import Regex from '~/utils/regex'
 import './index.less'
@@ -15,6 +15,7 @@ import ConfigFileManage from './configFileManage' // 配置文件管理
 import PersistentStorageManage from './persistentStorageManage' // 持久存储管理
 import LogPersistence from './logPersistence' // 持久存储管理
 import AffinityConfig from './affinityConfig'
+import AlarmConfig from './AlarmConfig'
 
 const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select } = RcForm
 const notification = Notification.newInstance()
@@ -36,7 +37,7 @@ class ManageContainerItem extends React.Component {
             formData: {
                 name: '',
                 description: '',
-                labels: [],
+                labels: {},
                 projectId: '',
                 restartPolicy: '', // 重启策略
                 resource: {    // 资源组配额
@@ -44,130 +45,25 @@ class ManageContainerItem extends React.Component {
                     memory: 1024,
                     ephemeralStorage: 10
                 },
-                containers: [], // 容器配置
                 configurations: [], // 配置文件
                 storages: [], // 持久存储
-                networkState: true, // 这个是前端自己加的字段，为true的时候要传network对象，为false不用传或者传{}
-                network: { // 容器网络
-                    containerNetworks: [],
-                    nodeNetworks: [], // 节点网络
-                    loadBalanceNetwork: { // 负载均衡
-                        name: '',
-                        ports: [], // 端口
-                        qos: true,
-                        upstream: 0, // 上行
-                        downstream: 0 // 下行
-                    }
-                },
-                affinity: {            // 亲和性
-                    nodeAffinity: {
-                        prefers: [
-                            {
-                                weight: '',
-                                matchFields: [],
-                                matchExpressions: []
-                            }
-                        ],
-                        require: {
-                            matchTerms: [
-                                {
-                                    matchFields: [],
-                                    matchExpressions: []
-                                }
-                            ]
-                        }
-                    },
-                    platformContainerAffinity: {
-                        prefers: [
-                            {
-                                weight: '',
-                                namespaces: [],
-                                topologyKey: '',
-                                matchLabels: [
-                                    {
-                                        labelKey: '',
-                                        labelValue: []
-                                    }
-                                ],
-                                matchExpressions: [
-                                    {
-                                        key: '',
-                                        operator: '',
-                                        values: []
-                                    }
-                                ]
-                            }
-                        ],
-                        requires: [
-                            {
-                                namespaces: [],
-                                topologyKey: '',
-                                matchLabels: [
-                                    {
-                                        labelKey: '',
-                                        labelValue: []
-                                    }
-                                ],
-                                matchExpressions: [
-                                    {
-                                        key: '',
-                                        operator: '',
-                                        values: []
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    platformContainerAntiAffinity: {
-                        prefers: [
-                            {
-                                weight: '',
-                                namespaces: [],
-                                topologyKey: '',
-                                matchLabels: [
-                                    {
-                                        labelKey: '',
-                                        labelValue: []
-                                    }
-                                ],
-                                matchExpressions: [
-                                    {
-                                        key: '',
-                                        operator: '',
-                                        values: []
-                                    }
-                                ]
-                            }
-                        ],
-                        requires: [
-                            {
-                                namespaces: [],
-                                topologyKey: '',
-                                matchLabels: [
-                                    {
-                                        labelKey: '',
-                                        labelValue: []
-                                    }
-                                ],
-                                matchExpressions: [
-                                    {
-                                        key: '',
-                                        operator: '',
-                                        values: []
-                                    }
-                                ]
-                            }
-                        ]
-                    }
+                alert: {  // 告警
+                    template: '',
+                    enabled: true,
+                    users: []
                 }
             },
             containerImageList: [],
             isFetching: false,
             projectList: [], // 项目列表
+            alertUserList: [], // 告警联系人
+            alertTemplateList: [], // 告警模板
         }
     }
     componentDidMount() {
         this.getProjectList()
+        this.getAlertUserList()
+        this.getAlertTemplateList()
         this.props.handleExtra({
             style: {
                 display: 'none'
@@ -178,6 +74,26 @@ class ManageContainerItem extends React.Component {
         this.props.handleExtra({
             style: {
                 display: 'block'
+            }
+        })
+    }
+    // 获取告警联系人
+    getAlertUserList = () => {
+        HuayunRequest(api.listAlertUsers, {}, {
+            success: (res) => {
+                this.setState({
+                    alertUserList: res.data.users
+                })
+            }
+        })
+    }
+    // 获取告警模板
+    getAlertTemplateList = () => {
+        HuayunRequest(api.listAlertTemplates, {}, {
+            success: (res) => {
+                this.setState({
+                    alertTemplateList: res.data.templates
+                })
             }
         })
     }
@@ -246,7 +162,7 @@ class ManageContainerItem extends React.Component {
     }
     renderFormComponent = (type) => {
         const { intl, form } = this.props
-        const { projectList, formData, containerImageList } = this.state
+        const { projectList, formData, containerImageList, alertTemplateList, alertUserList } = this.state
         switch (type) {
             case 'ContainerGroupConfig':
                 return <ContainerGroupConfig
@@ -290,7 +206,42 @@ class ManageContainerItem extends React.Component {
                     handleFormChange={this.handleFormChange}
                     ref={node => this.$AffinityConfig = node} />
                 break
+            case 'AlarmConfig':
+                return <AlarmConfig
+                    intl={intl}
+                    form={form}
+                    formData={formData}
+                    handleFormChange={this.handleFormChange}
+                    alertTemplateList={alertTemplateList}
+                    alertUserList={alertUserList}
+                    ref={node => this.$AlarmConfig = node} />
+                break
         }
+    }
+    handleCanelSubmit = () => {
+        this.props.history.goBack()
+    }
+    handleConfirmSubmit = () => {
+        this.props.form.validateFields((error, values) => {
+            if (error) {
+                return
+            }
+            const { formData } = this.state
+            HuayunRequest(api.create, formData, {
+                success: (res) => {
+                    notification.notice({
+                        id: new Date(),
+                        type: 'success',
+                        title: intl.formatMessage({ id: 'Success' }),
+                        content: `${intl.formatMessage({ id: 'Operate' })}'${intl.formatMessage({ id: 'Success' })}`,
+                        iconNode: 'icon-success-o',
+                        duration: 5,
+                        closable: true
+                    })
+                }
+            })
+        })
+
     }
     render() {
         const { form, intl } = this.props
@@ -321,6 +272,10 @@ class ManageContainerItem extends React.Component {
                                     {
                                         this.renderFormComponent(currentBarType)
                                     }
+                                </div>
+                                <div className='btnGroup'>
+                                    <Button type="default" name="取消" onClick={this.handleCanelSubmit} />&nbsp;&nbsp;
+                                    <Button type="primary" name="确定" onClick={this.handleConfirmSubmit} />
                                 </div>
                             </div>
                             <div className='right'>

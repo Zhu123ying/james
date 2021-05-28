@@ -92,11 +92,6 @@
                             }
                         }
                     }
-                    .switchPanel{
-                        .ult-rcform-panel{
-                            padding-top: 8px;
-                        }
-                    }
                     .mountsPanel{
                         .ult-rcform-panel{
                             flex-direction: column;
@@ -156,6 +151,10 @@
                             .ult-input-number{
                                 margin-top: 15px;
                             }
+                        }
+                        .validation-error{
+                            padding-left: 0;
+                            margin-left: 0;
                         }
                     }
                     .ant-cascader-picker{
@@ -429,6 +428,22 @@
                         }
                     }
                 }
+                // 告警配置
+                .AlarmConfig{
+                    .contactorPanel{
+                        margin-bottom: 0;
+                        .ult-rcform-panel{
+                            display: flex;
+                            flex-direction: column;
+                            .archer-spin-container{
+                                overflow: auto;
+                            }
+                        }
+                    }
+                }
+            }
+            .btnGroup{
+                margin: 20px 0;
             }
         }
         .right{
@@ -665,6 +680,11 @@
             .w50{
                 width: calc(50% - 5px)!important;
             }
+        }
+    }
+    .switchPanel{
+        .ult-rcform-panel{
+            padding-top: 8px;
         }
     }
 }

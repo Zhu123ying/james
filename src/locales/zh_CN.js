@@ -45,8 +45,24 @@ const zh_CN = {
     LoadBalance: '负载均衡',
     File: '文件',
     Command: '指令',
+    Contactor: '联系人',
+    Email: '邮箱',
+    Phone: '电话',
+
     // 业务字段
     DesCreateContainerGroup: '这是创建容器的描述',
+    ApplicationStoreManage: '应用商店',
+    DesApplicationStoreManage: '这是应用商店的描述',
+    ImageManage: '镜像管理',
+    DesImageManageManage: '这是镜像管理的描述',
+    CredentialManage: '仓库凭证',
+    DesCredentialManage: '这是仓库凭证的描述',
+    NodeResource: '节点资源',
+    DesNodeResource: '这是节点资源的描述',
+    StorageResource: '存储资源',
+    DesStorageResource: '这是存储资源的描述',
+    ResourceObjectType: '资源对象类型',
+    DesResourceObjectType: '这是资源对象类型的描述',
     ContainerManage: '容器管理',
     DesContainerManage: '这是容器管理的描述',
     ApplicationManage: '应用管理',
@@ -299,6 +315,7 @@ const zh_CN = {
     IsReadOnly: '是否只读',
     EnvironmentVariable: '环境变量',
     ContainerImage: '容器镜像',
+    AlarmTemplate: '告警模板',
 
     // 接口返回提示
     UpdateApplicationSuccess: '编辑应用-{name}成功！',
