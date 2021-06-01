@@ -14,10 +14,6 @@ import { application, quota, applicationPackage, applicationStore } from '~/http
 const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select, Panel } = RcForm
 const notification = Notification.newInstance()
 const _ = window._
-const storageItem = {
-    type: '',
-    value: ''
-}
 
 // 从应用包进来的带applicationPackageId和applicationVersionId
 // 从应用商店进来的带应用商店应用的id，而非应用的id
@@ -37,13 +33,10 @@ class AppCreate extends React.Component {
                 description: '',
                 tags: [],
                 tagInput: '',
-                cpu: 0,
-                memory: 0,
-                storageInfo: [
-                    {
-                        ...storageItem
-                    }
-                ],
+                cCPU: 0,
+                cMemory: 0,
+                cEphemeralStorage: 0,
+                cStorage: 0,
                 applicationPackageId: '',
                 applicationVersionId: '',
                 configInfo: null, // 修改过的chartValues
@@ -54,7 +47,6 @@ class AppCreate extends React.Component {
             appPackageList: [], // 应用包列表
             appPackageVersionList: [], // 应用包版本列表
             projectList: [], // 项目列表
-            storageConfig: {}, // 配额的配置信息
             availableQuota: {}, // 可用配额
             isFetching: false
         }
@@ -63,7 +55,6 @@ class AppCreate extends React.Component {
     componentDidMount() {
         this.handleComeFromByDiffPage()
         this.getProjectList()
-        this.getStorageConfig()
     }
 
     // 处理从不同路径进入到创建应用
@@ -85,7 +76,7 @@ class AppCreate extends React.Component {
     // 获取项目列表
     getProjectList = () => {
         let params = {
-            pageNumber: 1, 
+            pageNumber: 1,
             pageSize: 10000
         }
         HuayunRequest(application.listProject, params, {
@@ -97,18 +88,8 @@ class AppCreate extends React.Component {
         })
     }
 
-    getStorageConfig = () => {
-        HuayunRequest(quota.getStorageConfig, {}, {
-            success: (res) => {
-                this.setState({
-                    storageConfig: res.data
-                })
-            }
-        })
-    }
-
     getAppPackageDetail = (id, applicationPackageVersionId) => {
-        HuayunRequest(applicationPackage.getApplicationPackageForApplication, {id, applicationPackageVersionId}, {
+        HuayunRequest(applicationPackage.getApplicationPackageForApplication, { id, applicationPackageVersionId }, {
             success: (res) => {
                 const { name, applicationPackageVersionList: appPackageVersionList, packageVersionPojo: currentVersion, projectId } = res.data
                 // 应用包可能没有版本列表数据
@@ -168,9 +149,8 @@ class AppCreate extends React.Component {
         // 获取详情数据
         HuayunRequest(application.detail, { id: this.id }, {
             success: (res) => {
-                const { id, name, description, tags, quota: { cpu, memory, storageInfo }, configInfo, applicationVersionId, projectId } = res.data
+                const { id, name, description, tags, quota: { cCPU, cMemory, storageInfo: { cEphemeralStorage, cStorage } }, configInfo, applicationVersionId, projectId } = res.data
                 const { applicationPackageId } = _.get(res, packageDetailKeyObject[res.applicationType], {})
-
                 this.setState({
                     formData: {
                         ...this.state.formData,
@@ -178,16 +158,10 @@ class AppCreate extends React.Component {
                         name,
                         description,
                         tags,
-                        cpu,
-                        memory,
-                        storageInfo: [
-                            ...Object.keys(storageInfo).map(key => {
-                                return {
-                                    type: key,
-                                    value: storageInfo[key].total
-                                }
-                            })
-                        ],
+                        cCPU,
+                        cMemory,
+                        cEphemeralStorage: cEphemeralStorage.total,
+                        cStorage: cStorage.total,
                         configInfo,
                         applicationVersionId,
                         applicationPackageId,
@@ -279,39 +253,9 @@ class AppCreate extends React.Component {
         })
     }
 
-    handleStorageFormChange = (type, index, val) => {
-        const value = _.get(val, 'target.value', val)
-        let { formData } = this.state
-        formData.storageInfo[index][type] = value
-        this.setState({
-            formData: { ...formData }
-        })
-    }
-
-    handleAddStorageLine = () => {
-        // 先判断如果行数超过了规格的数目，就不能让他再添加
-        const { formData: { storageInfo }, storageConfig } = this.state
-        if (storageInfo.length === Object.keys(storageConfig).length) {
-            return false
-        }
-        let { formData } = this.state
-        formData.storageInfo.push({ ...storageItem })
-        this.setState({
-            formData: { ...formData }
-        })
-    }
-
-    handleRemoveStorageLine = (index) => {
-        let { formData } = this.state
-        formData.storageInfo.splice(index, 1)
-        this.setState({
-            formData: { ...formData }
-        })
-    }
-
     handleSubmit = () => {
         const { form, history, intl } = this.props
-        const { formData: { id, cpu, memory, storageInfo, applicationVersionId, description, name, tags, configInfo, projectId, isolation } } = this.state
+        const { formData: { id, cCPU, cMemory, cEphemeralStorage, cStorage, applicationVersionId, description, name, tags, configInfo, projectId, isolation } } = this.state
         if (id) {
             // 编辑应用
             form.validateFields(['name', 'description', 'tags'], (errs, values) => {
@@ -319,7 +263,7 @@ class AppCreate extends React.Component {
                     let data = {
                         id, name, description, tags
                     }
-                    let content = `${intl.formatMessage({id: 'Update'})}${intl.formatMessage({id: 'Application'})}`
+                    let content = `${intl.formatMessage({ id: 'Update' })}${intl.formatMessage({ id: 'Application' })}`
                     HuayunRequest(application.update, data, {
                         success: (res) => {
                             notification.notice({
@@ -340,14 +284,6 @@ class AppCreate extends React.Component {
             // storageInfo = {
             //     big: { total: 0 }
             // }
-            let storageInfo_ = {}
-            storageInfo.forEach(item => {
-                if (item.type) {
-                    storageInfo_[item.type] = {
-                        total: item.value || 0 // 如果没值则传0
-                    }
-                }
-            })
             form.validateFields((errs, values) => {
                 if (!errs) {
                     let data = {
@@ -356,15 +292,18 @@ class AppCreate extends React.Component {
                         name,
                         tags,
                         quota: {
-                            cpu,
-                            memory,
-                            storageInfo: storageInfo_
+                            cCPU,
+                            cMemory,
+                            storageInfo: {
+                                cEphemeralStorage: { total: parseInt(cEphemeralStorage) },
+                                cStorage: { total: parseInt(cStorage) }
+                            }
                         },
                         configInfo,
                         projectId,
                         isolation: isolation === 'true' ? true : false
                     }
-                    let content = `${intl.formatMessage({id: 'Create'})}${intl.formatMessage({id: 'Application'})}`
+                    let content = `${intl.formatMessage({ id: 'Create' })}${intl.formatMessage({ id: 'Application' })}`
                     let urlType = GetQueryString('id') ? 'createStoreApplication' : 'create'
                     HuayunRequest(application[urlType], data, {
                         success: (res) => {
@@ -389,7 +328,7 @@ class AppCreate extends React.Component {
     }
 
     getAppPackageVersionList = () => {
-        HuayunRequest(applicationPackage.getApplicationPackageVersionsForApplication, { applicationPackageId: this.state.formData.applicationPackageId }, {}, {
+        HuayunRequest(applicationPackage.getApplicationPackageVersionsForApplication, { applicationPackageId: this.state.formData.applicationPackageId }, {
             success: (res) => {
                 this.setState({
                     appPackageVersionList: res.data
@@ -398,42 +337,23 @@ class AppCreate extends React.Component {
         })
     }
 
-    showStorageConfigDetail = () => {
-        const { intl } = this.props
-        const { storageConfig } = this.state
-        Dialog(
-            <div className="configDetailContent">
-                {
-                    Object.keys(storageConfig).map(key => {
-                        return renderStorageConfigTooltip(storageConfig[key], intl)
-                    })
-                }
-            </div>,
-            {
-                className: "configDetailDialog",
-                title: intl.formatMessage({ id: 'StorageConfigDetail' }),
-                buttonNone: true,
-                style: { width: '500px' }
-            }
-        )
-    }
-
-
     render() {
         const { form, intl } = this.props
-        const { 
-            formData: { name, description, tags, tagInput, applicationPackageId, applicationVersionId, cpu, memory, storageInfo, configInfo, projectId, isolation }, 
-            currentVersion, chartValuesType, appPackageList, appPackageVersionList, projectList, availableQuota, storageConfig, isFetching 
+        const {
+            formData: { name, description, tags, tagInput, applicationPackageId, applicationVersionId, cCPU, cMemory, cEphemeralStorage, cStorage, configInfo, projectId, isolation },
+            currentVersion, chartValuesType, appPackageList, appPackageVersionList, projectList, availableQuota, storageConfig, isFetching
         } = this.state
         const cpu_min = _.get(currentVersion, 'quota.cpu', 0)
         const memory_min = _.get(currentVersion, 'quota.memory', 0)
         const versionStorageInfor = _.get(currentVersion, 'quota.storage', {}) || {}
         const searchParams = queryParamsToObject(this.props.location.search)
-        const { availableStorageQuota, cpu: cpuAvailable, memory: memoryAvailable } = availableQuota
+        const { availableStorageQuota, cCPU: cpuAvailable, cMemory: memoryAvailable } = availableQuota
+        const cEphemeralStorageAvailable = _.get(availableStorageQuota, 'cEphemeralStorage', 0)
+        const cStorageAvailable = _.get(availableStorageQuota, 'cStorage', 0)
         return (
             <div id="AppCreate">
                 {
-                     isFetching ? <Loading /> : (
+                    isFetching ? <Loading /> : (
                         <Form
                             ref={(node) => { this.form = node }}
                             form={form}
@@ -492,7 +412,7 @@ class AppCreate extends React.Component {
                                         label={intl.formatMessage({ id: 'AppDescription' })}
                                         minLength={0}
                                         maxLength={200}
-                                        // addon={intl.formatMessage({ id: 'DescriptionError' })}
+                                    // addon={intl.formatMessage({ id: 'DescriptionError' })}
                                     />
                                     <div className="tag">
                                         <Input
@@ -601,14 +521,14 @@ class AppCreate extends React.Component {
                                                                         maxLength={NaN}
                                                                     />
                                                                 ) : (
-                                                                        <ReactDiffViewer
-                                                                            className='diffView'
-                                                                            hideLineNumbers={true}
-                                                                            oldValue={currentVersion.chartValues}
-                                                                            newValue={configInfo}
-                                                                            splitView={false}
-                                                                        />
-                                                                    )
+                                                                    <ReactDiffViewer
+                                                                        className='diffView'
+                                                                        hideLineNumbers={true}
+                                                                        oldValue={currentVersion.chartValues}
+                                                                        newValue={configInfo}
+                                                                        splitView={false}
+                                                                    />
+                                                                )
                                                             }
                                                         </div>
                                                     ) : null
@@ -626,27 +546,27 @@ class AppCreate extends React.Component {
                                                         <div className="assign">
                                                             <Input
                                                                 form={form}
-                                                                name='cpu'
-                                                                value={cpu || ''}
-                                                                onChange={this.handleChange.bind(this, 'cpu')}
-                                                                label='CPU'
+                                                                name='cCPU'
+                                                                value={cCPU || ''}
+                                                                onChange={this.handleChange.bind(this, 'cCPU')}
+                                                                label='cCPU'
                                                                 type="number"
                                                                 unit="m"
                                                                 isRequired
                                                             />
                                                         </div>
-                                                        <div className="available">{`CPU(m) ${cpuAvailable || 0}`}</div>
+                                                        <div className="available">{`cCPU(m) ${cpuAvailable || 0}`}</div>
                                                     </div>
                                                     <div className="lineItem">
-                                                        <div className="label">Memory</div>
+                                                        <div className="label">cMemory</div>
                                                         <div className="recommend">{memory_min}Mi</div>
                                                         <div className="assign">
                                                             <Input
                                                                 form={form}
-                                                                name='memory'
-                                                                value={memory || ''}
-                                                                onChange={this.handleChange.bind(this, 'memory')}
-                                                                label='Memory'
+                                                                name='cMemory'
+                                                                value={cMemory || ''}
+                                                                onChange={this.handleChange.bind(this, 'cMemory')}
+                                                                label='cMemory'
                                                                 type="number"
                                                                 unit="Mi"
                                                                 isRequired
@@ -654,97 +574,39 @@ class AppCreate extends React.Component {
                                                         </div>
                                                         <div className="available">{`Memory(Mi) ${memoryAvailable || 0}`}</div>
                                                     </div>
-                                                    <div className="lineItem storageLine">
-                                                        <div className="label">
-                                                            <i className='iconfont icon-info-s' onClick={this.showStorageConfigDetail} />&nbsp;
-                                                            {intl.formatMessage({ id: 'Storage' })}
-                                                        </div>
-                                                        <div className="recommend storageRecommend">
-                                                            {
-                                                                Object.keys(versionStorageInfor).map(key => {
-                                                                    return <span>{key}:&nbsp;&nbsp;{versionStorageInfor[key]}</span>
-                                                                })
-                                                            }
-                                                        </div>
+                                                    <div className="lineItem">
+                                                        <div className="label">cEphemeralStorage</div>
+                                                        <div className="recommend">{versionStorageInfor.cEphemeralStorage || 0}Gi</div>
                                                         <div className="assign">
-                                                            <Panel
+                                                            <Input
                                                                 form={form}
-                                                                value={storageInfo}
-                                                                name="storageInfo"
-                                                                label=''
-                                                                inline
+                                                                name='cEphemeralStorage'
+                                                                value={cEphemeralStorage || ''}
+                                                                onChange={this.handleChange.bind(this, 'cEphemeralStorage')}
+                                                                label='cEphemeralStorage'
+                                                                type="number"
+                                                                unit="Gi"
                                                                 isRequired
-                                                            >
-                                                                <div className='storageForm'>
-                                                                    {
-                                                                        storageInfo.map((item, index) => {
-                                                                            return (
-                                                                                <div className='storageItem' key={index} >
-                                                                                    <Select
-                                                                                        form={form}
-                                                                                        name={`storageInfo${index}Type`}
-                                                                                        value={storageInfo[index].type}
-                                                                                        onChange={this.handleStorageFormChange.bind(this, 'type', index)}
-                                                                                        label=''
-                                                                                        options={
-                                                                                            Object.keys(storageConfig).map(key => {
-                                                                                                return {
-                                                                                                    value: key,
-                                                                                                    text: key,
-                                                                                                    disabled: storageInfo.some(item_ => item_.type === key) // 已经选过的规格不能再选
-                                                                                                }
-                                                                                            })
-                                                                                        }
-                                                                                        optionFilterProp='children'
-                                                                                        optionLabelProp='children'
-                                                                                        placeholder={intl.formatMessage({ id: 'SelectStorageConfigPlaceholder' })}
-                                                                                    />
-                                                                                    <Input
-                                                                                        form={form}
-                                                                                        name={`storageInfo${index}Value`}
-                                                                                        value={storageInfo[index].value}
-                                                                                        onChange={this.handleStorageFormChange.bind(this, 'value', index)}
-                                                                                        label=''
-                                                                                        type="number"
-                                                                                        disabled={!storageInfo[index].type}
-                                                                                        unit='个'
-                                                                                    />
-                                                                                    {
-                                                                                        index === 0 ? (
-                                                                                            <i className={`iconfont icon-add-o ${storageInfo.length === Object.keys(storageConfig).length ? 'disableAdd' : ''}`} onClick={this.handleAddStorageLine} />
-                                                                                        ) : (
-                                                                                                <i className='iconfont icon-minus-o' onClick={() => this.handleRemoveStorageLine(index)} />
-                                                                                            )
-                                                                                    }
-                                                                                </div>
-                                                                            )
-                                                                        })
-                                                                    }
-                                                                </div>
-                                                            </Panel>
+                                                            />
                                                         </div>
-                                                        <div className="available availableStorage">
-                                                            <div>静态存储:&nbsp;</div>
-                                                            <div>
-                                                                {
-                                                                    availableStorageQuota ? (
-                                                                        <React.Fragment>
-                                                                            {
-                                                                                Object.keys(availableStorageQuota).map(key => {
-                                                                                    return (
-                                                                                        <div key={key}>
-                                                                                            {
-                                                                                                `${key}     ${availableStorageQuota[key]}`
-                                                                                            }
-                                                                                        </div>
-                                                                                    )
-                                                                                })
-                                                                            }
-                                                                        </React.Fragment>
-                                                                    ) : ''
-                                                                }
-                                                            </div>
+                                                        <div className="available">{`cEphemeralStorage(Gi) ${cEphemeralStorageAvailable || 0}`}</div>
+                                                    </div>
+                                                    <div className="lineItem">
+                                                        <div className="label">cStorage</div>
+                                                        <div className="recommend">{versionStorageInfor.cStorage || 0}Gi</div>
+                                                        <div className="assign">
+                                                            <Input
+                                                                form={form}
+                                                                name='cStorage'
+                                                                value={cStorage || ''}
+                                                                onChange={this.handleChange.bind(this, 'cStorage')}
+                                                                label='cStorage'
+                                                                type="number"
+                                                                unit="Gi"
+                                                                isRequired
+                                                            />
                                                         </div>
+                                                        <div className="available">{`cStorage(Gi) ${cStorageAvailable || 0}`}</div>
                                                     </div>
                                                 </div>
                                             </React.Fragment>
