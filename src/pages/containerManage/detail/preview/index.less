@@ -39,21 +39,23 @@
                 }
             }
         }
-        .otherContent{
+        .horKeyValueContent{
             display: flex;
             background: #F6F8FA;
-            padding: 10px;
+            padding: 12px 16px;
             .ult-key-value-item{
                 display: flex;
                 flex-direction: column;
+                justify-content: space-between;
                 .ult-key-value-item-label{
                     width: max-content;
-                    padding: 4px;
                     text-align: left;
+                    padding: 2px 0;
                 }
                 .ult-key-value-item-value{
-                    width: auto;
-                    padding: 4px;
+                    width: auto!important;
+                    padding: 2px 0!important;
+                    margin-left: 0!important;
                 }
             }
         }
@@ -62,6 +64,71 @@
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
+            padding: 0 16px!important;
+            .quotaItem{
+                width: calc(50% - 8px);
+                padding: 16px;
+                border: 1px solid #B6D9FB;
+                border-radius: 3px;
+                margin-bottom: 16px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                font-size: 12px;
+                color: #516F90;
+            }
+        }
+        .cpu_memory_monitor{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: calc(100% - 50px);
+            padding: 0 10px;
+            .monitorItem{
+                width: calc(50% - 8px);
+                height: 100%;
+                .summary{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    .name{
+                        font-size: 14px;
+                        color: #33475B;
+                    }
+                    .value{
+                        font-size: 24px;
+                        color: #33475B;
+                    }
+                }
+                .lineItem{
+                    width: 100%;
+                    min-height: 150px;
+                }
+            }
+        }
+    }
+    .containerGroupInfor{
+        font-size: 12px;
+        color: #33475B;
+        justify-content: inherit!important;
+        .infoItem{
+            .itemTitle{
+                font-size: 12px;
+                color: #33475B;
+                margin: 8px 0 10px 0;
+            }
+            .horKeyValueContent{
+                .ult-key-value-item{
+                    padding-left: 16px;
+                    border-left: 1px dotted #E7EBF3;
+                    .ult-key-value-item-label{
+                        font-size: 14px;
+                    }
+                }
+                .ult-key-value-item:first-child{
+                    border: none;
+                }
+            }
         }
     }
 }

@@ -48,6 +48,7 @@ const zh_CN = {
     Contactor: '联系人',
     Email: '邮箱',
     Phone: '电话',
+    Image: '镜像',
 
     // 业务字段
     DesCreateContainerGroup: '这是创建容器的描述',
@@ -289,6 +290,7 @@ const zh_CN = {
     ContainerGroupQuota: '容器组配额',
     ContainerGroupTag: '容器组标签',
     RestartPolicy: '重启策略',
+    RestartTimes: '重启次数',
     LocalDisk: '本地磁盘',
     SubType: '子类型',
     LabelPanelIsRequired: '标签不能为空',
@@ -318,6 +320,10 @@ const zh_CN = {
     AlarmTemplate: '告警模板',
     OnlineTime: '上线时间',
     QuotaStatistics: '配额统计',
+    ContainerGroupInfo: '容器组信息',
+    Namespace: '命名空间',
+    MatchType: '匹配模式',
+    AffinityLevel: '亲和等级',
 
     // 接口返回提示
     UpdateApplicationSuccess: '编辑应用-{name}成功！',

@@ -54,7 +54,7 @@ export async function mount(props) {
  */
 export async function unmount() {
   console.log('子应用卸载成功')
-  if (document.getElementById('childapp')) {
+  if (document.getElementById('applicationCenterRoot')) {
     ReactDOM.unmountComponentAtNode(document.getElementById('childapp'))
   }
 }
