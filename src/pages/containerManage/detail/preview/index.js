@@ -12,6 +12,7 @@ import actions from '~/constants/authAction'
 import { ApplicationStatuList, ApplicationSecondStatuList, DEFAULT_EMPTY_LABEL } from '~/constants'
 import echarts from 'echarts'
 import moment from 'moment'
+import DetailIcon from '~/components/DetailIcon'
 
 const notification = Notification.newInstance()
 const _ = window._
@@ -70,6 +71,28 @@ class Preview extends React.Component {
         const { intl, detail } = this.props
         const { name, projectId, projectName, createTime, resource } = detail
         const { cpu, ephemeralStorage, memory, storage } = resource
+        const quotaData = [
+            {
+                iconType: 'done',
+                title: 'CPU(m)',
+                value: cpu
+            },
+            {
+                iconType: 'done',
+                title: 'Memory(Mi)',
+                value: memory
+            },
+            {
+                iconType: 'done',
+                title: 'EphemeralStorage(Gi)',
+                value: ephemeralStorage
+            },
+            {
+                iconType: 'done',
+                title: 'storage(Gi)',
+                value: storage
+            }
+        ]
         const KeyValueData = [
             {
                 label: intl.formatMessage({ id: 'ContainerGroupName' }),
@@ -82,7 +105,7 @@ class Preview extends React.Component {
         ]
         const KeyValueData2 = [
             {
-                value: intl.formatMessage({ id: 'CreaterTime' }),
+                value: intl.formatMessage({ id: 'CreateTime' }),
                 label: createTime || DEFAULT_EMPTY_LABEL
             },
             {
@@ -105,8 +128,20 @@ class Preview extends React.Component {
                     <Col span={16}>
                         <div className='boxContainer'>
                             <div className='boxTitle activeBefore'>{intl.formatMessage({ id: 'QuotaStatistics' })}</div>
-                            <div className='boxContent'>
-    
+                            <div className='boxContent quotaInfo'>
+                                {
+                                    quotaData.map(({ iconType, title, value }) => {
+                                        return (
+                                            <div className='quotaItem'>
+                                                <div className='quotaType'>
+                                                    <DetailIcon iconType="done" className="m-r-sm" />&nbsp;
+                                                    {title}
+                                                </div>
+                                                <div className='quotaValue'>{value}</div>
+                                            </div>
+                                        )
+                                    })
+                                }
                             </div>
                         </div>
                     </Col>

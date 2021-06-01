@@ -32,6 +32,7 @@ class ApplicationManage extends React.Component {
     componentDidMount() {
         this.addCreateApplicationButton()
         this.handleSearch(true)
+        this.getProjectList()
     }
     componentWillUnmount() {
         this.props.handleExtra({
@@ -44,7 +45,7 @@ class ApplicationManage extends React.Component {
             pageNumber: 1,
             pageSize: 10000
         }
-        HuayunRequest(application.listProject, params, {
+        HuayunRequest(api.listProject, params, {
             success: (res) => {
                 this.setState({
                     projectList: res.data
