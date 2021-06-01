@@ -119,7 +119,7 @@ class ApplicationManage extends React.Component {
     }
     render() {
         const { intl } = this.props
-        const { name, createTime, tags, projectId, dataList, currentApplication, isFetching } = this.state
+        const { name, createTime, tags, projectId, dataList, currentApplication, isFetching, projectList } = this.state
         const searchItems = [
             <RangePicker
                 onChange={(val) => this.handleSearchParamChange('createTime', val)}

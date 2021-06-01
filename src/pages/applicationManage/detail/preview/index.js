@@ -310,7 +310,7 @@ class Preview extends React.Component {
             }
         ]
         return (
-            <div className='applicationDetail_preview'>
+            <div className='commonDetail_preview applicationDetail_preview'>
                 <Row gutter={10}>
                     <Col span={8}>
                         <div className='boxContainer'>

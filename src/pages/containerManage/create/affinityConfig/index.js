@@ -86,7 +86,6 @@ class AffinityConfig extends React.Component {
     handleSwitchOnChange = (key, value) => {
         let { formData: { affinity }, handleFormChange } = this.props
         affinity = affinity || {}
-        console.log(affinity)
         if (value) {
             // 打开开关需要给写默认值
             switch (key) {

@@ -25,7 +25,7 @@ class Alarm extends React.Component {
         const { intl } = this.props
         return (
             <div className='applicationDetail_alarm'>
-                applicationDetail_preview
+                
             </div>
         )
     }

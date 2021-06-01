@@ -316,6 +316,8 @@ const zh_CN = {
     EnvironmentVariable: '环境变量',
     ContainerImage: '容器镜像',
     AlarmTemplate: '告警模板',
+    OnlineTime: '上线时间',
+    QuotaStatistics: '配额统计',
 
     // 接口返回提示
     UpdateApplicationSuccess: '编辑应用-{name}成功！',

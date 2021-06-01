@@ -8,7 +8,7 @@ import { Icon, Notification, Loading, Button } from 'ultraui'
 import './index.less'
 import ActionAuth from '~/components/ActionAuth'
 import actions from '~/constants/authAction'
-// import Preview from './preview'
+import Preview from './preview'
 
 const notification = Notification.newInstance()
 const { TabPane } = Tabs;
@@ -163,7 +163,7 @@ class ContainerDetail extends React.Component {
                                         <div className='detailContent'>
                                             <Tabs defaultActiveKey="Preview">
                                                 <TabPane tab={intl.formatMessage({ id: 'OverView' })} key="Preview">
-                                                    {/* <Preview {...this.props} detail={detail} getDetail={this.getDetail}></Preview> */}
+                                                    <Preview {...this.props} detail={detail}></Preview>
                                                 </TabPane>
                                                 <TabPane tab={intl.formatMessage({ id: 'ContainerInfo' })} key="ContainerInfo">
                                                     {/* <Detail {...this.props} detail={detail} getDetail={this.getDetail}></Detail> */}
