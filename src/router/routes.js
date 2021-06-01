@@ -53,7 +53,7 @@ const routers = [
         descLangCode: 'DesApplicationPackageManage',
       },
       {
-        path: "/applicationCenter/containerManage",
+        path: "/applicationCenter/containerManage",  // 容器管理
         component:  ContainerManage,
         name: 'ContainerManage',
         key: 'ContainerManage',
@@ -62,7 +62,25 @@ const routers = [
         descLangCode: 'DesContainerManage',
       },
       {
-        path: "/applicationCenter/containerManage/create",
+        path: "/applicationCenter/containerManage/create", // 容器创建
+        component: CreateContainerGroup,
+        name: 'CreateContainerGroup',
+        key: 'CreateContainerGroup',
+        exact: true,
+        langCode: 'CreateContainerGroup',
+        descLangCode: 'DesCreateContainerGroup'
+      },
+      {
+        path: "/applicationCenter/containerManage/create/:id/:type", // 容器复制
+        component: CreateContainerGroup,
+        name: 'CreateContainerGroup',
+        key: 'CreateContainerGroup',
+        exact: true,
+        langCode: 'CreateContainerGroup',
+        descLangCode: 'DesCreateContainerGroup'
+      },
+      {
+        path: "/applicationCenter/containerManage/edit/:id", // 容器编辑
         component: CreateContainerGroup,
         name: 'CreateContainerGroup',
         key: 'CreateContainerGroup',

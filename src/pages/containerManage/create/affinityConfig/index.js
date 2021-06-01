@@ -6,8 +6,6 @@ import { Collapse, Button as HuayunButton, Switch } from 'huayunui'
 import Regex from '~/utils/regex'
 import '../index.less'
 import Card from '~/components/Card'
-import { affinityConfigInitData } from '../constant'
-
 const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select, Panel } = RcForm
 const _ = window._
 const operatorList = ['In', 'NotIn', 'Exists', 'DoesNotExist', 'Gt', 'Lt']
@@ -36,7 +34,7 @@ const nodeRequire = {
 }
 // 节点对象
 const nodeItem = {
-    prefers: [nodePreferItem],
+    prefers: [{ ...nodePreferItem }],
     require: { ...nodeRequire }
 }
 // 标签对象
@@ -71,31 +69,43 @@ class AffinityConfig extends React.Component {
     }
     constructor(props) {
         super(props)
-        this.state = {}
+        this.state = {
+            nodeAffinitySwitch: false,
+            platformContainerAffinitySwitch: false,
+            platformContainerAntiAffinitySwitch: false,
+        }
     }
-    componentDidMount() {
-        // 添加初始值
-        this.props.handleFormChange('affinity', { ...affinityConfigInitData })
+    componentWillReceiveProps(nextProps) {
+        const { formData: { affinity } } = this.props
+        const { nodeAffinity, platformContainerAffinity, platformContainerAntiAffinity } = affinity || {}
+        this.setState({
+            nodeAffinity, platformContainerAffinity, platformContainerAntiAffinity
+        })
     }
     // 节点亲和、容器亲和、容器反亲和的总开关
     handleSwitchOnChange = (key, value) => {
         let { formData: { affinity }, handleFormChange } = this.props
+        affinity = affinity || {}
+        console.log(affinity)
         if (value) {
             // 打开开关需要给写默认值
             switch (key) {
                 case 'nodeAffinity':
-                    affinity.nodeAffinity = { ...nodeItem }
+                    _.set(affinity, 'nodeAffinity', _.cloneDeep(nodeItem))
                     break
                 case 'platformContainerAffinity':
-                    affinity.platformContainerAffinity = { ...platformContainerAffinityItem }
+                    _.set(affinity, 'platformContainerAffinity', _.cloneDeep(platformContainerAffinityItem))
                     break
                 case 'platformContainerAntiAffinity':
-                    affinity.platformContainerAntiAffinity = { ...platformContainerAffinityItem }
+                    _.set(affinity, 'platformContainerAntiAffinity', _.cloneDeep(platformContainerAffinityItem))
                     break
             }
         } else {
             affinity[key] = null
         }
+        this.setState({
+            [`${key}Switch`]: value
+        })
         handleFormChange('affinity', { ...affinity })
     }
     // 匹配字段、匹配表达式、标签的开关处理(value是switch的值，initValue是打开开关的初始值，加上初始值用户体验好点)
@@ -144,7 +154,7 @@ class AffinityConfig extends React.Component {
                 <Input
                     form={form}
                     value={labelKey}
-                    name={`${path}${index}Key`}
+                    name={`AffinityConfig${path}${index}Key`}
                     placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: 'Key' })}
                     onChange={(val) => this.handleOnChange(`${path}.${index}.labelKey`, val)}
                     label='Key'
@@ -154,7 +164,7 @@ class AffinityConfig extends React.Component {
                 <Input
                     form={form}
                     value={labelValue}
-                    name={`${path}${index}Value`}
+                    name={`AffinityConfig${path}${index}Value`}
                     placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: 'Value' })}
                     onChange={(val) => this.handleOnChange(`${path}.${index}.labelValue`, val)}
                     label='Value'
@@ -179,7 +189,7 @@ class AffinityConfig extends React.Component {
                 <Input
                     form={form}
                     value={key}
-                    name={`${path}${index}Key`}
+                    name={`AffinityConfig${path}${index}Key`}
                     placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: 'Key' })}
                     onChange={(val) => this.handleOnChange(`${path}.${index}.key`, val)}
                     label='Key'
@@ -189,13 +199,13 @@ class AffinityConfig extends React.Component {
                 <Panel
                     form={form}
                     value={values}
-                    name={`${path}${index}Panel`}
+                    name={`AffinityConfig${path}${index}Panel`}
                     label='操作符/Value'
                     isRequired
                     className='selectInput'>
                     <Select
                         form={form}
-                        name={`${path}${index}Operator`}
+                        name={`AffinityConfig${path}${index}Operator`}
                         value={operator}
                         onChange={(val) => this.handleOnChange(`${path}.${index}.operator`, val)}
                         label='操作符'
@@ -212,7 +222,7 @@ class AffinityConfig extends React.Component {
                     <Input
                         form={form}
                         value={values.join(',')}
-                        name={`${path}${index}Value`}
+                        name={`AffinityConfig${path}${index}Value`}
                         placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: 'Value' })}
                         onChange={(val) => this.handleOnChange(`${path}.${index}.values`, val.target.value.split(','))}
                         label='Value'
@@ -231,19 +241,20 @@ class AffinityConfig extends React.Component {
     // 渲染节点亲和
     renderNodeAffinity = () => {
         const { intl, form, formData: { affinity } } = this.props
+        const { nodeAffinitySwitch } = this.state
         const { prefers, require } = _.get(affinity, 'nodeAffinity', {}) || {}
         return (
             <div className='nodeAffinity'>
                 <div className='lineItem'>
                     <div className='lineTitle'>节点亲和</div>
-                    <Switch defaultChecked onChange={(val) => this.handleSwitchOnChange(`nodeAffinity`, val)}></Switch>
+                    <Switch checked={nodeAffinitySwitch} onChange={(val) => this.handleSwitchOnChange(`nodeAffinity`, val)}></Switch>
                 </div>
                 {
-                    prefers ? (
+                    nodeAffinitySwitch ? (
                         <React.Fragment>
                             <Collapse defaultActiveKey={[0]}>
                                 {
-                                    prefers.map((item, index) => this.renderNodeAffinityPrefers(index))
+                                    prefers && prefers.map((item, index) => this.renderNodeAffinityPrefers(index))
                                 }
                             </Collapse>
                             <HuayunButton
@@ -253,19 +264,19 @@ class AffinityConfig extends React.Component {
                                 name={`添加${preferTitle}`}
                                 className='addBoxItemBtn'
                             />
+                            {
+                                require ? this.renderNodeAffinityRequire() : (
+                                    <HuayunButton
+                                        type="operate"
+                                        icon={<Icon type="add" />}
+                                        onClick={() => this.handleOnChange(`nodeAffinity.require`, { ...nodeRequire })}
+                                        name={`添加${requireTitle}`}
+                                        className='addBoxItemBtn'
+                                    />
+                                )
+                            }
                         </React.Fragment>
                     ) : null
-                }
-                {
-                    require ? this.renderNodeAffinityRequire() : (
-                        <HuayunButton
-                            type="operate"
-                            icon={<Icon type="add" />}
-                            onClick={() => this.handleOnChange(`nodeAffinity.require`, { ...nodeRequire })}
-                            name={`添加${requireTitle}`}
-                            className='addBoxItemBtn'
-                        />
-                    )
                 }
             </div>
         )
@@ -280,9 +291,9 @@ class AffinityConfig extends React.Component {
                 <Input
                     form={form}
                     value={weight}
-                    name={`nodeAffinityPrefers${index}Weight`}
+                    name={`AffinityConfigNodeAffinityPrefers${index}Weight`}
                     placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: '权重' })}
-                    onChange={(val) => this.handleOnChange(`nodeAffinity.prefers.${index}.weight`, val)}
+                    onChange={(val) => this.handleOnChange(`nodeAffinity.prefers.${index}.weight`, parseInt(_.get(val, 'target.value', val)))}
                     label='权重'
                     type='number'
                     isRequired
@@ -290,7 +301,7 @@ class AffinityConfig extends React.Component {
                 <Panel
                     form={form}
                     value={matchFields}
-                    name={`nodeAffinityPrefers${index}MatchFields`}
+                    name={`AffinityConfigNodeAffinityPrefers${index}MatchFields`}
                     label='匹配字段'
                     inline
                     className='commonPanel'
@@ -300,7 +311,7 @@ class AffinityConfig extends React.Component {
                         matchFields ? (
                             <React.Fragment>
                                 {
-                                    matchFields.map((item_, index_) => {
+                                    matchFields && matchFields.map((item_, index_) => {
                                         return this.renderExpressionLine(`nodeAffinity.prefers.${index}.matchFields`, index_)
                                     })
                                 }
@@ -318,7 +329,7 @@ class AffinityConfig extends React.Component {
                 <Panel
                     form={form}
                     value={matchExpressions}
-                    name={`nodeAffinityPrefers${index}MatchExpressions`}
+                    name={`AffinityConfigNodeAffinityPrefers${index}MatchExpressions`}
                     label='匹配表达式'
                     inline
                     className='commonPanel'
@@ -328,7 +339,7 @@ class AffinityConfig extends React.Component {
                         matchExpressions ? (
                             <React.Fragment>
                                 {
-                                    matchExpressions.map((item_, index_) => {
+                                    matchExpressions && matchExpressions.map((item_, index_) => {
                                         return this.renderExpressionLine(`nodeAffinity.prefers.${index}.matchExpressions`, index_)
                                     })
                                 }
@@ -354,13 +365,13 @@ class AffinityConfig extends React.Component {
             <Collapse defaultActiveKey={[0]}>
                 <Collapse.Panel header={this.renderPanelHeader(requireTitle, 'nodeAffinity.require')}>
                     {
-                        matchTerms.map((item, index) => {
+                        matchTerms && matchTerms.map((item, index) => {
                             const { matchFields, matchExpressions } = item
                             return (
                                 <Panel
                                     form={form}
                                     value={item}
-                                    name={`nodeAffinityRequireMatchTerms${index}`}
+                                    name={`AffinityConfigNodeAffinityRequireMatchTerms${index}`}
                                     label={`匹配项${index + 1}`}
                                     inline
                                     className='commonPanel'
@@ -376,7 +387,7 @@ class AffinityConfig extends React.Component {
                                                 matchFields ? (
                                                     <React.Fragment>
                                                         {
-                                                            matchFields.map((item_, index_) => {
+                                                            matchFields && matchFields.map((item_, index_) => {
                                                                 return this.renderExpressionLine(`nodeAffinity.require.matchTerms.${index}.matchFields`, index_)
                                                             })
                                                         }
@@ -400,7 +411,7 @@ class AffinityConfig extends React.Component {
                                                 matchExpressions ? (
                                                     <React.Fragment>
                                                         {
-                                                            matchExpressions.map((item_, index_) => {
+                                                            matchExpressions && matchExpressions.map((item_, index_) => {
                                                                 return this.renderExpressionLine(`nodeAffinity.require.matchTerms.${index}.matchExpressions`, index_)
                                                             })
                                                         }
@@ -435,18 +446,19 @@ class AffinityConfig extends React.Component {
     renderContainerGroupAffinity = (key) => {
         const { intl, form, formData: { affinity } } = this.props
         const { prefers, requires } = _.get(affinity, key, {}) || {}
+        const switchBtn = this.state[`${key}Switch`]
         return (
             <div className='nodeAffinity'>
                 <div className='lineItem'>
                     <div className='lineTitle'>{key === 'platformContainerAffinity' ? '容器组亲和' : '容器组反亲和'}</div>
-                    <Switch defaultChecked onChange={(val) => this.handleSwitchOnChange(key, val)}></Switch>
+                    <Switch checked={switchBtn} onChange={(val) => this.handleSwitchOnChange(key, val)}></Switch>
                 </div>
                 {
-                    prefers ? (
+                    switchBtn ? (
                         <React.Fragment>
                             <Collapse defaultActiveKey={[0]}>
                                 {
-                                    prefers.map((item, index) => this.renderContainerGroupPreferrs(key, index))
+                                    prefers && prefers.map((item, index) => this.renderContainerGroupPreferrs(key, index))
                                 }
                             </Collapse>
                             <HuayunButton
@@ -456,15 +468,9 @@ class AffinityConfig extends React.Component {
                                 name={`添加${preferTitle}`}
                                 className='addBoxItemBtn'
                             />
-                        </React.Fragment>
-                    ) : null
-                }
-                {
-                    requires ? (
-                        <React.Fragment>
                             <Collapse defaultActiveKey={[0]}>
                                 {
-                                    requires.map((item, index) => this.renderContainerGroupRequire(key, index))
+                                    requires && requires.map((item, index) => this.renderContainerGroupRequire(key, index))
                                 }
                             </Collapse>
                             <HuayunButton
@@ -488,7 +494,7 @@ class AffinityConfig extends React.Component {
             <Collapse.Panel header={this.renderPanelHeader(preferTitle, `${key}.prefers`, index)} key={index}>
                 <Panel
                     form={form}
-                    name={`${key}Prefers${index}BasicInfo`}
+                    name={`AffinityConfig${key}Prefers${index}BasicInfo`}
                     label='基本配置'
                     inline
                     isRequired
@@ -497,9 +503,9 @@ class AffinityConfig extends React.Component {
                     <Input
                         form={form}
                         value={weight}
-                        name={`${key}Prefers${index}Weight`}
+                        name={`AffinityConfig${key}Prefers${index}Weight`}
                         placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: '权重' })}
-                        onChange={(val) => this.handleOnChange(`${key}.prefers.${index}.weight`, val)}
+                        onChange={(val) => this.handleOnChange(`${key}.prefers.${index}.weight`, parseInt(_.get(val, 'target.value', val)))}
                         label='权重'
                         type='number'
                         isRequired
@@ -508,7 +514,7 @@ class AffinityConfig extends React.Component {
                     <Input
                         form={form}
                         value={topologyKey}
-                        name={`${key}Prefers${index}TopologyKey`}
+                        name={`AffinityConfig${key}Prefers${index}TopologyKey`}
                         placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: '拓扑域' })}
                         onChange={(val) => this.handleOnChange(`${key}.prefers.${index}.topologyKey`, val)}
                         label='拓扑域'
@@ -518,7 +524,7 @@ class AffinityConfig extends React.Component {
                     <Input
                         form={form}
                         value={namespaces.join(',')}
-                        name={`${key}Prefers${index}NameSpaces`}
+                        name={`AffinityConfig${key}Prefers${index}NameSpaces`}
                         placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: 'NameSpaces' })}
                         onChange={(val) => this.handleOnChange(`${key}.prefers.${index}.namespaces`, val.target.value.split(','))}
                         label='NameSpaces'
@@ -529,7 +535,7 @@ class AffinityConfig extends React.Component {
                 <Panel
                     form={form}
                     value={matchLabels}
-                    name={`${key}Prefers${index}MatchLabels`}
+                    name={`AffinityConfig${key}Prefers${index}MatchLabels`}
                     label='匹配标签'
                     inline
                     className='commonPanel'
@@ -539,7 +545,7 @@ class AffinityConfig extends React.Component {
                         matchLabels ? (
                             <React.Fragment>
                                 {
-                                    matchLabels.map((item_, index_) => {
+                                    matchLabels && matchLabels.map((item_, index_) => {
                                         return this.renderLabelLine(`${key}.prefers.${index}.matchLabels`, index_)
                                     })
                                 }
@@ -557,7 +563,7 @@ class AffinityConfig extends React.Component {
                 <Panel
                     form={form}
                     value={matchExpressions}
-                    name={`${key}Prefers${index}MatchExpressions`}
+                    name={`AffinityConfig${key}Prefers${index}MatchExpressions`}
                     label='匹配表达式'
                     inline
                     className='commonPanel'
@@ -567,7 +573,7 @@ class AffinityConfig extends React.Component {
                         matchExpressions ? (
                             <React.Fragment>
                                 {
-                                    matchExpressions.map((item_, index_) => {
+                                    matchExpressions && matchExpressions.map((item_, index_) => {
                                         return this.renderExpressionLine(`${key}.prefers.${index}.matchExpressions`, index_)
                                     })
                                 }
@@ -593,7 +599,7 @@ class AffinityConfig extends React.Component {
             <Collapse.Panel header={this.renderPanelHeader(preferTitle, `${key}.requires`, index)} key={index}>
                 <Panel
                     form={form}
-                    name={`${key}Requires${index}BasicInfo`}
+                    name={`AffinityConfig${key}Requires${index}BasicInfo`}
                     label='基本配置'
                     inline
                     isRequired
@@ -602,7 +608,7 @@ class AffinityConfig extends React.Component {
                     <Input
                         form={form}
                         value={topologyKey}
-                        name={`${key}Requires${index}TopologyKey`}
+                        name={`AffinityConfig${key}Requires${index}TopologyKey`}
                         placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: '拓扑域' })}
                         onChange={(val) => this.handleOnChange(`${key}.requires.${index}.topologyKey`, val)}
                         label='拓扑域'
@@ -612,7 +618,7 @@ class AffinityConfig extends React.Component {
                     <Input
                         form={form}
                         value={namespaces.join(',')}
-                        name={`${key}Requires${index}NameSpaces`}
+                        name={`AffinityConfig${key}Requires${index}NameSpaces`}
                         placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: 'NameSpaces' })}
                         onChange={(val) => this.handleOnChange(`${key}.requires.${index}.namespaces`, val.target.value.split(','))}
                         label='NameSpaces'
@@ -623,7 +629,7 @@ class AffinityConfig extends React.Component {
                 <Panel
                     form={form}
                     value={matchLabels}
-                    name={`${key}Requires${index}MatchLabels`}
+                    name={`AffinityConfig${key}Requires${index}MatchLabels`}
                     label='匹配标签'
                     inline
                     className='commonPanel'
@@ -633,7 +639,7 @@ class AffinityConfig extends React.Component {
                         matchLabels ? (
                             <React.Fragment>
                                 {
-                                    matchLabels.map((item_, index_) => {
+                                    matchLabels && matchLabels.map((item_, index_) => {
                                         return this.renderLabelLine(`${key}.requires.${index}.matchLabels`, index_)
                                     })
                                 }
@@ -651,7 +657,7 @@ class AffinityConfig extends React.Component {
                 <Panel
                     form={form}
                     value={matchExpressions}
-                    name={`${key}Requires${index}MatchExpressions`}
+                    name={`AffinityConfig${key}Requires${index}MatchExpressions`}
                     label='匹配表达式'
                     inline
                     className='commonPanel'
@@ -661,7 +667,7 @@ class AffinityConfig extends React.Component {
                         matchExpressions ? (
                             <React.Fragment>
                                 {
-                                    matchExpressions.map((item_, index_) => {
+                                    matchExpressions && matchExpressions.map((item_, index_) => {
                                         return this.renderExpressionLine(`${key}.requires.${index}.matchExpressions`, index_)
                                     })
                                 }

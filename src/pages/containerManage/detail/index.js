@@ -13,15 +13,12 @@ import actions from '~/constants/authAction'
 const notification = Notification.newInstance()
 const { TabPane } = Tabs;
 let getDetailInterval = null // 获取详情的定时器
-
 class ContainerDetail extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             detail: {}, // 应用详情
             isLoading: false, // 是否需要loading，定时刷新是不需要loading的
-            isUpdateModalVisible: false, // 应用更新
-
         }
         this.operationTarget = props.intl.formatMessage({ id: 'Container' })
     }
@@ -103,8 +100,8 @@ class ContainerDetail extends React.Component {
             }
         })
     }
-    handleCopy = () => {
-
+    handleGoLink = (url) => {
+        this.props.history.push(`${this.props.match.path}/${url}`)
     }
     handleDelete = () => {
         const { intl, refreshTableList } = this.props
@@ -130,55 +127,17 @@ class ContainerDetail extends React.Component {
             }
         })
     }
-    handleSetState = (key, value) => {
-        this.setState({
-            [key]: value
-        })
-    }
-    // 更新
-    handleConfirmUpdate = () => {
-        const { props: { form }, state: { versionId: applicationVersionId, configInfo, isCoverApplicationGateway } } = this.$UpdateApplication
-        form.validateFields((error, values) => {
-            if (error) {
-                return false
-            }
-            const { detail: { id, name } } = this.state
-            const { intl, refreshTableList } = this.props
-            const action = intl.formatMessage({ id: 'Update' })
-            const params = {
-                id,
-                applicationVersionId,
-                configInfo,
-                coverApplicationGateway: isCoverApplicationGateway === 'true' ? true : false
-            }
-            this.handleSetState('isUpdateModalVisible', false)
-            HuayunRequest(api.upgrade, params, {
-                success: (res) => {
-                    refreshTableList() // 更新应用列表
-                    notification.notice({
-                        id: 'updateSuccess',
-                        type: 'success',
-                        title: intl.formatMessage({ id: 'Success' }),
-                        content: `${action}${this.operationTarget}'${name}'${intl.formatMessage({ id: 'Success' })}`,
-                        iconNode: 'icon-success-o',
-                        duration: 5,
-                        closable: true
-                    })
-                }
-            })
-        })
-    }
     render() {
         const { intl } = this.props
-        const { isLoading, detail, isUpdateModalVisible } = this.state
+        const { isLoading, detail } = this.state
         const { state, id } = detail
         const on_offLine = state === 'config' ? (<><Icon type="rise-o" />&nbsp;{intl.formatMessage({ id: 'OnLine' })}</>) : (<><Icon type="drop-o" />&nbsp;{intl.formatMessage({ id: 'OffLine' })}</>)
         const operaOptions = [
             <Button className='operaItem' type='text' onClick={this.handleSetStatus}>{on_offLine}</Button>,
-            <Button className='operaItem' type='text' onClick={this.handleCopy}>
+            <Button className='operaItem' type='text' onClick={() => this.handleGoLink(`create/${id}/1`)}>
                 <Icon type="copy" />&nbsp;{intl.formatMessage({ id: 'Copy' })}
             </Button>,
-            <Button className='operaItem' type='text' onClick={() => this.handleSetState('isUpdateModalVisible', true)} disabled={state !== 'config'}>
+            <Button className='operaItem' type='text' onClick={() => this.handleGoLink(`edit/${id}`)} disabled={state !== 'config'}>
                 <Icon type="release" />&nbsp;{intl.formatMessage({ id: 'ChangeSetting' })}
             </Button>,
             <Button className='operaItem noborder' type='text' onClick={this.handleDelete}>
@@ -195,11 +154,11 @@ class ContainerDetail extends React.Component {
                                 detail.id ? (
                                     <React.Fragment>
                                         <div className='operaBar'>
-                                        {
-                                                    operaOptions.map((item, index) => {
-                                                        return <ActionAuth action={actions.AdminApplicationCenterContainerMaintain} key={index}>{item}</ActionAuth>
-                                                    })
-                                                }
+                                            {
+                                                operaOptions.map((item, index) => {
+                                                    return <ActionAuth action={actions.AdminApplicationCenterContainerMaintain} key={index}>{item}</ActionAuth>
+                                                })
+                                            }
                                         </div>
                                         <div className='detailContent'>
                                             <Tabs defaultActiveKey="Preview">
@@ -229,18 +188,6 @@ class ContainerDetail extends React.Component {
                         </React.Fragment>
                     )
                 }
-                {/* <Modal
-                    title={`${intl.formatMessage({ id: 'Application' })}${intl.formatMessage({ id: 'Update' })}`}
-                    visible={isUpdateModalVisible}
-                    onOk={this.handleConfirmUpdate}
-                    onCancel={() => this.handleSetState('isUpdateModalVisible', false)}
-                    className='updateApplicationModal'
-                >
-                    <UpdateApplication
-                        intl={intl}
-                        detail={detail}
-                        wrappedComponentRef={node => this.$UpdateApplication = node} />
-                </Modal> */}
             </div>
         )
     }

@@ -5,42 +5,10 @@ import { RcForm, Loading, Notification, Button, KeyValue, Dialog, TagItem, Input
 import { Collapse, Button as HuayunButton, Switch } from 'huayunui'
 import Regex from '~/utils/regex'
 import '../index.less'
-
+import { networkInitData } from '../constant'
 const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select, Panel } = RcForm
 const _ = window._
 const portTypeList = ['ClusterNetworkPort', 'NodePort', 'LoadBalancePort']
-const networkInitData = { // 容器网络
-    containerNetworks: [
-        {
-            name: '',
-            ports: [
-                {
-                    containerPort: '',
-                    port: ''
-                }
-            ]
-        }
-    ],
-    nodeNetworks: [
-        {
-            name: '',
-            ports: [
-                {
-                    containerPort: '',
-                    manner: '',
-                    port: ''
-                }
-            ]
-        }
-    ], // 节点网络
-    loadBalanceNetwork: { // 负载均衡
-        name: '',
-        ports: [], // 端口
-        qos: true,
-        upstream: 0, // 上行
-        downstream: 0 // 下行
-    }
-}
 class NetworkConfig extends React.Component {
     static propTypes = {
         form: PropTypes.object.isRequired,
@@ -49,12 +17,27 @@ class NetworkConfig extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-
+            netWorkSwitch: false
         }
     }
-    componentDidMount() {
-        // 添加初始值
-        this.props.handleFormChange('network', { ...networkInitData })
+    componentWillReceiveProps(nextProps) {
+        const { formData } = this.props
+        const network = _.get(formData, 'network', {}) || {}
+        this.setState({
+            netWorkSwitch: Object.keys(network).length
+        })
+    }
+    handleSwitchOnChange = (value) => {
+        let { formData: { network }, handleFormChange } = this.props
+        if (value) {
+            network = { ...networkInitData }
+        } else {
+            network = {}
+        }
+        this.setState({
+            netWorkSwitch: value
+        })
+        handleFormChange('network', { ...network })
     }
     handleOnChange = (key, val) => {
         const value = _.get(val, 'target.value', val)
@@ -82,8 +65,9 @@ class NetworkConfig extends React.Component {
         const name = `${key}PortSelect`
         const value = _.get(network, `${key}.containerPort`, '')
         const options = []
-        containers.forEach(container => {
-            container.ports.forEach(({ name, port }) => {
+        containers && containers.forEach(container => {
+            const { ports } = container
+            ports && ports.forEach(({ name, port }) => {
                 options.push({
                     value: port,
                     text: `${name} - ${port}`
@@ -171,7 +155,7 @@ class NetworkConfig extends React.Component {
     }
     renderPortLine = (key, portType, index) => {
         const { formData: { network } } = this.props
-        const lineList = _.get(network, key, [])
+        const lineList = _.get(network, key, []) || []
         return (
             <div className='portLine'>
                 {this.renderContainerPortFormItem(`${key}.${index}`)}
@@ -204,7 +188,7 @@ class NetworkConfig extends React.Component {
                 className='portPanel'
             >
                 {
-                    lineList.map((item, index) => {
+                    lineList && lineList.map((item, index) => {
                         return this.renderPortLine(key, portType, index)
                     })
                 }
@@ -292,14 +276,15 @@ class NetworkConfig extends React.Component {
     }
     // 渲染容器集群网络
     renderContainerClusterNetwork = () => {
-        const { intl, formData: { network: { containerNetworks } } } = this.props
+        const { intl, formData: { network } } = this.props
+        const containerNetworks = _.get(network, 'containerNetworks', []) || []
         return (
             <React.Fragment>
                 {
                     containerNetworks.length ? (
                         <Collapse defaultActiveKey={[0]}>
                             {
-                                containerNetworks.map((item, index) => {
+                                containerNetworks && containerNetworks.map((item, index) => {
                                     return this.renderClusterNetworkCollapsePanel(item, index)
                                 })
                             }
@@ -319,7 +304,8 @@ class NetworkConfig extends React.Component {
     // 添加容器集群网络
     handleAddClusterNetwork = () => {
         let { intl, formData: { network }, handleFormChange } = this.props
-        network.containerNetworks.push({
+        let containerNetworks = _.get(network, 'containerNetworks', [])
+        containerNetworks.push({
             name: '',
             ports: [
                 {
@@ -332,14 +318,15 @@ class NetworkConfig extends React.Component {
     }
     // 渲染节点网络
     renderNodeNetwork = () => {
-        const { intl, formData: { network: { nodeNetworks } } } = this.props
+        const { intl, formData: { network } } = this.props
+        const nodeNetworks = _.get(network, 'nodeNetworks', []) || []
         return (
             <React.Fragment>
                 {
                     nodeNetworks.length ? (
                         <Collapse defaultActiveKey={[0]}>
                             {
-                                nodeNetworks.map((item, index) => {
+                                nodeNetworks && nodeNetworks.map((item, index) => {
                                     return this.renderNodeNetworkCollapsePanel(item, index)
                                 })
                             }
@@ -359,12 +346,13 @@ class NetworkConfig extends React.Component {
     // 添加节点网络
     handleAddNodeNetwork = () => {
         let { intl, formData: { network }, handleFormChange } = this.props
-        network.nodeNetworks.push({
+        let nodeNetworks = _.get(network, 'nodeNetworks', [])
+        nodeNetworks.push({
             name: '',
             ports: [
                 {
                     containerPort: '',
-                    manner: '',
+                    manner: 'random',
                     port: ''
                 }
             ]
@@ -373,8 +361,8 @@ class NetworkConfig extends React.Component {
     }
     // 渲染负载均衡
     renderLoadBalanceNetwork = () => {
-        const { intl, formData: { network: { loadBalanceNetwork } }, form } = this.props
-        const { name, ports, qos, upstream, downstream } = loadBalanceNetwork
+        const { intl, formData: { network }, form } = this.props
+        const { name, ports, qos, upstream, downstream } = _.get(network, 'loadBalanceNetwork', {})
         return (
             <Collapse defaultActiveKey={[0]}>
                 <Collapse.Panel header={intl.formatMessage({ id: 'LoadBalance' })}>
@@ -442,14 +430,15 @@ class NetworkConfig extends React.Component {
     }
     render() {
         const { form, intl, formData: { network }, handleFormChange } = this.props
+        const { netWorkSwitch } = this.state
         return (
             <div className='NetworkConfig'>
                 <div className='lineItem'>
                     <div className='lineTitle'>{intl.formatMessage({ id: 'ContainerNetwork' })}</div>
-                    <Switch defaultChecked onChange={(val) => handleFormChange('network', val ? networkInitData : null)} />
+                    <Switch checked={netWorkSwitch} onChange={this.handleSwitchOnChange} />
                 </div>
                 {
-                    network ? (
+                    netWorkSwitch ? (
                         <React.Fragment>
                             <div className='lineItem vertical'>
                                 <div className='lineTitle'>{intl.formatMessage({ id: 'ContainerClusterNetwork' })}</div>

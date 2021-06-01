@@ -83,7 +83,7 @@ class PersistentStorageManage extends React.Component {
                 value: (
                     <div className='labelList'>
                         {
-                            Object.keys(labels).map((key, index) => {
+                            labels && Object.keys(labels).map((key, index) => {
                                 return (
                                     <TagItem
                                         size='medium'
@@ -135,7 +135,7 @@ class PersistentStorageManage extends React.Component {
                 </div>
                 <div className='dataList'>
                     {
-                        storages.map((item, index) => {
+                        storages && storages.map((item, index) => {
                             return (
                                 <Popover
                                     placement="right"
@@ -158,20 +158,24 @@ class PersistentStorageManage extends React.Component {
                         })
                     }
                 </div>
-                <Modal
-                    title={currentItemIndex > -1 ? '编辑持久存储' : '添加持久存储'}
-                    visible={isManageModalVisible}
-                    onOk={this.handleConfirmManage}
-                    onCancel={() => this.handleChange('isManageModalVisible', false)}
-                    getContainer={document.getElementById('ManageContainerItem')}
-                    destroyOnClose={true}
-                >
-                    <ManagePersistentStorage
-                        intl={intl}
-                        handleFormChange={handleFormChange}
-                        currentItem={storages[currentItemIndex]}
-                        wrappedComponentRef={node => this.$ManagePersistentStorage = node} />
-                </Modal>
+                {
+                    storages ? (
+                        <Modal
+                            title={currentItemIndex > -1 ? '编辑持久存储' : '添加持久存储'}
+                            visible={isManageModalVisible}
+                            onOk={this.handleConfirmManage}
+                            onCancel={() => this.handleChange('isManageModalVisible', false)}
+                            getContainer={document.getElementById('ManageContainerItem')}
+                            destroyOnClose={true}
+                        >
+                            <ManagePersistentStorage
+                                intl={intl}
+                                handleFormChange={handleFormChange}
+                                currentItem={storages[currentItemIndex]}
+                                wrappedComponentRef={node => this.$ManagePersistentStorage = node} />
+                        </Modal>
+                    ) : null
+                }
             </div>
         )
     }

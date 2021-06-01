@@ -20,6 +20,9 @@ class AlarmConfig extends React.Component {
             isModalVisible: false
         }
     }
+    componentDidMount() {
+
+    }
     handleFormDataOnChange = (key, val) => {
         let { handleFormChange, formData: { alert } } = this.props
         const value = _.get(val, 'target.value', val)
@@ -78,7 +81,9 @@ class AlarmConfig extends React.Component {
     }
     render() {
         const { form, intl, formData: { alert }, handleFormChange, alertUserList, alertTemplateList } = this.props
-        const { template, enabled, users } = alert
+        const template = _.get(alert, 'template', '')
+        const enabled = _.get(alert, 'enabled', true)
+        const users = _.get(alert, 'users', []) || []
         const tableData = alertUserList.filter(item => users.indexOf(item.id) > -1)
         const { isModalVisible } = this.state
         return (
@@ -86,7 +91,7 @@ class AlarmConfig extends React.Component {
                 <Panel
                     form={form}
                     value={enabled}
-                    name='alertEnabled'
+                    name='AlarmConfigEnabled'
                     label='默认启用'
                     inline
                     isRequired
@@ -94,47 +99,53 @@ class AlarmConfig extends React.Component {
                 >
                     <Switch checked={enabled} onChange={(val) => this.handleFormDataOnChange(`enabled`, val)}></Switch>
                 </Panel>
-                <Select
-                    form={form}
-                    name="alertTemplate"
-                    value={template}
-                    placeholder={intl.formatMessage({ id: 'SelectProjectPlaceHolder' })}
-                    onChange={(val) => this.handleFormDataOnChange('template', val)}
-                    label={intl.formatMessage({ id: 'AlarmTemplate' })}
-                    isRequired
-                    options={
-                        alertTemplateList.map(item => {
-                            return {
-                                value: item.id,
-                                text: item.name,
-                            }
-                        })
-                    }
-                    optionFilterProp='children'
-                    optionLabelProp='children'
-                />
-                <Panel
-                    form={form}
-                    value={users}
-                    name='alertUsers'
-                    label='告警联系人'
-                    inline
-                    isRequired
-                    className='contactorPanel'
-                >
-                    <Table
-                        columns={this.getTableColumns()}
-                        dataSource={tableData}
-                        pagination={false}
-                    />
-                    <HuayunButton
-                        type="operate"
-                        icon={<Icon type="add" />}
-                        onClick={() => this.handleStateOnChange('isModalVisible', true)}
-                        name="添加联系人"
-                        className='addBoxItemBtn'
-                    />
-                </Panel>
+                {
+                    enabled ? (
+                        <React.Fragment>
+                            <Select
+                                form={form}
+                                name="AlarmConfigTemplate"
+                                value={template}
+                                placeholder={intl.formatMessage({ id: 'SelectProjectPlaceHolder' })}
+                                onChange={(val) => this.handleFormDataOnChange('template', val)}
+                                label={intl.formatMessage({ id: 'AlarmTemplate' })}
+                                isRequired
+                                options={
+                                    alertTemplateList.map(item => {
+                                        return {
+                                            value: item.id,
+                                            text: item.name,
+                                        }
+                                    })
+                                }
+                                optionFilterProp='children'
+                                optionLabelProp='children'
+                            />
+                            <Panel
+                                form={form}
+                                value={users}
+                                name='AlarmConfigUsers'
+                                label='告警联系人'
+                                inline
+                                isRequired
+                                className='contactorPanel'
+                            >
+                                <Table
+                                    columns={this.getTableColumns()}
+                                    dataSource={tableData}
+                                    pagination={false}
+                                />
+                                <HuayunButton
+                                    type="operate"
+                                    icon={<Icon type="add" />}
+                                    onClick={() => this.handleStateOnChange('isModalVisible', true)}
+                                    name="添加联系人"
+                                    className='addBoxItemBtn'
+                                />
+                            </Panel>
+                        </React.Fragment>
+                    ) : null
+                }
                 <Modal
                     title='添加联系对象'
                     visible={isModalVisible}

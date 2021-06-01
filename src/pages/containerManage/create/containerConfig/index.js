@@ -49,8 +49,7 @@ class ContainerConfig extends React.Component {
         }
     }
     componentDidMount() {
-        // 添加初始值
-        this.props.handleFormChange('containers', [{ ...containerConfig_containerItem }])
+
     }
     renderPanelHeader = (index) => {
         const { intl } = this.props
@@ -298,7 +297,7 @@ class ContainerConfig extends React.Component {
                                                 </div>
                                                 <div className='labelList'>
                                                     {
-                                                        args.map((item, index_) => {
+                                                        args && args.map((item, index_) => {
                                                             return (
                                                                 <TagItem
                                                                     size='medium'
@@ -340,7 +339,7 @@ class ContainerConfig extends React.Component {
                                                 </div>
                                                 <div className='labelList'>
                                                     {
-                                                        command.map((item, index_) => {
+                                                        command && command.map((item, index_) => {
                                                             return (
                                                                 <TagItem
                                                                     size='medium'
@@ -371,7 +370,7 @@ class ContainerConfig extends React.Component {
                                                     className='addBoxItemBtn'
                                                 />
                                                 {
-                                                    mounts.map((item, index_) => {
+                                                    mounts && mounts.map((item, index_) => {
                                                         const { type, subType, mountItem, mountPath, readOnly, subPath } = item
                                                         return (
                                                             <Card handleDelete={() => this.handleRemoveFormDataItem(`containers.${index}.mounts`, index_)}>
@@ -424,7 +423,7 @@ class ContainerConfig extends React.Component {
                                                     className='addBoxItemBtn'
                                                 />
                                                 {
-                                                    envs.map((item, index_) => {
+                                                    envs && envs.map((item, index_) => {
                                                         const { envKey, type, envValue, SelectFile, SelectKey } = item
                                                         return (
                                                             <Card handleDelete={() => this.handleRemoveFormDataItem(`containers.${index}.envs`, index_)}>
@@ -576,7 +575,7 @@ class ContainerConfig extends React.Component {
                                                     className='addBoxItemBtn'
                                                 />
                                                 {
-                                                    ports.map((item, index_) => {
+                                                    ports && ports.map((item, index_) => {
                                                         const { name, protocol, port } = item
                                                         return (
                                                             <Card handleDelete={() => this.handleRemoveFormDataItem(`containers.${index}.ports`, index_)}>

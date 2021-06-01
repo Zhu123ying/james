@@ -84,7 +84,7 @@ class ConfigFileManage extends React.Component {
                 value: (
                     <div className='labelList'>
                         {
-                            Object.keys(labels).map((key, index) => {
+                            labels && Object.keys(labels).map((key, index) => {
                                 return (
                                     <TagItem
                                         size='medium'
@@ -116,7 +116,7 @@ class ConfigFileManage extends React.Component {
                 value: (
                     <div className='labelList'>
                         {
-                            Object.keys(data).map((key, index) => {
+                            data && Object.keys(data).map((key, index) => {
                                 return (
                                     <TagItem
                                         size='medium'
@@ -156,7 +156,7 @@ class ConfigFileManage extends React.Component {
                 </div>
                 <div className='dataList'>
                     {
-                        configurations.map((item, index) => {
+                        configurations && configurations.map((item, index) => {
                             return (
                                 <Popover
                                     placement="right"
@@ -179,20 +179,24 @@ class ConfigFileManage extends React.Component {
                         })
                     }
                 </div>
-                <Modal
-                    title={currentConfigFileIndex > -1 ? '编辑配置文件' : '添加配置文件'}
-                    visible={isManageConfigFileModalVisible}
-                    onOk={this.handleConfirmManage}
-                    onCancel={() => this.handleChange('isManageConfigFileModalVisible', false)}
-                    getContainer={document.getElementById('ManageContainerItem')}
-                    destroyOnClose={true}
-                >
-                    <ManageConfigFile
-                        intl={intl}
-                        handleFormChange={handleFormChange}
-                        currentConfigFile={configurations[currentConfigFileIndex]}
-                        wrappedComponentRef={node => this.$ManageConfigFile = node} />
-                </Modal>
+                {
+                    configurations ? (
+                        <Modal
+                            title={currentConfigFileIndex > -1 ? '编辑配置文件' : '添加配置文件'}
+                            visible={isManageConfigFileModalVisible}
+                            onOk={this.handleConfirmManage}
+                            onCancel={() => this.handleChange('isManageConfigFileModalVisible', false)}
+                            getContainer={document.getElementById('ManageContainerItem')}
+                            destroyOnClose={true}
+                        >
+                            <ManageConfigFile
+                                intl={intl}
+                                handleFormChange={handleFormChange}
+                                currentConfigFile={configurations[currentConfigFileIndex]}
+                                wrappedComponentRef={node => this.$ManageConfigFile = node} />
+                        </Modal>
+                    ) : null
+                }
             </div>
         )
     }

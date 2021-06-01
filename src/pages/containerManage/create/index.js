@@ -16,11 +16,10 @@ import PersistentStorageManage from './persistentStorageManage' // 持久存储�
 import LogPersistence from './logPersistence' // 持久存储管理
 import AffinityConfig from './affinityConfig'
 import AlarmConfig from './AlarmConfig'
-
+import { containerConfig_containerItem, affinityConfigInitData, networkInitData } from './constant'
 const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select } = RcForm
 const notification = Notification.newInstance()
 const _ = window._
-
 const navigationBarItems = ['ContainerGroupConfig', 'ContainerConfig', 'AffinityConfig', 'NetworkConfig', 'LogPersistence', 'AlarmConfig']
 class ManageContainerItem extends React.Component {
     static propTypes = {
@@ -30,8 +29,9 @@ class ManageContainerItem extends React.Component {
 
     constructor(props) {
         super(props)
-        const { match: { params: { id } }, intl } = props
+        const { match: { params: { id, type } }, intl } = props
         this.id = id
+        this.createType = type  // 创建的类型，复制或者是空白创建
         this.state = {
             currentBarType: navigationBarItems[0],
             formData: {
@@ -45,13 +45,22 @@ class ManageContainerItem extends React.Component {
                     memory: 1024,
                     ephemeralStorage: 10
                 },
+                containers: [],
+                affinity: null,
+                network: null,
+                alert: {
+                    enabled: false,
+                },
+                // containers: [{ ...containerConfig_containerItem }], // 容器
+                // affinity: { ...affinityConfigInitData }, // 亲和性
+                // network: { ...networkInitData }, // 网络配置
+                // alert: {
+                //     template: '',
+                //     enabled: true,
+                //     users: []
+                // },
                 configurations: [], // 配置文件
                 storages: [], // 持久存储
-                alert: {  // 告警
-                    template: '',
-                    enabled: true,
-                    users: []
-                }
             },
             containerImageList: [],
             isFetching: false,
@@ -69,11 +78,26 @@ class ManageContainerItem extends React.Component {
                 display: 'none'
             },
         })
+        this.id && this.getDetail()
     }
     componentWillUnmount() {
         this.props.handleExtra({
             style: {
                 display: 'block'
+            }
+        })
+    }
+    getDetail = () => {
+        const { intl } = this.props
+        HuayunRequest(api.detail, { id: this.id }, {
+            success: (res) => {
+                const data = res.data
+                if (this.createType === '1') {
+                    delete data['id']
+                }
+                this.setState({
+                    formData: data
+                })
             }
         })
     }
@@ -124,14 +148,6 @@ class ManageContainerItem extends React.Component {
             }
         })
     }
-    getDetail = () => {
-        // 获取详情数据
-        HuayunRequest(api.detail, { id: this.id }, {
-            success: (res) => {
-
-            }
-        })
-    }
     // 用于handleChange的切换
     handleChange = (key, val) => {
         const value = _.get(val, 'target.value', val)
@@ -153,91 +169,28 @@ class ManageContainerItem extends React.Component {
             console.log(this.state.formData)
         })
     }
-    handleSubmit = () => {
-        const { form, history, intl } = this.props
-        const { formData } = this.state
-    }
-    handleCancel = () => {
+    handleCanelSubmit = () => {
         this.props.history.push('/applicationCenter/containerManage')
     }
-    renderFormComponent = (type) => {
-        const { intl, form } = this.props
-        const { projectList, formData, containerImageList, alertTemplateList, alertUserList } = this.state
-        switch (type) {
-            case 'ContainerGroupConfig':
-                return <ContainerGroupConfig
-                    intl={intl}
-                    form={form}
-                    formData={formData}
-                    handleFormChange={this.handleFormChange}
-                    projectList={projectList}
-                    ref={node => this.$ContainerGroupConfig = node} />
-                break
-            case 'ContainerConfig':
-                return <ContainerConfig
-                    intl={intl}
-                    form={form}
-                    formData={formData}
-                    handleFormChange={this.handleFormChange}
-                    ref={node => this.$ContainerConfig = node}
-                    containerImageList={containerImageList} />
-                break
-            case 'NetworkConfig':
-                return <NetworkConfig
-                    intl={intl}
-                    form={form}
-                    formData={formData}
-                    handleFormChange={this.handleFormChange}
-                    ref={node => this.$NetworkConfig = node} />
-                break
-            case 'LogPersistence':
-                return <LogPersistence
-                    intl={intl}
-                    form={form}
-                    formData={formData}
-                    handleFormChange={this.handleFormChange}
-                    ref={node => this.$LogPersistence = node} />
-                break
-            case 'AffinityConfig':
-                return <AffinityConfig
-                    intl={intl}
-                    form={form}
-                    formData={formData}
-                    handleFormChange={this.handleFormChange}
-                    ref={node => this.$AffinityConfig = node} />
-                break
-            case 'AlarmConfig':
-                return <AlarmConfig
-                    intl={intl}
-                    form={form}
-                    formData={formData}
-                    handleFormChange={this.handleFormChange}
-                    alertTemplateList={alertTemplateList}
-                    alertUserList={alertUserList}
-                    ref={node => this.$AlarmConfig = node} />
-                break
-        }
-    }
-    handleCanelSubmit = () => {
-        this.props.history.goBack()
-    }
     handleConfirmSubmit = () => {
+        const { intl } = this.props
         this.props.form.validateFields((error, values) => {
             if (error) {
                 return
             }
             const { formData } = this.state
-            HuayunRequest(api.create, formData, {
+            HuayunRequest(api[formData.id ? 'update' : 'create'], formData, {
                 success: (res) => {
                     notification.notice({
                         id: new Date(),
                         type: 'success',
                         title: intl.formatMessage({ id: 'Success' }),
-                        content: `${intl.formatMessage({ id: 'Operate' })}'${intl.formatMessage({ id: 'Success' })}`,
+                        content: `${intl.formatMessage({ id: 'Operate' })}${intl.formatMessage({ id: 'Success' })}`,
                         iconNode: 'icon-success-o',
                         duration: 5,
                         closable: true
                     })
+                    this.handleCanelSubmit()
                 }
             })
         })
@@ -245,7 +198,8 @@ class ManageContainerItem extends React.Component {
     }
     render() {
         const { form, intl } = this.props
-        const { isFetching, currentBarType, formData } = this.state
+        const { isFetching, currentBarType, projectList, formData, containerImageList, alertTemplateList, alertUserList } = this.state
+
         return (
             <div id="ManageContainerItem">
                 {
@@ -269,9 +223,58 @@ class ManageContainerItem extends React.Component {
                             <div className='middle'>
                                 <div className='title'>{intl.formatMessage({ id: currentBarType })}</div>
                                 <div className='body'>
-                                    {
-                                        this.renderFormComponent(currentBarType)
-                                    }
+                                    <div style={{ display: currentBarType === 'ContainerGroupConfig' ? 'block' : 'none' }}>
+                                        <ContainerGroupConfig
+                                            intl={intl}
+                                            form={form}
+                                            formData={formData}
+                                            handleFormChange={this.handleFormChange}
+                                            projectList={projectList}
+                                            ref={node => this.$ContainerGroupConfig = node} />
+                                    </div>
+                                    <div style={{ display: currentBarType === 'ContainerConfig' ? 'block' : 'none' }}>
+                                        <ContainerConfig
+                                            intl={intl}
+                                            form={form}
+                                            formData={formData}
+                                            handleFormChange={this.handleFormChange}
+                                            ref={node => this.$ContainerConfig = node}
+                                            containerImageList={containerImageList} />
+                                    </div>
+                                    <div style={{ display: currentBarType === 'NetworkConfig' ? 'block' : 'none' }}>
+                                        <NetworkConfig
+                                            intl={intl}
+                                            form={form}
+                                            formData={formData}
+                                            handleFormChange={this.handleFormChange}
+                                            ref={node => this.$NetworkConfig = node} />
+                                    </div>
+                                    {/* <div style={{ display: currentBarType === 'LogPersistence' ? 'block' : 'none' }}>
+                                        <LogPersistence
+                                            intl={intl}
+                                            form={form}
+                                            formData={formData}
+                                            handleFormChange={this.handleFormChange}
+                                            ref={node => this.$LogPersistence = node} />
+                                    </div> */}
+                                    <div style={{ display: currentBarType === 'AffinityConfig' ? 'block' : 'none' }}>
+                                        <AffinityConfig
+                                            intl={intl}
+                                            form={form}
+                                            formData={formData}
+                                            handleFormChange={this.handleFormChange}
+                                            ref={node => this.$AffinityConfig = node} />
+                                    </div>
+                                    <div style={{ display: currentBarType === 'AlarmConfig' ? 'block' : 'none' }}>
+                                        <AlarmConfig
+                                            intl={intl}
+                                            form={form}
+                                            formData={formData}
+                                            handleFormChange={this.handleFormChange}
+                                            alertTemplateList={alertTemplateList}
+                                            alertUserList={alertUserList}
+                                            ref={node => this.$AlarmConfig = node} />
+                                    </div>
                                 </div>
                                 <div className='btnGroup'>
                                     <Button type="default" name="取消" onClick={this.handleCanelSubmit} />&nbsp;&nbsp;
@@ -298,6 +301,5 @@ class ManageContainerItem extends React.Component {
         )
     }
 }
-
 
 export default RcForm.create()(ManageContainerItem)

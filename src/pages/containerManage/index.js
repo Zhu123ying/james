@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { container as api } from '~/http/api'
+import { container as api, application } from '~/http/api'
 import HuayunRequest from '~/http/request'
 import { DatePicker, Select, Input, message, Button } from 'huayunui';
 import ContainerDetail from './detail'
@@ -18,22 +18,38 @@ class ContainerManage extends React.Component {
         super(props)
         this.state = {
             name: '',
-            projectId: '271336de-5f26-430f-81d7-018d2a74fcf1',
+            projectId: '',
             createTime: [],
             dataList: [], // 列表数据
             currentTableItem: {}, // 当前的应用
             pageNumber: 1,
             pageSize: 10,
-            isFetching: false
+            isFetching: false,
+            projectList: [], // 项目列表
         }
     }
     componentDidMount() {
         this.addCreateApplicationButton()
+        this.getProjectList()
         this.handleSearch(true)
     }
     componentWillUnmount() {
         this.props.handleExtra({
             extraChildren: null
+        })
+    }
+    // 获取项目列表
+    getProjectList = () => {
+        let params = {
+            pageNumber: 1,
+            pageSize: 10000
+        }
+        HuayunRequest(application.listProject, params, {
+            success: (res) => {
+                this.setState({
+                    projectList: res.data
+                })
+            }
         })
     }
     addCreateApplicationButton = () => {
@@ -100,7 +116,7 @@ class ContainerManage extends React.Component {
     }
     render() {
         const { intl } = this.props
-        const { name, createTime, projectId, dataList, currentTableItem, isFetching } = this.state
+        const { name, createTime, projectId, dataList, currentTableItem, isFetching, projectList } = this.state
         const searchItems = [
             <RangePicker
                 onChange={(val) => this.handleSearchParamChange('createTime', val)}
@@ -113,9 +129,14 @@ class ContainerManage extends React.Component {
             <Select
                 placeholder={intl.formatMessage({ id: 'Project' })}
                 style={{ width: 'auto' }}
+                dropdownMatchSelectWidth={false}
                 bordered={false}
-                onChange={(val) => this.handleSearchParamChange('createTime', val)}>
-                <Select.Option value="jack">Jack</Select.Option>
+                onChange={(arr) => this.handleSearchParamChange('projectId', arr[0])}>
+                {
+                    projectList.map(({ id, name }) => {
+                        return <Select.Option value={id} key={id}>{name}</Select.Option>
+                    })
+                }
             </Select>
         ]
         return (

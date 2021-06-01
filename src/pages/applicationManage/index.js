@@ -25,7 +25,8 @@ class ApplicationManage extends React.Component {
             currentApplication: {}, // 当前的应用
             pageNumber: 1,
             pageSize: 10,
-            isFetching: false
+            isFetching: false,
+            projectList: [], // 项目列表
         }
     }
     componentDidMount() {
@@ -35,6 +36,20 @@ class ApplicationManage extends React.Component {
     componentWillUnmount() {
         this.props.handleExtra({
             extraChildren: null
+        })
+    }
+    // 获取项目列表
+    getProjectList = () => {
+        let params = {
+            pageNumber: 1,
+            pageSize: 10000
+        }
+        HuayunRequest(application.listProject, params, {
+            success: (res) => {
+                this.setState({
+                    projectList: res.data
+                })
+            }
         })
     }
     addCreateApplicationButton = () => {
@@ -117,9 +132,14 @@ class ApplicationManage extends React.Component {
             <Select
                 placeholder={intl.formatMessage({ id: 'Project' })}
                 style={{ width: 'auto' }}
+                dropdownMatchSelectWidth={false}
                 bordered={false}
-                onChange={(val) => this.handleSearchParamChange('createTime', val)}>
-                <Select.Option value="jack">Jack</Select.Option>
+                onChange={(arr) => this.handleSearchParamChange('projectId', arr[0])}>
+                {
+                    projectList.map(({ id, name }) => {
+                        return <Select.Option value={id} key={id}>{name}</Select.Option>
+                    })
+                }
             </Select>,
             <Select
                 mode="tags"

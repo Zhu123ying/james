@@ -17,7 +17,7 @@ class ManagePersistentStorage extends React.Component {
         this.state = {
             name: '',
             labels: {}, // key:value形式
-            type: '',
+            type: 'Dynamic',
             typeClass: '',
             accessMode: '', // 容量
             capacity: 0, // 访问类型
@@ -152,8 +152,7 @@ class ManagePersistentStorage extends React.Component {
                     label={intl.formatMessage({ id: 'StorageType' })}
                     isRequired
                     options={[
-                        { value: 'secret', text: 'secret' },
-                        { value: 'configMap', text: 'configMap' }
+                        { value: 'big', text: 'big' },
                     ]}
                     optionFilterProp='children'
                     optionLabelProp='children'

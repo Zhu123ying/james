@@ -102,3 +102,36 @@ export const affinityConfigInitData = {            // 亲和性
         ]
     }
 }
+
+export const networkInitData = { // 容器网络
+    containerNetworks: [
+        {
+            name: '',
+            ports: [
+                {
+                    containerPort: '',
+                    port: ''
+                }
+            ]
+        }
+    ],
+    nodeNetworks: [
+        {
+            name: '',
+            ports: [
+                {
+                    containerPort: '',
+                    manner: 'random',
+                    port: ''
+                }
+            ]
+        }
+    ], // 节点网络
+    loadBalanceNetwork: { // 负载均衡
+        name: '',
+        ports: [], // 端口
+        qos: true,
+        upstream: 0, // 上行
+        downstream: 0 // 下行
+    }
+}
