@@ -9,6 +9,7 @@ import './index.less'
 import ActionAuth from '~/components/ActionAuth'
 import actions from '~/constants/authAction'
 import Preview from './preview'
+import Detail from './detail'
 
 const notification = Notification.newInstance()
 const { TabPane } = Tabs;
@@ -166,7 +167,7 @@ class ContainerDetail extends React.Component {
                                                     <Preview {...this.props} detail={detail}></Preview>
                                                 </TabPane>
                                                 <TabPane tab={intl.formatMessage({ id: 'ContainerInfo' })} key="ContainerInfo">
-                                                    {/* <Detail {...this.props} detail={detail} getDetail={this.getDetail}></Detail> */}
+                                                    <Detail {...this.props} detail={detail} getDetail={this.getDetail}></Detail>
                                                 </TabPane>
                                                 <TabPane tab={intl.formatMessage({ id: 'Event' })} key="Event">
                                                     {/* <Entrance {...this.props} detail={detail}></Entrance> */}

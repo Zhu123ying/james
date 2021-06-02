@@ -40,7 +40,7 @@ export const ContainerStateList = {
     stopFailed: '停止失败'
 }
 // 容器二级状态
-export const ContainerStatuList = {
+export const ContainerStatusList = {
     config: '配置中',
     running: '运行中',
     error: '异常'

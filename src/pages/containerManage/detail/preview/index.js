@@ -9,7 +9,7 @@ import { Row, Col, Tag, Carousel } from 'antd'
 import './index.less'
 import ActionAuth from '~/components/ActionAuth'
 import actions from '~/constants/authAction'
-import { ApplicationStatuList, ApplicationSecondStatuList, DEFAULT_EMPTY_LABEL } from '~/constants'
+import { ContainerStateList, ContainerStatusList, DEFAULT_EMPTY_LABEL } from '~/constants'
 import echarts from 'echarts'
 import moment from 'moment'
 import DetailIcon from '~/components/DetailIcon'
@@ -91,7 +91,7 @@ class Preview extends React.Component {
     }
     render() {
         const { intl, detail } = this.props
-        const { name, projectId, projectName, createTime, resource, createdByName, imageList, startTime, labels, namespace, restartPolicy, restartTimes } = detail
+        const { name, projectId, projectName, createTime, resource, createdByName, imageList, startTime, labels, namespace, restartPolicy, restartTimes, state, status } = detail
         const { cpu, ephemeralStorage, memory, storage } = resource
         const quotaData = [
             {
@@ -118,7 +118,13 @@ class Preview extends React.Component {
         const KeyValueData = [
             {
                 label: intl.formatMessage({ id: 'ContainerGroupName' }),
-                value: name || DEFAULT_EMPTY_LABEL
+                value: (
+                    <div className='name_state'>
+                        <div className='name'>{name}</div>
+                        <Tag color="geekblue" className='containerState'>{ContainerStateList[state]}</Tag>
+                        <Tag color={status === 'running' ? 'green' : 'red'} className='containerStatus'>{ContainerStatusList[status] || '未知'}</Tag>
+                    </div>
+                )
             },
             {
                 label: intl.formatMessage({ id: 'Project' }),
@@ -130,7 +136,17 @@ class Preview extends React.Component {
             },
             {
                 label: intl.formatMessage({ id: 'Image' }),
-                value: imageList.join('、') || DEFAULT_EMPTY_LABEL
+                value: (
+                    <div>
+                        {
+                            imageList.map(image => {
+                                const { project, repo, tag } = image
+                                const arr = [project, repo, tag].filter(item => !!item)
+                                return <div>{arr.join('/')}</div>
+                            })
+                        }
+                    </div>
+                )
             }
         ]
         const KeyValueData2 = [
@@ -146,8 +162,8 @@ class Preview extends React.Component {
         const KeyValueData3 = [
             {
                 value: intl.formatMessage({ id: 'ContainerGroupTag' }),
-                label: Object.keys(labels).length ? (
-                    <React.Fragment>
+                label: Object.keys(labels || {}).length ? (
+                    <div className='tagList'>
                         {
                             Object.keys(labels).map(key => {
                                 return (
@@ -159,7 +175,7 @@ class Preview extends React.Component {
                                 )
                             })
                         }
-                    </React.Fragment>
+                    </div>
                 ) : DEFAULT_EMPTY_LABEL
             },
             {

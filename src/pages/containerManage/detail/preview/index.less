@@ -4,10 +4,8 @@
     height: 100%;
     .ant-row{
         width: 100%;
-        height: calc(50% - 10px);      
-        margin: 0!important;
-        min-height: 220px;
-        max-height: 260px;  
+        min-height: 216px;      
+        margin: 0 0 20px 0!important; 
         .ant-col-8{
             padding-left: 0!important;
             padding-right: 10px!important;
@@ -16,9 +14,6 @@
             padding-left: 10px!important;
             padding-right: 0!important;
         }
-    }
-    .ant-row:first-child{
-        margin-bottom: 20px!important;
     }
     .boxContainer{
         .boxTitle{
@@ -35,6 +30,13 @@
                     .ult-key-value-item-value{
                         margin-left: 10px;
                         padding: 4px;
+                        .name_state{
+                            display: flex;
+                            align-items: center;
+                            .name{
+                                margin-right: 8px;
+                            }
+                        }
                     }
                 }
             }
@@ -42,7 +44,7 @@
         .horKeyValueContent{
             display: flex;
             background: #F6F8FA;
-            padding: 12px 16px;
+            padding: 10px 16px;
             .ult-key-value-item{
                 display: flex;
                 flex-direction: column;
@@ -112,17 +114,33 @@
         color: #33475B;
         justify-content: inherit!important;
         .infoItem{
+            margin-bottom: 16px;
             .itemTitle{
                 font-size: 12px;
                 color: #33475B;
                 margin: 8px 0 10px 0;
             }
             .horKeyValueContent{
+                padding: 12px 0;
                 .ult-key-value-item{
                     padding-left: 16px;
                     border-left: 1px dotted #E7EBF3;
                     .ult-key-value-item-label{
                         font-size: 14px;
+                        .tagList{
+                            display: flex;
+                            align-items: center;
+                            flex-wrap: wrap;
+                            .ult-tag-item{
+                                background: #E6F1FD;
+                                border-radius: 3px;
+                                padding: 2px 8px;
+                                .tag-item-title{
+                                    font-size: 12px;
+                                    color: #4C8CCA;
+                                }
+                            }
+                        }
                     }
                 }
                 .ult-key-value-item:first-child{

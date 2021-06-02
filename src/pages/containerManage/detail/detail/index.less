@@ -1,0 +1,83 @@
+@import '~/css/variables.less';
+.containerDetail_infor{
+    margin-top: -10px;
+    .containerDetail{
+        .total{
+            background: #F5F8FA;
+            border-radius: 3px;
+            border-radius: 3px;
+            padding: 6px 8px;
+            font-size: 12px;
+            color: #516F90;
+            .totalNum{
+                color: #33475B;
+            }
+        }
+        .action-bar{
+            display: none;
+        }
+    }
+    .associatedResources{
+        .resourceItem{
+            border: 1px solid #DFE3EB;
+            border-radius: 3px;
+            margin-bottom: 16px;
+            .resourceTitle{
+                background: #F5F8FA;
+                padding: 7px 0 8px 18px;
+                font-size: 12px;
+                color: #33475B;
+            }
+            .resourceContent{
+                padding: 8px;
+                .contentItem{
+                    margin: 8px;
+                }
+            }
+            .configurationList{
+                display: flex;
+                align-items: center;
+                flex-wrap: wrap;
+                .configurationItem{
+                    width: calc(33% - 16px);
+                    padding: 16px;
+                    display: flex;
+                    align-items: center;
+                    background: #F5F8FA;
+                    border-radius: 3px;
+                    display: flex;
+                    justify-content: space-between;
+                    .configurationInfo{
+                        display: flex;
+                        align-items: center;
+                        width: -webkit-fill-available;
+                        .ult-key-value{
+                            .ult-key-value-item{
+                                .ult-key-value-item-label{
+                                    width: auto;
+                                    padding: 2px 4px;
+                                }
+                                .ult-key-value-item-value{
+                                    padding: 2px 4px;
+                                }
+                            }
+                        }
+                    }
+                    a{
+                        font-size: 12px;
+                        color: #4C8CCA;
+                        padding-left: 16px;
+                        border-left: 1px solid #E7EBF3;
+                        width: 46px;
+                    }
+                }
+            }
+        }
+    }
+    .title{
+        margin: 16px 0;
+        font-size: 14px;
+        color: #33475B;
+        padding-left: 16px;
+    }
+}

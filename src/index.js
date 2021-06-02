@@ -32,7 +32,7 @@ export async function mount(props) {
   // getUserPermission(permission) // 设置用户权限
   // 在主应用提供的dom节点下插入子应用index.html定义的节点，保证style顺利加载
   let appDom = document.createElement('div')
-  appDom.id = 'childapp'
+  appDom.id = 'applicationCenterRoot'
   document.getElementById(props.container.id).appendChild(appDom)
   ReactDOM.render(
     <React.StrictMode>
@@ -46,7 +46,7 @@ export async function mount(props) {
         </Provider>
       </IntlProvider>
     </React.StrictMode>,
-    document.getElementById('childapp')
+    document.getElementById('applicationCenterRoot')
   )
 }
 /**
@@ -55,7 +55,7 @@ export async function mount(props) {
 export async function unmount() {
   console.log('子应用卸载成功')
   if (document.getElementById('applicationCenterRoot')) {
-    ReactDOM.unmountComponentAtNode(document.getElementById('childapp'))
+    ReactDOM.unmountComponentAtNode(document.getElementById('applicationCenterRoot'))
   }
 }
 

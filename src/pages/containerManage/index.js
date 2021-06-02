@@ -7,7 +7,7 @@ import { DatePicker, Select, Input, message, Button } from 'huayunui';
 import ContainerDetail from './detail'
 import './index.less'
 import { Notification, Loading, Icon } from 'ultraui'
-import { ContainerStateList, ContainerStatuList } from '~/constants'
+import { ContainerStateList, ContainerStatusList } from '~/constants'
 import ActionAuth from '~/components/ActionAuth'
 import actions from '~/constants/authAction'
 
