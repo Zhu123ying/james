@@ -10,6 +10,7 @@ const api = {
     abortPlatformContainer: `abortPlatformContainer`, // 容器组终止
     listAlertUsers: `listAlertUsers`, // 告警联系人
     listAlertTemplates: `listAlertTemplates`, // 告警模板
+    listStorageClasses: `listStorageClasses`, // 存储类型-创建容器时用到
 }
 
 export default api

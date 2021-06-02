@@ -49,6 +49,7 @@ const zh_CN = {
     Email: '邮箱',
     Phone: '电话',
     Image: '镜像',
+    Weight: '权重',
 
     // 业务字段
     DesCreateContainerGroup: '这是创建容器的描述',
@@ -324,6 +325,13 @@ const zh_CN = {
     Namespace: '命名空间',
     MatchType: '匹配模式',
     AffinityLevel: '亲和等级',
+    Usage: '使用量',
+    RecyclingStrategy: '回收策略',
+    ExposureMode: '暴露方式',
+    ProtocolType: '协议类型',
+    ContainerGroupPort: '容器组端口',
+    ExternalPort: '外部端口',
+    PortConfig: '端口配置',
 
     // 接口返回提示
     UpdateApplicationSuccess: '编辑应用-{name}成功！',

@@ -25,11 +25,11 @@
                 .ult-key-value-item{
                     .ult-key-value-item-label{
                         width: auto;
-                        padding: 4px;
+                        padding: 2px;
                     }
                     .ult-key-value-item-value{
                         margin-left: 10px;
-                        padding: 4px;
+                        padding: 2px;
                         .name_state{
                             display: flex;
                             align-items: center;
@@ -78,6 +78,9 @@
                 align-items: center;
                 font-size: 12px;
                 color: #516F90;
+                .quotaType{
+                    font-size: 14px;
+                }
             }
         }
         .cpu_memory_monitor{
@@ -93,14 +96,8 @@
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
-                    .name{
-                        font-size: 14px;
-                        color: #33475B;
-                    }
-                    .value{
-                        font-size: 24px;
-                        color: #33475B;
-                    }
+                    font-size: 14px;
+                    color: #33475B;
                 }
                 .lineItem{
                     width: 100%;
@@ -146,6 +143,9 @@
                 .ult-key-value-item:first-child{
                     border: none;
                 }
+            }
+            table{
+                table-layout: fixed!important;
             }
         }
     }

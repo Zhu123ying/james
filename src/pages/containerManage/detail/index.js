@@ -128,6 +128,10 @@ class ContainerDetail extends React.Component {
             }
         })
     }
+    handleTabChange = (activeKey) => {
+        // 每次切换tab，滚动条重置
+        document.getElementsByClassName('archer-tabs-content-holder')[0].scrollTop = 0
+    }
     render() {
         const { intl } = this.props
         const { isLoading, detail } = this.state
@@ -162,7 +166,7 @@ class ContainerDetail extends React.Component {
                                             }
                                         </div>
                                         <div className='detailContent'>
-                                            <Tabs defaultActiveKey="Preview">
+                                            <Tabs defaultActiveKey="Preview" onChange={this.handleTabChange}>
                                                 <TabPane tab={intl.formatMessage({ id: 'OverView' })} key="Preview">
                                                     <Preview {...this.props} detail={detail}></Preview>
                                                 </TabPane>

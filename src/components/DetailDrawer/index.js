@@ -20,7 +20,8 @@ const DetailDrawer = ({
     children,
     loading = false,
     operateConfig = null,
-    narrow = false
+    narrow = false,
+    className = ''
 }) => {
     // 推送事件注册注销机制
     useEffect(() => {
@@ -39,7 +40,7 @@ const DetailDrawer = ({
     }
     return (
         <Drawer
-            className={`detail-drawer-wrapper ${narrow ? 'narrow-drawer' : ''}`}
+            className={`detail-drawer-wrapper ${narrow ? 'narrow-drawer' : ''} ${className}`}
             title={title || (
                 <>
                     { icon ? <DetailIcon iconType={icon} staticType={staticType} className="m-r-sm" /> : null }

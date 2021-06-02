@@ -44,7 +44,7 @@ const HuayunRequest = (api, param, callback = {}) => http
             callback.fail(response)
         } else {
             const language = window.LanguageData[window.LangCode]
-            const { data, message } = response
+            const { data, message } = response || {}
             notification.notice({
                 id: new Date(),
                 type: 'danger',

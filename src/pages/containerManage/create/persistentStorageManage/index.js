@@ -123,7 +123,7 @@ class PersistentStorageManage extends React.Component {
         )
     }
     render() {
-        const { form, intl, formData: { storages }, handleFormChange } = this.props
+        const { form, intl, formData: { storages }, handleFormChange, storageClassList } = this.props
         const { isManageModalVisible, currentItemIndex } = this.state
         return (
             <div className='rightItem'>
@@ -172,6 +172,7 @@ class PersistentStorageManage extends React.Component {
                                 intl={intl}
                                 handleFormChange={handleFormChange}
                                 currentItem={storages[currentItemIndex]}
+                                storageClassList={storageClassList}
                                 wrappedComponentRef={node => this.$ManagePersistentStorage = node} />
                         </Modal>
                     ) : null

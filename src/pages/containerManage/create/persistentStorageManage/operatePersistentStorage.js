@@ -38,6 +38,12 @@ class ManagePersistentStorage extends React.Component {
         const value = _.get(val, 'target.value', val)
         this.setState({
             [key]: value
+        }, () => {
+            if (key === 'typeClass') {
+                this.setState({
+                    accessMode: ''
+                })
+            }
         })
     }
     // 对标签的操作
@@ -68,8 +74,10 @@ class ManagePersistentStorage extends React.Component {
         })
     }
     render() {
-        const { form, intl } = this.props
+        const { form, intl, storageClassList } = this.props
         const { currentLabel, name, labels, type, typeClass, accessMode, capacity, LabelPanelErrorMessage } = this.state
+        const currentStorageClass = storageClassList.find(item => item.name === typeClass)
+        const accessModeOptions = _.get(currentStorageClass, 'accessModes', [])
         return (
             <Form
                 ref={(node) => { this.form = node }}
@@ -151,9 +159,11 @@ class ManagePersistentStorage extends React.Component {
                     onChange={(val) => this.handleChange('typeClass', val)}
                     label={intl.formatMessage({ id: 'StorageType' })}
                     isRequired
-                    options={[
-                        { value: 'big', text: 'big' },
-                    ]}
+                    options={
+                        storageClassList.map(({ name }) => {
+                            return { value: name, text: name }
+                        })
+                    }
                     optionFilterProp='children'
                     optionLabelProp='children'
                 />
@@ -184,10 +194,11 @@ class ManagePersistentStorage extends React.Component {
                     onChange={(val) => this.handleChange('accessMode', val)}
                     label={intl.formatMessage({ id: 'AccessMode' })}
                     isRequired
-                    options={[
-                        { value: 'ReadWriteOnce', text: 'ReadWriteOnce' },
-                        { value: 'ReadWriteMany', text: 'ReadWriteMany' }
-                    ]}
+                    options={
+                        accessModeOptions.map(item => {
+                            return { value: item, text: item }
+                        })
+                    }
                     optionFilterProp='children'
                     optionLabelProp='children'
                 />

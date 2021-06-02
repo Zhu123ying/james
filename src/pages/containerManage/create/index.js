@@ -67,12 +67,14 @@ class ManageContainerItem extends React.Component {
             projectList: [], // 项目列表
             alertUserList: [], // 告警联系人
             alertTemplateList: [], // 告警模板
+            storageClassList: [], // 持久存储类型
         }
     }
     componentDidMount() {
         this.getProjectList()
         this.getAlertUserList()
         this.getAlertTemplateList()
+        this.getStorageClasses()
         this.props.handleExtra({
             style: {
                 display: 'none'
@@ -97,6 +99,16 @@ class ManageContainerItem extends React.Component {
                 }
                 this.setState({
                     formData: data
+                })
+            }
+        })
+    }
+    // 获取持久存储类型
+    getStorageClasses = () => {
+        HuayunRequest(api.listStorageClasses, {}, {
+            success: (res) => {
+                this.setState({
+                    storageClassList: res.data.storageClasses
                 })
             }
         })
@@ -198,8 +210,7 @@ class ManageContainerItem extends React.Component {
     }
     render() {
         const { form, intl } = this.props
-        const { isFetching, currentBarType, projectList, formData, containerImageList, alertTemplateList, alertUserList } = this.state
-
+        const { isFetching, currentBarType, projectList, formData, containerImageList, alertTemplateList, alertUserList, storageClassList } = this.state
         return (
             <div id="ManageContainerItem">
                 {
@@ -292,6 +303,7 @@ class ManageContainerItem extends React.Component {
                                     intl={intl}
                                     form={form}
                                     formData={formData}
+                                    storageClassList={storageClassList}
                                     handleFormChange={this.handleFormChange} />
                             </div>
                         </Form>

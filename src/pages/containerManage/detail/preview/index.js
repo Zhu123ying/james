@@ -72,26 +72,97 @@ class Preview extends React.Component {
         const columns = [ // 表格的列数组配置
             {
                 dataIndex: 'type',
-                title: intl.formatMessage({ id: 'Type' })
+                title: intl.formatMessage({ id: 'Type' }),
+                fixed: 'left',
+                width: '10%'
             },
             {
-                dataIndex: 'matchType',
-                title: intl.formatMessage({ id: 'MatchType' })
+                dataIndex: 'Level',
+                title: intl.formatMessage({ id: 'AffinityLevel' }),
+                width: '20%'
             },
             {
-                dataIndex: 'labels',
-                title: intl.formatMessage({ id: 'Tag' })
+                dataIndex: 'weight',
+                title: intl.formatMessage({ id: 'Weight' }),
+                width: '10%'
             },
             {
-                dataIndex: 'level',
-                title: intl.formatMessage({ id: 'AffinityLevel' })
+                dataIndex: 'namespaces',
+                title: intl.formatMessage({ id: 'Namespace' }),
+                width: '10%',
+                render(namespaces) {
+                    return namespaces.join('、')
+                }
+            },
+            {
+                dataIndex: 'topologyKey',
+                title: '拓扑域',
+                width: '10%'
+            },
+            {
+                dataIndex: 'matchManner',
+                title: intl.formatMessage({ id: 'MatchType' }),
+                width: '10%'
+            },
+            {
+                dataIndex: 'labelsOrExpressions',
+                title: intl.formatMessage({ id: 'Tag' }),
+                width: '10%'
+            },
+            {
+                dataIndex: 'operator',
+                title: '操作符',
+                width: '10%'
+            },
+            {
+                dataIndex: 'values',
+                title: '值',
+                width: '20%'
+            }
+        ]
+        return columns
+    }
+    getNetworkTableColumns() {
+        const { intl } = this.props
+        const columns = [ // 表格的列数组配置
+            {
+                dataIndex: 'name',
+                title: `${intl.formatMessage({ id: 'Port' })}${intl.formatMessage({ id: 'Name' })}`,
+                width: '15%'
+            },
+            {
+                dataIndex: 'type',
+                title: intl.formatMessage({ id: 'ExposureMode' }),
+                width: '20%'
+            },
+            {
+                dataIndex: 'ip',
+                title: intl.formatMessage({ id: 'ClusterIP' }),
+                width: '20%'
+            },
+            {
+                dataIndex: 'namespace',
+                title: intl.formatMessage({ id: 'ProtocolType' }),
+                width: '15%'
+            },
+            {
+                dataIndex: 'containerPort',
+                title: intl.formatMessage({ id: 'ContainerGroupPort' }),
+                width: '15%'
+            },
+            {
+                dataIndex: 'externalPort',
+                title: intl.formatMessage({ id: 'ExternalPort' }),
+                width: '15%'
             }
         ]
         return columns
     }
     render() {
         const { intl, detail } = this.props
-        const { name, projectId, projectName, createTime, resource, createdByName, imageList, startTime, labels, namespace, restartPolicy, restartTimes, state, status } = detail
+        const { name, projectId, projectName, createTime, resource, createdByName, imageList,
+            startTime, labels, namespace, restartPolicy, restartTimes, state, status, affinityDetails, networkDetails
+        } = detail
         const { cpu, ephemeralStorage, memory, storage } = resource
         const quotaData = [
             {
@@ -191,9 +262,6 @@ class Preview extends React.Component {
                 label: restartPolicy || DEFAULT_EMPTY_LABEL
             }
         ]
-        const affinityConfigTableData = [
-
-        ]
         return (
             <div className='commonDetail_preview containerDetail_preview'>
                 <Row gutter={10}>
@@ -263,7 +331,15 @@ class Preview extends React.Component {
                                     <div className='itemTitle'>{intl.formatMessage({ id: 'AffinityConfig' })}</div>
                                     <Table
                                         columns={this.getAffinityConfigTableColumns()}
-                                        dataSource={affinityConfigTableData}
+                                        dataSource={affinityDetails}
+                                        pagination={false}
+                                    />
+                                </div>
+                                <div className='infoItem'>
+                                    <div className='itemTitle'>{intl.formatMessage({ id: 'PortConfig' })}</div>
+                                    <Table
+                                        columns={this.getNetworkTableColumns()}
+                                        dataSource={networkDetails}
                                         pagination={false}
                                     />
                                 </div>
