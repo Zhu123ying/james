@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { RcForm, Icon, Loading, SortTable, Dialog, Radio, Input } from 'ultraui'
+import { RcForm, Icon, Loading, SortTable, Dialog, Radio, Input, Button as UltrauiButton } from 'ultraui'
 import './index.less'
 import echarts from 'echarts'
 import moment from 'moment'
@@ -63,6 +63,12 @@ class Detail extends React.Component {
         this.setState({
             [key]: value
         })
+    }
+    handleRemoteAccess = () => {
+
+    }
+    handleReadLog = () => {
+
     }
     render() {
         const { intl, onClose, visible, currentContainer } = this.props
@@ -145,6 +151,21 @@ class Detail extends React.Component {
                 visible={visible}
                 className='containerDetailDrawer'
             >
+                <div className='operaBar'>
+                    <UltrauiButton
+                        type="text"
+                        onClick={this.handleRemoteAccess}
+                        className='br'
+                    >
+                        <Icon type="telecontrol" />&nbsp;{intl.formatMessage({ id: 'RemoteAccess' })}
+                    </UltrauiButton>
+                    <UltrauiButton
+                        type="text"
+                        onClick={this.handleReadLog}
+                    >
+                        <Icon type="xunjian" />&nbsp;{intl.formatMessage({ id: 'ReadStaticLog' })}
+                    </UltrauiButton>
+                </div>
                 <Collapse defaultActiveKey={['1', '2', '3']}>
                     <Panel header="基础配置" key='1'>
                         <KeyValue values={basicKeyValue} className='basicKeyValue' />
