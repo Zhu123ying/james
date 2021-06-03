@@ -10,6 +10,7 @@ import ActionAuth from '~/components/ActionAuth'
 import actions from '~/constants/authAction'
 import Preview from './preview'
 import Detail from './detail'
+import Information from './information'
 
 const notification = Notification.newInstance()
 const { TabPane } = Tabs;
@@ -168,16 +169,16 @@ class ContainerDetail extends React.Component {
                                         <div className='detailContent'>
                                             <Tabs defaultActiveKey="Preview" onChange={this.handleTabChange}>
                                                 <TabPane tab={intl.formatMessage({ id: 'OverView' })} key="Preview">
-                                                    <Preview {...this.props} detail={detail}></Preview>
+                                                    <Preview {...this.props} detail={detail} />
                                                 </TabPane>
                                                 <TabPane tab={intl.formatMessage({ id: 'ContainerInfo' })} key="ContainerInfo">
-                                                    <Detail {...this.props} detail={detail} getDetail={this.getDetail}></Detail>
+                                                    <Detail {...this.props} detail={detail} getDetail={this.getDetail} />
                                                 </TabPane>
                                                 <TabPane tab={intl.formatMessage({ id: 'Event' })} key="Event">
-                                                    {/* <Entrance {...this.props} detail={detail}></Entrance> */}
+
                                                 </TabPane>
                                                 <TabPane tab={intl.formatMessage({ id: 'Message' })} key="Message">
-                                                    {/* <Alarm {...this.props}></Alarm> */}
+                                                    <Information {...this.props} detail={detail} />
                                                 </TabPane>
                                                 <TabPane tab={intl.formatMessage({ id: 'PersistenceLog' })} key="PersistenceLog">
                                                     {/* <Log {...this.props}></Log> */}

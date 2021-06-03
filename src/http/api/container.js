@@ -11,6 +11,8 @@ const api = {
     listAlertUsers: `listAlertUsers`, // 告警联系人
     listAlertTemplates: `listAlertTemplates`, // 告警模板
     listStorageClasses: `listStorageClasses`, // 存储类型-创建容器时用到
+    getEvents: `getEvents`, // 获取容器事件
+    getMessages: `getMessages`, // 获取容器事件
 }
 
 export default api
