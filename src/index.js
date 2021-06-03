@@ -13,7 +13,7 @@ import 'huayunui/dist/index.css'
 import '~/css/common.less'
 import '~/css/newstyle.less'
 import '~/css/create.less'
-import { getUserPermission } from '~/utils'
+import { getUserPermission } from '~/redux/actions'
 import language from '~/locales'
 import _ from 'lodash'
 window._ = _
