@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { container as api } from '~/http/api'
 import HuayunRequest from '~/http/request'
-import { DatePicker, Select, Input, SearchBar, Button, Table, Modal, Space, Checkbox } from 'huayunui';
+import { DatePicker, Select, Input, SearchBar, Button, Table, Modal, Space, Checkbox, Popover, Tooltip } from 'huayunui';
 import { Icon, NoData, Notification } from 'ultraui'
 import './index.less'
 import { DEFAULT_EMPTY_LABEL } from '~/constants'
@@ -70,7 +70,6 @@ class Information extends React.Component {
                 render(val) {
                     return val || DEFAULT_EMPTY_LABEL
                 }
-
             }
         ]
     }
@@ -81,18 +80,19 @@ class Information extends React.Component {
         return (
             <div className='containerDetail_information'>
                 <SearchBar
-                    // slot={() => (
-                    //     <Space size={4}>
-                    //         <Popover
-                    //             placement="bottomRight"
-                    //             content={getColumnSetting(tableColumns)}
-                    //             trigger="click"
-                    //             type="detail"
-                    //         >
-                    //             <Button size="middle-s" type="operate" icon="icon-setting" />
-                    //         </Popover>
-                    //     </Space>
-                    // )}
+                    slot={() => (
+                        <Popover
+                            placement="bottomRight"
+                            content={1}
+                            overlayClassName="columns-setting-pop"
+                            trigger="click"
+                            type="detail"
+                        >
+                            <Tooltip placement="topRight" title={intl.formatMessage({ id: 'DiyColumnSetting' })}>
+                                <Button size="middle-s" type="operate" icon="icon-setting" />
+                            </Tooltip>
+                        </Popover>
+                    )}
                     onRefresh={this.getTableData}
                 />
                 <Table

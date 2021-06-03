@@ -333,7 +333,6 @@ const zh_CN = {
     ExternalPort: '外部端口',
     PortConfig: '端口配置',
     RemoteAccess: '远程访问',
-    DiyColumnSetting: '自定义列设置',
     // 接口返回提示
     UpdateApplicationSuccess: '编辑应用-{name}成功！',
     CreateApplicationSuccess: '创建应用-{name}成功！',
