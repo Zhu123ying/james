@@ -13,6 +13,7 @@ export default (intl, data, this_, key, zIndex = 1) => {
             title: intl.formatMessage({ id: 'ComprehensiveState' }),
             dataIndex: 'runInfo',
             key: 'compositeState',
+            width: '90px',
             render(runInfo, row) {
                 const state = _.get(row, `${getDataKey(row)}compositeState`, '')
                 return <div className="compositeStateDot" style={{ backgroundColor: compositeStateColor[state] }} />
@@ -116,6 +117,7 @@ export default (intl, data, this_, key, zIndex = 1) => {
                 {...otherTableProps}
                 dataSource={dataSource}
                 pagination={false}
+                scroll={{ x: '100%' }}
             />)
         },
         data

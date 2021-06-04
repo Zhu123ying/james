@@ -12,6 +12,7 @@ export default (intl, data, this_) => {
                 title: intl.formatMessage({ id: 'ComprehensiveState' }),
                 dataIndex: 'runInfo',
                 key: 'compositeState',
+                width: '90px',
                 render(runInfo, row) {
                     const state = _.get(row, `${getDataKey(row)}compositeState`, '')
                     return <div className="compositeStateDot" style={{ backgroundColor: compositeStateColor[state] }} />
@@ -85,10 +86,12 @@ export default (intl, data, this_) => {
                 title: intl.formatMessage({ id: 'CreateTime' }),
                 dataIndex: 'createTime',
                 key: 'createTime',
+                width: '120px'
             },
             {
                 title: intl.formatMessage({ id: 'Operate' }),
                 key: 'Operate',
+                width: '64px',
                 render: (id, row) => {
                     const options = [
                         {

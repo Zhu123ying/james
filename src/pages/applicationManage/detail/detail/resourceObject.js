@@ -163,6 +163,7 @@ class ResourceObject extends React.Component {
                                         {...otherTableProps}
                                         dataSource={dataSource}
                                         pagination={false}
+                                        scroll={{ x: '100%' }}
                                     />
                                 </div>
                             )

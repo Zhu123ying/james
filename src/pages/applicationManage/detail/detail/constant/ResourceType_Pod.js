@@ -13,6 +13,7 @@ export default (intl, data, this_) => {
                 title: intl.formatMessage({ id: 'ComprehensiveState' }),
                 dataIndex: 'compositeState',
                 key: 'compositeState',
+                width: '90px',
                 render(state, row) {
                     return <div className="compositeStateDot" style={{ backgroundColor: compositeStateColor[state] }} />
                 }
@@ -88,6 +89,7 @@ export default (intl, data, this_) => {
             {
                 title: intl.formatMessage({ id: 'Operate' }),
                 key: 'Operate',
+                width: '64px',
                 render: (id, row) => {
                     const options = [
                         {

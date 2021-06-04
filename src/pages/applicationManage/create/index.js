@@ -275,6 +275,7 @@ class AppCreate extends React.Component {
                                 duration: 5,
                                 closable: true
                             })
+                            this.handleCancel()
                         }
                     })
                 }
@@ -316,6 +317,7 @@ class AppCreate extends React.Component {
                                 duration: 5,
                                 closable: true
                             })
+                            this.handleCancel()
                         }
                     })
                 }
