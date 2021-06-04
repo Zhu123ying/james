@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { RcForm, Button, Icon, Loading, SortTable, Dialog, confirmForm } from 'ultraui'
+import { RcForm, Button, Icon, Loading, SortTable, Dialog, confirmForm, NoData } from 'ultraui'
 import { Table, Modal } from 'huayunui'
 import './index.less'
 import { resourceTypeList } from './constant'
@@ -153,32 +153,38 @@ class ResourceObject extends React.Component {
             <div className="resourceObject">
                 <div className="tableList">
                     {
-                        tableDataObjKeys.map(key => {
-                            let tableProps = resourceTypeTableProps(intl, key, this, type)
-                            const { data: dataSource, ...otherTableProps } = tableProps
-                            return (
-                                <div id={`${key}_${type}`} key={key} className="sourceTableItem">
-                                    <div className="sourceType">{key}</div>
-                                    <Table
-                                        {...otherTableProps}
-                                        dataSource={dataSource}
-                                        pagination={false}
-                                        scroll={{ x: '100%' }}
-                                    />
-                                </div>
-                            )
-                        })
+                        tableDataObjKeys.length ? (
+                            tableDataObjKeys.map(key => {
+                                let tableProps = resourceTypeTableProps(intl, key, this, type)
+                                const { data: dataSource, ...otherTableProps } = tableProps
+                                return (
+                                    <div id={`${key}_${type}`} key={key} className="sourceTableItem">
+                                        <div className="sourceType">{key}</div>
+                                        <Table
+                                            {...otherTableProps}
+                                            dataSource={dataSource}
+                                            pagination={false}
+                                            scroll={{ x: '100%' }}
+                                        />
+                                    </div>
+                                )
+                            })
+                        ) : <NoData />
                     }
                 </div>
-                <div className="slider">
-                    {
-                        tableDataObjKeys.map(item => {
-                            return (
-                                <div className={`typeItem ${currentResourceType === item ? 'activeType activeBefore' : ''}`} key={item} onClick={() => this.handleTypeChange(item, type)}>{item}</div>
-                            )
-                        })
-                    }
-                </div>
+                {
+                    tableDataObjKeys.length ? (
+                        <div className="slider">
+                            {
+                                tableDataObjKeys.map(item => {
+                                    return (
+                                        <div className={`typeItem ${currentResourceType === item ? 'activeType activeBefore' : ''}`} key={item} onClick={() => this.handleTypeChange(item, type)}>{item}</div>
+                                    )
+                                })
+                            }
+                        </div>
+                    ) : null
+                }
                 <PodMonitorDetail
                     intl={intl}
                     {...currentPod}
