@@ -11,6 +11,7 @@ import actions from '~/constants/authAction'
 import Preview from './preview'
 import Detail from './detail'
 import Information from './information'
+import Event from './event'
 
 const notification = Notification.newInstance()
 const { TabPane } = Tabs;
@@ -151,7 +152,7 @@ class ContainerDetail extends React.Component {
             </Button>,
         ]
         return (
-            <div className='detail'>
+            <div className='containerDetail'>
                 {
                     // 第一次请求才loading
                     isLoading ? <Loading /> : (
@@ -175,7 +176,7 @@ class ContainerDetail extends React.Component {
                                                     <Detail {...this.props} detail={detail} getDetail={this.getDetail} />
                                                 </TabPane>
                                                 <TabPane tab={intl.formatMessage({ id: 'Event' })} key="Event">
-
+                                                    <Event  {...this.props} detail={detail}/>
                                                 </TabPane>
                                                 <TabPane tab={intl.formatMessage({ id: 'Message' })} key="Message">
                                                     <Information {...this.props} detail={detail} />

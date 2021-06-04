@@ -8,7 +8,7 @@ import { Icon, NoData, Notification } from 'ultraui'
 import './index.less'
 import { DEFAULT_EMPTY_LABEL } from '~/constants'
 import TableCommon from '~/components/TableCommon';
-class Information extends React.Component {
+class Event extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -20,10 +20,10 @@ class Information extends React.Component {
     }
     getTableData = () => {
         const { id: platformContainerId } = this.props.detail
-        HuayunRequest(api.getMessages, { platformContainerId }, {
+        HuayunRequest(api.getEvents, { platformContainerId }, {
             success: (res) => {
                 this.setState({
-                    tableData: res.data.messages
+                    tableData: res.data.events
                 })
             }
         })
@@ -37,13 +37,8 @@ class Information extends React.Component {
                 title: intl.formatMessage({ id: 'Type' })
             },
             {
-                dataIndex: 'status',
-                key: 'status',
-                title: intl.formatMessage({ id: 'Status' })
-            },
-            {
-                dataIndex: 'message',
-                key: 'message',
+                dataIndex: 'note',
+                key: 'note',
                 title: intl.formatMessage({ id: 'Message' })
             },
             {
@@ -52,9 +47,19 @@ class Information extends React.Component {
                 title: intl.formatMessage({ id: 'Reason' })
             },
             {
-                dataIndex: 'time',
-                key: 'time',
-                title: intl.formatMessage({ id: 'LastUpdateTime' })
+                dataIndex: 'count',
+                key: 'count',
+                title: intl.formatMessage({ id: 'Frequency' })
+            },
+            {
+                dataIndex: 'firstTime',
+                key: 'firstTime',
+                title: intl.formatMessage({ id: 'FirstTime' })
+            },
+            {
+                dataIndex: 'lastTime',
+                key: 'lastTime',
+                title: intl.formatMessage({ id: 'LastTime' })
             }
         ]
     }
@@ -63,9 +68,9 @@ class Information extends React.Component {
         const { tableData } = this.state
         const tableColumns = this.getColums()
         return (
-            <div className='containerDetail_information'>
+            <div className='containerDetail_event'>
                 <TableCommon
-                    uniqueId='applicationCenter_container_information'
+                    uniqueId='applicationCenter_container_event'
                     onRefresh={this.getTableData}
                     columns={tableColumns}
                     data={tableData}
@@ -77,4 +82,4 @@ class Information extends React.Component {
     }
 }
 
-export default Information
+export default Event

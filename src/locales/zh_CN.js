@@ -50,6 +50,7 @@ const zh_CN = {
     Phone: '电话',
     Image: '镜像',
     Weight: '权重',
+    DiyColumnSetting: '列隐藏设置',
 
     // 业务字段
     DesCreateContainerGroup: '这是创建容器的描述',

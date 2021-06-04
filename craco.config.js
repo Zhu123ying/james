@@ -5,7 +5,7 @@ const DIST_PATH = ROOT_PATH + '/dist'
 const { whenDev } = require("@craco/craco")
 const packageName = require('./package.json').name
 const publicPath = whenDev ? '/' : '/childapp/front/static/'
-
+const SRC_PATH = path.resolve(__dirname, 'src')
 module.exports = {
   devServer: {
     port: 3001,
@@ -15,13 +15,23 @@ module.exports = {
   },
   webpack: {
     alias: {
-      '~': path.resolve(__dirname, 'src'),
-      "pages": path.resolve(__dirname, 'src', 'pages'),
-      "assets": path.resolve(__dirname, 'src', 'assets'),
-      "components": path.resolve(__dirname, 'src', 'components'),
-      "utils": path.resolve(__dirname, 'src', 'utils'),
-      "http": path.resolve(__dirname, 'src', 'http'),
-      "ultraui": '@huayun/ultraui'
+      '~': SRC_PATH,
+      'Actn': SRC_PATH + '/actions',
+      'Cmpt': SRC_PATH + '/components',
+      'Cnst': SRC_PATH + '/constants',
+      'Page': SRC_PATH + '/pages',
+      'Redu': SRC_PATH + '/reducers',
+      'Stor': SRC_PATH + '/store',
+      'Img': SRC_PATH + '/images',
+      'Style': SRC_PATH + '/style',
+      'Utils': SRC_PATH + '/utils',
+      'CSS': SRC_PATH + '/css',
+      'MidWare': SRC_PATH + '/middlewares/reduxFetchMiddleware',
+      'Libs': SRC_PATH + '/libs',
+      'Models': SRC_PATH + '/models',
+      'Hooks': SRC_PATH + '/hooks',
+      'Adv': SRC_PATH + '/pages/advancedComponents',
+      'ultraui': '@huayun/ultraui'
     },
     configure: {
       output: {

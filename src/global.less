@@ -280,3 +280,12 @@
         }
     }
 }
+
+// 因为前段设置了archer-btn-operate为flex布局，导致commonTable里的样式有误，先针对这一情况修改下样式
+.archer-search-bar-slot-container{
+    .other-operate-btns{
+        .archer-btn-operate{
+            display: initial!important;
+        }
+    }
+}
