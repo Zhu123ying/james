@@ -9,6 +9,7 @@ import huayun_zhCN from './locales/zh_CN'
 import ant_zhCN from 'antd/lib/locale/zh_CN'
 import ant_en from 'antd/lib/locale/en_US'
 import { ConfigProvider } from 'huayunui'
+import { ConfigProvider as AntdConfigProvider } from 'antd'
 import 'huayunui/dist/index.css'
 import '~/css/common.less'
 import '~/css/newstyle.less'
@@ -37,7 +38,9 @@ export async function mount(props) {
         <Provider store={store}>
           <ConnectedRouter history={history}>
             <ConfigProvider prefixCls="archer" locale={ant_zhCN}>
-              <App />
+              <AntdConfigProvider prefixCls="archer" locale={ant_zhCN}>
+                <App />
+              </AntdConfigProvider>
             </ConfigProvider>
           </ConnectedRouter>
         </Provider>
@@ -67,7 +70,9 @@ if (!window.__POWERED_BY_QIANKUN__) {
         <Provider store={store}>
           <ConnectedRouter history={history}>
             <ConfigProvider prefixCls="archer" locale={ant_zhCN}>
-              <App />
+              <AntdConfigProvider prefixCls="archer" locale={ant_zhCN}>
+                <App />
+              </AntdConfigProvider>
             </ConfigProvider>
           </ConnectedRouter>
         </Provider>
