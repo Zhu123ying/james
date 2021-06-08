@@ -31,9 +31,6 @@ export async function mount(props) {
   console.log(props)
   // getUserPermission(permission) // 设置用户权限
   // 在主应用提供的dom节点下插入子应用index.html定义的节点，保证style顺利加载
-  let appDom = document.createElement('div')
-  appDom.id = 'applicationCenterRoot'
-  document.getElementById(props.container.id).appendChild(appDom)
   ReactDOM.render(
     <React.StrictMode>
       <IntlProvider locale={navigator.language} messages={huayun_zhCN}>
@@ -76,6 +73,6 @@ if (!window.__POWERED_BY_QIANKUN__) {
         </Provider>
       </IntlProvider>
     </React.StrictMode>,
-    document.getElementById('root')
+    document.getElementById('applicationCenterRoot')
   )
 }
