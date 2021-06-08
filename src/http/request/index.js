@@ -2,6 +2,8 @@
 import { Icon, Notification } from 'ultraui'
 import request, { extend } from 'umi-request';
 
+const prefix = '/api/'
+
 if (process.env.NODE_ENV === 'development') {
     // 模拟加入sessionId
     const set = function (name, value, day = 30) {
@@ -9,13 +11,13 @@ if (process.env.NODE_ENV === 'development') {
         exp.setTime(exp.getTime() + day * 24 * 60 * 60 * 1000)
         document.cookie = `${name}=${encodeURI(value)};expires=${exp.toGMTString()}; path=/`
     }
-    set('sessionId', 'identity:login.session:9de0a582-0f01-4a19-b9a5-d9a6452295c3_10.51.60.87_1e3e1a5a-d388-4d6c-914a-e0dff8f86175')
+    set('sessionId', 'identity:login.session:9de0a582-0f01-4a19-b9a5-d9a6452295c3_10.51.60.105_ecf6b966-8be0-4a64-865d-6f47ba9152b7')
 }
 
 // request拦截器
 request.interceptors.request.use((url, options) => {
     return {
-        url: `/api/${url}`, // request拦截器为入参api字符串添加前缀
+        url: `${prefix}${url}`, // request拦截器为入参api字符串添加前缀
         options: { ...options, interceptors: true }
     }
 })
@@ -32,7 +34,7 @@ const http = extend({
 })
 
 const notification = Notification.newInstance()
-
+// 普通接口请求
 const HuayunRequest = (api, param, callback = {}) => http
     .post(api, {
         data: param,
@@ -58,4 +60,41 @@ const HuayunRequest = (api, param, callback = {}) => http
         callback.complete && callback.complete(response)
     })
 
+// 含有上传的接口
+export const HuayunUploadRequest = (api, params, callback = {}) => {
+    let formData = new FormData()
+    Object.keys(params).forEach(key => {
+        formData.append(key, params[key])
+    })
+    let responseStatus
+    return fetch(`${prefix}${api}`, {
+        method: 'POST',
+        body: formData,
+        credentials: 'include',
+    }).then(res => {
+        responseStatus = res.status
+        return res.json()
+    }).then(function (response) {
+        if (responseStatus === 200) {
+            callback.success && callback.success(response)
+        } else {
+            if (callback.fail) {
+                callback.fail(response)
+            } else {
+                const language = window.LanguageData[window.LangCode]
+                const { data, message } = response || {}
+                notification.notice({
+                    id: new Date(),
+                    type: 'danger',
+                    title: '错误提示',
+                    content: data && data.errorCode ? language[data.errorCode] : message,
+                    iconNode: 'icon-error-o',
+                    duration: 5,
+                    closable: true
+                })
+            }
+        }
+        callback.complete && callback.complete(response)
+    })
+}
 export default HuayunRequest

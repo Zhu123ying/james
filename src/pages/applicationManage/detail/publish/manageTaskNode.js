@@ -177,7 +177,8 @@ class ManageTaskNode extends React.Component {
                 key: 'num',
                 dataIndex: 'num',
                 title: intl.formatMessage({ id: 'NumberOfCopies' }),
-                render: (val) => val || DEFAULT_EMPTY_LABEL
+                render: (val) => val || DEFAULT_EMPTY_LABEL,
+                width: '80px',
             }
         ]
     }

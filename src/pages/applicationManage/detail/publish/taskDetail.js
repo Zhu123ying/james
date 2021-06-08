@@ -12,6 +12,7 @@ import { DEFAULT_EMPTY_LABEL, ApplicationPublishTaskStatuList } from '~/constant
 import ActionAuth from '~/components/ActionAuth'
 import actions from '~/constants/authAction'
 import ManageTaskNode from './manageTaskNode'
+import { isTimeElement } from 'intl-messageformat-parser'
 const { Step } = Steps
 const _ = window._
 const { Panel } = Collapse;
@@ -58,13 +59,13 @@ class TaskDetail extends React.Component {
             }
         })
     }
-    handleStartPublish = (taskNodeId) => {
+    handleStartPublish = () => {
         const { intl, currentTask: { id: taskId } } = this.props
         const content = intl.formatMessage({ id: 'StartPublish' })
         Modal.warning({
             content: `确认${content} ？`,
             onOk: () => {
-                HuayunRequest(api.executeTaskNode, { taskNodeId, taskId }, {
+                HuayunRequest(api.releaseTask, { taskId }, {
                     success: (res) => {
                         this.getDetail(taskId)
                         notification.notice({
@@ -95,7 +96,7 @@ class TaskDetail extends React.Component {
                             id: new Date(),
                             type: 'success',
                             title: intl.formatMessage({ id: 'Success' }),
-                            content: `${content}'${intl.formatMessage({ id: 'Success' })}`,
+                            content: `${content}${intl.formatMessage({ id: 'Success' })}`,
                             iconNode: 'icon-success-o',
                             duration: 5,
                             closable: true
@@ -119,7 +120,7 @@ class TaskDetail extends React.Component {
                             id: new Date(),
                             type: 'success',
                             title: intl.formatMessage({ id: 'Success' }),
-                            content: `${content}'${intl.formatMessage({ id: 'Success' })}`,
+                            content: `${content}${intl.formatMessage({ id: 'Success' })}`,
                             iconNode: 'icon-success-o',
                             duration: 5,
                             closable: true
@@ -148,7 +149,33 @@ class TaskDetail extends React.Component {
                             id: new Date(),
                             type: 'success',
                             title: intl.formatMessage({ id: 'Success' }),
-                            content: `${intl.formatMessage({ id: 'Delete' })}${content}'${intl.formatMessage({ id: 'Success' })}`,
+                            content: `${intl.formatMessage({ id: 'Delete' })}${content}${intl.formatMessage({ id: 'Success' })}`,
+                            iconNode: 'icon-success-o',
+                            duration: 5,
+                            closable: true
+                        })
+                    }
+                })
+            }
+        })
+    }
+    handleExcuteTaskNode = (name, taskNodeId) => {
+        const { intl, currentTask: { id } } = this.props
+        const params = {
+            taskId: id,
+            taskNodeId
+        }
+        Modal.warning({
+            content: `您确认${intl.formatMessage({ id: 'ExcuteTaskNode' })} - ${name} 吗？`,
+            onOk: () => {
+                HuayunRequest(api.executeTaskNode, params, {
+                    success: (res) => {
+                        this.getDetail(id)
+                        notification.notice({
+                            id: new Date(),
+                            type: 'success',
+                            title: intl.formatMessage({ id: 'Success' }),
+                            content: `${intl.formatMessage({ id: 'ExcuteTaskNode' })}${intl.formatMessage({ id: 'Success' })}`,
                             iconNode: 'icon-success-o',
                             duration: 5,
                             closable: true
@@ -160,7 +187,7 @@ class TaskDetail extends React.Component {
     }
     renderStep = (item, index) => {
         const { intl } = this.props
-        const { taskNodeList } = this.state
+        const { taskNodeList, taskDetail: { currentNode } } = this.state
         const { name, resourceInfo, state, startTime, finishTime } = item
         const nameObj = {
             title: intl.formatMessage({ id: 'Node' }),
@@ -192,9 +219,9 @@ class TaskDetail extends React.Component {
             title: intl.formatMessage({ id: 'FinishTime' }),
             value: finishTime || DEFAULT_EMPTY_LABEL
         }
-        const operate_add = <Icon type='add-o' onClick={() => this.handleAddTaskNode(item, index)}></Icon>
-        const operate_edit = <Icon type='edit-o' onClick={() => this.handleEditTaskNode(item, index)}></Icon>
-        const operate_delete = <Icon type='empty' onClick={() => this.handleDeleteTaskNode(item.id, item.name)}></Icon>
+        const operate_add = <Icon type='add-o' onClick={() => this.handleAddTaskNode(item, index)}></Icon>  // 添加
+        const operate_edit = <Icon type='edit-o' onClick={() => this.handleEditTaskNode(item, index)}></Icon> // 编辑
+        const operate_delete = <Icon type='empty' onClick={() => this.handleDeleteTaskNode(item.id, item.name)}></Icon> // 删除
         switch (index) {
             case 0:
                 return <Step title={this.renderStepContent([nameObj, resourceInfoObj], [operate_add])} icon={<Icon type='boot' />} />
@@ -203,12 +230,13 @@ class TaskDetail extends React.Component {
                 return <Step title={this.renderStepContent([nameObj, resourceInfoObj, stateObj, startTimeObj, finishTimeObj])} icon={<Icon type='shutdown' />} />
                 break
             default:
-                return <Step title={this.renderStepContent([nameObj, resourceInfoObj, stateObj], [operate_add, operate_edit, operate_delete])} icon={<Icon type='connection' />} className='middleNode' />
+                return <Step title={this.renderStepContent([nameObj, resourceInfoObj, stateObj], [operate_add, operate_edit, operate_delete], item)} icon={<Icon type='connection' />} className='middleNode' />
                 break
         }
     }
-    renderStepContent = (data, operaOptions = []) => {
-        const { taskDetail: { state } } = this.state
+    renderStepContent = (data, operaOptions = [], nodeItem = {}) => {
+        const { taskDetail: { state, currentNode } } = this.state
+        const { name, state: nodeState, nextTaskNode } = nodeItem
         return (
             <div className='stepContent'>
                 <div className='keyValues'>
@@ -223,12 +251,19 @@ class TaskDetail extends React.Component {
                         })
                     }
                 </div>
-                {
-                    // releasing状态下不能操作
-                    state !== 'releasing' ? (
-                        <div className='operaGroup'>{operaOptions}</div>
-                    ) : null
-                }
+                <div className='operaGroup'>
+                    {
+                        // config状态下不能操作
+                        state === 'config' ? operaOptions : null
+                    }
+                    {
+                        // 节点的state为success，且该节点未当前节点的时候，有执行按钮
+                        (nodeState === 'success') && (name === currentNode) ? (
+                            // 执行节点
+                            <Icon type='boot' onClick={() => this.handleExcuteTaskNode(name, nextTaskNode)}></Icon>
+                        ) : null
+                    }
+                </div>
             </div>
         )
     }
@@ -280,7 +315,7 @@ class TaskDetail extends React.Component {
                     id: new Date(),
                     type: 'success',
                     title: intl.formatMessage({ id: 'Success' }),
-                    content: `${content}'${intl.formatMessage({ id: 'Success' })}`,
+                    content: `${content}${intl.formatMessage({ id: 'Success' })}`,
                     iconNode: 'icon-success-o',
                     duration: 5,
                     closable: true
@@ -291,7 +326,7 @@ class TaskDetail extends React.Component {
     render() {
         const { intl, detail, onClose, visible, currentTask, handleUpdatePublishTask } = this.props
         const { taskNodeList, isFetching, taskDetail, isManageTaskNodeVisible, manageTaskNodeType, modal_TaskNodeList, modal_CurrentTaskNode } = this.state
-        const { id, name, state, startTime, finishTime, createTime, createrName, description, startVersionId } = taskDetail
+        const { id, name, state, startTime, finishTime, createTime, createrName, description, currentNode } = taskDetail
         const basicInfor = [
             {
                 label: intl.formatMessage({ id: 'TaskName' }),
@@ -327,7 +362,7 @@ class TaskDetail extends React.Component {
             },
             {
                 label: intl.formatMessage({ id: 'CurrentNode' }),
-                value: '暂无，先写死，方便后面找到'
+                value: currentNode
             },
             {
                 label: intl.formatMessage({ id: 'TaskDescription' }),
@@ -335,10 +370,10 @@ class TaskDetail extends React.Component {
             }
         ]
         const operaOptions = [
-            <Button className='operaItem' type='text' onClick={() => this.handleStartPublish(startVersionId)}>
+            <Button className='operaItem' type='text' onClick={() => this.handleStartPublish()} disabled={state !== 'config' ? true : false}>
                 <Icon type="boot" />&nbsp;{intl.formatMessage({ id: 'StartPublish' })}
             </Button>,
-            <Button className='operaItem' type='text' onClick={() => this.handleCancelPublish(id)}>
+            <Button className='operaItem' type='text' onClick={() => this.handleCancelPublish(id)} disabled={state === 'config' ? true : false}>
                 <Icon type="error-o" />&nbsp;{intl.formatMessage({ id: 'CancelPublish' })}
             </Button>,
             <Button className='operaItem' type='text' onClick={() => this.handleRollback(id)} disabled={state !== 'cancel' ? true : false}>

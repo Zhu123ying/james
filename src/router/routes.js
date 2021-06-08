@@ -5,6 +5,7 @@ import CreateApplication from '~/pages/applicationManage/create'
 import ApplicationPackageManage from '~/pages/applicationPackageManage'
 import ContainerManage from '~/pages/containerManage'
 import CreateContainerGroup from '~/pages/containerManage/create'
+import CredentialManage from '~/pages/imageRepositoryCredentialManage'
 import PageNotFound from '~/container/error'
 
 const routers = [
@@ -88,16 +89,6 @@ const routers = [
         langCode: 'CreateContainerGroup',
         descLangCode: 'DesCreateContainerGroup'
       },
-      // 补齐路由，先用应用顶一下
-      {
-        path: "/applicationCenter/applicationStoreManage",
-        component: ApplicationManage,
-        name: 'ApplicationStoreManage',
-        key: 'ApplicationStoreManage',
-        exact: true,
-        langCode: 'ApplicationStoreManage',
-        descLangCode: 'DesApplicationStoreManage',
-      },    
       {
         path: "/applicationCenter/imageManage",
         component: ApplicationManage,
@@ -109,13 +100,23 @@ const routers = [
       }, 
       {
         path: "/applicationCenter/credentialManage",
-        component: ApplicationManage,
+        component: CredentialManage,
         name: 'CredentialManage',
         key: 'CredentialManage',
         exact: true,
         langCode: 'CredentialManage',
         descLangCode: 'DesCredentialManage',
       },
+      // 补齐路由，先用应用顶一下
+      {
+        path: "/applicationCenter/applicationStoreManage",
+        component: ApplicationManage,
+        name: 'ApplicationStoreManage',
+        key: 'ApplicationStoreManage',
+        exact: true,
+        langCode: 'ApplicationStoreManage',
+        descLangCode: 'DesApplicationStoreManage',
+      },    
     ]
   },
   {

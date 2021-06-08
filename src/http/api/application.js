@@ -42,6 +42,7 @@ const api = {
     updateApplicationReleaseTask: `${prefix}updateApplicationReleaseTask`, // 更新发布任务
     queryApplicationReleaseTaskNodes: `${prefix}queryApplicationReleaseTaskNodes`, // 查询任务详情
     executeTaskNode: `${prefix}executeTaskNode`, //开始发布任务 
+    releaseTask: `${prefix}release`,
     cancelApplicationReleaseTask: `${prefix}cancelApplicationReleaseTask`, // 取消发布任务
     createApplicationReleaseTaskNode: `${prefix}createApplicationReleaseTaskNode`, // 新增发布任务节点
     updateApplicationReleaseTaskNode: `${prefix}updateApplicationReleaseTaskNode`, // 更新发布任务节点

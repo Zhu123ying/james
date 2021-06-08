@@ -51,6 +51,8 @@ const zh_CN = {
     Image: '镜像',
     Weight: '权重',
     DiyColumnSetting: '列隐藏设置',
+    UserName: '用户名',
+    Password: '密码',
 
     // 业务字段
     DesCreateContainerGroup: '这是创建容器的描述',
@@ -334,6 +336,9 @@ const zh_CN = {
     ExternalPort: '外部端口',
     PortConfig: '端口配置',
     RemoteAccess: '远程访问',
+    ImageVoucher: '镜像凭证',
+    selectFile: '选择文件',
+    ExcuteTaskNode: '执行任务节点',
     // 接口返回提示
     UpdateApplicationSuccess: '编辑应用-{name}成功！',
     CreateApplicationSuccess: '创建应用-{name}成功！',
@@ -458,6 +463,7 @@ const zh_CN = {
     ApplicationCPUQuotaSMALLError: 'CPU配额不能小于已使用的',
     ApplicationMEMORYQuotaSMALLError: 'MEMORY配额不能小于已使用的',
     ApplicationPackageVersionChartPacketTypeError: '请上传正确的压缩包类型(.tar.gz .tgz)',
-    ApplicationPackageVersionDeleteFailStoreIsExistError: '此次删除的版本中，有版本已经上架到应用商店中，无法删除'
+    ApplicationPackageVersionDeleteFailStoreIsExistError: '此次删除的版本中，有版本已经上架到应用商店中，无法删除',
+    RepositoryCredentialDuplicateNameError: "镜像仓库凭证的库名已存在",
 }
 export default zh_CN

@@ -4,6 +4,7 @@ import applicationStore from './applicationStore'
 import container from './container'
 import resource from './resource'
 import quota from './quota'
+import image from './image'
 
 export {
     application,
@@ -11,5 +12,6 @@ export {
     applicationStore,
     resource,
     quota,
-    container
+    container,
+    image
 }

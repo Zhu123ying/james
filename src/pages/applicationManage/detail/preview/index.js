@@ -86,7 +86,7 @@ class Preview extends React.Component {
                 ref={node => this.$Carousel = node}
                 dots={false}
                 className='pieCarousel' >
-                { carouselDom}
+                {carouselDom}
                 <div></div>
             </Carousel >
         )
@@ -177,11 +177,11 @@ class Preview extends React.Component {
             if (error) {
                 return false
             }
-            const { cpu, memory, storageInfo } = this.$QuotaManage.state
+            const { cCPU, cMemory, storageInfo } = this.$QuotaManage.state
             let params = {
                 id,
                 quota: {
-                    cpu, memory, storageInfo
+                    cCPU, cMemory, storageInfo
                 }
             }
             HuayunRequest(api.updateApplicationQuota, params, {
@@ -293,17 +293,30 @@ class Preview extends React.Component {
             }
         ]
         const carouselPages = resourceObjectStatistics ? Math.floor(Object.keys(resourceObjectStatistics).length / 4) : 0
-        const quotaCpu = _.get(quota, 'cpu', 0)
-        const quotaMemory = _.get(quota, 'memory', 0)
+        const quotaCpu = _.get(quota, 'cCPU', 0)
+        const quotaMemory = _.get(quota, 'cMemory', 0)
+        // const quotaStorageInfo = _.get(quota, 'storageInfo', {}) // 暂时没用到
+        const cCpuProgressData = {
+            name: `cCPU(m)`,
+            percentText: `${usedCpu}/${quotaCpu}`,
+            percentValue: Math.round(usedCpu) / Math.round(quotaCpu) * 100,
+            strokeColor: { '0%': '#61AAF0', '100%': '#4C8CCA' }
+        }
+        const cMemoryProgressData =            {
+            name: `cMemory(Mi)`,
+            percentText: `${usedMemory}/${quotaMemory}`,
+            percentValue: Math.round(usedMemory) / Math.round(quotaMemory) * 100,
+            strokeColor: { '0%': '#F8C640', '100%': '#F0A332' }
+        }
         const progressGroup = [
             {
-                name: `CPU分配(m)`,
+                name: `cCPU(m)`,
                 percentText: `${usedCpu}/${quotaCpu}`,
                 percentValue: Math.round(usedCpu) / Math.round(quotaCpu) * 100,
                 strokeColor: { '0%': '#61AAF0', '100%': '#4C8CCA' }
             },
             {
-                name: `Memory(Mi)`,
+                name: `cMemory(Mi)`,
                 percentText: `${usedMemory}/${quotaMemory}`,
                 percentValue: Math.round(usedMemory) / Math.round(quotaMemory) * 100,
                 strokeColor: { '0%': '#F8C640', '100%': '#F0A332' }
@@ -351,7 +364,7 @@ class Preview extends React.Component {
                                 <div className='name'>
                                     {intl.formatMessage({ id: 'ApplicationQuota' })}
                                 </div>
-                                <div className='opera'>
+                                <div className='operaGroup'>
                                     <Button type='link' onClick={() => this.handleSetState('isQuotaManageModalVisible', true)}>
                                         <Icon type='edit-o' />&nbsp;{intl.formatMessage({ id: 'AppCenterQuotaManage' })}&nbsp;&nbsp;
                                     </Button>
@@ -413,6 +426,7 @@ class Preview extends React.Component {
                     onCancel={() => this.handleSetState('isQuotaManageModalVisible', false)}
                     className='quotaManageDialog'
                     destroyOnClose={true}
+                    width={800}
                 >
                     <QuotaManage
                         intl={intl}

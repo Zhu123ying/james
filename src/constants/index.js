@@ -25,7 +25,7 @@ export const ApplicationPublishTaskStatuList = {
     config: '配置中',
     releasing: '发布中',
     released: '发布完成',
-    failed: '发布失败',
+    fail: '发布失败',
     rollbacked: '回滚完成',
     rollbackfail: '回滚失败',
     cancel: '取消'

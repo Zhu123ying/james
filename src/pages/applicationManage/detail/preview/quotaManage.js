@@ -16,10 +16,10 @@ class QuotaManage extends React.Component {
 
     constructor(props) {
         super(props)
-        const { quota: { cpu, memory, storageInfo } } = props
+        const { quota: { cCPU, cMemory, storageInfo } } = props
         this.state = {
-            cpu,
-            memory,
+            cCPU,
+            cMemory,
             storageInfo: storageInfo || {},
             availableQuotaData: {}, // 可用配额的数据
         }
@@ -67,11 +67,11 @@ class QuotaManage extends React.Component {
 
     render() {
         const { intl, form } = this.props
-        const { cpu, memory, storageInfo, availableQuotaData, isFetching } = this.state
-        const { availableStorageQuota, cpu: cpuAvailable, memory: memoryAvailable } = availableQuotaData
+        const { cCPU, cMemory, storageInfo, availableQuotaData, isFetching } = this.state
+        const { availableStorageQuota, cCPU: cpuAvailable, cMemory: memoryAvailable } = availableQuotaData
         const remainAvailableQuota = [
-            { label: 'CPU(m)', value: cpuAvailable },
-            { label: 'Memory(Mi)', value: memoryAvailable },
+            { label: 'cCPU(m)', value: cpuAvailable },
+            { label: 'cMemory(Mi)', value: memoryAvailable },
             {
                 label: intl.formatMessage({ id: 'Static Storage' }),
                 value: availableStorageQuota ? (
@@ -101,22 +101,22 @@ class QuotaManage extends React.Component {
                     >
                         <Input
                             form={form}
-                            name='cpu'
-                            value={cpu || ''}
+                            name='cCPU'
+                            value={cCPU || ''}
                             type='number'
-                            onChange={val => this.handleChange('cpu', val)}
-                            label='CPU(m)'
+                            onChange={val => this.handleChange('cCPU', val)}
+                            label='cCPU(m)'
                             validRegex={Regex.isPositive}
                             isRequired
                             inline
                         />
                         <Input
                             form={form}
-                            name='memory'
-                            value={memory || ''}
+                            name='cMemory'
+                            value={cMemory || ''}
                             type='number'
-                            onChange={val => this.handleChange('memory', val)}
-                            label='Memory(Mi)'
+                            onChange={val => this.handleChange('cMemory', val)}
+                            label='cMemory(Mi)'
                             validRegex={Regex.isPositive}
                             isRequired
                             inline

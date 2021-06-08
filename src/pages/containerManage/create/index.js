@@ -206,7 +206,6 @@ class ManageContainerItem extends React.Component {
                 }
             })
         })
-
     }
     render() {
         const { form, intl } = this.props
