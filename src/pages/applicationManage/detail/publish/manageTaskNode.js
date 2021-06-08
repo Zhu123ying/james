@@ -165,13 +165,15 @@ class ManageTaskNode extends React.Component {
                 key: 'name',
                 dataIndex: 'name',
                 title: intl.formatMessage({ id: 'Name' }),
-                render: (val) => val || DEFAULT_EMPTY_LABEL
+                render: (val) => val || DEFAULT_EMPTY_LABEL,
+                width: '50%'
             },
             {
                 key: 'kind',
                 dataIndex: 'kind',
                 title: intl.formatMessage({ id: 'Type' }),
-                render: (val) => val || DEFAULT_EMPTY_LABEL
+                render: (val) => val || DEFAULT_EMPTY_LABEL,
+                width: '25%'
             },
             {
                 key: 'num',
@@ -179,6 +181,7 @@ class ManageTaskNode extends React.Component {
                 title: intl.formatMessage({ id: 'NumberOfCopies' }),
                 render: (val) => val || DEFAULT_EMPTY_LABEL,
                 width: '80px',
+                width: '25%'
             }
         ]
     }
