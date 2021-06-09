@@ -62,7 +62,7 @@ const DetailDrawer = ({
             visible={visible}
             mask={false}
             destroyOnClose
-            getContainer="#applicationCenter_layout"
+            getContainer="#applicationCenterRoot"
         >
             {
                 operateConfig ? (

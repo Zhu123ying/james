@@ -356,38 +356,39 @@ const TableCommon = ({
                     <div className="other-operate-btns">
                         {
                             otherOperateButtons.map((button, index) => {
-                                return (
-                                    <Tooltip title={button.name} key={index}>
-                                        {
-                                            button.options ? (
-                                                <AuthDropdown
-                                                    options={button.options}
-                                                    disabled={button.disabled}
-                                                    className="other-operate-dropdown"
-                                                    btnProps={{
-                                                        type: "operate",
-                                                        size: "middle-s",
-                                                        ...button,
-                                                        options: undefined,
-                                                        icon: `icon-${button.icon}`,
-                                                        onClick: undefined,
-                                                        className: undefined,
-                                                        name: button.text
-                                                    }}
-                                                />
-                                            ) : (
-                                                <AuthButton
-                                                    type="operate"
-                                                    size="middle-s"
-                                                    {...button}
-                                                    icon={`icon-${button.icon}`}
-                                                    onClick={e => button.onClick(finalColumns)}
-                                                    name={button.text}
-                                                />
-                                            )
-                                        }
-                                    </Tooltip>
-                                )
+                                return button
+                                // return (
+                                //     <Tooltip title={button.name} key={index}>
+                                //         {
+                                //             button.options ? (
+                                //                 <AuthDropdown
+                                //                     options={button.options}
+                                //                     disabled={button.disabled}
+                                //                     className="other-operate-dropdown"
+                                //                     btnProps={{
+                                //                         type: "operate",
+                                //                         size: "middle-s",
+                                //                         ...button,
+                                //                         options: undefined,
+                                //                         icon: `icon-${button.icon}`,
+                                //                         onClick: undefined,
+                                //                         className: undefined,
+                                //                         name: button.text
+                                //                     }}
+                                //                 />
+                                //             ) : (
+                                //                 <AuthButton
+                                //                     type="operate"
+                                //                     size="middle-s"
+                                //                     {...button}
+                                //                     icon={`icon-${button.icon}`}
+                                //                     onClick={e => button.onClick(finalColumns)}
+                                //                     name={button.text}
+                                //                 />
+                                //             )
+                                //         }
+                                //     </Tooltip>
+                                // )
                             })
                         }
                         <Popover
@@ -453,19 +454,22 @@ const TableCommon = ({
                     return (
                         <div className="batch-operate-btns">
                             {
-                                batchRowOperateButtons.map((item, index) => (
-                                    <>
-                                        <AuthButton
-                                            key={index}
-                                            type="text"
-                                            size="small-s"
-                                            {...item}
-                                            icon={`icon-${item.icon}`}
-                                            disabled={item.disabled || selectedDrawerKey}
-                                        />
-                                        {index !== batchRowOperateButtons.length - 1 ? <Divider type="vertical" /> : null}
-                                    </>
-                                ))
+                                batchRowOperateButtons.map((item, index) => {
+                                    return item
+                                    // return (
+                                    //     <>
+                                    //         <AuthButton
+                                    //             key={index}
+                                    //             type="text"
+                                    //             size="small-s"
+                                    //             {...item}
+                                    //             icon={`icon-${item.icon}`}
+                                    //             disabled={item.disabled || selectedDrawerKey}
+                                    //         />
+                                    //         {index !== batchRowOperateButtons.length - 1 ? <Divider type="vertical" /> : null}
+                                    //     </>
+                                    // )
+                                })
                             }
                         </div>
                     )

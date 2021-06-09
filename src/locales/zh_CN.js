@@ -53,13 +53,15 @@ const zh_CN = {
     DiyColumnSetting: '列隐藏设置',
     UserName: '用户名',
     Password: '密码',
+    Credential: '凭证',
+    Push: '推送',
 
     // 业务字段
     DesCreateContainerGroup: '这是创建容器的描述',
     ApplicationStoreManage: '应用商店',
     DesApplicationStoreManage: '这是应用商店的描述',
     ImageManage: '镜像管理',
-    DesImageManageManage: '这是镜像管理的描述',
+    DesImageManage: '这是镜像管理的描述',
     CredentialManage: '仓库凭证',
     DesCredentialManage: '这是仓库凭证的描述',
     NodeResource: '节点资源',
@@ -339,6 +341,18 @@ const zh_CN = {
     ImageVoucher: '镜像凭证',
     selectFile: '选择文件',
     ExcuteTaskNode: '执行任务节点',
+    PlatformPublicLibrary: '平台公共库',
+    AppStoreLibrary: '应用商店库',
+    ProjectLibrary: '项目库',
+    ImageCount: '镜像数量',
+    PullCount: '拉取数量',
+    LastUpdateTime: '最后一次更新',
+    ImageInstance: '镜像实例',
+    ImageResource: '镜像来源',
+    TargetImage: '目标镜像',
+    ImageLayerInformation: '镜像层信息',
+    VulnerabilityInformation: '漏洞信息',
+
     // 接口返回提示
     UpdateApplicationSuccess: '编辑应用-{name}成功！',
     CreateApplicationSuccess: '创建应用-{name}成功！',
@@ -465,5 +479,7 @@ const zh_CN = {
     ApplicationPackageVersionChartPacketTypeError: '请上传正确的压缩包类型(.tar.gz .tgz)',
     ApplicationPackageVersionDeleteFailStoreIsExistError: '此次删除的版本中，有版本已经上架到应用商店中，无法删除',
     RepositoryCredentialDuplicateNameError: "镜像仓库凭证的库名已存在",
+    ImageArtifactTargetImageIllegalError: '镜像拉取失败，目标镜像参数非法',
+    ImagePullFailHarborCopyError: '镜像拉取失败',
 }
 export default zh_CN

@@ -19,7 +19,7 @@ import ApplicationRollBack from './ApplicationRollBack'
 import OutputHistory from './OutputHistory'
 
 const notification = Notification.newInstance()
-const { TabPane } = Tabs;
+const { TabPane } = Tabs
 let getDetailInterval = null // 获取详情的定时器
 class ApplicationDetail extends React.Component {
     constructor(props) {

@@ -6,6 +6,7 @@ import ApplicationPackageManage from '~/pages/applicationPackageManage'
 import ContainerManage from '~/pages/containerManage'
 import CreateContainerGroup from '~/pages/containerManage/create'
 import CredentialManage from '~/pages/imageRepositoryCredentialManage'
+import ImageManage from '~/pages/imageManage'
 import PageNotFound from '~/container/error'
 
 const routers = [
@@ -91,7 +92,7 @@ const routers = [
       },
       {
         path: "/applicationCenter/imageManage",
-        component: ApplicationManage,
+        component: ImageManage,
         name: 'ImageManage',
         key: 'ImageManage',
         exact: true,
