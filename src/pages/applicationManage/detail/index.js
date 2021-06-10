@@ -20,7 +20,6 @@ import OutputHistory from './OutputHistory'
 
 const notification = Notification.newInstance()
 const { TabPane } = Tabs
-let getDetailInterval = null // 获取详情的定时器
 class ApplicationDetail extends React.Component {
     constructor(props) {
         super(props)
@@ -41,13 +40,8 @@ class ApplicationDetail extends React.Component {
         const { currentApplication: { id } } = this.props
         const { currentApplication: { id: nextId } } = nextProps
         if (id !== nextId) {
-            this.clearDetailInterval()            // 切换应用要先清空定时器！
             this.getDetail(nextId)
         }
-    }
-    clearDetailInterval = () => {
-        window.clearInterval(getDetailInterval)
-        getDetailInterval = null
     }
     // 获取应用以及资源的详情信息
     getDetail = (id) => {
@@ -66,14 +60,10 @@ class ApplicationDetail extends React.Component {
                 }, () => {
                     const { state, id } = res.data
                     // 状态不等于config开启定时器
-                    if (state !== 'config' && !getDetailInterval) {
+                    if (state !== 'config') {
                         setTimeout(() => {
-                            getDetailInterval = setInterval(() => {
-                                this.getDetail(id)
-                            }, 10000)
+                            this.getDetail(id)
                         }, 10000)
-                    } else if (state === 'config' && getDetailInterval) {
-                        this.clearDetailInterval()
                     }
                 })
             },
