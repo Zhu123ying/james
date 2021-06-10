@@ -125,43 +125,65 @@ class Detail extends React.Component {
     }
     renderTagLine = (tags) => {
         const { tagSubmitting } = this.state
-        const { intl } = this.props
+        const { intl, repoType } = this.props
         return (
             <div className='tagLine'>
                 <div className='opera'>
-                    <Popover
-                        placement="top"
-                        content={
-                            <EditInputInline
-                                handleCorrectClick={this.handleTagLineSubmit}
-                                submitting={tagSubmitting}
-                                ref={node => this.$EditInputInline = node}
-                            />
-                        }
-                        trigger="click"
-                        destroyTooltipOnHide={true}
-                    >
-                        <Button
-                            type="primary"
-                            size="small"
-                            icon="icon-add"
-                        />
-                    </Popover>
-                    <div className='labelList'>
-                        {
-                            tags.map(({ name, id }) => {
-                                return (
-                                    <TagItem
-                                        size='small'
-                                        key={id}
-                                        name={name}
-                                        icon="error"
-                                        onClick={() => this.handleRemoveTag(name)}
+                    {
+                        repoType === 'applicationStore' ? (
+                            <div className='labelList'>
+                                {
+                                    tags.map(({ name, id }) => {
+                                        return (
+                                            <TagItem
+                                                size='small'
+                                                key={id}
+                                                name={name}
+                                                className='tagWithoutClose'
+                                            />
+                                        )
+                                    })
+                                }
+                            </div>
+                        ) : (
+                            <>
+                                <Popover
+                                    placement="top"
+                                    content={
+                                        <EditInputInline
+                                            handleCorrectClick={this.handleTagLineSubmit}
+                                            submitting={tagSubmitting}
+                                            ref={node => this.$EditInputInline = node}
+                                        />
+                                    }
+                                    trigger="click"
+                                    destroyTooltipOnHide={true}
+                                >
+                                    <Button
+                                        type="primary"
+                                        size="small"
+                                        icon="icon-add"
                                     />
-                                )
-                            })
-                        }
-                    </div>
+                                </Popover>
+                                <div className='labelList'>
+                                    {
+                                        tags.map(({ name, id }) => {
+                                            return (
+                                                <TagItem
+                                                    size='small'
+                                                    key={id}
+                                                    name={name}
+                                                    icon="error"
+                                                    onClick={() => this.handleRemoveTag(name)}
+                                                    className='tagWithClose'
+                                                />
+                                            )
+                                        })
+                                    }
+                                </div>
+                            </>
+                        )
+                    }
                 </div>
                 <UltrauiButton
                     type="text"
@@ -258,7 +280,8 @@ class Detail extends React.Component {
         return columns
     }
     render() {
-        const { intl, onClose, visible, currentImageInstance, handleDelete } = this.props
+        // repoType为applicationStore的时候，是没有推送，删除，tag的增删操作的
+        const { intl, onClose, visible, currentImageInstance, handleDelete, repoType } = this.props
         const { basicInfo, buildHistory, isMaintenanceRecordModalVisible, isPushImageModalVisible, tableData, scanState } = this.state
         const { artifactTagName, tags, digest, os, architecture, imageSize, createTime, createBy, imageSource } = basicInfo
         const basicKeyValue = [
@@ -304,21 +327,25 @@ class Detail extends React.Component {
                 visible={visible}
                 className='imageInstanceDetailDrawer'
             >
-                <div className='operaBar'>
-                    <UltrauiButton
-                        type="text"
-                        onClick={() => this.handleChange('isPushImageModalVisible', true)}
-                        className='br'
-                    >
-                        <Icon type="release" />&nbsp;{intl.formatMessage({ id: 'Push' })}
-                    </UltrauiButton>
-                    <UltrauiButton
-                        type="text"
-                        onClick={handleDelete}
-                    >
-                        <Icon type="empty" />&nbsp;{intl.formatMessage({ id: 'Delete' })}
-                    </UltrauiButton>
-                </div>
+                {
+                    repoType === 'applicationStore' ? null : (
+                        <div className='operaBar'>
+                            <UltrauiButton
+                                type="text"
+                                onClick={() => this.handleChange('isPushImageModalVisible', true)}
+                                className='br'
+                            >
+                                <Icon type="release" />&nbsp;{intl.formatMessage({ id: 'Push' })}
+                            </UltrauiButton>
+                            <UltrauiButton
+                                type="text"
+                                onClick={handleDelete}
+                            >
+                                <Icon type="empty" />&nbsp;{intl.formatMessage({ id: 'Delete' })}
+                            </UltrauiButton>
+                        </div>
+                    )
+                }
                 <Tabs defaultActiveKey="1">
                     <TabPane tab={intl.formatMessage({ id: 'Detail' })} key="1">
                         <Collapse defaultActiveKey={['1']} className='basicInforCollapse'>

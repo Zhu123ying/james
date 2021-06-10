@@ -17,7 +17,7 @@ import PullRecord from './pullRecord'
 
 const notification = Notification.newInstance()
 
-class PlatformPublicLibrary extends React.Component {
+class ProjectRepoList extends React.Component {
     constructor(props) {
         super(props)
         const { intl } = props
@@ -33,24 +33,37 @@ class PlatformPublicLibrary extends React.Component {
             isAddPullModalVisible: false,
             isPullRecordModalVisible: false
         }
-        this.operationTarget = intl.formatMessage({ id: 'PlatformPublicLibrary' })
+        this.operationTarget = intl.formatMessage({ id: 'AppStoreLibrary' })
     }
-    componentDidMount() {
-        this.handleSearch()
+    componentWillReceiveProps({ projectInitState, projectId }) {
+        projectId && projectId !== this.props.projectId && this.handleProjectChange(projectInitState, projectId)
     }
-    handleSearch = () => {
+    // 切换项目
+    handleProjectChange = (projectInitState, projectId) => {
+        // 如果未初始化，直接tableData设为空数组
+        if (projectInitState) {
+            this.handleSearch(projectId)
+        } else {
+            this.setState({
+                tableData: [],
+                total: 0
+            })
+        }
+    }
+    handleSearch = (projectId = this.props.projectId) => {
         const { name: imageRepoName, pageNumber, pageSize } = this.state
         const params = {
             pageNumber,
             pageSize,
             conditions: {
-                imageRepoName
+                imageRepoName,
+                projectId
             }
         }
         this.setState({
             isFetching: true
         })
-        HuayunRequest(api.getPubRepoImageRepoList, params, {
+        HuayunRequest(api.getProjectImageRepoList, params, {
             success: (res) => {
                 this.setState({
                     tableData: res.data.datas,
@@ -116,19 +129,19 @@ class PlatformPublicLibrary extends React.Component {
         ]
     }
     handleDelete = (imageRepoName) => {
-        const { intl } = this.props
+        const { intl, projectId } = this.props
         const action = intl.formatMessage({ id: 'Delete' })
         Modal.error({
             content: `${intl.formatMessage({ id: 'IsSureToDelete' }, { name: `${this.operationTarget}-${imageRepoName}` })}`,
             onOk: () => {
-                HuayunRequest(api.deletePubRepoImageRepositoryByRepoName, { imageRepoName }, {
+                HuayunRequest(api.deleteProjectImageRepositoryByRepoName, { imageRepoName, projectId }, {
                     success: (res) => {
                         this.handleSearch()
                         notification.notice({
                             id: new Date(),
                             type: 'success',
                             title: intl.formatMessage({ id: 'Success' }),
-                            content: `${action}${this.operationTarget}'${name}'${intl.formatMessage({ id: 'Success' })}`,
+                            content: `${action}${this.operationTarget}'${imageRepoName}'${intl.formatMessage({ id: 'Success' })}`,
                             iconNode: 'icon-success-o',
                             duration: 5,
                             closable: true
@@ -192,11 +205,37 @@ class PlatformPublicLibrary extends React.Component {
             })
         })
     }
+    handleInitPorject = () => {
+        const { projectId, refreshTableList } = this.props
+        HuayunRequest(api.createProjectRepository, { projectId }, {
+            success: (res) => {
+                refreshTableList()
+            },
+        })
+    }
     render() {
-        const { intl } = this.props
+        const { intl, projectInitState } = this.props
         const { name, pageNumber, pageSize, total, tableData, isFetching, tableType, currentTableItem, isAddPullModalVisible, isPullRecordModalVisible } = this.state
+        const noDataProps = projectInitState ? {} : {
+            emptyText: (
+                <NoData
+                    className='noDataTable'
+                    name={
+                        <div div className='noDataTitle' >
+                            <div className='des'>该项目暂无镜像数据，请先初始化！</div>
+                            <Button
+                                type="primary"
+                                name="初始化"
+                                icon={<Icon type="point" />}
+                                onClick={this.handleInitPorject}
+                            />
+                        </div>
+                    }
+                />
+            )
+        }
         return (
-            <div className='PlatformPublicLibrary'>
+            <div className='ProjectRepoList'>
                 {
                     tableType === 0 ? (
                         <>
@@ -225,6 +264,7 @@ class PlatformPublicLibrary extends React.Component {
                                     <ActionAuth action={actions.AdminApplicationCenterApplicationOperate}>
                                         <Tooltip title='新增拉取'>
                                             <Button
+                                                disabled={!projectInitState}
                                                 className='mr8'
                                                 size="middle-s"
                                                 type='operate'
@@ -236,6 +276,7 @@ class PlatformPublicLibrary extends React.Component {
                                     <ActionAuth action={actions.AdminApplicationCenterApplicationOperate}>
                                         <Tooltip title='拉取记录'>
                                             <Button
+                                                disabled={!projectInitState}
                                                 className='mr8'
                                                 size="middle-s"
                                                 type='operate'
@@ -245,6 +286,9 @@ class PlatformPublicLibrary extends React.Component {
                                         </Tooltip>
                                     </ActionAuth>
                                 ]}
+                                {
+                                ...noDataProps
+                                }
                             />
                             <Modal
                                 title='新增拉取'
@@ -284,4 +328,4 @@ class PlatformPublicLibrary extends React.Component {
     }
 }
 
-export default PlatformPublicLibrary
+export default ProjectRepoList

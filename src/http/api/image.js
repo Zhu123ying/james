@@ -18,12 +18,14 @@ const api = {
     getStoreRepoImageRepoList: `${prefix}getStoreRepoImageRepoList`, // 列出应用商店库的镜像仓库列表
     getStoreRepoImageArtifactList: `${prefix}getStoreRepoImageArtifactList`, // 列出应用商店库的镜像实例列表
     // 项目仓库
+    getImageProjectList: `${prefix}getImageProjectList`, // 列出镜像管理项目库列表
     getProjectImageRepoList: `${prefix}getProjectImageRepoList`, // 列出项目仓库的镜像仓库列表
     getProjectImageArtifactList: `${prefix}getProjectImageArtifactList`, // 列出项目仓库的镜像实例列表
     deleteProjectImageRepositoryByRepoName: `${prefix}deleteProjectImageRepositoryByRepoName`, // 删除项目的镜像仓库
     getImageArtifactByImageRepository: `${prefix}getImageArtifactByImageRepository`, // 获取源仓库可供选择的镜像集合
     createPubRepoImageByPullFromProjectRepo: `${prefix}createPubRepoImageByPullFromProjectRepo`, // 平台公共库从项目仓库拉取镜像
     getProjectImagePullTaskList: `${prefix}getProjectImagePullTaskList`, // 项目仓库的镜像拉取列表
+    createProjectRepository: `${prefix}createProjectRepository`, // 初始化项目的仓库
 
     getImageRepositoryPath: `${prefix}getImageRepositoryPath`, // 获取镜像仓库路径（公共平台库下projectId不需要传，项目库下需要传）
     deleteImageArtifactByIds: `${prefix}deleteImageArtifactByIds`, // 删除镜像实例(删除实例只要一个删除接口)

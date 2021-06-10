@@ -178,11 +178,11 @@ class ApplicationManage extends React.Component {
                                                     className={`tableItem ${currentApplication.id === id ? 'activeTableItem' : ''}`}
                                                     onClick={() => this.handleChangeTableItem(item)} >
                                                     <div className='basicInfo'>
-                                                        <div className='name'>
+                                                        <div className='topInfo'>
                                                             <div className={`stateDot ${secondState === 'NORMAL' ? 'bg-success' : 'bg-danger'}`}></div>
                                                             {name}
                                                         </div>
-                                                        <div className='projectName'>{projectName}</div>
+                                                        <div className='bottomInfo'>{projectName}</div>
                                                     </div>
                                                     <div className='status'></div>
                                                 </div>

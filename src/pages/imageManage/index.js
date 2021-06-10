@@ -3,14 +3,14 @@ import React from 'react'
 import { DatePicker, Select, Input, Tabs, Modal, Dropdown } from 'huayunui';
 import './index.less'
 import PlatformPublicLibrary from './platformPublicLibrary'
-const { TabPane } = Tabs
+import ApplicationStoreLibrary from './applicationStoreLibrary'
+import ProjectLibrary from './projectLibrary'
 
+const { TabPane } = Tabs
 class ImageManage extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {
-
-        }
+        this.state = {}
     }
     componentDidMount() {
         this.props.handleExtra({
@@ -32,10 +32,10 @@ class ImageManage extends React.Component {
                         <PlatformPublicLibrary {...this.props} />
                     </TabPane>
                     <TabPane tab={intl.formatMessage({ id: 'AppStoreLibrary' })} key="2">
-                        {/* <Detail {...this.props} detail={detail} getDetail={this.getDetail}></Detail> */}
+                        <ApplicationStoreLibrary {...this.props} />
                     </TabPane>
                     <TabPane tab={intl.formatMessage({ id: 'ProjectLibrary' })} key="3">
-                        {/* <Entrance {...this.props} detail={detail}></Entrance> */}
+                        <ProjectLibrary {...this.props} />
                     </TabPane>
                 </Tabs>
             </div >
