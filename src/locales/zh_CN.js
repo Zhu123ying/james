@@ -481,5 +481,7 @@ const zh_CN = {
     RepositoryCredentialDuplicateNameError: "镜像仓库凭证的库名已存在",
     ImageArtifactTargetImageIllegalError: '镜像拉取失败，目标镜像参数非法',
     ImagePullFailHarborCopyError: '镜像拉取失败',
+    ImageRepositoryProjectIdIllegalError: '镜像仓库项目ID参数非法',
+    ImageArtifactPushTargetImageIllegalError: '镜像推送失败，目标镜像参数非法',
 }
 export default zh_CN

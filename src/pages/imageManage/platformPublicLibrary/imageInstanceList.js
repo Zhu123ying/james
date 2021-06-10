@@ -113,7 +113,7 @@ class ImageInstanceList extends React.Component {
             }
         ]
     }
-    handleDelete = (ids) => {
+    handleDelete = (ids, isFromDetail) => {
         const { intl } = this.props
         const action = intl.formatMessage({ id: 'Delete' })
         Modal.error({
@@ -131,6 +131,13 @@ class ImageInstanceList extends React.Component {
                             duration: 5,
                             closable: true
                         })
+                        // 从详情里面点击删除，需要额外把drawer关闭
+                        if (isFromDetail) {
+                            this.setState({
+                                isDetailModalVisible: false,
+                                currentImageInstance: {},
+                            })
+                        }
                     }
                 })
             }
@@ -187,8 +194,9 @@ class ImageInstanceList extends React.Component {
                     currentImageInstance={currentImageInstance}
                     visible={isDetailModalVisible}
                     onClose={() => this.handleChange('isDetailModalVisible', false)}
+                    handleDelete={() => this.handleDelete([currentImageInstance.id], true)}
                 ></ImageInstanceDetail>
-            </div>
+            </div >
         )
     }
 }

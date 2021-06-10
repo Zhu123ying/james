@@ -107,7 +107,7 @@ class PlatformPublicLibrary extends React.Component {
                             <Button
                                 type="link"
                                 name={intl.formatMessage({ id: 'Delete' })}
-                                onClick={() => this.handleDelete(data.imageRepoName)}
+                                onClick={() => this.handleDelete(data.repoName)}
                             />
                         </ActionAuth>
                     )
@@ -122,7 +122,7 @@ class PlatformPublicLibrary extends React.Component {
             content: `${intl.formatMessage({ id: 'IsSureToDelete' }, { name: `${this.operationTarget}-${name}` })}`,
             onOk: () => {
                 HuayunRequest(api.deletePubRepoImageRepositoryByRepoName, { imageRepoName }, {
-                    success(res) {
+                    success: (res) => {
                         this.handleSearch()
                         notification.notice({
                             id: new Date(),

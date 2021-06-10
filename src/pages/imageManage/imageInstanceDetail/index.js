@@ -1,40 +1,97 @@
 /* eslint-disable */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { RcForm, Icon, Loading, SortTable, Dialog, Radio, Input, Button as UltrauiButton, KeyValue, TagItem, InlineInput } from 'ultraui'
+import { RcForm, Icon, Loading, SortTable, Dialog, Radio, Input, Button as UltrauiButton, KeyValue, TagItem, InlineInput, Notification } from 'ultraui'
 import './index.less'
 import moment from 'moment'
 import HuayunRequest from '~/http/request'
 import { image as api } from '~/http/api'
 import DetailDrawer from '~/components/DetailDrawer'
-import { Collapse, Select, Button, Popover, Modal, Tabs } from 'huayunui'
+import { Collapse, Select, Button, Popover, Modal, Tabs, Table } from 'huayunui'
 import { Row, Col } from 'antd'
 import { DEFAULT_EMPTY_LABEL } from '~/constants'
 import EditInputInline from '~/components/EditInputInline'
 import MaintenanceRecord from './maintenanceRecord'
-
+import PushImage from './pushImage'
 const _ = window._
 const { Panel } = Collapse
 const { TabPane } = Tabs
-
+const notification = Notification.newInstance()
+const severityObj = {
+    Negligible: '可忽略',
+    low: '较低',
+    Medium: '中等',
+    High: '严重',
+    Unknown: '未知'
+}
 class Detail extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            detail: {},
+            basicInfo: {}, // 基础信息
+            buildHistory: [], // 分层信息
+            tableData: [], // 漏洞信息
             tabSubmitting: false,
             isMaintenanceRecordModalVisible: false, // 查看维护记录
+            isPushImageModalVisible: false, // 推送
+            scanState: false, // 扫描状态，true是正在扫描，false是扫描完成 
         }
     }
     componentWillReceiveProps({ currentImageInstance }) {
         const { id } = currentImageInstance
-        id !== this.props.currentImageInstance.id && this.getImageInstanceDetail(id)
+        id && id !== this.props.currentImageInstance.id && this.getDetailData(id)
     }
-    getImageInstanceDetail = (id = this.props.currentImageInstance.id) => {
+    // 获取基础信息、分层信息、漏洞信息
+    getDetailData = (id) => {
+        this.getImageInstanceBasicInfo(id)
+        this.getImageArtifactBuildHistory(id)
+        this.getImageArtifactVulnerabilities(id)
+    }
+    // 漏洞信息
+    getImageArtifactVulnerabilities = (id = this.props.currentImageInstance.id) => {
+        HuayunRequest(api.getImageArtifactVulnerabilities, { id }, {
+            success: (res) => {
+                this.setState({
+                    tableData: res.data
+                })
+            }
+        })
+    }
+    // 分层信息
+    getImageArtifactBuildHistory = (id = this.props.currentImageInstance.id) => {
+        HuayunRequest(api.getImageArtifactBuildHistory, { id }, {
+            success: (res) => {
+                this.setState({
+                    buildHistory: res.data
+                })
+            }
+        })
+    }
+    // 基础信息
+    getImageInstanceBasicInfo = (id = this.props.currentImageInstance.id) => {
         HuayunRequest(api.getImageArtifactInfo, { id }, {
             success: (res) => {
                 this.setState({
-                    detail: res.data
+                    basicInfo: res.data
+                })
+            }
+        })
+    }
+    handleScan = (id = this.props.currentImageInstance.id) => {
+        HuayunRequest(api.getImageArtifactScanStatus, { id }, {
+            success: (res) => {
+                const { isRunning } = res.data
+                this.setState({
+                    scanState: isRunning
+                }, () => {
+                    // 如果正在扫描，则需要定时去获取状态，当状态为false的时候，去掉漏洞列表的接口
+                    if (isRunning) {
+                        setTimeout(() => {
+                            this.handleScan(id)
+                        }, 1000)
+                    } else {
+                        this.getImageArtifactVulnerabilities(id)
+                    }
                 })
             }
         })
@@ -44,12 +101,6 @@ class Detail extends React.Component {
         this.setState({
             [key]: value
         })
-    }
-    handleDelete = () => {
-
-    }
-    handlePush = () => {
-
     }
     handleTagLineSubmit = (tag) => {
         const { currentImageInstance: { id } } = this.props
@@ -62,7 +113,7 @@ class Detail extends React.Component {
         })
         HuayunRequest(api.createImageTag, params, {
             success: (res) => {
-                this.getImageInstanceDetail(id)
+                this.getImageInstanceBasicInfo(id)
                 this.$EditInputInline.handleOnchange()
             },
             complete: () => {
@@ -131,14 +182,85 @@ class Detail extends React.Component {
         }
         HuayunRequest(api.deleteImageTag, params, {
             success: (res) => {
-                this.getImageInstanceDetail(id)
+                this.getImageInstanceBasicInfo(id)
             }
         })
     }
+    // 确认推送镜像
+    handleConfirmPushImage = () => {
+        const { intl, currentImageInstance: { id: sourceImageId } } = this.props
+        this.$PushImage.props.form.validateFields((error, values) => {
+            if (error) {
+                return
+            }
+            const { type, projectId, targetImage, targetRepo } = this.$PushImage.state
+            const params = Object.assign(
+                {
+                    sourceImageId,
+                    targetImage,
+                    targetRepo
+                }, type === 'projectRepo' ? {
+                    projectId
+                } : {}
+            )
+            const url = type === 'projectRepo' ? 'createImageByPushToProject' : 'createImageByPushToPubRepo'
+            HuayunRequest(api[url], params, {
+                success: (res) => {
+                    this.setState({
+                        isPushImageModalVisible: false
+                    })
+                    this.getDetailData(sourceImageId)
+                    notification.notice({
+                        id: new Date(),
+                        type: 'success',
+                        title: intl.formatMessage({ id: 'Success' }),
+                        content: `推送镜像${intl.formatMessage({ id: 'Success' })}`,
+                        iconNode: 'icon-success-o',
+                        duration: 5,
+                        closable: true
+                    })
+                }
+            })
+        })
+    }
+    getTableColumns = () => {
+        const { intl } = this.props
+        const columns = [ // 表格的列数组配置
+            {
+                key: 'id',
+                dataIndex: 'id',
+                title: '缺陷码'
+            },
+            {
+                key: 'severity',
+                dataIndex: 'severity',
+                title: '严重程度',
+                render(key) {
+                    return severityObj[key] || DEFAULT_EMPTY_LABEL
+                }
+            },
+            {
+                key: 'package',
+                dataIndex: 'package',
+                title: '组件'
+            },
+            {
+                key: 'version',
+                dataIndex: 'version',
+                title: '当前版本'
+            },
+            {
+                key: 'fix_version',
+                dataIndex: 'fix_version',
+                title: '修复版本'
+            },
+        ]
+        return columns
+    }
     render() {
-        const { intl, onClose, visible, currentImageInstance } = this.props
-        const { detail, isMaintenanceRecordModalVisible } = this.state
-        const { artifactTagName, tags, digest, os, architecture, imageSize, createTime, createBy, imageSource } = detail
+        const { intl, onClose, visible, currentImageInstance, handleDelete } = this.props
+        const { basicInfo, buildHistory, isMaintenanceRecordModalVisible, isPushImageModalVisible, tableData, scanState } = this.state
+        const { artifactTagName, tags, digest, os, architecture, imageSize, createTime, createBy, imageSource } = basicInfo
         const basicKeyValue = [
             {
                 label: 'Repo',
@@ -177,7 +299,7 @@ class Detail extends React.Component {
             <DetailDrawer
                 name={currentImageInstance.digest}
                 icon='log-1'
-                onRefresh={this.getImageInstanceDetail}
+                onRefresh={this.getDetailData}
                 onClose={onClose}
                 visible={visible}
                 className='imageInstanceDetailDrawer'
@@ -185,31 +307,56 @@ class Detail extends React.Component {
                 <div className='operaBar'>
                     <UltrauiButton
                         type="text"
-                        onClick={this.handlePush}
+                        onClick={() => this.handleChange('isPushImageModalVisible', true)}
                         className='br'
                     >
                         <Icon type="release" />&nbsp;{intl.formatMessage({ id: 'Push' })}
                     </UltrauiButton>
                     <UltrauiButton
                         type="text"
-                        onClick={this.handleDelete}
+                        onClick={handleDelete}
                     >
                         <Icon type="empty" />&nbsp;{intl.formatMessage({ id: 'Delete' })}
                     </UltrauiButton>
                 </div>
                 <Tabs defaultActiveKey="1">
                     <TabPane tab={intl.formatMessage({ id: 'Detail' })} key="1">
-                        <Collapse defaultActiveKey={['1']}>
-                            <Panel header="基础配置" key='1'>
+                        <Collapse defaultActiveKey={['1']} className='basicInforCollapse'>
+                            <Panel header={intl.formatMessage({ id: 'BasicInfo' })} key='1'>
                                 <KeyValue values={basicKeyValue} className='basicKeyValue' />
                             </Panel>
                         </Collapse>
                     </TabPane>
                     <TabPane tab={intl.formatMessage({ id: 'ImageLayerInformation' })} key="2">
-                        ImageLayerInformation
+                        <Collapse defaultActiveKey={['1']} className='imageLayerInfoCollapse'>
+                            <Panel header={intl.formatMessage({ id: 'ImageLayerInformation' })} key='1'>
+                                {
+                                    buildHistory.map(({ created, created_by }) => {
+                                        return (
+                                            <div className='historyItem'>
+                                                <div className='createdBy'>{created_by}</div>
+                                                <div className='createdItem'>{moment(created).format("YYYY-MM-DD HH:mm:ss")}</div>
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </Panel>
+                        </Collapse>
                     </TabPane>
-                    <TabPane tab={intl.formatMessage({ id: 'VulnerabilityInformation' })} key="3">
-                        VulnerabilityInformation
+                    <TabPane tab={intl.formatMessage({ id: 'VulnerabilityInformation' })} key="3" className='vulnerabilityInfoPanel'>
+                        <Button
+                            type={scanState ? 'default' : 'operate'}
+                            icon={<Icon type={scanState ? 'loading' : 'xunjian'} />}
+                            onClick={() => this.handleScan()}
+                            name={scanState ? `扫描中` : `扫描`}
+                            className='scanBtn'
+                        />
+                        <Table
+                            columns={this.getTableColumns()}
+                            dataSource={tableData}
+                            pagination={false}
+                        // expandable={{}}
+                        />
                     </TabPane>
                 </Tabs>
                 <Modal
@@ -221,12 +368,26 @@ class Detail extends React.Component {
                     className='pullRecordModal'
                     width={800}
                     footer={null}
-                    zIndex={99999}
+                    zIndex={9999}
                 >
                     <MaintenanceRecord
                         intl={intl}
                         id={currentImageInstance.id}
                         wrappedComponentRef={node => this.$MaintenanceRecord = node} />
+                </Modal>
+                <Modal
+                    title='镜像推送'
+                    visible={isPushImageModalVisible}
+                    onOk={this.handleConfirmPushImage}
+                    onCancel={() => this.handleChange('isPushImageModalVisible', false)}
+                    getContainer={document.getElementById('ImageManage')}
+                    destroyOnClose={true}
+                    className='addPullModal'
+                    zIndex={9999}
+                >
+                    <PushImage
+                        intl={intl}
+                        wrappedComponentRef={node => this.$PushImage = node} />
                 </Modal>
             </DetailDrawer >
         )

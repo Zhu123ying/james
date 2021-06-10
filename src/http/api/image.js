@@ -31,6 +31,12 @@ const api = {
     createImageTag: `${prefix}createImageTag`, // 镜像添加Tag
     deleteImageTag: `${prefix}deleteImageTag`, // 镜像删除Tag
     getImageArtifactTagRecords: `${prefix}getImageArtifactTagRecords`, // 查看镜像的Tag维护记录
+    createImageByPushToProject: `${prefix}createImageByPushToProject`, // 镜像推送到其他项目仓库中
+    createImageByPushToPubRepo: `${prefix}createImageByPushToPubRepo`, // 镜像推送到平台公共库中
+    getImageArtifactBuildHistory: `${prefix}getImageArtifactBuildHistory`, // 查看镜像实例的分层信息
+    getImageArtifactVulnerabilities: `${prefix}getImageArtifactVulnerabilities`, // 查看镜像实例的漏洞列表
+    scanImageById: `${prefix}scanImageById`, // 镜像扫描
+    getImageArtifactScanStatus: `${prefix}getImageArtifactScanStatus`, // 镜像扫描状态查询
 }
 
 export default api
