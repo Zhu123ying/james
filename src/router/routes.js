@@ -7,6 +7,7 @@ import ContainerManage from '~/pages/containerManage'
 import CreateContainerGroup from '~/pages/containerManage/create'
 import CredentialManage from '~/pages/imageRepositoryCredentialManage'
 import ImageManage from '~/pages/imageManage'
+import ApplicationStoreManage from '~/pages/applicationStoreManage'
 import PageNotFound from '~/container/error'
 
 const routers = [
@@ -108,10 +109,9 @@ const routers = [
         langCode: 'CredentialManage',
         descLangCode: 'DesCredentialManage',
       },
-      // 补齐路由，先用应用顶一下
       {
         path: "/applicationCenter/applicationStoreManage",
-        component: ApplicationManage,
+        component: ApplicationStoreManage,
         name: 'ApplicationStoreManage',
         key: 'ApplicationStoreManage',
         exact: true,

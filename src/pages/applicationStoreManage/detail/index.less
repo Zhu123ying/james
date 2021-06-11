@@ -1,0 +1,95 @@
+@import '../../../../css/variables.less';
+
+#AppStoreAppDetail{
+    margin-top: 24px;
+    margin-right: 24px;
+    .ult-detail-panel{
+        height: auto;
+        .ult-detail-label{
+            width: 240px;
+        }
+    }
+    .versionManage{
+        display: flex;
+        justify-content: space-between;
+        width: calc(100% + 24px);
+        margin-top: 40px;
+        background-color: white;
+        .versionDetail{
+            width: calc(100% - 240px);
+            .recommendConfig{
+                display: flex;
+                flex-direction: column;
+            }
+            .values_template{
+                padding: 0 20px 20px 20px;
+                .label{
+                    margin-bottom: 10px;
+                    .chartTypeItem{
+                        cursor: pointer;
+                        color: rgba(0, 0, 0, 0.75);
+                        font-size: 18px;
+                    }
+                }
+                .content{
+                    background-color: black;
+                    color: white;
+                    padding: 15px;
+                    border-radius: 3px;
+                    width: 100%;
+                    max-height: 500px;
+                    overflow: auto;
+                    line-height: 16px;
+                }
+            }
+        }
+        .versionList{
+            background-color: white;
+            margin-top: -24px;
+            width: 240px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            border-left: 1px solid gainsboro;
+            margin-left: 20px;
+            overflow: auto;
+            .label{
+                line-height: 24px;
+                font-weight: normal;
+                color: rgba(0, 0, 0, 0.75);
+                font-size: 16px;
+                margin-bottom: 15px;
+            }
+            .versionItem{
+                line-height: 25px;
+                cursor: pointer;
+                display: flex;
+                flex-direction: column;
+                margin-bottom: 10px;
+                .versionName{
+                    color: rgba(0, 0, 0, 0.75);
+                    font-size: 18px;
+                }
+                .versionCreateTime{
+                    color: rgba(0, 0, 0, 0.4);
+                }
+            }
+            .versionItem:hover{
+                .versionName{
+                    color: #3da4f1!important;
+                }
+                .versionCreateTime{
+                    color: #3da4f1!important;
+                }
+            }
+        }
+        .activeItem{
+            .versionName{
+                color: #3da4f1!important;
+            }
+            .versionCreateTime{
+                color: #3da4f1!important;
+            }
+        }
+    }
+}

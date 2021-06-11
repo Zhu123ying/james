@@ -1,0 +1,102 @@
+@import '../../../../css/variables.less';
+
+#AppStoreAppManage{
+    .tag{
+        display: flex;
+        align-items: center;
+        .ult-rcform-group{
+            width: 100%;
+        }
+        .icon-add{
+            width: 0;
+            position: relative;
+            margin-bottom: 24px;
+            left: 5px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .icon-add:hover{
+            color: #3da4f1;
+        }
+    }
+    .tagList{
+        padding-left: 20%;
+        margin-bottom: 20px;
+        .tagItem{
+            padding: 4px 16px;
+            border: 1px solid gainsboro;
+            border-radius: 12px;
+            margin-right: 10px;
+            .icon-error{
+                font-size: 13px;
+                position: absolute;
+                margin-top: -5px;
+                color: gainsboro;
+            }
+            .icon-error:hover{
+                color: #eb5f5c;
+            }
+        }
+    }
+    .versionTable{
+        font-size: 14px;
+        padding-top: 6px;
+        padding-right: 16px;
+        .tableHeader{
+            display: flex;
+            align-items: center;
+        }
+        .tableRow{
+            display: flex;
+            align-items: center;
+            height: 44px;
+        }
+        .versionName{
+            width: 200px;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .versionNum{
+            width: 150px;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .manageVersionBtn{
+            margin: 20px 0 30px 80px;
+        }
+    }
+}
+
+#manageVersion{
+    font-size: 14px;
+    .tableHeader{
+        display: flex;
+        align-items: center;
+    }
+    .tableRow{
+        display: flex;
+        align-items: center;
+        height: 44px;
+    }
+    .versionName{
+        width: 120px;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .versionNum{
+        width: 150px;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .ult-switch-checked {
+        background-color: #2196f3!important;
+    }
+}

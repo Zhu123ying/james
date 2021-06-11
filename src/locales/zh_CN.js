@@ -92,7 +92,6 @@ const zh_CN = {
     DescAppPackageManage: '这是应用包管理的描述',
     AppPackageDetail: '应用包详情',
     AppCreateDate: '创建时间',
-    'Number of versions': '版本数',
     CreateAppPackageTitle: '创建应用包',
     CreateAppPackageDes: '这是创建应用包的描述信息',
     TagPlaceHolder: '请输入标签',
@@ -352,6 +351,7 @@ const zh_CN = {
     TargetImage: '目标镜像',
     ImageLayerInformation: '镜像层信息',
     VulnerabilityInformation: '漏洞信息',
+    VersionCount: '版本数',
 
     // 接口返回提示
     UpdateApplicationSuccess: '编辑应用-{name}成功！',
