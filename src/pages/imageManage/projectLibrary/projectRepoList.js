@@ -175,17 +175,22 @@ class ProjectRepoList extends React.Component {
             if (error) {
                 return
             }
-            const { type, sourceProjectId, sourceImageId, repositoryCredentialId, sourceImage, targetImage, targetRepo } = this.$AddPullModal.state
-            const params = Object.assign(
-                {
-                    targetImage,
-                    targetRepo
-                }, type === 1 ? {
-                    repositoryCredentialId, sourceImage
-                } : {
-                sourceProjectId, sourceImageId
-            })
-            const url = type === 1 ? 'createPubRepoImageByPullFromExternalRepo' : 'createPubRepoImageByPullFromProjectRepo'
+            const { type, sourceProjectId, sourceImageId, repositoryCredentialId, sourceImage, projectId, targetImage, targetRepo } = this.$AddPullModal.state
+            let url, params
+            switch (type) {
+                case 1:
+                    params = { projectId, repositoryCredentialId, sourceImage, targetImage, targetRepo }
+                    url = 'createImageByPullFromExternalRepo'
+                    break
+                case 2:
+                    params = { projectId, sourceProjectId, sourceImageId, targetImage, targetRepo }
+                    url = 'createImageByPullFromProject'
+                    break
+                case 3:
+                    params = { projectId, sourceImageId, targetImage, targetRepo }
+                    url = 'createImageByPullFromPublicRepo'
+                    break
+            }
             HuayunRequest(api[url], params, {
                 success: (res) => {
                     this.setState({
@@ -214,7 +219,7 @@ class ProjectRepoList extends React.Component {
         })
     }
     render() {
-        const { intl, projectInitState } = this.props
+        const { intl, projectInitState, projectId } = this.props
         const { name, pageNumber, pageSize, total, tableData, isFetching, tableType, currentTableItem, isAddPullModalVisible, isPullRecordModalVisible } = this.state
         const noDataProps = projectInitState ? {} : {
             emptyText: (
@@ -315,6 +320,7 @@ class ProjectRepoList extends React.Component {
                             >
                                 <PullRecord
                                     intl={intl}
+                                    projectId={projectId}
                                     wrappedComponentRef={node => this.$PullRecord = node} />
                             </Modal>
                         </>

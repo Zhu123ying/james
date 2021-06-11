@@ -48,7 +48,7 @@ class ImageInstanceList extends React.Component {
         this.setState({
             isFetching: true
         })
-        HuayunRequest(api.getPubRepoImageArtifactList, params, {
+        HuayunRequest(api.getProjectImageArtifactList, params, {
             success: (res) => {
                 this.setState({
                     tableData: res.data.datas,

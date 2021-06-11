@@ -195,7 +195,7 @@ const zh_CN = {
     DesAppCenterResourceManage: '平台存储资源管理',
     SaveFileSuccess: '文件保存成功',
     ValidateFileSuccess: '文件验证成功',
-    ProjectBelongTo: '所属项目',
+    ProjectBelongTo: '归属项目',
     SelectProjectPlaceHolder: '请选择项目',
     ShareApplicationPackage: '分享应用包',
     VersionState: '版本状态',
@@ -483,5 +483,6 @@ const zh_CN = {
     ImagePullFailHarborCopyError: '镜像拉取失败',
     ImageRepositoryProjectIdIllegalError: '镜像仓库项目ID参数非法',
     ImageArtifactPushTargetImageIllegalError: '镜像推送失败，目标镜像参数非法',
+    ImageRepositoryProjectIdIllegalError: '镜像仓库项目ID参数非法',
 }
 export default zh_CN

@@ -7,7 +7,6 @@ import { DatePicker, Select, Input, SearchBar, Button, Table, Modal, Space, Chec
 import { Icon, NoData, Notification } from 'ultraui'
 import './index.less'
 import TableCommon from '~/components/TableCommon'
-
 class PullRecord extends React.Component {
     constructor(props) {
         super(props)
@@ -26,15 +25,18 @@ class PullRecord extends React.Component {
     }
     handleSearch = () => {
         const { pageNumber, pageSize } = this.state
+        const { projectId } = this.props
         const params = {
             pageNumber,
             pageSize,
-            conditions: {}
+            conditions: {
+                projectId
+            }
         }
         this.setState({
             isFetching: true
         })
-        HuayunRequest(api.getPubRepoImagePullTaskList, params, {
+        HuayunRequest(api.getProjectImagePullTaskList, params, {
             success: (res) => {
                 this.setState({
                     tableData: res.data.datas,
