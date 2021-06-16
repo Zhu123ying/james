@@ -1,250 +1,189 @@
 /* eslint-disable */
 import React from 'react'
-import PropTypes from 'prop-types'
-import { injectIntl } from 'react-intl'
-import { connect } from 'react-redux'
-import { RcForm, Timeline, Panel, NoData, Static, Button, Tooltip, Loading } from 'ultraui'
+import { RcForm, Icon, Loading, SortTable, Dialog, Radio, Input, Button as UltrauiButton, KeyValue, TagItem, InlineInput, Notification } from 'ultraui'
 import './index.less'
-import { DEFAULT_EMPTY_LABEL } from 'Cnst/config'
-import Action from 'Cnst/action'
-import { ActionAuth } from 'Utils'
-import Detail from 'BCmpt/Detail'
 import moment from 'moment'
-import { formatChartValues } from '../../utils'
-
+import HuayunRequest from '~/http/request'
+import { applicationStore as api } from '~/http/api'
+import DetailDrawer from '~/components/DetailDrawer'
+import { Collapse, Select, Button, Popover, Modal, Tabs, Table } from 'huayunui'
+import { Row, Col } from 'antd'
+import { DEFAULT_EMPTY_LABEL } from '~/constants'
 const _ = window._
-
-const ActionButton = ActionAuth(Button)
-
-class AppStoreAppDetail extends React.Component {
-  static propTypes = {
-    intl: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired,
-    modelDetail: PropTypes.object.isRequired,
-    baseFetch: PropTypes.func.isRequired
-  }
-
-  constructor(props) {
-    super(props)
-    this.baseAction = {
-      app: 'appCenter',
-      model: 'appStore.detail',
-      method: 'post',
-      data: {
-        id: props.match.params.id
-      }
+const { Panel } = Collapse
+const { TabPane } = Tabs
+const notification = Notification.newInstance()
+class Detail extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            detail: {},
+            currentVersion: {}
+        }
     }
-    this.state = {
-      appDetail: {}, // 应用的详情
-      versionDetail: {}, // 版本的详情
-      versionList: [], // 版本列表
-      chartType: 'chartValues'
+    componentWillReceiveProps({ currentDataItem }) {
+        const { id } = currentDataItem
+        id && id !== this.props.currentDataItem.id && this.getDetailData(id)
     }
-  }
-
-  componentDidMount() {
-    this.getDetail()
-  }
-
-  getDetail = () => {
-    const { app, model, method, data } = this.baseAction
-    this.props.baseFetch(app, model, method, data, {}, {
-      callback: (res) => {
-        const { name, projectName, tags, createTime, createByName, description, applicationPackageVersionStoreList: versionList, packageVersionPojo: versionDetail } = res
-        this.setState({
-          appDetail: {
-            name, tags, createTime, createByName, description, projectName
-          },
-          versionDetail,
-          versionList
+    getDetailData = (id = this.props.currentDataItem.id) => {
+        HuayunRequest(api.detail, { id }, {
+            success: (res) => {
+                const { applicationPackageVersionStoreList } = res.data
+                this.setState({
+                    detail: res.data,
+                    currentVersion: applicationPackageVersionStoreList && applicationPackageVersionStoreList.length ? applicationPackageVersionStoreList[0] : {}
+                })
+            }
         })
-      }
-    })
-  }
-
-  getAppDetail() {
-    const { intl } = this.props
-    const { appDetail: { name, tags, createTime, createByName, description, projectName } } = this.state
-    const infoOptions = [
-      {
-        id: 'Name',
-        name: intl.formatMessage({ id: 'Name' }),
-        value: name || DEFAULT_EMPTY_LABEL
-      }, {
-        id: 'projectName',
-        name: intl.formatMessage({ id: 'ProjectBelongTo' }),
-        value: projectName || DEFAULT_EMPTY_LABEL
-      }, {
-        id: 'Description',
-        name: intl.formatMessage({ id: 'Description' }),
-        value: (
-          <Tooltip tips={description || DEFAULT_EMPTY_LABEL} placement="bottom">
-            <div>{description || DEFAULT_EMPTY_LABEL}</div>
-          </Tooltip>
-        )
-      }, {
-        id: 'AppTag',
-        name: intl.formatMessage({ id: 'AppTag' }),
-        value: (tags || []).join('、') || DEFAULT_EMPTY_LABEL
-      }, {
-        id: 'createByName',
-        name: intl.formatMessage({ id: 'Creator' }),
-        value: createByName || DEFAULT_EMPTY_LABEL
-      }, {
-        id: 'CreateTime',
-        name: intl.formatMessage({ id: 'CreateTime' }),
-        value: createTime || DEFAULT_EMPTY_LABEL
-      }
-    ]
-    return [{
-      id: 'BaseInfo',
-      name: intl.formatMessage({ id: 'BaseInfo' }),
-      options: infoOptions,
-      buttons: [
-        <ActionButton actions={[Action.AdminApplicationCenterApplicationCenterApplicationCreate]} type="primary" onClick={this.toCreateApp} >{intl.formatMessage({ id: 'CreateAppTitle' })}</ActionButton>
-      ]
-    }]
-  }
-
-  getVersionDetail() {
-    const { intl } = this.props
-    const { versionDetail: { name, createTime, description, createByName, quota, id } } = this.state
-    const cpu = _.get(quota, 'cpu', 0)
-    const memory = _.get(quota, 'memory', 0)
-    const storage = _.get(quota, 'storage', {})
-
-    const infoOptions = [
-      {
-        id: 'Name',
-        name: intl.formatMessage({ id: 'Name' }),
-        value: name || DEFAULT_EMPTY_LABEL
-      }, {
-        id: 'Description',
-        name: intl.formatMessage({ id: 'Description' }),
-        value: (
-          <Tooltip tips={description || DEFAULT_EMPTY_LABEL} placement="bottom">
-            <div>{description || DEFAULT_EMPTY_LABEL}</div>
-          </Tooltip>
-        )
-      }, {
-        id: 'CreateTime',
-        name: intl.formatMessage({ id: 'CreateTime' }),
-        value: createTime || DEFAULT_EMPTY_LABEL
-      }, {
-        id: 'createByName',
-        name: intl.formatMessage({ id: 'Creator' }),
-        value: createByName || DEFAULT_EMPTY_LABEL
-      }, {
-        id: 'Recommended Configuration',
-        name: intl.formatMessage({ id: 'Recommended Configuration' }),
-        value: (
-          <div className="recommendConfig">
-            <span>CPU&nbsp;:&nbsp;{cpu}m</span>
-            <span>Memory&nbsp;:&nbsp;{memory}Mi</span>
-            <span style={{ display: 'flex' }}>
-              Storage&nbsp;:&nbsp;
-              <span>
-                {
-                  Object.keys(storage).map(key => {
-                    return (
-                      <React.Fragment>
-                        <span>{`${key}: ${storage[key]}`}</span>
-                        <br></br>
-                      </React.Fragment>
-                    )
-                  })
-                }
-              </span>
-            </span>
-          </div>
-        )
-      }
-    ]
-    return [{
-      id: 'VersionManage',
-      name: intl.formatMessage({ id: 'VersionManage' }),
-      options: id ? infoOptions : []
-    }]
-  }
-
-  toCreateApp = () => {
-    const { versionDetail: { id: applicationPackageVersionId } } = this.state
-    this.props.history.push(`/appCenter/appManage/create?id=${this.props.match.params.id}&applicationPackageVersionId=${applicationPackageVersionId}`)
-  }
-
-  handleChoseVersion = (id) => {
-    this.props.baseFetch('appCenter', 'appStore.appVersionDetail', 'post', { id }, {}, {
-      callback: (res) => {
+    }
+    handleChange = (key, val) => {
+        const value = _.get(val, 'target.value', val)
         this.setState({
-          versionDetail: res,
-          chartType: 'chartValues'
+            [key]: value
         })
-      }
-    })
-  }
-
-  choseChartType = (key) => {
-    this.setState({
-      chartType: key
-    })
-  }
-
-  render() {
-    const { modelDetail, modelVersionDetail, prefixCls, intl } = this.props
-    const { versionList, versionDetail, chartType } = this.state
-
-    return (
-      modelDetail.isFetching || modelVersionDetail.isFetching
-        ? <Loading /> : (
-          <div id="AppStoreAppDetail">
-            <Detail className='appDetail' data={this.getAppDetail()} prefixCls={prefixCls} />
-            <div className="versionManage">
-              <div className="versionDetail">
-                <Detail data={this.getVersionDetail()} prefixCls={prefixCls} />
-                {
-                  versionDetail && versionDetail.id ? (
-                    <div className="values_template">
-                      <div className="label">
-                        <span className={`chartTypeItem ${chartType === 'chartValues' ? 'activeItem' : ''}`} onClick={() => this.choseChartType('chartValues')}>Values</span>
-                      &nbsp;/&nbsp;
-                      <span className={`chartTypeItem ${chartType === 'chartTemplate' ? 'activeItem' : ''}`} onClick={() => this.choseChartType('chartTemplate')}>Template</span>
-                      </div>
-                      <div className="content" dangerouslySetInnerHTML={{ __html: formatChartValues(versionDetail[chartType]) }}></div>
+    }
+    handleManage = (id) => {
+        this.props.history.push(`${this.props.match.path}/edit/${id}`)
+    }
+    renderRecommendConfig = (quota) => {
+        const { memory, cpu, storage } = quota || {}
+        const storageLine = Object.keys(storage || {}).map(key => {
+            return `${key}:${storage[key]}`
+        })
+        const array = [`CPU:${cpu} `, `Memory:${memory}`, ...storageLine]
+        return <div className='quotaRecommand'>{array.join('|')}</div>
+    }
+    render() {
+        const { intl, onClose, visible, currentDataItem, handleDelete } = this.props
+        const { detail, currentVersion } = this.state
+        const { id, name, tags, createTime, description, applicationPackageVersionStoreList } = detail || {}
+        const basicKeyValue = [
+            {
+                label: intl.formatMessage({ id: 'Name' }),
+                value: name || DEFAULT_EMPTY_LABEL
+            },
+            {
+                label: intl.formatMessage({ id: 'Tag' }),
+                value: (
+                    <div className='labelList'>
+                        {
+                            (tags || []).map((item) => {
+                                return (
+                                    <TagItem
+                                        size='small'
+                                        key={item}
+                                        name={item}
+                                        className='tagWithoutClose'
+                                    />
+                                )
+                            })
+                        }
                     </div>
-                  ) : null
-                }
-              </div>
-              <div className="versionList">
-                <div className="label">{intl.formatMessage({ id: 'VersionList' })}</div>
-                {
-                  versionList.map(item => {
-                    return (
-                      <div
-                        className={`versionItem ${item.id === versionDetail.id ? 'activeItem' : ''}`}
-                        key={item.id}
-                        onClick={() => this.handleChoseVersion(item.id)}>
-                        <span className='versionName'>{item.name}</span>
-                        <span className='versionCreateTime'>{item.createTime}</span>
-                      </div>
-                    )
-                  })
-                }
-              </div>
-            </div>
-          </div>
+                )
+            },
+            {
+                label: intl.formatMessage({ id: 'CreateTime' }),
+                value: createTime || DEFAULT_EMPTY_LABEL
+            },
+            {
+                label: intl.formatMessage({ id: 'Description' }),
+                value: description || DEFAULT_EMPTY_LABEL
+            }
+        ]
+        const versionKeyValueData = [
+            {
+                label: intl.formatMessage({ id: 'Index of versions' }),
+                value: currentVersion.packageVersion || DEFAULT_EMPTY_LABEL
+            },
+            {
+                label: intl.formatMessage({ id: 'Recommended Configuration' }),
+                value: this.renderRecommendConfig(currentVersion.quota)
+            }
+        ]
+        const versionKeyValueData2 = [
+            {
+                value: intl.formatMessage({ id: 'CreaterName' }),
+                label: currentVersion.createBy || DEFAULT_EMPTY_LABEL
+            },
+            {
+                value: intl.formatMessage({ id: 'CreateTime' }),
+                label: currentVersion.createTime || DEFAULT_EMPTY_LABEL
+            }
+        ]
+        return (
+            <DetailDrawer
+                name={name}
+                icon='log-1'
+                onRefresh={this.getDetailData}
+                onClose={onClose}
+                visible={visible}
+                className='applicationStoreDetailDrawer'
+            >
+                <div className='operaBar'>
+                    <UltrauiButton
+                        type="text"
+                        onClick={() => this.handleManage(id)}
+                        className='br'
+                    >
+                        <Icon type="release" />&nbsp;{intl.formatMessage({ id: '::Manage' })}
+                    </UltrauiButton>
+                    <UltrauiButton
+                        type="text"
+                        onClick={handleDelete}
+                    >
+                        <Icon type="empty" />&nbsp;{intl.formatMessage({ id: 'Delete' })}
+                    </UltrauiButton>
+                </div>
+                <Tabs defaultActiveKey="1">
+                    <TabPane tab={intl.formatMessage({ id: 'Detail' })} key="1">
+                        <Collapse defaultActiveKey={['1']} className='basicInforCollapse'>
+                            <Panel header={intl.formatMessage({ id: 'BasicInfo' })} key='1'>
+                                <KeyValue values={basicKeyValue} className='basicKeyValue' />
+                            </Panel>
+                        </Collapse>
+                    </TabPane>
+                    <TabPane tab={intl.formatMessage({ id: 'VersionManage' })} key="2">
+                        <div className='versionManage'>
+                            <div className='versionContent'>
+                                <div className='versionInfo'>
+                                    <div className='p16'>
+                                        <div className='versionName'>{currentDataItem.name}</div>
+                                        <div className='versionDes'>{currentDataItem.description}</div>
+                                        <KeyValue values={versionKeyValueData} />
+                                    </div>
+                                    <KeyValue className='horizontalKeyValue' values={versionKeyValueData2} />
+                                </div>
+                                <Tabs defaultActiveKey="1" className='versionChart'>
+                                    <TabPane tab='VALUES' key="1">
+                                        {currentVersion.chartValues}
+                                    </TabPane>
+                                    <TabPane tab='TEMPLATE' key="2">
+                                        {currentVersion.chartTemplate}
+                                    </TabPane>
+                                </Tabs>
+                            </div>
+                            <div className='versionList'>
+                                <div className='title'>版本列表</div>
+                                <div className='listContent'>
+                                    {
+                                        (applicationPackageVersionStoreList || []).map((item) => {
+                                            const { id, name, createTime } = item
+                                            return (
+                                                <div className='versionItem' key={id} onClick={() => this.handleChange('currentVersion', item)}>
+                                                    <span className={`versionName ${currentVersion.id === id ? 'activeBefore' : ''}`}>{name}</span>
+                                                    <span className='createTime'>{createTime}</span>
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </TabPane>
+                </Tabs>
+            </DetailDrawer >
         )
-    )
-  }
-
+    }
 }
 
-const mapStateToProps = state => ({
-  modelDetail: state.baseModel.appCenter.appStore.detail.post,
-  modelVersionDetail: state.baseModel.appCenter.appStore.appVersionDetail.post,
-})
-
-const mapDispatchToProps = dispatch => ({
-
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(AppStoreAppDetail))
+export default Detail

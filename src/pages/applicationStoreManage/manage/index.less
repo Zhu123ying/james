@@ -1,16 +1,15 @@
-@import '../../../../css/variables.less';
-
 #AppStoreAppManage{
     .tag{
         display: flex;
         align-items: center;
         .ult-rcform-group{
             width: 100%;
+            margin-bottom: 10px;
         }
         .icon-add{
             width: 0;
             position: relative;
-            margin-bottom: 24px;
+            margin-bottom: 10px;
             left: 5px;
             font-size: 18px;
             cursor: pointer;
@@ -19,24 +18,11 @@
             color: #3da4f1;
         }
     }
-    .tagList{
+    .labelList{
+        display: flex;
+        flex-wrap: wrap;
         padding-left: 20%;
         margin-bottom: 20px;
-        .tagItem{
-            padding: 4px 16px;
-            border: 1px solid gainsboro;
-            border-radius: 12px;
-            margin-right: 10px;
-            .icon-error{
-                font-size: 13px;
-                position: absolute;
-                margin-top: -5px;
-                color: gainsboro;
-            }
-            .icon-error:hover{
-                color: #eb5f5c;
-            }
-        }
     }
     .versionTable{
         font-size: 14px;

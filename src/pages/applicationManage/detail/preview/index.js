@@ -280,7 +280,7 @@ class Preview extends React.Component {
                 label: createrName || DEFAULT_EMPTY_LABEL
             },
             {
-                value: intl.formatMessage({ id: 'CreaterName' }),
+                value: intl.formatMessage({ id: 'CreateTime' }),
                 label: createTime || DEFAULT_EMPTY_LABEL
             },
             {

@@ -1,24 +1,14 @@
 /* eslint-disable */
-import BaseComponent from 'Page/base/BaseComponent'
-import PropTypes from 'prop-types'
-import { injectIntl } from 'react-intl'
-import { connect } from 'react-redux'
+import React from 'react'
 import { RcForm, Loading, Row, Col, Icon, Notification, Switch } from 'ultraui'
 import './index.less'
-import { clearNull } from 'Utils/tools/object'
+import { applicationStore as api, application } from '~/http/api'
+import HuayunRequest from '~/http/request'
 
 const notification = Notification.newInstance()
-
 const { FormGroup, Form, Input, Button, RadioGroup, Textarea, FormRow, Panel } = RcForm
-
 const _ = window._
-
-class ManagePackageVersion extends BaseComponent {
-    static propTypes = {
-        intl: PropTypes.object.isRequired,
-        baseFetch: PropTypes.func.isRequired,
-    }
-
+class ManagePackageVersion extends React.Component {
     constructor(props) {
         super(props)
         const { applicationPackageVersionIds, packageVersionsAll } = props
@@ -35,11 +25,11 @@ class ManagePackageVersion extends BaseComponent {
 
     getAppPackageVersionDetail = () => {
         // 获取应用包的版本列表信息
-        const { baseFetch, applicationPackageId } = this.props
-        baseFetch('appCenter', 'appStore.appPackageVersionDetail', 'post', { applicationPackageId }, {}, {
-            callback: (res) => {
+        const { applicationPackageId } = this.props
+        HuayunRequest(api.appPackageVersionDetail, { applicationPackageId }, {
+            success: (res) => {
                 this.setState({
-                    applicationPackageVersions: res
+                    applicationPackageVersions: res.data
                 })
             }
         })
@@ -66,7 +56,6 @@ class ManagePackageVersion extends BaseComponent {
     render() {
         const { form, intl } = this.props
         const { applicationPackageVersions, applicationPackageVersionIds } = this.state
-
         return (
             <div id="manageVersion">
                 <div className="tableHeader">

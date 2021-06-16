@@ -1,30 +1,18 @@
 /* eslint-disable */
-import BaseComponent from 'Page/base/BaseComponent'
-import PropTypes from 'prop-types'
-import { injectIntl } from 'react-intl'
-import { connect } from 'react-redux'
-import { RcForm, Loading, Row, Col, Icon, Notification, Dialog } from 'ultraui'
-import { MultiLineMessage } from 'BCmpt'
+import React from 'react'
+import { RcForm, Loading, Row, Col, Icon, Notification, Dialog, TagItem } from 'ultraui'
+import { Modal } from 'huayunui'
 import './index.less'
-import { clearNull } from 'Utils/tools/object'
+import Regex from '~/utils/regex'
+import { applicationStore as api, application } from '~/http/api'
+import HuayunRequest from '~/http/request'
 import ManagePackageVersion from './managePackageVersion'
-import Regex from 'Utils/tools/regex'
-import { HANDLE_RESPONSE_STATUS } from 'Cnst/types'
+import MultiLineMessage from '~/components/MultiLineMessage'
 
 const notification = Notification.newInstance()
-
 const { FormGroup, Form, Input, Button, RadioGroup, Textarea, FormRow, Select, Panel } = RcForm
-
 const _ = window._
-
-class AppStoreManageApp extends BaseComponent {
-    static propTypes = {
-        form: PropTypes.object.isRequired,
-        intl: PropTypes.object.isRequired,
-        baseFetch: PropTypes.func.isRequired,
-        history: PropTypes.object.isRequired
-    }
-
+class AppStoreManageApp extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -36,15 +24,10 @@ class AppStoreManageApp extends BaseComponent {
             name: '', // 名称
             description: '', // 描述
             tags: [], // 标签
-            projectId: ''
-        }
-        this.baseAction = {
-            app: 'appCenter',
-            modelDetail: 'appStore.manageDetail',
-            method: 'post',
-            data: {
-                id: props.match.params.id
-            }
+            projectId: '',
+            projectList: [], // 项目列表
+            appPackageList: [], // 应用包列表
+            isShelfManageModalVisible: false, // 管理上家版本modal
         }
     }
 
@@ -52,22 +35,36 @@ class AppStoreManageApp extends BaseComponent {
         this.getProjectList()
         this.props.match.params.id && this.getDetail()
     }
-
     // 获取项目列表
     getProjectList = () => {
-        this.props.baseFetch('enterprise', 'listProject', 'post', { pageNumber: 1, pageSize: 10000 }, {})
+        let params = {
+            pageNumber: 1,
+            pageSize: 10000
+        }
+        HuayunRequest(application.listProject, params, {
+            success: (res) => {
+                this.setState({
+                    projectList: res.data
+                })
+            }
+        })
     }
-
     getAppPackageListByProjectId = (projectId) => {
         // 获取详情数据
-        this.props.baseFetch('appCenter', 'appStore.appPackageList', 'post', { projectId }, {})
+        HuayunRequest(api.appPackageList, { projectId }, {
+            success: (res) => {
+                this.setState({
+                    appPackageList: res.data
+                })
+            }
+        })
     }
-
     getDetail = () => {
+        const { match: { params: { id } } } = this.props
         // 获取详情数据
-        this.props.baseFetch(this.baseAction.app, this.baseAction.modelDetail, this.baseAction.method, clearNull(this.baseAction.data), {}, {
-            callback: (res) => {
-                const { description, name, tags, id, applicationPackageId, applicationPackageVersionIds, packageVersionsSelected: selectedAppPackageVersions, packageVersionsAll, projectId } = res
+        HuayunRequest(api.manageDetail, { id }, {
+            success: (res) => {
+                const { description, name, tags, id, applicationPackageId, applicationPackageVersionIds, packageVersionsSelected: selectedAppPackageVersions, packageVersionsAll, projectId } = res.data
                 this.setState({
                     description,
                     name,
@@ -86,36 +83,31 @@ class AppStoreManageApp extends BaseComponent {
     }
 
     handleSubmit = () => {
-        const { baseFetch, match: { params: { id } }, history, intl, handleResponseStatus } = this.props
+        const { match: { params: { id } }, history, intl } = this.props
         const { applicationPackageId, name, description, tags, applicationPackageVersionIds, projectId } = this.state
         const params = {
             id, applicationPackageId, name, description, tags, applicationPackageVersionIds, projectId
         }
-        baseFetch('appCenter', `${id ? 'appStore.update' : 'appStore.create'}`, 'post', clearNull(params), {}, {
-            callback: (res) => {
-                handleResponseStatus({
-                    type: HANDLE_RESPONSE_STATUS,
-                    code: 200,
-                    msg: {
-                        success: intl.formatMessage({ id: id ? 'UpdateApplicationSuccess' : 'CreateApplicationSuccess' }, { name })
-                    }
+        const url = id ? 'update' : 'create'
+        const content = intl.formatMessage({ id: id ? 'Update' : 'Create' }) + intl.formatMessage({ id: 'AppStore' })
+        HuayunRequest(api[url], params, {
+            success: (res) => {
+                notification.notice({
+                    id: new Date(),
+                    type: 'success',
+                    title: intl.formatMessage({ id: 'Success' }),
+                    content: `${content}'${intl.formatMessage({ id: 'Success' })}`,
+                    iconNode: 'icon-success-o',
+                    duration: 5,
+                    closable: true
                 })
-                history.push('/appCenter/appStore')
-            },
-            onError: (res) => {
-                handleResponseStatus({
-                    type: HANDLE_RESPONSE_STATUS,
-                    code: 200,
-                    msg: {
-                        error: intl.formatMessage({ id: res.code === 400 ? res.data.errorCode : 'Internal Server Error' })
-                    }
-                })
+                this.handleCancel()
             }
-        }) // 获取所有数据
+        })
     }
 
-    handleReset() {
-        this.props.history.goBack()
+    handleCancel() {
+        this.props.history.push('/applicationCenter/applicationStoreManage')
     }
 
     handleChange = (key, val) => {
@@ -144,42 +136,21 @@ class AppStoreManageApp extends BaseComponent {
             tags
         })
     }
-
-    handleManagePackageVersion = () => {
-        const { intl, baseFetch, match: { params: { id } } } = this.props
-        const { applicationPackageId, applicationPackageVersionIds, packageVersionsAll } = this.state
-        this.$dialog = Dialog(
-            <ManagePackageVersion
-                wrappedComponentRef={versionForm => { this.$versionForm = versionForm }}
-                id={id}
-                applicationPackageId={applicationPackageId}
-                applicationPackageVersionIds={applicationPackageVersionIds}
-                packageVersionsAll={packageVersionsAll}
-                intl={intl}
-                baseFetch={baseFetch}
-            />, {
-            title: intl.formatMessage({ id: 'ShelfManagement' }),
-            style: { width: '480px' },
-            className: 'version_dialog',
-            confirm: () => {
-                let closeDialog = true
-                const { applicationPackageVersions, applicationPackageVersionIds } = this.$versionForm.state
-                const selectedAppPackageVersions = applicationPackageVersions.filter(item => {
-                    return applicationPackageVersionIds.indexOf(item.id) !== -1
-                })
-                this.setState({
-                    applicationPackageVersionIds, selectedAppPackageVersions
-                })
-                return closeDialog
-            }
+    handleShelfManageModalConfirm = () => {
+        const { applicationPackageVersions, applicationPackageVersionIds } = this.$ManagePackageVersion.state
+        const selectedAppPackageVersions = applicationPackageVersions.filter(item => {
+            return applicationPackageVersionIds.indexOf(item.id) !== -1
+        })
+        this.setState({
+            applicationPackageVersionIds, 
+            selectedAppPackageVersions,
+            isShelfManageModalVisible: false
         })
     }
-
     render() {
-        const { form, intl, match: { params: { id } }, listProject, listAppPackage } = this.props
-        const { tagInput, name, description, tags, applicationPackageId, applicationPackageVersionIds, selectedAppPackageVersions, projectId } = this.state
-        const projectList = _.get(listProject, 'data.data') || [] // 项目列表
-        const appPackageList = _.get(listAppPackage, 'data.data') || [] // 项目列表
+        const { form, intl, match: { params: { id } } } = this.props
+        const { tagInput, name, description, tags, applicationPackageId, applicationPackageVersionIds, selectedAppPackageVersions, projectId, 
+            projectList, appPackageList, isShelfManageModalVisible, packageVersionsAll } = this.state
 
         return (
             <div id="AppStoreAppManage">
@@ -250,9 +221,8 @@ class AppStoreManageApp extends BaseComponent {
                                 value={name}
                                 onChange={this.handleChange.bind(this, 'name')}
                                 label={intl.formatMessage({ id: 'AppName' })}
-                                placeholder={intl.formatMessage({ id: 'NamePlaceHolder' })}
+                                placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'AppName' }) })}
                                 validRegex={Regex.isName}
-                                invalidMessage={intl.formatMessage({ id: 'NamePlaceHolder' })}
                                 isRequired
                             />
                             <Textarea
@@ -263,7 +233,6 @@ class AppStoreManageApp extends BaseComponent {
                                 label={intl.formatMessage({ id: 'AppDescription' })}
                                 minLength={0}
                                 maxLength={200}
-                                addon={intl.formatMessage({ id: 'DescriptionError' })}
                             />
                             <div className="tag">
                                 <Input
@@ -277,14 +246,17 @@ class AppStoreManageApp extends BaseComponent {
                                 />
                                 <i className="iconfont icon-add" onClick={this.handleAddTag} />
                             </div>
-                            <div className="tagList">
+                            <div className="labelList">
                                 {
                                     tags.map((item, index) => {
                                         return (
-                                            <span className="tagItem" key={item}>
-                                                {item}
-                                                <i className="iconfont icon-error" onClick={() => this.deleteTag(index)} />
-                                            </span>
+                                            <TagItem
+                                                size='small'
+                                                key={item}
+                                                name={item}
+                                                icon="error"
+                                                onClick={() => this.deleteTag(index)}
+                                            />
                                         )
                                     })
                                 }
@@ -316,7 +288,7 @@ class AppStoreManageApp extends BaseComponent {
                                     <Button
                                         type='default'
                                         name={intl.formatMessage({ id: '::Manage' })}
-                                        onClick={this.handleManagePackageVersion.bind(this)}
+                                        onClick={() => this.handleChange('isShelfManageModalVisible', true)}
                                         className="manageVersionBtn"
                                         disabled={!applicationPackageId}
                                     />
@@ -326,32 +298,35 @@ class AppStoreManageApp extends BaseComponent {
                                 <Button
                                     type='default'
                                     name={intl.formatMessage({ id: 'Cancel' })}
-                                    onClick={this.handleReset.bind(this)}
+                                    onClick={this.handleCancel.bind(this)}
                                 />
                                 <Button
                                     type='primary'
-                                    name={intl.formatMessage({ id: 'OK' })}
+                                    name={intl.formatMessage({ id: 'Submit' })}
                                     htmlType='submit'
                                 />
                             </FormGroup>
                         </div>
                     </FormRow>
                 </Form>
+                <Modal
+                    title={intl.formatMessage({ id: 'ShelfManagement' })}
+                    visible={isShelfManageModalVisible}
+                    onOk={this.handleShelfManageModalConfirm}
+                    onCancel={() => this.handleChange('isShelfManageModalVisible', false)}
+                    className='version_dialog'
+                >
+                    <ManagePackageVersion
+                        intl={intl}
+                        id={id}
+                        applicationPackageId={applicationPackageId}
+                        applicationPackageVersionIds={applicationPackageVersionIds}
+                        packageVersionsAll={packageVersionsAll}
+                        wrappedComponentRef={node => this.$ManagePackageVersion = node} />
+                </Modal>
             </div>
         )
     }
 }
 
-const mapStateToProps = state => ({
-    listAppPackage: state.baseModel.appCenter.appStore.appPackageList.post,
-    listProject: state.baseModel.enterprise.listProject.post,
-})
-
-const mapDispatchToProps = dispatch => ({
-    handleResponseStatus: (responseStatus) => {
-        dispatch(responseStatus)
-    }
-})
-
-const CreatForm = RcForm.create()(AppStoreManageApp)
-export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(CreatForm))
+export default RcForm.create()(AppStoreManageApp)

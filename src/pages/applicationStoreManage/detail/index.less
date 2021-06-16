@@ -1,94 +1,153 @@
-@import '../../../../css/variables.less';
-
-#AppStoreAppDetail{
-    margin-top: 24px;
-    margin-right: 24px;
-    .ult-detail-panel{
-        height: auto;
-        .ult-detail-label{
-            width: 240px;
+.applicationStoreDetailDrawer{
+    .operaBar{
+        background: #F5F8FA;
+        border: 1px solid #DFE3EB;
+        padding: 12px 0;
+        display: flex;
+        align-items: center;
+        margin-bottom: 16px;
+        button{
+            padding:  0 20px;
+        }
+        .br{
+            border-right: 1px solid #DFE3EB;
         }
     }
+    .archer-collapse{
+        .archer-collapse-content-box{
+            padding: 0;
+            .ult-key-value-item{
+                padding: 0 16px;
+                font-family: SourceHanSansSC-Normal;
+                font-size: 12px;
+                border-bottom: 1px solid #E7EBF3;
+                align-items: center;
+                .ult-key-value-item-label{
+                    text-align: left;
+                    width: 15%;
+                    color: #516F90;
+                }
+                .ult-key-value-item-value{
+                    text-align: left;
+                    width: 85%;
+                    color: #33475B;
+                }
+            }
+            .ult-key-value-item:last-child{
+                border-bottom: none;
+            }
+        }
+    }
+    .labelList{
+        display: flex;
+        flex-wrap: wrap;
+    }
     .versionManage{
+        border-top: 1px solid #DFE3EB;
+        border-bottom: 1px solid #DFE3EB;
+        border-left: 1px solid #DFE3EB;
+        border-radius: 3px;
         display: flex;
         justify-content: space-between;
-        width: calc(100% + 24px);
-        margin-top: 40px;
-        background-color: white;
-        .versionDetail{
-            width: calc(100% - 240px);
-            .recommendConfig{
-                display: flex;
-                flex-direction: column;
+        .versionContent{
+            width: -webkit-fill-available;
+            padding: 16px;
+            .p16{
+                padding: 16px;
             }
-            .values_template{
-                padding: 0 20px 20px 20px;
-                .label{
-                    margin-bottom: 10px;
-                    .chartTypeItem{
-                        cursor: pointer;
-                        color: rgba(0, 0, 0, 0.75);
-                        font-size: 18px;
+            .versionInfo{
+                border: 1px solid #DFE3EB;
+                margin-bottom: 16px;
+                .versionName{
+                    font-size: 20px;
+                    color: #33475B;
+                }
+                .versionDes{
+                    font-size: 12px;
+                    color: #33475B;
+                }
+                .ult-key-value{
+                    margin: 16px 0;
+                    .ult-key-value-item{
+                        margin: 8px 0;
+                        .ult-key-value-item-label{
+                            text-align: left;
+                            padding: 0;
+                            width: 70px;
+                        }
+                        .ult-key-value-item-value{
+                            padding: 0;
+                        }
                     }
                 }
-                .content{
-                    background-color: black;
-                    color: white;
-                    padding: 15px;
-                    border-radius: 3px;
-                    width: 100%;
-                    max-height: 500px;
-                    overflow: auto;
-                    line-height: 16px;
+                .horizontalKeyValue{
+                    display: flex;
+                    background: #F6F8FA;
+                    padding: 10px;
+                    margin: 0;
+                    .ult-key-value-item{
+                        display: flex;
+                        flex-direction: column;
+                        .ult-key-value-item-label{
+                            width: max-content;
+                            padding: 4px;
+                            text-align: left;
+                        }
+                        .ult-key-value-item-value{
+                            width: auto;
+                            padding: 4px;
+                        }
+                    }
+                }
+            }
+            .versionChart{
+                border: 1px solid #DFE3EB;
+                .archer-tabs-nav{
+                    background: #F6F8FA;
+                    .archer-tabs-nav-list{
+                        .archer-tabs-tab{
+                            padding: 10px 16px;
+                            margin: 0;
+                        }
+                        .archer-tabs-tab-active{
+                            background-color: white;
+                        }
+                        .archer-tabs-ink-bar{
+                            display: none;
+                        }
+                        .archer-tabs-tab:nth-child(2){
+                            border-left: 1px solid #DFE3EB;
+                        }
+                    }
+                }
+                .archer-tabs-content-holder{
+                    padding: 0 16px 16px 16px;
                 }
             }
         }
         .versionList{
-            background-color: white;
-            margin-top: -24px;
-            width: 240px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            border-left: 1px solid gainsboro;
-            margin-left: 20px;
-            overflow: auto;
-            .label{
-                line-height: 24px;
-                font-weight: normal;
-                color: rgba(0, 0, 0, 0.75);
-                font-size: 16px;
-                margin-bottom: 15px;
+            background: #F5F8FA;
+            padding: 16px;
+            width: 210px;
+            title{
+                font-size: 14px;
+                color: #33475B;
             }
-            .versionItem{
-                line-height: 25px;
-                cursor: pointer;
+            .listContent{
                 display: flex;
                 flex-direction: column;
-                margin-bottom: 10px;
-                .versionName{
-                    color: rgba(0, 0, 0, 0.75);
-                    font-size: 18px;
+                .versionItem{
+                    display: flex;
+                    flex-direction: column;
+                    margin: 8px 0;
+                    cursor: pointer;
+                    .name{
+                        color: #516F90;
+                    }
+                    .createTime{
+                        color: #7C98B6;
+                    }
                 }
-                .versionCreateTime{
-                    color: rgba(0, 0, 0, 0.4);
-                }
-            }
-            .versionItem:hover{
-                .versionName{
-                    color: #3da4f1!important;
-                }
-                .versionCreateTime{
-                    color: #3da4f1!important;
-                }
-            }
-        }
-        .activeItem{
-            .versionName{
-                color: #3da4f1!important;
-            }
-            .versionCreateTime{
-                color: #3da4f1!important;
             }
         }
     }

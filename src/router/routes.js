@@ -8,6 +8,7 @@ import CreateContainerGroup from '~/pages/containerManage/create'
 import CredentialManage from '~/pages/imageRepositoryCredentialManage'
 import ImageManage from '~/pages/imageManage'
 import ApplicationStoreManage from '~/pages/applicationStoreManage'
+import ManageApplicationStore from '~/pages/applicationStoreManage/manage'
 import PageNotFound from '~/container/error'
 
 const routers = [
@@ -57,7 +58,7 @@ const routers = [
       },
       {
         path: "/applicationCenter/containerManage",  // 容器管理
-        component:  ContainerManage,
+        component: ContainerManage,
         name: 'ContainerManage',
         key: 'ContainerManage',
         exact: true,
@@ -99,7 +100,7 @@ const routers = [
         exact: true,
         langCode: 'ImageManage',
         descLangCode: 'DesImageManage',
-      }, 
+      },
       {
         path: "/applicationCenter/credentialManage",
         component: CredentialManage,
@@ -117,7 +118,25 @@ const routers = [
         exact: true,
         langCode: 'ApplicationStoreManage',
         descLangCode: 'DesApplicationStoreManage',
-      },    
+      },
+      {
+        path: "/applicationCenter/applicationStoreManage/create",
+        component: ManageApplicationStore,
+        name: 'CreateApplicationStore',
+        key: 'CreateApplicationStore',
+        exact: true,
+        langCode: 'CreateApplicationStore',
+        descLangCode: 'DesCreateApplicationStore',
+      },
+      {
+        path: "/applicationCenter/applicationStoreManage/edit/:id",
+        component: ManageApplicationStore,
+        name: 'EditApplicationStore',
+        key: 'EditApplicationStore',
+        exact: true,
+        langCode: 'EditApplicationStore',
+        descLangCode: 'DesEditApplicationStore',
+      },
     ]
   },
   {
