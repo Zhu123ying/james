@@ -22,9 +22,6 @@ class ContainerGroupConfig extends React.Component {
             },
         }
     }
-    componentDidMount() {
-
-    }
     handleSetCurrentLabel = (key, val) => {
         const value = _.get(val, 'target.value', val)
         let { currentLabel } = this.state
@@ -52,8 +49,9 @@ class ContainerGroupConfig extends React.Component {
     }
     render() {
         const { form, intl, projectList, formData, handleFormChange } = this.props
-        const { name, description, projectId, labels, restartPolicy, resource } = formData
+        const { name, description, projectId, labels, restartPolicy, resource, qos } = formData
         const { cpu, memory, ephemeralStorage } = resource
+        const { egress, ingress } = qos
         const { currentLabel } = this.state
         return (
             <div className='ContainerGroupConfig'>
@@ -248,10 +246,58 @@ class ContainerGroupConfig extends React.Component {
                         />
                     </Panel>
                 </Panel>
+                <Panel
+                    form={form}
+                    name='qos'
+                    value={qos}
+                    label='流量控制'
+                    isRequired
+                >
+                    <div className='inputNumberGroup'>
+                        <Panel
+                            form={form}
+                            value={egress}
+                            name="egress"
+                        >
+                            <InputNumber
+                                form={form}
+                                value={egress}
+                                min={0}
+                                slot={{
+                                    position: 'right',
+                                    format: () => 'Mbps'
+                                }}
+                                onChange={(val) => handleFormChange('qos', {
+                                    egress: val, 
+                                    ingress
+                                })}
+                            />
+                        </Panel>
+                        &nbsp;&nbsp;
+                        <Panel
+                            form={form}
+                            value={ingress}
+                            name="ingress"
+                        >
+                            <InputNumber
+                                form={form}
+                                value={ingress}
+                                min={0}
+                                slot={{
+                                    position: 'right',
+                                    format: () => 'Mbps'
+                                }}
+                                onChange={(val) => handleFormChange('qos', {
+                                    egress, 
+                                    ingress: val
+                                })}
+                            />
+                        </Panel>
+                    </div>
+                </Panel>
             </div>
         )
     }
 }
-
 
 export default ContainerGroupConfig

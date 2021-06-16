@@ -357,6 +357,7 @@ const zh_CN = {
     ImageLayerInformation: '镜像层信息',
     VulnerabilityInformation: '漏洞信息',
     VersionCount: '版本数',
+    VirtualNetwork: '虚拟网络',
 
     // 接口返回提示
     UpdateApplicationSuccess: '编辑应用-{name}成功！',

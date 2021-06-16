@@ -1,8 +1,9 @@
 /* eslint-disable */
 import React from 'react'
-import PropTypes from 'prop-types'
 import { RcForm, Loading, Notification, Button, KeyValue, Dialog, TagItem, InputNumber, Icon, Input as UltrauiInput } from 'ultraui'
 import { Collapse, Button as HuayunButton, Switch } from 'huayunui'
+import HuayunRequest from '~/http/request'
+import { container as api } from '~/http/api'
 import Regex from '~/utils/regex'
 import '../index.less'
 import { networkInitData } from '../constant'
@@ -10,15 +11,24 @@ const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select, Panel } =
 const _ = window._
 const portTypeList = ['ClusterNetworkPort', 'NodePort', 'LoadBalancePort']
 class NetworkConfig extends React.Component {
-    static propTypes = {
-        form: PropTypes.object.isRequired,
-        intl: PropTypes.object.isRequired
-    }
     constructor(props) {
         super(props)
         this.state = {
-            netWorkSwitch: false
+            netWorkSwitch: false,
+            networkList: [], // 外部网络列表
         }
+    }
+    componentDidMount() {
+        this.getVirtualNetworkList() // 虚拟网络列表
+    }
+    getVirtualNetworkList = () => {
+        HuayunRequest(api.getCSNetworks, {}, {
+            success: (res) => {
+                this.setState({
+                    networkList: res.data.sdnNetworks
+                })
+            }
+        })
     }
     componentWillReceiveProps(nextProps) {
         const { formData } = this.props
@@ -362,10 +372,11 @@ class NetworkConfig extends React.Component {
     // 渲染负载均衡
     renderLoadBalanceNetwork = () => {
         const { intl, formData: { network }, form } = this.props
-        const { name, ports, qos, upstream, downstream } = _.get(network, 'loadBalanceNetwork', {})
+        const { networkList } = this.state
+        const { name, ports, netId } = _.get(network, 'loadBalanceNetwork', {})
         return (
             <Collapse defaultActiveKey={[0]}>
-                <Collapse.Panel header={intl.formatMessage({ id: 'LoadBalance' })}>
+                <Collapse.Panel header='外部网络'>
                     <Input
                         form={form}
                         name='loadBalanceNetworkName'
@@ -376,54 +387,26 @@ class NetworkConfig extends React.Component {
                         validRegex={Regex.isName}
                         isRequired
                     />
-                    {this.renderPortPanel('loadBalanceNetwork.ports', portTypeList[2])}
-                    <Panel
+                    <Select
                         form={form}
-                        name='loadBalanceNetworkSwitch'
-                        value={qos}
-                        label='Qos'
+                        name="loadBalanceNetworkNetId"
+                        value={netId}
+                        placeholder={intl.formatMessage({ id: 'SelectProjectPlaceHolder' })}
+                        onChange={(val) => this.handleOnChange('loadBalanceNetwork.netId', val)}
+                        label={intl.formatMessage({ id: 'VirtualNetwork' })}
                         isRequired
-                    >
-                        <Switch
-                            checked={qos}
-                            onChange={() => this.handleOnChange('loadBalanceNetwork.qos', !qos)}
-                        />
-                        <div className='inputNumberGroup'>
-                            <Panel
-                                form={form}
-                                value={upstream}
-                                name="upstream"
-                            >
-                                <InputNumber
-                                    form={form}
-                                    value={upstream}
-                                    min={0}
-                                    slot={{
-                                        position: 'right',
-                                        format: () => 'Mbps'
-                                    }}
-                                    onChange={(val) => this.handleOnChange('loadBalanceNetwork.upstream', val)}
-                                />
-                            </Panel>
-                            &nbsp;&nbsp;
-                            <Panel
-                                form={form}
-                                value={downstream}
-                                name="downstream"
-                            >
-                                <InputNumber
-                                    form={form}
-                                    value={downstream}
-                                    min={0}
-                                    slot={{
-                                        position: 'right',
-                                        format: () => 'Mbps'
-                                    }}
-                                    onChange={(val) => this.handleOnChange('loadBalanceNetwork.downstream', val)}
-                                />
-                            </Panel>
-                        </div>
-                    </Panel>
+                        options={
+                            networkList.map(item => {
+                                return {
+                                    value: item.id,
+                                    text: item.name,
+                                }
+                            })
+                        }
+                        optionFilterProp='children'
+                        optionLabelProp='children'
+                    />
+                    {this.renderPortPanel('loadBalanceNetwork.ports', portTypeList[2])}
                 </Collapse.Panel>
             </Collapse>
         )
@@ -449,7 +432,7 @@ class NetworkConfig extends React.Component {
                                 {this.renderNodeNetwork()}
                             </div>
                             <div className='lineItem vertical'>
-                                <div className='lineTitle'>{intl.formatMessage({ id: 'LoadBalance' })}</div>
+                                <div className='lineTitle'>外部网络</div>
                                 {this.renderLoadBalanceNetwork()}
                             </div>
                         </React.Fragment>

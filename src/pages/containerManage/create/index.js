@@ -45,6 +45,10 @@ class ManageContainerItem extends React.Component {
                     memory: 1024,
                     ephemeralStorage: 10
                 },
+                qos: {
+                    egress: 0,
+                    ingress: 0
+                }, 
                 containers: [],
                 affinity: null,
                 network: null,

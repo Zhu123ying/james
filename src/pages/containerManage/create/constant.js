@@ -129,9 +129,7 @@ export const networkInitData = { // 容器网络
     ], // 节点网络
     loadBalanceNetwork: { // 负载均衡
         name: '',
+        netId: '', // 虚拟网络
         ports: [], // 端口
-        qos: true,
-        upstream: 0, // 上行
-        downstream: 0 // 下行
     }
 }

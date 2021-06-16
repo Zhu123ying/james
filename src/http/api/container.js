@@ -13,6 +13,7 @@ const api = {
     listStorageClasses: `listStorageClasses`, // 存储类型-创建容器时用到
     getEvents: `getEvents`, // 获取容器事件
     getMessages: `getMessages`, // 获取容器事件
+    getCSNetworks: `getCSNetworks`, // 获取外部网络列表
 }
 
 export default api
