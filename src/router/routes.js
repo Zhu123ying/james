@@ -3,6 +3,7 @@ import ApplicationCenter from '~/container/content'
 import ApplicationManage from '~/pages/applicationManage'
 import CreateApplication from '~/pages/applicationManage/create'
 import ApplicationPackageManage from '~/pages/applicationPackageManage'
+import CreateApplicationPackage from '~/pages/applicationPackageManage/create'
 import ContainerManage from '~/pages/containerManage'
 import CreateContainerGroup from '~/pages/containerManage/create'
 import CredentialManage from '~/pages/imageRepositoryCredentialManage'
@@ -55,6 +56,24 @@ const routers = [
         exact: true,
         langCode: 'ApplicationPackageManage',
         descLangCode: 'DesApplicationPackageManage',
+      },
+      {
+        path: "/applicationCenter/applicationPackageManage/create",
+        component: CreateApplicationPackage,
+        name: 'CreateApplicationPackage',
+        key: 'CreateApplicationPackage',
+        exact: true,
+        langCode: 'CreateApplicationPackage',
+        descLangCode: 'DesCreateApplicationPackage'
+      },
+      {
+        path: "/applicationCenter/applicationPackageManage/edit/:id",
+        component: CreateApplicationPackage,
+        name: 'EditApplicationPackage',
+        key: 'EditApplicationPackage',
+        exact: true,
+        langCode: 'EditApplicationPackage',
+        descLangCode: 'DesEditApplicationPackage'
       },
       {
         path: "/applicationCenter/containerManage",  // 容器管理

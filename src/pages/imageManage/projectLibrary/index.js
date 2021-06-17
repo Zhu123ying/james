@@ -37,12 +37,12 @@ class ProjectLibrary extends React.Component {
         })
     }
     handleSearch = (isResetCurrentTableItem = false) => {
-        let { name: projectName, pageNumber, pageSize, currentTableItem } = this.state
+        let { name: nameLike, pageNumber, pageSize, currentTableItem } = this.state
         const params = {
             pageNumber,
             pageSize,
             conditions: {
-                projectName
+                nameLike
             }
         }
         this.setState({
