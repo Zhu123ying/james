@@ -9,6 +9,8 @@ const api = {
     createApplicationPackage: `${prefix}createApplicationPackage`, // 创建应用包
     updateApplicationPackage: `${prefix}updateApplicationPackage`, // 更新应用包
     deleteApplicationPackage: `${prefix}deleteApplicationPackage`, // 删除应用包
+    getApplicationPackageForApplication: `${prefix}getApplicationPackageForApplication`, // 选择应用包管理的应用包版本创建应用时，应用包及版本的信息
+    getApplicationPackageVersionsForApplication: `${prefix}getApplicationPackageVersionsForApplication`, // 创建应用时，根据应用包获取所有可使用的版本
 
 }
 
