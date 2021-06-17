@@ -9,7 +9,9 @@ import { DEFAULT_EMPTY_LABEL } from '~/constants'
 import TableCommon from '~/components/TableCommon'
 import ActionAuth from '~/components/ActionAuth'
 import actions from '~/constants/authAction'
+import Dropdown from '~/components/Dropdown'
 import DetailIcon from '~/components/DetailIcon'
+import Detail from './detail'
 
 const notification = Notification.newInstance()
 
@@ -24,7 +26,8 @@ class ApplicationPackageList extends React.Component {
             total: 0,
             isFetching: false,
             tableData: [],
-            currentTableItem: {}
+            currentDataItem: {},
+            isDetailModalVisible: false
         }
         this.operationTarget = intl.formatMessage({ id: 'AppPackage' })
     }
@@ -80,7 +83,15 @@ class ApplicationPackageList extends React.Component {
             {
                 dataIndex: 'name',
                 key: 'name',
-                title: intl.formatMessage({ id: 'Name' })
+                title: intl.formatMessage({ id: 'Name' }),
+                render: (val, row) => {
+                    return (
+                        <>
+                            <DetailIcon iconType="done" className="m-r-sm" />
+                            <a onClick={() => this.handleSeeDetail(row)}>{val}</a>
+                        </>
+                    )
+                }
             },
             {
                 dataIndex: 'projectName',
@@ -117,13 +128,23 @@ class ApplicationPackageList extends React.Component {
                 minCalcuWidth: 76,
                 title: intl.formatMessage({ id: 'Operate' }),
                 render: (value, data) => {
+                    const options = [
+                        {
+                            name: intl.formatMessage({ id: 'Manage' }),
+                            callback: () => {
+                                this.handleManageApplicationPackage(data.id)
+                            }
+                        },
+                        {
+                            name: intl.formatMessage({ id: 'Delete' }),
+                            callback: () => {
+                                this.handleDelete([data.id])
+                            }
+                        }
+                    ]
                     return (
                         <ActionAuth action={actions.AdminApplicationCenterApplicationOperate}>
-                            <Button
-                                type="link"
-                                name={intl.formatMessage({ id: 'Delete' })}
-                                onClick={() => this.handleDelete([data.id])}
-                            />
+                            <Dropdown options={options} placement='bottomRight' />
                         </ActionAuth>
                     )
                 }
@@ -176,9 +197,18 @@ class ApplicationPackageList extends React.Component {
     handleAddApplicationPackage = () => {
         this.props.history.push(`${this.props.match.path}/create`)
     }
+    handleManageApplicationPackage = (id) => {
+        this.props.history.push(`${this.props.match.path}/edit/${id}`)
+    }
+    handleSeeDetail = (item) => {
+        this.setState({
+          currentDataItem: item,
+          isDetailModalVisible: true
+        })
+      }
     render() {
         const { intl, projectInitState, projectId } = this.props
-        const { name, pageNumber, pageSize, total, tableData, isFetching, currentTableItem } = this.state
+        const { name, pageNumber, pageSize, total, tableData, isFetching, currentDataItem, isDetailModalVisible } = this.state
         const noDataProps = projectInitState ? {} : {
             emptyText: (
                 <NoData
@@ -238,6 +268,13 @@ class ApplicationPackageList extends React.Component {
                     ...noDataProps
                     }
                 />
+                <Detail
+                    {...this.props}
+                    currentDataItem={currentDataItem}
+                    visible={isDetailModalVisible}
+                    onClose={() => this.handleChange('isDetailModalVisible', false)}
+                    // handleDelete={() => this.handleDelete([currentDataItem.id], true)}
+                ></Detail>
             </div>
         )
     }

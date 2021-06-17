@@ -11,6 +11,12 @@ const api = {
     deleteApplicationPackage: `${prefix}deleteApplicationPackage`, // 删除应用包
     getApplicationPackageForApplication: `${prefix}getApplicationPackageForApplication`, // 选择应用包管理的应用包版本创建应用时，应用包及版本的信息
     getApplicationPackageVersionsForApplication: `${prefix}getApplicationPackageVersionsForApplication`, // 创建应用时，根据应用包获取所有可使用的版本
+    getApplicationPackageVersionsByPackageId: `${prefix}getApplicationPackageVersionsByPackageId`, // 获取无分页的版本列表；
+    createApplicationPackageVersion: `${prefix}createApplicationPackageVersion`, // 创建应用包版本（新建）
+    createApplicationPackageVersionByUpload: `${prefix}createApplicationPackageVersionByUpload`, // 创建应用包版本（上传）
+    createApplicationPackageVersionByCopy: `${prefix}createApplicationPackageVersionByCopy`, // 创建应用包版本（复制）
+    updateApplicationPackageVersionChartCommit: `${prefix}updateApplicationPackageVersionChartCommit`, // 提交chart包内容
+    getAllApplicationPackageInfo: `${prefix}getAllApplicationPackageInfo`, // 列出项目的所有应用包
 
 }
 

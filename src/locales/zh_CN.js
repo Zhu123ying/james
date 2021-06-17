@@ -219,6 +219,7 @@ const zh_CN = {
     RemainingAvailableQuota: '剩余可用配额',
     UpdateApplicationQuotaSuccess: '更新配额成功',
     IsSureToSubmitAppPackageVersion: '您是否要提交该应用包版本？',
+    SubmitAppPackageVersion: '提交版本',
     SubmitAppPackageVersionSuccess: '提交版本成功！',
     SubmitAppPackageVersionFail: '提交版本失败！',
     NodeResourceDetail: '节点资源详情',
@@ -363,6 +364,8 @@ const zh_CN = {
     VersionCount: '版本数',
     VirtualNetwork: '虚拟网络',
     NamePlaceHolder: '请输入名称',
+    Helm_UploadFile: '上传文件',
+    DownloadStatement: '下载声明',
 
     // 接口返回提示
     UpdateApplicationSuccess: '编辑应用-{name}成功！',

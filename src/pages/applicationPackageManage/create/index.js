@@ -71,7 +71,7 @@ class AppPackageCreate extends React.Component {
         const { match: { params: { id } }, history, intl } = this.props
         const { name, description, tags, applicationIcon, applicationIconColor, projectId } = this.state
         const params = {
-            name, description, tags, applicationIcon, applicationIconColor, projectId
+            id, name, description, tags, applicationIcon, applicationIconColor, projectId
         }
         const url = id ? 'updateApplicationPackage' : 'createApplicationPackage'
         const action = intl.formatMessage({ id: id ? 'Update' : 'Create' })
