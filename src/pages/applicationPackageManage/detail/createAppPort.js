@@ -1,30 +1,24 @@
 /* eslint-disable */
 import React from 'react'
-import PropTypes from 'prop-types'
-import { RcForm, Button, Icon, Loading, SortTable, Dialog, CheckBoxes } from 'ultraui'
+import { RcForm, Loading, Row, Col, Icon, Notification, Tooltip, Dialog, CheckBoxes } from 'ultraui'
+import { Button } from 'huayunui'
 import './index.less'
 import Regex from '~/utils/regex'
 import HuayunRequest from '~/http/request'
-import { application as api } from '~/http/api'
+import { applicationPackage as api } from '~/http/api'
 
 const { CheckBox, RadioGroup } = CheckBoxes
 const { FormGroup, Form, Input, Textarea, FormRow, Select, Panel } = RcForm
 const _ = window._
 
 class CreateAppPort extends React.Component {
-    static propTypes = {
-        intl: PropTypes.object.isRequired,
-    }
-
     constructor(props) {
         super(props)
-        this.id = props.detail.id
         this.state = {
             name: '', // 入口名称
             description: '', // 描述
             portKey: '', // 应用入口的类型, 入口对象第一个下拉框对应的key
-            resourceObjectId: '', // 选中的资源id
-            resourceObjectList: [],
+            resourceObjectList: [], // 入口对象第二个下拉框的数据
             config: {},
             portType: '1', // 1为选择资源，2为用户编辑
             gatewaySelectObj: {}, // 下拉选项
@@ -36,33 +30,32 @@ class CreateAppPort extends React.Component {
     }
 
     initData = (data) => {
-        const { id, dataList } = this.props
-        let detail = dataList.find(item => item.id === id)
-        const { name, description, resourceObjectId, config } = detail
-        if (resourceObjectId) {
-            config.resourceObjectId = resourceObjectId
-        }
+        const { currentPort } = this.props
+        const { name, description, config } = currentPort
         this.setState({
-            name, description, resourceObjectId, config,
+            name, description, config,
             portKey: config.portKey,
             resourceObjectList: data[config.portKey] || [],
-            portType: config.type === 'customGateway' ? '2' : '1'
+            portType: config.type === 'customGateway' ? '2' : '1',
         })
     }
 
-    getGatewaySelect = () => {
-        HuayunRequest(api.queryApplicationGatewaySeletc, { applicationId: this.id }, {
+    // 应用入口的类型列表数据
+    getGatewaySelect = (id = this.props.currentVersion.id) => {
+        const { currentPort } = this.props
+        HuayunRequest(api.getApplicationPackageGatewayResourceList, { id }, {
             success: (res) => {
                 this.setState({
                     gatewaySelectObj: res.data
                 })
-                this.props.id && this.initData(res.data)
+                currentPort.id && this.initData(res.data)
             }
         })
     }
 
     handleChange = (key, val, item) => {
         const value = _.get(val, 'target.value', val)
+        const { gatewaySelectObj } = this.state
         this.setState({
             [key]: value
         }, () => {
@@ -76,15 +69,12 @@ class CreateAppPort extends React.Component {
                 }
                 this.setState({
                     portKey: '',
-                    resourceObjectId: '',
                     resourceObjectList: [],
                     config,
                 })
             }
             if (key === 'portKey') {
-                const { gatewaySelectObj } = this.state
                 this.setState({
-                    resourceObjectId: '',
                     resourceObjectList: gatewaySelectObj[value]
                 })
             }
@@ -102,8 +92,7 @@ class CreateAppPort extends React.Component {
 
     render() {
         const { intl, form } = this.props
-        const { gatewaySelectObj } = this.state
-        const { name, description, portKey, resourceObjectId, resourceObjectList, portType, config: { info } } = this.state
+        const { name, description, portKey, resourceObjectList, portType, config: { info }, gatewaySelectObj } = this.state
         return (
             <Form form={form}>
                 <Input
@@ -113,7 +102,7 @@ class CreateAppPort extends React.Component {
                     onChange={this.handleChange.bind(this, 'name')}
                     label={intl.formatMessage({ id: 'AppPortName' })}
                     validRegex={Regex.isName}
-                    // invalidMessage={intl.formatMessage({ id: 'NamePlaceHolder' })}
+                    invalidMessage={intl.formatMessage({ id: 'NamePlaceHolder' })}
                     isRequired
                 />
                 <Textarea
@@ -164,15 +153,14 @@ class CreateAppPort extends React.Component {
                                 />
                                 <Select
                                     form={form}
-                                    name="resourceObjectId"
-                                    value={resourceObjectId}
-                                    onChange={this.handleChange.bind(this, 'resourceObjectId')}
+                                    name="selectInfo"
+                                    value={info}
                                     onSelect={(id, row) => this.handleChange('config', row.config)}
                                     isRequired
                                     options={
                                         resourceObjectList.map((item) => {
                                             return {
-                                                value: item.resourceObjectId,
+                                                value: item.info,
                                                 text: item.info,
                                                 config: item
                                             }
@@ -183,16 +171,16 @@ class CreateAppPort extends React.Component {
                                 />
                             </div>
                         ) : (
-                                <Textarea
-                                    className='userInput'
-                                    form={form}
-                                    value={info}
-                                    name='info'
-                                    onChange={this.handleUserInputChange}
-                                    minLength={0}
-                                    maxLength={200}
-                                />
-                            )
+                            <Textarea
+                                className='userInput'
+                                form={form}
+                                value={info}
+                                name='textAreaInfo'
+                                onChange={this.handleUserInputChange}
+                                minLength={0}
+                                maxLength={200}
+                            />
+                        )
                     }
                 </Panel>
             </Form>

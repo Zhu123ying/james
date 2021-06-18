@@ -164,7 +164,6 @@ class AppPortalManage extends React.Component {
                 </div>
                 <Modal
                     title={`${intl.formatMessage({ id: currentPortId ? 'Update' : 'Create' })}${this.operaTarget}`}
-                    className='createAppPortDialog'
                     visible={isManageAppPortModalVisible}
                     onCancel={() => this.setState({
                         isManageAppPortModalVisible: false

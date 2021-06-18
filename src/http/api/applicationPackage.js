@@ -20,6 +20,11 @@ const api = {
     downApplicationPackageVersionChart: `${prefix}downApplicationPackageVersionChart`, // 下载应用包版本声明包
     getApplicationPackageInfoForShare: `${prefix}getApplicationPackageInfoForShare`, // 应用包分享可供选择的版本
     createApplicationPackageAndVersionByShare: `${prefix}createApplicationPackageAndVersionByShare`, // 分享应用包版本
+    queryApplicationPackageVersionGateway: `${prefix}queryApplicationPackageVersionGateway`, // 查询应用包版本的应用入口
+    createApplicationPackageVersionGateway: `${prefix}createApplicationPackageVersionGateway`, // 添加应用包版本的应用入口
+    updateApplicationPackageVersionGateway: `${prefix}updateApplicationPackageVersionGateway`, // 更新应用包版本的应用入口
+    createApplicationPackageVersionGateway: `${prefix}createApplicationPackageVersionGateway`, // 添加应用包版本的应用入口
+    getApplicationPackageGatewayResourceList: `${prefix}getApplicationPackageGatewayResourceList`
 
 }
 

@@ -113,7 +113,7 @@ class ApplicationPackageList extends React.Component {
                 key: 'tags',
                 title: intl.formatMessage({ id: 'Tag' }),
                 render: (tags) => {
-                    return tags.join('、')
+                    return (tags || []).join('、')
                 }
             },
             {

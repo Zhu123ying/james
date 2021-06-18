@@ -20,7 +20,7 @@ class ProjectLibrary extends React.Component {
             dataList: [], // 列表数据
             currentTableItem: {}, // 当前的应用
             pageNumber: 1,
-            pageSize: 10,
+            pageSize: 1000,
             isFetching: false
         }
     }
@@ -43,7 +43,7 @@ class ProjectLibrary extends React.Component {
             pageSize,
             conditions: {
                 nameLike: name,
-                createTime
+                // createTime
             }
         }
         this.setState({
@@ -121,11 +121,15 @@ class ProjectLibrary extends React.Component {
                                 </div>
                             </div>
                             <div className='detailContainer'>
-                                <ApplicationPackageList
-                                    refreshTableList={this.handleSearch}
-                                    projectInitState={currentTableItem.init}
-                                    projectId={currentTableItem.id}
-                                    {...this.props} />
+                                {
+                                    currentTableItem && currentTableItem.id ? (
+                                        <ApplicationPackageList
+                                            refreshTableList={this.handleSearch}
+                                            projectInitState={currentTableItem.init}
+                                            projectId={currentTableItem.id}
+                                            {...this.props} />
+                                    ) : null
+                                }
                             </div>
                         </div>
                     )
