@@ -366,6 +366,7 @@ const zh_CN = {
     NamePlaceHolder: '请输入名称',
     Helm_UploadFile: '上传文件',
     DownloadStatement: '下载声明',
+    SelectVersion: '选择版本',
 
     // 接口返回提示
     UpdateApplicationSuccess: '编辑应用-{name}成功！',

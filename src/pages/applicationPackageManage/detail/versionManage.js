@@ -8,6 +8,9 @@ import { applicationPackage as api } from '~/http/api'
 import { Collapse, Select, Button, Popover, Modal, Tabs, Table } from 'huayunui'
 import { DEFAULT_EMPTY_LABEL } from '~/constants'
 import CreateVersion from './createVersion'
+import ActionAuth from '~/components/ActionAuth'
+import actions from '~/constants/authAction'
+
 const _ = window._
 const { Panel } = Collapse
 const { TabPane } = Tabs
@@ -17,7 +20,7 @@ class VersionManage extends React.Component {
         super(props)
         this.state = {
             currentVersion: _.get(props.applicationPackageVersionList, '0', {}),
-            isVersionModalVisible: false
+            isVersionModalVisible: false,
         }
     }
     componentWillReceiveProps({ applicationPackageVersionList }) {
@@ -96,7 +99,10 @@ class VersionManage extends React.Component {
         )
     }
     handleVersionManageModalConfirm = () => {
-        this.$CreateVersion && this.$CreateVersion.handleSubmitCreateVersion()
+        this.$CreateVersion && this.$CreateVersion.handleSubmit()
+    }
+    // 因为提交创建版本的逻辑放在了子组件里，所以将创建成功的回调函数传过去，偷懒了
+    hanleResponseStatus = () => {
         this.props.getDetailData()
         this.setState({
             isVersionModalVisible: false
@@ -151,7 +157,25 @@ class VersionManage extends React.Component {
 
     }
     handleDownload = () => {
-
+        const { currentVersion: { id } } = this.state
+        let data = { id }
+        fetch(api.downApplicationPackageVersionChart, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        }).then(res => res.blob().then(blob => {
+            var a = document.createElement('a');
+            var url = window.URL.createObjectURL(blob);   // 获取 blob 本地文件连接 (blob 为纯二进制对象，不能够直接保存到磁盘上)
+            var filename = res.headers.get('Content-Disposition').split('filename=')[1];
+            a.href = url;
+            a.download = filename;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }))
     }
     handleAddApplication = () => {
         const { currentVersion: { applicationPackageId, id: applicationPackageVersionId } } = this.state
@@ -162,24 +186,31 @@ class VersionManage extends React.Component {
         const { currentVersion, isVersionModalVisible } = this.state
         const tabOperation = {
             right: [
-                <UltrauiButton
-                    type="text"
-                    onClick={this.handleManageState}
-                >
-                    <Icon type="listing" />&nbsp;{intl.formatMessage({ id: 'ManageStatement' })}
-                </UltrauiButton>,
-                <UltrauiButton
-                    type="text"
-                    onClick={this.handleDownload}
-                >
-                    <Icon type="download" />&nbsp;{intl.formatMessage({ id: 'DownloadStatement' })}
-                </UltrauiButton>,
-                <UltrauiButton
-                    type="text"
-                    onClick={this.handleAddApplication}
-                >
-                    <Icon type="add" />&nbsp;{intl.formatMessage({ id: 'CreateApplication' })}
-                </UltrauiButton>
+                <ActionAuth action={actions.AdminApplicationCenterApplicationPackageVersionOperate}>
+                    <UltrauiButton
+                        type="text"
+                        onClick={this.handleManageState}
+                    >
+                        <Icon type="listing" />&nbsp;{intl.formatMessage({ id: 'ManageStatement' })}
+                    </UltrauiButton>,
+                </ActionAuth>,
+                <ActionAuth action={actions.AdminApplicationCenterApplicationPackageVersionOperate}>
+                    <UltrauiButton
+                        type="text"
+                        onClick={this.handleDownload}
+                        disabled={!currentVersion.isCommit}
+                    >
+                        <Icon type="download" />&nbsp;{intl.formatMessage({ id: 'DownloadStatement' })}
+                    </UltrauiButton>
+                </ActionAuth>,
+                <ActionAuth action={actions.AdminApplicationCenterApplicationPackageVersionOperate}>
+                    <UltrauiButton
+                        type="text"
+                        onClick={this.handleAddApplication}
+                    >
+                        <Icon type="add" />&nbsp;{intl.formatMessage({ id: 'CreateApplication' })}
+                    </UltrauiButton>
+                </ActionAuth>
             ]
         }
         return (
@@ -242,6 +273,7 @@ class VersionManage extends React.Component {
                         {...this.props}
                         applicationPackageId={currentDataItem.id}
                         projectId={currentDataItem.projectId}
+                        hanleResponseStatus={this.hanleResponseStatus}
                         wrappedComponentRef={node => this.$CreateVersion = node} />
                 </Modal>
             </div>

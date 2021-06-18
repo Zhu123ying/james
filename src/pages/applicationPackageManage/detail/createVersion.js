@@ -166,7 +166,7 @@ class CreateVersion extends React.Component {
     }
 
     showSubmitResult = () => {
-        const { intl } = this.props
+        const { intl, hanleResponseStatus } = this.props
         notification.notice({
             id: new Date(),
             type: 'success',
@@ -176,6 +176,7 @@ class CreateVersion extends React.Component {
             duration: 5,
             closable: true
         })
+        hanleResponseStatus()
     }
 
     render() {

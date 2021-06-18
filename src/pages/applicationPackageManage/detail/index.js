@@ -10,6 +10,9 @@ import { Collapse, Select, Button, Popover, Modal, Tabs, Table } from 'huayunui'
 import { Row, Col } from 'antd'
 import { DEFAULT_EMPTY_LABEL } from '~/constants'
 import VersionManage from './versionManage'
+import ActionAuth from '~/components/ActionAuth'
+import actions from '~/constants/authAction'
+import ShareAppPackage from './shareAppPackage'
 
 const _ = window._
 const { Panel } = Collapse
@@ -19,7 +22,8 @@ class Detail extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            detail: {}
+            detail: {},
+            isShareAppPackageModalVisible: false,
         }
     }
     componentWillReceiveProps({ currentDataItem }) {
@@ -45,9 +49,6 @@ class Detail extends React.Component {
     handleManage = (id) => {
         this.props.history.push(`${this.props.match.path}/edit/${id}`)
     }
-    handleShare = () => {
-
-    }
     renderRecommendConfig = (quota) => {
         const { memory, cpu, storage } = quota || {}
         const storageLine = Object.keys(storage || {}).map(key => {
@@ -56,9 +57,38 @@ class Detail extends React.Component {
         const array = [`CPU:${cpu} `, `Memory:${memory}`, ...storageLine]
         return <div className='quotaRecommand'>{array.join('|')}</div>
     }
+    handleShareAppPackageModalConfirm = () => {
+        const { intl, currentDataItem } = this.props
+        this.$ShareAppPackage.props.form.validateFields((errs, values) => {
+            if (!errs) {
+                const { applicationPackageVersionIds: ids, projectId } = this.$ShareAppPackage.state
+                let params = {
+                    applicationPackageId: currentDataItem.id,
+                    ids,
+                    projectId
+                }
+                HuayunRequest(api.createApplicationPackageAndVersionByShare, params, {
+                    success: (res) => {
+                        notification.notice({
+                            id: new Date(),
+                            type: 'success',
+                            title: intl.formatMessage({ id: 'Success' }),
+                            content: `${intl.formatMessage({ id: 'ShareApplicationPackage' })}${intl.formatMessage({ id: 'Success' })}`,
+                            iconNode: 'icon-success-o',
+                            duration: 5,
+                            closable: true
+                        })
+                        this.setState({
+                            isShareAppPackageModalVisible: false
+                        })
+                    }
+                })
+            }
+        })
+    }
     render() {
         const { intl, onClose, visible, currentDataItem, handleDelete } = this.props
-        const { detail } = this.state
+        const { detail, isShareAppPackageModalVisible } = this.state
         const { id, name, projectName, tags, versionCount, updateTime, createTime, createByName, description, applicationPackageVersionList } = detail || {}
         const basicKeyValue = [
             {
@@ -110,46 +140,63 @@ class Detail extends React.Component {
             }
         ]
         return (
-            <DetailDrawer
-                name={name}
-                icon='log-1'
-                onRefresh={this.getDetailData}
-                onClose={onClose}
-                visible={visible}
-                className='applicationStoreDetailDrawer'
-            >
-                <div className='operaBar'>
-                    <UltrauiButton
-                        type="text"
-                        onClick={() => this.handleManage(id)}
-                        className='br'
-                    >
-                        <Icon type="edit" />&nbsp;{intl.formatMessage({ id: 'UpdateApplicationPackage' })}
-                    </UltrauiButton>
-                    <UltrauiButton
-                        type="text"
-                        onClick={this.handleShare}
-                    >
-                        <Icon type="empty" />&nbsp;{intl.formatMessage({ id: 'ShareApplicationPackage' })}
-                    </UltrauiButton>
-                </div>
-                <Tabs defaultActiveKey="1">
-                    <TabPane tab={intl.formatMessage({ id: 'Detail' })} key="1">
-                        <Collapse defaultActiveKey={['1']} className='basicInforCollapse'>
-                            <Panel header={intl.formatMessage({ id: 'BasicInfo' })} key='1'>
-                                <KeyValue values={basicKeyValue} className='basicKeyValue' />
-                            </Panel>
-                        </Collapse>
-                    </TabPane>
-                    <TabPane tab={intl.formatMessage({ id: 'VersionManage' })} key="2">
-                        <VersionManage
-                            {...this.props}
-                            getDetailData={this.getDetailData}
-                            applicationPackageVersionList={applicationPackageVersionList}
-                        />
-                    </TabPane>
-                </Tabs>
-            </DetailDrawer >
+            <>
+                <DetailDrawer
+                    name={name}
+                    icon='log-1'
+                    onRefresh={this.getDetailData}
+                    onClose={onClose}
+                    visible={visible}
+                    className='applicationStoreDetailDrawer'
+                >
+                    <div className='operaBar'>
+                        <UltrauiButton
+                            type="text"
+                            onClick={() => this.handleManage(id)}
+                            className='br'
+                        >
+                            <Icon type="edit" />&nbsp;{intl.formatMessage({ id: 'UpdateApplicationPackage' })}
+                        </UltrauiButton>
+                        <UltrauiButton
+                            type="text"
+                            onClick={() => this.handleChange('isShareAppPackageModalVisible', true)}
+                        >
+                            <Icon type="empty" />&nbsp;{intl.formatMessage({ id: 'ShareApplicationPackage' })}
+                        </UltrauiButton>
+                    </div>
+                    <Tabs defaultActiveKey="1">
+                        <TabPane tab={intl.formatMessage({ id: 'Detail' })} key="1">
+                            <Collapse defaultActiveKey={['1']} className='basicInforCollapse'>
+                                <Panel header={intl.formatMessage({ id: 'BasicInfo' })} key='1'>
+                                    <KeyValue values={basicKeyValue} className='basicKeyValue' />
+                                </Panel>
+                            </Collapse>
+                        </TabPane>
+                        <TabPane tab={intl.formatMessage({ id: 'VersionManage' })} key="2">
+                            <VersionManage
+                                {...this.props}
+                                getDetailData={this.getDetailData}
+                                applicationPackageVersionList={applicationPackageVersionList}
+                            />
+                        </TabPane>
+                    </Tabs>
+                </DetailDrawer >
+                <Modal
+                    title={intl.formatMessage({ id: 'ShareApplicationPackage' })}
+                    visible={isShareAppPackageModalVisible}
+                    onOk={this.handleShareAppPackageModalConfirm}
+                    onCancel={() => this.handleChange('isShareAppPackageModalVisible', false)}
+                    className='shareAppPackageModal'
+                    destroyOnClose={true}
+                    width={440}
+                >
+                    <ShareAppPackage
+                        {...this.props}
+                        applicationPackageId={currentDataItem.id}
+                        currentPorjectId={currentDataItem.projectId}
+                        wrappedComponentRef={node => this.$ShareAppPackage = node} />
+                </Modal>
+            </>
         )
     }
 }

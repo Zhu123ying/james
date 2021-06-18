@@ -1,61 +1,51 @@
 /* eslint-disable */
-import BaseComponent from 'Page/base/BaseComponent'
-import PropTypes from 'prop-types'
-import { injectIntl } from 'react-intl'
-import { connect } from 'react-redux'
+import React from 'react'
 import { RcForm, Loading, Row, Col, Icon, Notification, Switch } from 'ultraui'
+import { Table } from 'huayunui'
 import './index.less'
+import HuayunRequest from '~/http/request'
+import { applicationPackage as api, application } from '~/http/api'
 
 const { FormGroup, Form, Input, Button, RadioGroup, Textarea, FormRow, Panel, Select } = RcForm
-
 const _ = window._
-
-class ShareAppPackage extends BaseComponent {
-    static propTypes = {
-        intl: PropTypes.object.isRequired,
-        baseFetch: PropTypes.func.isRequired,
-    }
-
+class ShareAppPackage extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            applicationPackageVersionIds: [], // check状态的radio的id集合
+            applicationPackageVersionIds: [], // 选中的id集合
             projectId: '',
+            projectList: [], // 项目列表
+            versionList: [], // 版本列表
         }
     }
-
     componentDidMount() {
         this.getProjectList()
         this.getApplicationPackageInfoForShare()
     }
-
     // 获取项目列表
     getProjectList = () => {
-        this.props.baseFetch('enterprise', 'listProject', 'post', { pageNumber: 1, pageSize: 10000 }, {})
-    }
-
-    getApplicationPackageInfoForShare = () => {
-        // 获取应用包的版本列表信息
-        const { id, baseFetch } = this.props
-        baseFetch('appCenter', 'appPackage.getApplicationPackageInfoForShare', 'post', { id }, {})
-    }
-
-    handleSelectVersion = (bool, id) => {
-        const { applicationPackageVersionIds } = this.state
-        if (bool) {
-            applicationPackageVersionIds.push(id)
-        } else {
-            let index = applicationPackageVersionIds.findIndex(item => item === id)
-            applicationPackageVersionIds.splice(index, 1)
+        let params = {
+            pageNumber: 1,
+            pageSize: 10000
         }
-        this.setState({
-            applicationPackageVersionIds: [...applicationPackageVersionIds]
+        HuayunRequest(application.listProject, params, {
+            success: (res) => {
+                this.setState({
+                    projectList: res.data
+                })
+            }
         })
     }
-
-    isChecked = (id) => {
-        const { applicationPackageVersionIds } = this.state
-        return applicationPackageVersionIds.some(item => item === id)
+    getApplicationPackageInfoForShare = () => {
+        // 获取应用包的版本列表信息
+        const { applicationPackageId: id } = this.props
+        HuayunRequest(api.getApplicationPackageInfoForShare, { id }, {
+            success: (res) => {
+                this.setState({
+                    versionList: res.data.applicationPackageVersionList
+                })
+            }
+        })
     }
 
     handleChange = (key, val) => {
@@ -65,16 +55,32 @@ class ShareAppPackage extends BaseComponent {
         })
     }
 
+    getTableColumns = () => {
+        const { intl } = this.props
+        return [
+            {
+                title: intl.formatMessage({ id: 'Name' }),
+                dataIndex: 'name',
+            },
+            {
+                title: intl.formatMessage({ id: 'Index of versions' }),
+                dataIndex: 'packageVersion'
+            }
+        ]
+    }
+
     render() {
-        const { form, intl, listProject, modelVersions, currentPorjectId } = this.props
-        const projectList = _.get(listProject, 'data.data', [])
-        const versionList = _.get(modelVersions, 'data.data.applicationPackageVersionList', [])
-        const { applicationPackageVersionIds, projectId } = this.state
+        const { form, intl, currentPorjectId } = this.props
+        const { applicationPackageVersionIds, projectId, projectList, versionList } = this.state
 
         return (
             <Form
                 id='shareVersionForm'
+                ref={(node) => { this.form = node }}
                 form={form}
+                style={{ paddingRight: '0' }}
+                className="m-b-lg create_step"
+                subMessage
             >
                 <Select
                     form={form}
@@ -100,40 +106,25 @@ class ShareAppPackage extends BaseComponent {
                 <Panel
                     form={form}
                     name="applicationPackageVersionIds"
-                    label={intl.formatMessage({ id: 'OR_ApplicationVersion' })}
+                    label={intl.formatMessage({ id: 'SelectVersion' })}
+                    value={applicationPackageVersionIds}
+                    isRequired
+                    className='tablePanel'
                 >
-                    <div className="tableHeader">
-                        <div className="versionName">{intl.formatMessage({ id: 'Name' })}</div>
-                        <div className="versionNum">{intl.formatMessage({ id: 'Index of versions' })}</div>
-                    </div>
-                    {
-                        versionList.map(item => {
-                            return (
-                                <div className="tableRow" key={item.id}>
-                                    <div className="versionName">{item.name}</div>
-                                    <div className="versionNum">{item.packageVersion}</div>
-                                    <Switch
-                                        className='m-t-sm'
-                                        checked={this.isChecked(item.id)}
-                                        onChange={(val) => this.handleSelectVersion(val, item.id)}
-                                    />
-                                </div>
-                            )
-                        })
-                    }
+                    <Table
+                        columns={this.getTableColumns()}
+                        dataSource={versionList}
+                        pagination={false}
+                        rowSelection={{
+                            selectedRowKeys: applicationPackageVersionIds,
+                            onChange: (keys, items) => this.handleChange('applicationPackageVersionIds', keys),
+                        }}
+                        rowKey='id'
+                    />
                 </Panel>
             </Form>
         )
     }
 }
 
-const mapStateToProps = state => ({
-    listProject: state.baseModel.enterprise.listProject.post,
-    modelVersions: state.baseModel.appCenter.appPackage.getApplicationPackageInfoForShare.post,
-})
-
-const mapDispatchToProps = dispatch => ({
-
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(RcForm.create()(ShareAppPackage)))
+export default RcForm.create()(ShareAppPackage)

@@ -17,6 +17,9 @@ const api = {
     createApplicationPackageVersionByCopy: `${prefix}createApplicationPackageVersionByCopy`, // 创建应用包版本（复制）
     updateApplicationPackageVersionChartCommit: `${prefix}updateApplicationPackageVersionChartCommit`, // 提交chart包内容
     getAllApplicationPackageInfo: `${prefix}getAllApplicationPackageInfo`, // 列出项目的所有应用包
+    downApplicationPackageVersionChart: `${prefix}downApplicationPackageVersionChart`, // 下载应用包版本声明包
+    getApplicationPackageInfoForShare: `${prefix}getApplicationPackageInfoForShare`, // 应用包分享可供选择的版本
+    createApplicationPackageAndVersionByShare: `${prefix}createApplicationPackageAndVersionByShare`, // 分享应用包版本
 
 }
 
