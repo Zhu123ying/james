@@ -24,7 +24,8 @@ const api = {
     createApplicationPackageVersionGateway: `${prefix}createApplicationPackageVersionGateway`, // 添加应用包版本的应用入口
     updateApplicationPackageVersionGateway: `${prefix}updateApplicationPackageVersionGateway`, // 更新应用包版本的应用入口
     createApplicationPackageVersionGateway: `${prefix}createApplicationPackageVersionGateway`, // 添加应用包版本的应用入口
-    getApplicationPackageGatewayResourceList: `${prefix}getApplicationPackageGatewayResourceList`
+    getApplicationPackageGatewayResourceList: `${prefix}getApplicationPackageGatewayResourceList`,
+    getApplicationPackageVersionChartDirByVersionId: `${prefix}getApplicationPackageVersionChartDirByVersionId`, // 更新应用包版本的应用入口
 
 }
 

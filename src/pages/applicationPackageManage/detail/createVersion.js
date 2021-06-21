@@ -135,6 +135,7 @@ class CreateVersion extends React.Component {
                 let params = {
                     applicationPackageId, name, description, Chart: chart,
                 }
+                console.log(params)
                 let formData = new FormData()
                 Object.keys(params).forEach(key => {
                     formData.append(key, params[key])

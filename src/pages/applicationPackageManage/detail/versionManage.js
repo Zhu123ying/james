@@ -12,6 +12,7 @@ import ActionAuth from '~/components/ActionAuth'
 import actions from '~/constants/authAction'
 import Card from '~/components/Card'
 import CreateAppPort from './createAppPort'
+import FileEdit from './fileEdit'
 
 const _ = window._
 const { Panel } = Collapse
@@ -24,6 +25,7 @@ class VersionManage extends React.Component {
             currentVersion: _.get(props.applicationPackageVersionList, '0', {}),
             isVersionModalVisible: false, // 新增版本modal
             isPortManageModalVisible: false, // 入口modal
+            isStateManageModalVisible: false, // 文件树
             portList: [], // 入口数据
             currentPort: {}, // 当前的入口对象
         }
@@ -281,7 +283,7 @@ class VersionManage extends React.Component {
             }
         })
     }
-    handleManageState = () => {
+    handleStateManageModalConfirm = () => {
 
     }
     handleDownload = () => {
@@ -311,13 +313,13 @@ class VersionManage extends React.Component {
     }
     render() {
         const { intl, currentDataItem, applicationPackageVersionList } = this.props
-        const { currentVersion, isVersionModalVisible, isPortManageModalVisible, currentPort } = this.state
+        const { currentVersion, isVersionModalVisible, isPortManageModalVisible, isStateManageModalVisible, currentPort } = this.state
         const tabOperation = {
             right: [
                 <ActionAuth action={actions.AdminApplicationCenterApplicationPackageVersionOperate}>
                     <UltrauiButton
                         type="text"
-                        onClick={this.handleManageState}
+                        onClick={() => this.handleChange('isStateManageModalVisible', true)}
                     >
                         <Icon type="listing" />&nbsp;{intl.formatMessage({ id: 'ManageStatement' })}
                     </UltrauiButton>
@@ -417,6 +419,20 @@ class VersionManage extends React.Component {
                         currentVersion={currentVersion}
                         currentPort={currentPort}
                         wrappedComponentRef={node => this.$CreateAppPort = node} />
+                </Modal>
+                <Modal
+                    title={intl.formatMessage({ id: 'ManageStatement' })}
+                    visible={isStateManageModalVisible}
+                    onOk={this.handleStateManageModalConfirm}
+                    onCancel={() => this.handleChange('isStateManageModalVisible', false)}
+                    className='stateManageModal'
+                    destroyOnClose={true}
+                    width={680}
+                >
+                    <FileEdit
+                        {...this.props}
+                        currentVersion={currentVersion}
+                        wrappedComponentRef={node => this.$FileEdit = node} />
                 </Modal>
             </div>
         )
