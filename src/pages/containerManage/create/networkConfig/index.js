@@ -113,7 +113,7 @@ class NetworkConfig extends React.Component {
                 value={value}
                 name={name}
                 placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'Port' }) })}
-                onChange={(val) => this.handleOnChange(`${key}.port`, val)}
+                onChange={(val) => this.handleOnChange(`${key}.port`, parseInt(_.get(val, 'target.value', val)))}
                 label={intl.formatMessage({ id: portType })}
                 isRequired
                 type='number'
@@ -230,7 +230,7 @@ class NetworkConfig extends React.Component {
     renderClusterNetworkCollapsePanel = (item, index) => {
         const { form, intl } = this.props
         const { name } = item
-        const title = intl.formatMessage({ id: 'ContainerClusterNetwork' })
+        const title = `${intl.formatMessage({ id: 'ContainerClusterNetwork' })}${index + 1}`
         return (
             <Collapse.Panel header={this.renderCollapsePanelHeader('containerNetworks', title, index)} key={index}>
                 <Input
@@ -251,7 +251,7 @@ class NetworkConfig extends React.Component {
     renderNodeNetworkCollapsePanel = (item, index) => {
         const { form, intl } = this.props
         const { name } = item
-        const title = intl.formatMessage({ id: 'NodeNetwork' })
+        const title = `${intl.formatMessage({ id: 'NodeNetwork' })}${index + 1}`
         return (
             <Collapse.Panel header={this.renderCollapsePanelHeader('nodeNetworks', title, index)} key={index}>
                 <Input
@@ -272,7 +272,7 @@ class NetworkConfig extends React.Component {
         const { intl } = this.props
         return (
             <div className='panelHeader'>
-                <div className='panelTitle'>{`${title}${index + 1}`}</div>
+                <div className='panelTitle'>{title}</div>
                 <Button type='text' onClick={() => this.handleDeleteCollapsePanel(type, index)}>
                     <Icon type="empty" />&nbsp;{intl.formatMessage({ id: 'Delete' })}
                 </Button>
@@ -281,7 +281,11 @@ class NetworkConfig extends React.Component {
     }
     handleDeleteCollapsePanel = (type, index) => {
         const { formData: { network }, handleFormChange } = this.props
-        network[type].splice(index, 1)
+        if (index > -1) {
+            network[type].splice(index, 1)
+        } else {
+            delete network[type]
+        }
         handleFormChange('network', { ...network })
     }
     // 渲染容器集群网络
@@ -375,41 +379,64 @@ class NetworkConfig extends React.Component {
         const { networkList } = this.state
         const { name, ports, netId } = _.get(network, 'loadBalanceNetwork', {})
         return (
-            <Collapse defaultActiveKey={[0]}>
-                <Collapse.Panel header='外部网络'>
-                    <Input
-                        form={form}
-                        name='loadBalanceNetworkName'
-                        value={name}
-                        onChange={(val) => this.handleOnChange('loadBalanceNetwork.name', val)}
-                        label={intl.formatMessage({ id: 'Name' })}
-                        placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'Name' }) })}
-                        validRegex={Regex.isName}
-                        isRequired
-                    />
-                    <Select
-                        form={form}
-                        name="loadBalanceNetworkNetId"
-                        value={netId}
-                        placeholder={intl.formatMessage({ id: 'SelectProjectPlaceHolder' })}
-                        onChange={(val) => this.handleOnChange('loadBalanceNetwork.netId', val)}
-                        label={intl.formatMessage({ id: 'VirtualNetwork' })}
-                        isRequired
-                        options={
-                            networkList.map(item => {
-                                return {
-                                    value: item.id,
-                                    text: item.name,
-                                }
-                            })
-                        }
-                        optionFilterProp='children'
-                        optionLabelProp='children'
-                    />
-                    {this.renderPortPanel('loadBalanceNetwork.ports', portTypeList[2])}
-                </Collapse.Panel>
-            </Collapse>
+            <>
+                {
+                    network.loadBalanceNetwork ? (
+                        <Collapse defaultActiveKey={[0]}>
+                            <Collapse.Panel header={this.renderCollapsePanelHeader('loadBalanceNetwork', '外部网络', -1)}>
+                                <Input
+                                    form={form}
+                                    name='loadBalanceNetworkName'
+                                    value={name}
+                                    onChange={(val) => this.handleOnChange('loadBalanceNetwork.name', val)}
+                                    label={intl.formatMessage({ id: 'Name' })}
+                                    placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'Name' }) })}
+                                    validRegex={Regex.isName}
+                                    isRequired
+                                />
+                                <Select
+                                    form={form}
+                                    name="loadBalanceNetworkNetId"
+                                    value={netId}
+                                    placeholder={intl.formatMessage({ id: 'SelectProjectPlaceHolder' })}
+                                    onChange={(val) => this.handleOnChange('loadBalanceNetwork.netId', val)}
+                                    label={intl.formatMessage({ id: 'VirtualNetwork' })}
+                                    isRequired
+                                    options={
+                                        networkList.map(item => {
+                                            return {
+                                                value: item.id,
+                                                text: item.name,
+                                            }
+                                        })
+                                    }
+                                    optionFilterProp='children'
+                                    optionLabelProp='children'
+                                />
+                                {this.renderPortPanel('loadBalanceNetwork.ports', portTypeList[2])}
+                            </Collapse.Panel>
+                        </Collapse>
+                    ) : (
+                        <HuayunButton
+                            type="operate"
+                            icon={< Icon type="add" />}
+                            onClick={this.handleAddLoadBalanceNetwork}
+                            name="添加外部网络"
+                            className='addBoxItemBtn'
+                        />
+                    )
+                }
+            </>
         )
+    }
+    handleAddLoadBalanceNetwork = () => {
+        let { intl, formData: { network }, handleFormChange } = this.props
+        network.loadBalanceNetwork = {
+            name: '',
+            netId: '',
+            ports: []
+        }
+        handleFormChange('network', { ...network })
     }
     render() {
         const { form, intl, formData: { network }, handleFormChange } = this.props

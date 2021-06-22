@@ -71,7 +71,7 @@ class ManagePorts extends React.Component {
                     form={form}
                     name='port'
                     value={port}
-                    onChange={(val) => this.handleChange('port', val)}
+                    onChange={(val) => this.handleChange('port', parseInt(_.get(val, 'target.value', val)))}
                     label={intl.formatMessage({ id: 'ContainerPort' })}
                     placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'ContainerPort' }) })}
                     isRequired

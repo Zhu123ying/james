@@ -266,6 +266,14 @@ class FileEdit extends React.Component {
         // 将编辑器的内容赋给当前节点
         currentNode.fcontent = content
     }
+    handleSelectTreeNode = (keys, node) => {
+        this.setState({
+            selectedKeys: keys
+        }, () => {
+            let content = _.get(node, 'fcontent', '')
+            this.$editorInstance.doc.setValue(content)
+        })
+    }
     render() {
         const { treeData, isFetching, expandedKeys, selectedKeys, showSearchInput, searchInputValue } = this.state
         return (
@@ -306,7 +314,7 @@ class FileEdit extends React.Component {
                                 <DirectoryTree
                                     defaultExpandedKeys={['0']}
                                     selectedKeys={selectedKeys}
-                                    onSelect={(keys) => this.handleChange('selectedKeys', keys)}
+                                    onSelect={(keys, { node }) => this.handleSelectTreeNode(keys, node)}
                                     treeData={treeData}
                                     expandAction={false}
                                     expandedKeys={expandedKeys}
