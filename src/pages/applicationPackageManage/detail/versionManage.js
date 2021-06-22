@@ -22,7 +22,8 @@ class VersionManage extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            currentVersion: _.get(props.applicationPackageVersionList, '0', {}),
+            currentVersionId: _.get(props.applicationPackageVersionList, '0.id', ''),
+            currentVersion: {},
             isVersionModalVisible: false, // 新增版本modal
             isPortManageModalVisible: false, // 入口modal
             isStateManageModalVisible: false, // 文件树
@@ -31,24 +32,41 @@ class VersionManage extends React.Component {
         }
     }
     componentDidMount() {
+        // 版本的入口数据
         this.getAppPackagePortData()
+        // 版本的详情
+        this.getApplicationPackageVersionInfo()
     }
     componentWillReceiveProps({ applicationPackageVersionList }) {
-        // 判断是否要重新设置currentVersion
-        const { currentVersion } = this.state
-        const currentVersion_ = applicationPackageVersionList.find(item => item.id === currentVersion.id) || _.get(applicationPackageVersionList, '0', {})
+        // 判断是否要重新设置currentVersionId
+        const { currentVersionId } = this.state
+        const currentVersionId_ = applicationPackageVersionList.find(item => item.id === currentVersionId) || _.get(applicationPackageVersionList, '0.id', {})
         this.setState({
-            currentVersion: currentVersion_
+            currentVersionId: currentVersionId_
         })
-        // 如果currentVersion变了，则需要重新获取入口数据
-        currentVersion_.id !== currentVersion.id && this.getAppPackagePortData(currentVersion_.id)
+        // 如果currentVersionId变了，则需要重新获取入口数据和详情数据
+        if (currentVersionId !== currentVersionId_) {
+            this.getAppPackagePortData(currentVersionId_)
+            this.getApplicationPackageVersionInfo(currentVersionId_)
+        }
     }
+
     // 获取入口列表数据
-    getAppPackagePortData = (applicationVersionId = this.state.currentVersion.id) => {
+    getAppPackagePortData = (applicationVersionId = this.state.currentVersionId) => {
         HuayunRequest(api.queryApplicationPackageVersionGateway, { applicationVersionId }, {
             success: (res) => {
                 this.setState({
                     portList: res.data
+                })
+            }
+        })
+    }
+    // 应用包详情切换版本信息
+    getApplicationPackageVersionInfo = (id = this.state.currentVersionId) => {
+        HuayunRequest(api.getApplicationPackageVersionInfo, { id }, {
+            success: (res) => {
+                this.setState({
+                    currentVersion: res.data
                 })
             }
         })
@@ -73,7 +91,7 @@ class VersionManage extends React.Component {
     renderVersionInfoPanel = () => {
         const { intl } = this.props
         const { currentVersion } = this.state
-        const { name, description, packageVersion, quota, createBy, createTime, chartValues, chartTemplate, isCommit } = currentVersion
+        const { name, description, packageVersion, quota, createByName, createTime, chartValues, chartTemplate, isCommit } = currentVersion
         const versionKeyValueData = [
             {
                 label: intl.formatMessage({ id: 'Index of versions' }),
@@ -87,7 +105,7 @@ class VersionManage extends React.Component {
         const versionKeyValueData2 = [
             {
                 value: intl.formatMessage({ id: 'CreaterName' }),
-                label: createBy || DEFAULT_EMPTY_LABEL
+                label: createByName || DEFAULT_EMPTY_LABEL
             },
             {
                 value: intl.formatMessage({ id: 'CreateTime' }),
@@ -311,6 +329,15 @@ class VersionManage extends React.Component {
         const { currentVersion: { applicationPackageId, id: applicationPackageVersionId } } = this.state
         this.props.history.push(`/applicationCenter/applicationPackageManage/create?applicationPackageId=${applicationPackageId}&applicationPackageVersionId=${applicationPackageVersionId}`)
     }
+    handleSelectVersion = (id) => {
+        if (id === this.state.currentVersionId) return
+        this.setState({
+            currentVersionId: id
+        }, () => {
+            this.getAppPackagePortData(id)
+            this.getApplicationPackageVersionInfo(id)
+        })
+    }
     render() {
         const { intl, currentDataItem, applicationPackageVersionList } = this.props
         const { currentVersion, isVersionModalVisible, isPortManageModalVisible, isStateManageModalVisible, currentPort } = this.state
@@ -375,7 +402,7 @@ class VersionManage extends React.Component {
                             (applicationPackageVersionList || []).map((item) => {
                                 const { id, name, createTime, isCommit } = item
                                 return (
-                                    <div className='versionItem' key={id} onClick={() => this.handleChange('currentVersion', item)}>
+                                    <div className='versionItem' key={id} onClick={() => this.handleSelectVersion(id)}>
                                         <span className={`versionName ${currentVersion.id === id ? 'activeBefore' : ''}`}>
                                             <div className='label'>
                                                 <div className={`stateDot ${isCommit ? 'bg-success' : 'bg-default'}`}></div>
