@@ -267,7 +267,6 @@ class ContainerConfig extends React.Component {
                                                 onChange={(val) => this.handleFormDataOnChange(`${index}.runVar.workDir`, val)}
                                                 label={intl.formatMessage({ id: 'WorkingDirectory' })}
                                                 placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'WorkingDirectory' }) })}
-                                                isRequired
                                             />
                                             {/* 启动参数 */}
                                             <Panel
@@ -276,7 +275,6 @@ class ContainerConfig extends React.Component {
                                                 name={`containers${index}RunVarArgs`}
                                                 label={intl.formatMessage({ id: 'StartParameter' })}
                                                 inline
-                                                isRequired
                                                 className='labelPanel'
                                             >
                                                 <div className='inputWithAddBtn'>
@@ -318,7 +316,6 @@ class ContainerConfig extends React.Component {
                                                 name={`containers${index}RunVarCommand`}
                                                 label={intl.formatMessage({ id: 'StartCommand' })}
                                                 inline
-                                                isRequired
                                                 className='labelPanel'
                                             >
                                                 <div className='inputWithAddBtn'>

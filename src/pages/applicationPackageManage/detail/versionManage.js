@@ -301,8 +301,55 @@ class VersionManage extends React.Component {
             }
         })
     }
-    handleStateManageModalConfirm = () => {
-
+    // 验证yaml
+    handleValidateStatement = () => {
+        const { intl } = this.props
+        const { currentVersionId } = this.state
+        let params = {
+            id: currentVersionId,
+            chartFileJson: JSON.stringify(this.$FileEdit.state.treeData[0])
+        }
+        HuayunRequest(api.verifyChartContent, params, {
+            success: (res) => {
+                notification.notice({
+                    id: new Date(),
+                    type: 'success',
+                    title: intl.formatMessage({ id: 'Success' }),
+                    content: `${intl.formatMessage({ id: 'Validate' })}${intl.formatMessage({ id: 'AppPackageVersion' })}${intl.formatMessage({ id: 'Success' })}`,
+                    iconNode: 'icon-success-o',
+                    duration: 5,
+                    closable: true
+                })
+                this.setState({
+                    isStateManageModalVisible: false
+                })
+            }
+        })
+    }
+    // 保存yaml
+    handleSaveStatement = () => {
+        const { intl } = this.props
+        const { currentVersionId } = this.state
+        let params = {
+            id: currentVersionId,
+            chartFileJson: JSON.stringify(this.$FileEdit.state.treeData[0])
+        }
+        HuayunRequest(api.updateApplicationPackageVersionSaveChartFile, params, {
+            success: (res) => {
+                notification.notice({
+                    id: new Date(),
+                    type: 'success',
+                    title: intl.formatMessage({ id: 'Success' }),
+                    content: `${intl.formatMessage({ id: 'Save' })}${intl.formatMessage({ id: 'AppPackageVersion' })}${intl.formatMessage({ id: 'Success' })}`,
+                    iconNode: 'icon-success-o',
+                    duration: 5,
+                    closable: true
+                })
+                this.setState({
+                    isStateManageModalVisible: false
+                })
+            }
+        })
     }
     handleDownload = () => {
         const { currentVersion: { id } } = this.state
@@ -450,16 +497,19 @@ class VersionManage extends React.Component {
                 <Modal
                     title={intl.formatMessage({ id: 'ManageStatement' })}
                     visible={isStateManageModalVisible}
-                    onOk={this.handleStateManageModalConfirm}
-                    onCancel={() => this.handleChange('isStateManageModalVisible', false)}
+                    onOk={this.handleValidateStatement}
+                    onCancel={this.handleSaveStatement}
                     className='stateManageModal'
                     destroyOnClose={true}
                     width={680}
+                    cancelText={intl.formatMessage({ id: 'Save' })}
+                    okText={intl.formatMessage({ id: 'Validate' })}
+                    closable={false}
                 >
                     <FileEdit
                         {...this.props}
                         currentVersion={currentVersion}
-                        wrappedComponentRef={node => this.$FileEdit = node} />
+                        ref={node => this.$FileEdit = node} />
                 </Modal>
             </div>
         )

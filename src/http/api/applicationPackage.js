@@ -27,6 +27,8 @@ const api = {
     getApplicationPackageGatewayResourceList: `${prefix}getApplicationPackageGatewayResourceList`,
     getApplicationPackageVersionChartDirByVersionId: `${prefix}getApplicationPackageVersionChartDirByVersionId`, // 更新应用包版本的应用入口
     getApplicationPackageVersionInfo: `${prefix}getApplicationPackageVersionInfo`, // 应用包详情切换版本信息
+    verifyChartContent: `${prefix}verifyChartContent`, // 验证chart包内容
+    updateApplicationPackageVersionSaveChartFile: `${prefix}updateApplicationPackageVersionSaveChartFile`, // 保存chart包内容
 
 }
 
