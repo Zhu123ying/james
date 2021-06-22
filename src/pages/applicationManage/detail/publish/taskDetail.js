@@ -12,27 +12,33 @@ import { DEFAULT_EMPTY_LABEL, ApplicationPublishTaskStatuList } from '~/constant
 import ActionAuth from '~/components/ActionAuth'
 import actions from '~/constants/authAction'
 import ManageTaskNode from './manageTaskNode'
-import { isTimeElement } from 'intl-messageformat-parser'
+import NodeResource from './nodeResource'
+
 const { Step } = Steps
 const _ = window._
 const { Panel } = Collapse;
 const notification = Notification.newInstance()
-
+const taskNodeStateColor = {
+    success: 'text-success',
+    fail: 'text-danger',
+    config: 'text-warning'
+}
 class TaskDetail extends React.Component {
     static propTypes = {
         intl: PropTypes.object.isRequired,
     }
-
     constructor(props) {
         super(props)
         this.state = {
             taskDetail: {}, // 任务基础信息
             taskNodeList: [],
             isFetching: false,
-            isManageTaskNodeVisible: false, // 任务节点的添加和编辑modal
+            isManageTaskNodeModalVisible: false, // 任务节点的添加和编辑modal
             manageTaskNodeType: 'Create', // 添加还是编辑
             modal_TaskNodeList: [], // 创建、编辑任务节点的左侧节点数据
             modal_CurrentTaskNode: {}, // 创建、编辑任务节点的右侧节点详情
+            isSeeCurrentNodeResourceModalVisible: false, // 查看当前节点资源
+            currentTaskNode: {}, // 当前查看的任务节点，用于查看节点的资源对象
         }
     }
     componentWillReceiveProps({ currentTask, visible }) {
@@ -130,11 +136,12 @@ class TaskDetail extends React.Component {
             }
         })
     }
-    handleSeeNodeResourceInfo = () => {
+    handleSeeNodeResourceInfo = (item) => {
         this.setState({
-            isManageTaskNodeVisible: true,
-            manageTaskNodeType: 'create', // 操作类型
+            currentTaskNode: item,
+            isSeeCurrentNodeResourceModalVisible: true
         })
+
     }
     handleDeleteTaskNode = (id, name) => {
         const { intl, currentTask } = this.props
@@ -185,6 +192,9 @@ class TaskDetail extends React.Component {
             }
         })
     }
+    renderTaskNodeSatePopover = (result) => {
+        return result
+    }
     renderStep = (item, index) => {
         const { intl } = this.props
         const { taskNodeList, taskDetail: { currentNode } } = this.state
@@ -203,13 +213,19 @@ class TaskDetail extends React.Component {
                         content={<div>{intl.formatMessage({ id: 'View' })}</div>}
                         trigger="hover"
                         type="text"
-                    ><i className='iconfont icon-view' onClick={this.handleSeeNodeResourceInfo}></i></Popover>
+                    ><i className='iconfont icon-view' onClick={() => this.handleSeeNodeResourceInfo(item)}></i></Popover>
                 </div>
             )
         }
         const stateObj = {
             title: intl.formatMessage({ id: 'Status' }),
-            value: ApplicationPublishTaskStatuList[state] || DEFAULT_EMPTY_LABEL
+            value: (
+                <Popover title={this.renderTaskNodeSatePopover(item.result)}>
+                    <span className={taskNodeStateColor[state]}>
+                        {ApplicationPublishTaskStatuList[state]}
+                    </span>
+                </Popover>
+            )
         }
         const startTimeObj = {
             title: intl.formatMessage({ id: 'StartTime' }),
@@ -227,7 +243,7 @@ class TaskDetail extends React.Component {
                 return <Step title={this.renderStepContent([nameObj, resourceInfoObj], [operate_add])} icon={<Icon type='boot' />} />
                 break
             case parseInt(taskNodeList.length - 1):
-                return <Step title={this.renderStepContent([nameObj, resourceInfoObj, stateObj, startTimeObj, finishTimeObj])} icon={<Icon type='shutdown' />} />
+                return <Step title={this.renderStepContent([nameObj, resourceInfoObj])} icon={<Icon type='shutdown' />} />
                 break
             default:
                 return <Step title={this.renderStepContent([nameObj, resourceInfoObj, stateObj], [operate_add, operate_edit, operate_delete], item)} icon={<Icon type='connection' />} className='middleNode' />
@@ -253,12 +269,12 @@ class TaskDetail extends React.Component {
                 </div>
                 <div className='operaGroup'>
                     {
-                        // config状态下不能操作
+                        // 任务状态为config才有
                         state === 'config' ? operaOptions : null
                     }
                     {
-                        // 节点的state为success，且该节点未当前节点的时候，有执行按钮
-                        (nodeState === 'success') && (name === currentNode) ? (
+                        // 节点的state为success，且该节点为当前节点的时候，有执行按钮
+                        state === 'releasing' && nodeState === 'config' && (name === currentNode) ? (
                             // 执行节点
                             <Icon type='boot' onClick={() => this.handleExcuteTaskNode(name, nextTaskNode)}></Icon>
                         ) : null
@@ -275,7 +291,7 @@ class TaskDetail extends React.Component {
         const lastNode = taskNodeList[taskNodeList.length - 1]
         const isMiddleNode = (index > 0) && (index < taskNodeList.length - 1)
         this.setState({
-            isManageTaskNodeVisible: true, // 任务节点的添加和编辑modal
+            isManageTaskNodeModalVisible: true, // 任务节点的添加和编辑modal
             manageTaskNodeType: 'Create', // 添加还是编辑
             modal_TaskNodeList: isMiddleNode ? [firstNode, item, lastNode] : [firstNode, lastNode],
             modal_CurrentTaskNode: {
@@ -294,7 +310,7 @@ class TaskDetail extends React.Component {
         const lastNode = taskNodeList[taskNodeList.length - 1]
         const isMiddleNode = (index > 1) && (index < taskNodeList.length - 1)
         this.setState({
-            isManageTaskNodeVisible: true, // 任务节点的添加和编辑modal
+            isManageTaskNodeModalVisible: true, // 任务节点的添加和编辑modal
             manageTaskNodeType: 'Update', // 添加还是编辑
             modal_TaskNodeList: isMiddleNode ? [firstNode, taskNodeList[index - 1], lastNode] : [firstNode, lastNode],
             modal_CurrentTaskNode: item
@@ -308,7 +324,7 @@ class TaskDetail extends React.Component {
         HuayunRequest(api[urlType], currentTaskNode, {
             success: (res) => {
                 this.setState({
-                    isManageTaskNodeVisible: false
+                    isManageTaskNodeModalVisible: false
                 })
                 this.getDetail(currentTask.id)
                 notification.notice({
@@ -325,7 +341,7 @@ class TaskDetail extends React.Component {
     }
     render() {
         const { intl, detail, onClose, visible, currentTask, handleUpdatePublishTask } = this.props
-        const { taskNodeList, isFetching, taskDetail, isManageTaskNodeVisible, manageTaskNodeType, modal_TaskNodeList, modal_CurrentTaskNode } = this.state
+        const { taskNodeList, isFetching, taskDetail, isManageTaskNodeModalVisible, manageTaskNodeType, modal_TaskNodeList, modal_CurrentTaskNode, isSeeCurrentNodeResourceModalVisible, currentTaskNode } = this.state
         const { id, name, state, startTime, finishTime, createTime, createrName, description, currentNode } = taskDetail
         const basicInfor = [
             {
@@ -373,10 +389,10 @@ class TaskDetail extends React.Component {
             <Button className='operaItem' type='text' onClick={() => this.handleStartPublish()} disabled={state !== 'config' ? true : false}>
                 <Icon type="boot" />&nbsp;{intl.formatMessage({ id: 'StartPublish' })}
             </Button>,
-            <Button className='operaItem' type='text' onClick={() => this.handleCancelPublish(id)} disabled={state === 'config' ? true : false}>
+            <Button className='operaItem' type='text' onClick={() => this.handleCancelPublish(id)} disabled={state !== 'releasing' ? true : false}>
                 <Icon type="error-o" />&nbsp;{intl.formatMessage({ id: 'CancelPublish' })}
             </Button>,
-            <Button className='operaItem' type='text' onClick={() => this.handleRollback(id)} disabled={state !== 'cancel' ? true : false}>
+            <Button className='operaItem' type='text' onClick={() => this.handleRollback(id)} disabled={state !== 'releasing' ? true : false}>
                 <Icon type="synchro" />&nbsp;{intl.formatMessage({ id: 'RollBack' })}
             </Button>,
         ]
@@ -415,12 +431,12 @@ class TaskDetail extends React.Component {
                     </Collapse>
                 </div>
                 <Modal
-                    visible={isManageTaskNodeVisible}
+                    visible={isManageTaskNodeModalVisible}
                     title={`${intl.formatMessage({ id: manageTaskNodeType })}${intl.formatMessage({ id: 'Node' })}`}
                     onOk={this.handleConfirmManage}
                     onCancel={() => {
                         this.setState({
-                            isManageTaskNodeVisible: false
+                            isManageTaskNodeModalVisible: false
                         })
                     }}
                     className='manageTaskNodeModal'
@@ -430,6 +446,23 @@ class TaskDetail extends React.Component {
                         taskNodeList={modal_TaskNodeList}
                         currentTaskNode={modal_CurrentTaskNode}
                         ref={node => this.$ManageTaskNode = node}></ManageTaskNode>
+                </Modal>
+                <Modal
+                    visible={isSeeCurrentNodeResourceModalVisible}
+                    title='当前节点资源'
+                    onCancel={() => {
+                        this.setState({
+                            isSeeCurrentNodeResourceModalVisible: false
+                        })
+                    }}
+                    cancelText='知道了'
+                    width={616}
+                    className='nodeResourceModal'
+                    destroyOnClose={true}>
+                    <NodeResource
+                        intl={intl}
+                        tableData={_.get(currentTaskNode, 'resourceInfo', [])}
+                        ref={node => this.$NodeResource = node}></NodeResource>
                 </Modal>
             </DetailDrawer >
         )
