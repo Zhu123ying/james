@@ -322,7 +322,7 @@ class AppStoreManageApp extends React.Component {
                         applicationPackageId={applicationPackageId}
                         applicationPackageVersionIds={applicationPackageVersionIds}
                         packageVersionsAll={packageVersionsAll}
-                        wrappedComponentRef={node => this.$ManagePackageVersion = node} />
+                        ref={node => this.$ManagePackageVersion = node} />
                 </Modal>
             </div>
         )
