@@ -79,7 +79,7 @@ class NetworkConfig extends React.Component {
             const { ports } = container
             ports && ports.forEach(({ name, port }) => {
                 options.push({
-                    value: port,
+                    value: name,
                     text: `${name} - ${port}`
                 })
             })
@@ -147,7 +147,7 @@ class NetworkConfig extends React.Component {
                     value={port}
                     name={`${key}NodePortInput`}
                     placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'Port' }) })}
-                    onChange={(val) => this.handleOnChange(`${key}.port`, val)}
+                    onChange={(val) => this.handleOnChange(`${key}.port`, parseInt(_.get(val, 'target.value', val)))}
                     // label={intl.formatMessage({ id: portType })}
                     // isRequired={manner === 'manual'}
                     disabled={manner === 'random'}

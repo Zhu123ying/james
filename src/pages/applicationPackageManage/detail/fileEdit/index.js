@@ -8,27 +8,27 @@ import { Collapse, Select, Button, Popover, Modal, Tabs, Table, ButtonGroup, Inp
 import { Tree, Input } from 'antd'
 // codemirror相关引入
 import { UnControlled as CodeMirror } from 'react-codemirror2'
-// import 'codemirror/lib/codemirror.js'
-// import 'codemirror/lib/codemirror.css';
-// // 主题风格
-// import 'codemirror/theme/solarized.css';
-// // 代码模式，clike是包含java,c++等模式的
-// import 'codemirror/mode/clike/clike';
-// import 'codemirror/mode/css/css';
-// //ctrl+空格代码提示补全
-// import 'codemirror/addon/hint/show-hint.css';
-// import 'codemirror/addon/hint/show-hint';
-// import 'codemirror/addon/hint/anyword-hint.js';
-// //代码高亮
-// import 'codemirror/addon/selection/active-line';
-// //折叠代码
-// import 'codemirror/addon/fold/foldgutter.css';
-// import 'codemirror/addon/fold/foldcode.js';
-// import 'codemirror/addon/fold/foldgutter.js';
-// import 'codemirror/addon/fold/brace-fold.js';
-// import 'codemirror/addon/fold/comment-fold.js';
-// import 'codemirror/addon/edit/closebrackets';
-// import 'codemirror/addon/edit/matchBrackets';
+import 'codemirror/lib/codemirror.js'
+import 'codemirror/lib/codemirror.css';
+// 主题风格
+import 'codemirror/theme/solarized.css';
+// 代码模式，clike是包含java,c++等模式的
+import 'codemirror/mode/clike/clike';
+import 'codemirror/mode/css/css';
+//ctrl+空格代码提示补全
+import 'codemirror/addon/hint/show-hint.css';
+import 'codemirror/addon/hint/show-hint';
+import 'codemirror/addon/hint/anyword-hint.js';
+//代码高亮
+import 'codemirror/addon/selection/active-line';
+//折叠代码
+import 'codemirror/addon/fold/foldgutter.css';
+import 'codemirror/addon/fold/foldcode.js';
+import 'codemirror/addon/fold/foldgutter.js';
+import 'codemirror/addon/fold/brace-fold.js';
+import 'codemirror/addon/fold/comment-fold.js';
+import 'codemirror/addon/edit/closebrackets';
+// import 'codemirror/addon/edit/matchbrackets';
 
 const { DirectoryTree } = Tree
 // 格式化chartValues文本内容
@@ -334,7 +334,7 @@ class FileEdit extends React.Component {
                             // theme: 'solarized dark',
                             autofocus: false,//自动获取焦点
                             styleActiveLine: true,//光标代码高亮
-                            lineNumbers: false, //显示行号
+                            lineNumbers: true, //显示行号
                             smartIndent: true,  //自动缩进
                             //start-设置支持代码折叠
                             lineWrapping: true,
