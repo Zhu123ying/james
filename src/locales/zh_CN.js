@@ -55,8 +55,12 @@ const zh_CN = {
     Password: '密码',
     Credential: '凭证',
     Push: '推送',
+    Network: '网络',
+    Save: '保存',
 
     // 业务字段
+    NodeManage: '节点',
+    DesNodeManage: '这是节点管理的描述',
     DesCreateContainerGroup: '这是创建容器的描述',
     ApplicationStoreManage: '应用商店',
     DesApplicationStoreManage: '这是应用商店的描述',
@@ -367,7 +371,8 @@ const zh_CN = {
     Helm_UploadFile: '上传文件',
     DownloadStatement: '下载声明',
     SelectVersion: '选择版本',
-    Save: '保存',
+    ResourceMonitor: '资源监控',
+    SystemInfo: '系统信息',
 
     // 接口返回提示
     UpdateApplicationSuccess: '编辑应用-{name}成功！',

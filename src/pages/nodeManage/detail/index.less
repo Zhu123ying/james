@@ -1,0 +1,108 @@
+.nodeDetailDrawer{
+    .archer-collapse{
+        .archer-collapse-content-box{
+            padding: 0;
+            .ult-key-value-item{
+                padding: 0 16px;
+                font-family: SourceHanSansSC-Normal;
+                font-size: 12px;
+                border-bottom: 1px solid #E7EBF3;
+                align-items: center;
+                .ult-key-value-item-label{
+                    text-align: left;
+                    width: 15%;
+                    color: #516F90;
+                }
+                .ult-key-value-item-value{
+                    text-align: left;
+                    width: 85%;
+                    color: #33475B;
+                }
+            }
+            .ult-key-value-item:last-child{
+                border-bottom: none;
+            }
+        }
+    }
+    .basicInforCollapse{
+        .tagLine{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .opera{
+                display: flex;
+                align-items: center;
+                .labelList{
+                    width: calc(100% - 24px);
+                    display: flex;
+                    align-items: center;
+                    flex-wrap: wrap;
+                    .ult-tag-item{
+                        margin: 0 0 4px 4px;
+                    }
+                    .tagWithClose{
+                        padding: 6px 4px 6px 10px;
+                    }
+                    .tagWithoutClose{
+                        padding: 4px 8px;
+                    }
+                }
+            }
+        }
+        .descriptionLine{
+            .header{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 16px;
+                background-color: #f5f8fa;
+                font-size: 12px;
+                color: #33475b;
+            }
+            .desList{
+                padding: 16px;
+                .card{
+                    margin-bottom: 10px;
+                }
+            }
+        }
+    }
+}
+.addLabelModal{
+    .ult-rcform-group{
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 10px;
+        .ult-label{
+            width: auto;
+            min-width: 0;
+            margin-bottom: 5px;
+        }
+        .ult-rcform-group-input-wrapper{
+            width: 100%;
+        }
+        .validation-error{
+            margin-left: 0;
+            padding-left: 0;
+        }
+    }
+}
+
+.addDescriptionModal{
+    .archer-modal-content{
+        min-height: 253px;
+        max-height: 700px;
+        .ult-rcform-group{
+            margin-bottom: 0;
+            .ult-label{
+                display: none;
+            }
+            .ult-rcform-group-input-wrapper{
+                width: 100%;
+                textarea{
+                    min-height: 120px;
+                }
+            }
+        }
+    }
+}

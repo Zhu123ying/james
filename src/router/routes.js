@@ -1,4 +1,5 @@
 /* eslint-disable */
+import PageNotFound from '~/container/error'
 import ApplicationCenter from '~/container/content'
 import ApplicationManage from '~/pages/applicationManage'
 import CreateApplication from '~/pages/applicationManage/create'
@@ -10,7 +11,7 @@ import CredentialManage from '~/pages/imageRepositoryCredentialManage'
 import ImageManage from '~/pages/imageManage'
 import ApplicationStoreManage from '~/pages/applicationStoreManage'
 import ManageApplicationStore from '~/pages/applicationStoreManage/manage'
-import PageNotFound from '~/container/error'
+import NodeManage from '~/pages/nodeManage'
 
 const routers = [
   {
@@ -156,6 +157,15 @@ const routers = [
         langCode: 'EditApplicationStore',
         descLangCode: 'DesEditApplicationStore',
       },
+      {
+        path: "/applicationCenter/nodeManage",
+        component: NodeManage,
+        name: 'NodeManage',
+        key: 'NodeManage',
+        exact: true,
+        langCode: 'NodeManage',
+        descLangCode: 'DesNodeManage',
+      }
     ]
   },
   {
