@@ -67,6 +67,22 @@
             }
         }
     }
+    #nodeNetWorkMonitorChart{
+        width: 100%;
+        height: 250px;
+    }
+    .imageList{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        .imageItem{
+            width: calc(50% - 4px);
+            padding: 13px 16px;
+            display: flex;
+            align-items: center;
+        }
+    }
 }
 .addLabelModal{
     .ult-rcform-group{
@@ -84,25 +100,6 @@
         .validation-error{
             margin-left: 0;
             padding-left: 0;
-        }
-    }
-}
-
-.addDescriptionModal{
-    .archer-modal-content{
-        min-height: 253px;
-        max-height: 700px;
-        .ult-rcform-group{
-            margin-bottom: 0;
-            .ult-label{
-                display: none;
-            }
-            .ult-rcform-group-input-wrapper{
-                width: 100%;
-                textarea{
-                    min-height: 120px;
-                }
-            }
         }
     }
 }

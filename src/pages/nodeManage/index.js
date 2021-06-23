@@ -23,7 +23,7 @@ class NodeManage extends React.Component {
             total: 0,
             isFetching: false,
             isDetailDrawerVisible: false, // 详情抽屉
-            currentNodeName: ''
+            currentNode: {}
         }
     }
     componentDidMount() {
@@ -178,10 +178,10 @@ class NodeManage extends React.Component {
             this.handleSearch()
         })
     }
-    handleSeeNodeDetail = ({ name }) => {
+    handleSeeNodeDetail = (item) => {
         this.setState({
             isDetailDrawerVisible: true,
-            currentNodeName: name
+            currentNode: item
         })
     }
     handleChange = (key, value) => {
@@ -191,7 +191,7 @@ class NodeManage extends React.Component {
     }
     render() {
         const { intl } = this.props
-        const { name, pageNumber, pageSize, isFetching, dataList, total, currentNodeName, isDetailDrawerVisible } = this.state
+        const { name, pageNumber, pageSize, isFetching, dataList, total, currentNode, isDetailDrawerVisible } = this.state
         const params = {
             pageNumber,
             pageSize,
@@ -222,7 +222,8 @@ class NodeManage extends React.Component {
                 />
                 <Detail
                     intl={intl}
-                    nodeName={currentNodeName}
+                    nodeName={currentNode.name}
+                    nodeAddress={currentNode.address}
                     visible={isDetailDrawerVisible}
                     onClose={() => this.handleChange('isDetailDrawerVisible', false)}
                 ></Detail>

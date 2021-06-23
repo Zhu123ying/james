@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from 'react'
-import { RcForm, Icon, Loading, SortTable, Dialog, Radio, Input, Button as UltrauiButton, KeyValue, TagItem, InlineInput, Notification } from 'ultraui'
+import { RcForm, Icon, Loading, SortTable, Dialog, Radio, Input, Button as UltrauiButton, KeyValue, TagItem, InlineInput, Notification, NoData } from 'ultraui'
 import './index.less'
 import moment from 'moment'
 import HuayunRequest from '~/http/request'
@@ -10,6 +10,8 @@ import { Collapse, Select, Button, Popover, Modal, Tabs, Table } from 'huayunui'
 import { DEFAULT_EMPTY_LABEL } from '~/constants'
 import AddLabel from './addLabel'
 import Card from '~/components/Card'
+import TableCommon from '~/components/TableCommon'
+import NodeNetworkMonitor from './nodeNetworkMonitor'
 
 const _ = window._
 const { Panel } = Collapse
@@ -33,22 +35,25 @@ class Detail extends React.Component {
         this.state = {
             isFetching: false,
             basicInfo: {}, // 基础信息
-            stateTableData: [], // 状态表格数据
+            podTableData: [], // 状态表格数据
             eventTableData: [], // 事件表格数据
+            containerImageList: [], // 容器镜像
             isAddLableModalVisible: false, // 添加标签
             addType: '', // 区分添加的是标签、污点、备注等
+            tabActiveKey: '1', // 当前激活的tab的key，这次需要做成受控的
         }
     }
-    componentWillReceiveProps({ nodeName }) {
-        nodeName && nodeName !== this.props.nodeName && this.getDetailData(nodeName)
+    componentWillReceiveProps({ nodeName, nodeAddress }) {
+        nodeName && nodeName !== this.props.nodeName && this.getDetailData(nodeName, nodeAddress)
     }
     // 获取详情数据
-    getDetailData = (name = this.props.nodeName) => {
+    getDetailData = (name = this.props.nodeName, nodeAddress = this.props.nodeAddress) => {
         this.getBasicDetail(name)
-        // this.getNodeEvents(name)
-        // this.getNodePods(name)
+        this.getNodeEvents(name)
+        this.getNodePods(name)
+        this.getNodeContainerMirrors(nodeAddress)
     }
-    getBasicDetail = (name) => {
+    getBasicDetail = (name = this.props.nodeName) => {
         this.setState({
             isFetching: true
         })
@@ -61,6 +66,33 @@ class Detail extends React.Component {
             complete: () => {
                 this.setState({
                     isFetching: false
+                })
+            }
+        })
+    }
+    getNodeEvents = (name = this.props.nodeName) => {
+        HuayunRequest(api.listEvents, { name }, {
+            success: (res) => {
+                this.setState({
+                    eventTableData: res.data
+                })
+            }
+        })
+    }
+    getNodePods = (name = this.props.nodeName) => {
+        HuayunRequest(api.listNodePods, { name }, {
+            success: (res) => {
+                this.setState({
+                    podTableData: res.data
+                })
+            }
+        })
+    }
+    getNodeContainerMirrors = (hostIp = this.props.nodeAddress) => {
+        HuayunRequest(api.listNodeContainerMirrors, { hostIp }, {
+            success: (res) => {
+                this.setState({
+                    containerImageList: res.data
                 })
             }
         })
@@ -196,36 +228,138 @@ class Detail extends React.Component {
             }
         })
     }
-    getTableColumns = () => {
+    // 状态表格的columns
+    getNodeStatusTableColumns() {
         const { intl } = this.props
         const columns = [ // 表格的列数组配置
             {
-                key: 'id',
-                dataIndex: 'id',
-                title: '缺陷码'
+                key: 'type',
+                dataIndex: 'type',
+                title: intl.formatMessage({ id: 'Type' })
             },
             {
-                key: 'package',
-                dataIndex: 'package',
-                title: '组件'
+                key: 'status',
+                dataIndex: 'status',
+                title: intl.formatMessage({ id: 'Status' })
             },
             {
-                key: 'version',
-                dataIndex: 'version',
-                title: '当前版本'
+                key: 'lastHeartbeatTime',
+                dataIndex: 'lastHeartbeatTime',
+                title: '最后的检测时间',
+                render: (time) => {
+                    let millis = _.get(time, 'millis', 0)
+                    return moment(millis).format('YYYY-MM-DD HH:mm:ss')
+                }
             },
             {
-                key: 'fix_version',
-                dataIndex: 'fix_version',
-                title: '修复版本'
+                key: 'lastTransitionTime',
+                dataIndex: 'lastTransitionTime',
+                title: '最后的迁移时间',
+                render: (time) => {
+                    let millis = _.get(time, 'millis', 0)
+                    return moment(millis).format('YYYY-MM-DD HH:mm:ss')
+                }
+            },
+            {
+                key: 'reason',
+                dataIndex: 'reason',
+                title: intl.formatMessage({ id: 'Reason' })
+            },
+            {
+                key: 'message',
+                dataIndex: 'message',
+                title: intl.formatMessage({ id: 'Message' })
+            },
+        ]
+        return columns
+    }
+    // 事件表格的columns
+    getNodeEventsTableColumns() {
+        const { intl } = this.props
+        const columns = [ // 表格的列数组配置
+            {
+                key: 'message',
+                dataIndex: 'message',
+                title: intl.formatMessage({ id: 'Message' })
+            },
+            {
+                key: 'source',
+                dataIndex: 'source',
+                title: intl.formatMessage({ id: 'Resource' }),
+                render: (source) => {
+                    let str = ''
+                    source && Object.keys(source).map(key => {
+                        str += `${key}:${source[key]} `
+                    })
+                    return str || DEFAULT_EMPTY_LABEL
+                }
+            },
+            {
+                key: 'subobject',
+                dataIndex: 'subobject',
+                title: intl.formatMessage({ id: 'Subobject' })
+            },
+            {
+                key: 'count',
+                dataIndex: 'count',
+                title: intl.formatMessage({ id: 'Frequency' })
+            },
+            {
+                key: 'firstTimestamp',
+                dataIndex: 'firstTimestamp',
+                title: intl.formatMessage({ id: 'FirstTime' })
+            },
+            {
+                key: 'lastTimestamp',
+                dataIndex: 'lastTimestamp',
+                title: intl.formatMessage({ id: 'LastTime' })
+            },
+        ]
+        return columns
+    }
+    // pods表格的columns
+    getNodePodsTableColumns() {
+        const { intl } = this.props
+        const columns = [ // 表格的列数组配置
+            {
+                key: 'name',
+                dataIndex: 'name',
+                title: intl.formatMessage({ id: 'Name' })
+            },
+            {
+                key: 'state',
+                dataIndex: 'state',
+                title: intl.formatMessage({ id: 'Status' })
+            },
+            {
+                key: 'cpu',
+                dataIndex: 'cpu',
+                title: 'CPU',
+                render: (val) => {
+                    let percent = (parseFloat(val || 0) * 100).toFixed()
+                    return `${percent}%`
+                }
+            },
+            {
+                key: 'memory',
+                dataIndex: 'memory',
+                title: 'Memory',
+                render: (val) => {
+                    return val ? `${parseFloat(val).toFixed()}Mi` : DEFAULT_EMPTY_LABEL
+                }
+            },
+            {
+                key: 'clusterIp',
+                dataIndex: 'clusterIp',
+                title: 'Cluster IP'
             },
         ]
         return columns
     }
     render() {
-        const { intl, onClose, visible, nodeId } = this.props
-        const { isFetching, basicInfo, stateTableData, eventTableData, isAddLableModalVisible, addType } = this.state
-        const { name, roles, address, os, kernelVersion, labels, taints, annotations } = basicInfo
+        const { intl, onClose, visible, nodeName } = this.props
+        const { isFetching, basicInfo, podTableData, eventTableData, isAddLableModalVisible, addType, tabActiveKey, containerImageList } = this.state
+        const { name, roles, address, os, kernelVersion, labels, taints, annotations, conditions } = basicInfo
         const basicKeyValue = [
             {
                 label: '主机名',
@@ -268,7 +402,7 @@ class Detail extends React.Component {
                 >
                     {
                         isFetching ? <Loading /> : (
-                            <Tabs defaultActiveKey="1">
+                            <Tabs activeKey={tabActiveKey} onChange={key => this.handleChange('tabActiveKey', key)} animated={false}>
                                 <TabPane tab={intl.formatMessage({ id: 'SystemInfo' })} key="1">
                                     <Collapse defaultActiveKey={['1']} className='basicInforCollapse'>
                                         <Panel header={intl.formatMessage({ id: 'BasicInfo' })} key='1'>
@@ -315,19 +449,53 @@ class Detail extends React.Component {
                             </Collapse> */}
                                 </TabPane>
                                 <TabPane tab={intl.formatMessage({ id: 'Status' })} key="3">
-
+                                    <TableCommon
+                                        onRefresh={this.getBasicDetail}
+                                        uniqueId='applicationCenter_NodeManage_Detail_State'
+                                        columns={this.getNodeStatusTableColumns()}
+                                        data={conditions}
+                                        checkable={false}
+                                        rowKey='type'
+                                        noPage={true}
+                                    />
                                 </TabPane>
                                 <TabPane tab={intl.formatMessage({ id: 'Event' })} key="4">
-
+                                    <TableCommon
+                                        onRefresh={this.getNodeEvents}
+                                        uniqueId='applicationCenter_NodeManage_Detail_Event'
+                                        columns={this.getNodeEventsTableColumns()}
+                                        data={eventTableData}
+                                        checkable={false}
+                                        rowKey='type'
+                                        noPage={true}
+                                    />
                                 </TabPane>
                                 <TabPane tab={intl.formatMessage({ id: 'Network' })} key="5">
-
+                                    <NodeNetworkMonitor nodeName={nodeName}/>
                                 </TabPane>
                                 <TabPane tab='pods' key="6">
-
+                                    <TableCommon
+                                        onRefresh={this.getNodePods}
+                                        uniqueId='applicationCenter_NodeManage_Detail_Pod'
+                                        columns={this.getNodePodsTableColumns()}
+                                        data={podTableData}
+                                        checkable={false}
+                                        rowKey='name'
+                                        noPage={true}
+                                    />
                                 </TabPane>
                                 <TabPane tab={intl.formatMessage({ id: 'ContainerImage' })} key="7">
-
+                                    <div className='imageList'>
+                                        {
+                                            Array.isArray(containerImageList) && containerImageList.length ? (
+                                                containerImageList.map(item => {
+                                                    return (
+                                                        <div key={item.id} className='imageItem'>{item.Repository}</div>
+                                                    )
+                                                })
+                                            ) : <NoData />
+                                        }
+                                    </div>
                                 </TabPane>
                             </Tabs>
                         )
