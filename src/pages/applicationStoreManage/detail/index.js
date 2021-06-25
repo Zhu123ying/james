@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from 'react'
-import { RcForm, Icon, Loading, SortTable, Dialog, Radio, Input, Button as UltrauiButton, KeyValue, TagItem, InlineInput, Notification } from 'ultraui'
+import { RcForm, Icon, Loading, Input, Button as UltrauiButton, KeyValue, TagItem, Notification, NoData } from 'ultraui'
 import './index.less'
 import moment from 'moment'
 import HuayunRequest from '~/http/request'
@@ -17,6 +17,7 @@ class Detail extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            isFetching: false,
             detail: {},
             currentVersion: {}
         }
@@ -26,12 +27,20 @@ class Detail extends React.Component {
         id && id !== this.props.currentDataItem.id && this.getDetailData(id)
     }
     getDetailData = (id = this.props.currentDataItem.id) => {
+        this.setState({
+            isFetching: true
+        })
         HuayunRequest(api.detail, { id }, {
             success: (res) => {
                 const { applicationPackageVersionStoreList } = res.data
                 this.setState({
                     detail: res.data,
                     currentVersion: applicationPackageVersionStoreList && applicationPackageVersionStoreList.length ? applicationPackageVersionStoreList[0] : {}
+                })
+            },
+            complete: () => {
+                this.setState({
+                    isFetching: false
                 })
             }
         })
@@ -48,14 +57,14 @@ class Detail extends React.Component {
     renderRecommendConfig = (quota) => {
         const { memory, cpu, storage } = quota || {}
         const storageLine = Object.keys(storage || {}).map(key => {
-            return `${key}:${storage[key]}`
+            return `${key} : ${storage[key]}`
         })
-        const array = [`CPU:${cpu} `, `Memory:${memory}`, ...storageLine]
-        return <div className='quotaRecommand'>{array.join('|')}</div>
+        const array = [`CPU : ${cpu || DEFAULT_EMPTY_LABEL} `, `Memory : ${memory || DEFAULT_EMPTY_LABEL}`, ...storageLine]
+        return <div className='quotaRecommand'>{array.join(' | ')}</div>
     }
     render() {
         const { intl, onClose, visible, currentDataItem, handleDelete } = this.props
-        const { detail, currentVersion } = this.state
+        const { detail, currentVersion, isFetching } = this.state
         const { id, name, tags, createTime, description, applicationPackageVersionStoreList } = detail || {}
         const basicKeyValue = [
             {
@@ -103,7 +112,7 @@ class Detail extends React.Component {
         const versionKeyValueData2 = [
             {
                 value: intl.formatMessage({ id: 'CreaterName' }),
-                label: currentVersion.createBy || DEFAULT_EMPTY_LABEL
+                label: currentVersion.createByName || DEFAULT_EMPTY_LABEL
             },
             {
                 value: intl.formatMessage({ id: 'CreateTime' }),
@@ -119,68 +128,78 @@ class Detail extends React.Component {
                 visible={visible}
                 className='applicationStoreDetailDrawer'
             >
-                <div className='operaBar'>
-                    <UltrauiButton
-                        type="text"
-                        onClick={() => this.handleManage(id)}
-                        className='br'
-                    >
-                        <Icon type="release" />&nbsp;{intl.formatMessage({ id: '::Manage' })}
-                    </UltrauiButton>
-                    <UltrauiButton
-                        type="text"
-                        onClick={handleDelete}
-                    >
-                        <Icon type="empty" />&nbsp;{intl.formatMessage({ id: 'Delete' })}
-                    </UltrauiButton>
-                </div>
-                <Tabs defaultActiveKey="1">
-                    <TabPane tab={intl.formatMessage({ id: 'Detail' })} key="1">
-                        <Collapse defaultActiveKey={['1']} className='basicInforCollapse'>
-                            <Panel header={intl.formatMessage({ id: 'BasicInfo' })} key='1'>
-                                <KeyValue values={basicKeyValue} className='basicKeyValue' />
-                            </Panel>
-                        </Collapse>
-                    </TabPane>
-                    <TabPane tab={intl.formatMessage({ id: 'VersionManage' })} key="2">
-                        <div className='versionManage'>
-                            <div className='versionContent'>
-                                <div className='versionInfo'>
-                                    <div className='p16'>
-                                        <div className='versionName'>{currentDataItem.name}</div>
-                                        <div className='versionDes'>{currentDataItem.description}</div>
-                                        <KeyValue values={versionKeyValueData} />
-                                    </div>
-                                    <KeyValue className='horizontalKeyValue' values={versionKeyValueData2} />
-                                </div>
-                                <Tabs defaultActiveKey="1" className='versionChart'>
-                                    <TabPane tab='VALUES' key="1">
-                                        {currentVersion.chartValues}
-                                    </TabPane>
-                                    <TabPane tab='TEMPLATE' key="2">
-                                        {currentVersion.chartTemplate}
-                                    </TabPane>
-                                </Tabs>
+                {
+                    isFetching ? <Loading /> : (
+                        <>
+                            <div className='operaBar'>
+                                <UltrauiButton
+                                    type="text"
+                                    onClick={() => this.handleManage(id)}
+                                    className='br'
+                                >
+                                    <Icon type="release" />&nbsp;{intl.formatMessage({ id: '::Manage' })}
+                                </UltrauiButton>
+                                <UltrauiButton
+                                    type="text"
+                                    onClick={handleDelete}
+                                >
+                                    <Icon type="empty" />&nbsp;{intl.formatMessage({ id: 'Delete' })}
+                                </UltrauiButton>
                             </div>
-                            <div className='versionList'>
-                                <div className='title'>版本列表</div>
-                                <div className='listContent'>
+                            <Tabs defaultActiveKey="1">
+                                <TabPane tab={intl.formatMessage({ id: 'Detail' })} key="1">
+                                    <Collapse defaultActiveKey={['1']} className='basicInforCollapse'>
+                                        <Panel header={intl.formatMessage({ id: 'BasicInfo' })} key='1'>
+                                            <KeyValue values={basicKeyValue} className='basicKeyValue' />
+                                        </Panel>
+                                    </Collapse>
+                                </TabPane>
+                                <TabPane tab={intl.formatMessage({ id: 'VersionManage' })} key="2">
                                     {
-                                        (applicationPackageVersionStoreList || []).map((item) => {
-                                            const { id, name, createTime } = item
-                                            return (
-                                                <div className='versionItem' key={id} onClick={() => this.handleChange('currentVersion', item)}>
-                                                    <span className={`versionName ${currentVersion.id === id ? 'activeBefore' : ''}`}>{name}</span>
-                                                    <span className='createTime'>{createTime}</span>
+                                        Array.isArray(applicationPackageVersionStoreList) && applicationPackageVersionStoreList.length ? (
+                                            <div className='versionManage'>
+                                                <div className='versionContent'>
+                                                    <div className='versionInfo'>
+                                                        <div className='p16'>
+                                                            <div className='versionName'>{currentDataItem.name}</div>
+                                                            <div className='versionDes'>{currentDataItem.description}</div>
+                                                            <KeyValue values={versionKeyValueData} />
+                                                        </div>
+                                                        <KeyValue className='horizontalKeyValue' values={versionKeyValueData2} />
+                                                    </div>
+                                                    <Tabs defaultActiveKey="1" className='versionChart'>
+                                                        <TabPane tab='VALUES' key="1">
+                                                            {currentVersion.chartValues}
+                                                        </TabPane>
+                                                        <TabPane tab='TEMPLATE' key="2">
+                                                            {currentVersion.chartTemplate}
+                                                        </TabPane>
+                                                    </Tabs>
                                                 </div>
-                                            )
-                                        })
+                                                <div className='versionList'>
+                                                    <div className='title'>版本列表</div>
+                                                    <div className='listContent'>
+                                                        {
+                                                            (applicationPackageVersionStoreList || []).map((item) => {
+                                                                const { id, name, createTime } = item
+                                                                return (
+                                                                    <div className='versionItem' key={id} onClick={() => this.handleChange('currentVersion', item)}>
+                                                                        <span className={`versionName ${currentVersion.id === id ? 'activeBefore' : ''}`}>{name}</span>
+                                                                        <span className='createTime'>{createTime}</span>
+                                                                    </div>
+                                                                )
+                                                            })
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ) : <NoData />
                                     }
-                                </div>
-                            </div>
-                        </div>
-                    </TabPane>
-                </Tabs>
+                                </TabPane>
+                            </Tabs>
+                        </>
+                    )
+                }
             </DetailDrawer >
         )
     }

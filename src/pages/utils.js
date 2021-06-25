@@ -52,9 +52,19 @@ const renderStorageConfigTooltip = (data, intl) => {
     )
 }
 
+const renderStateWithDot = (dotClass, text) => {
+    return (
+        <div className='stateLineWithDot'>
+            <div className={`stateDot ${dotClass}`}></div>
+            {text}
+        </div>
+    )
+}
+
 export {
     formatChartValues,
     versionDetailKeyObject,
     packageDetailKeyObject,
     renderStorageConfigTooltip,
+    renderStateWithDot
 }

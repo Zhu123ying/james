@@ -61,8 +61,9 @@ class Detail extends React.Component {
         const { intl, currentDataItem } = this.props
         this.$ShareAppPackage.props.form.validateFields((errs, values) => {
             if (!errs) {
-                const { applicationPackageVersionIds: ids, projectId } = this.$ShareAppPackage.state
+                const { name, applicationPackageVersionIds: ids, projectId } = this.$ShareAppPackage.state
                 let params = {
+                    name,
                     applicationPackageId: currentDataItem.id,
                     ids,
                     projectId
@@ -147,7 +148,7 @@ class Detail extends React.Component {
                     onRefresh={this.getDetailData}
                     onClose={onClose}
                     visible={visible}
-                    className='applicationStoreDetailDrawer'
+                    className='applicationPackageDetailDrawer'
                 >
                     <div className='operaBar'>
                         <UltrauiButton
@@ -161,7 +162,7 @@ class Detail extends React.Component {
                             type="text"
                             onClick={() => this.handleChange('isShareAppPackageModalVisible', true)}
                         >
-                            <Icon type="empty" />&nbsp;{intl.formatMessage({ id: 'ShareApplicationPackage' })}
+                            <Icon type="release" />&nbsp;{intl.formatMessage({ id: 'ShareApplicationPackage' })}
                         </UltrauiButton>
                     </div>
                     <Tabs defaultActiveKey="1">

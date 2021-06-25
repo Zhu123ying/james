@@ -12,7 +12,7 @@ import DetailDrawer from '~/components/DetailDrawer'
 import { Collapse, Select, Button } from 'huayunui'
 import { Row, Col } from 'antd'
 const _ = window._
-const { Panel } = Collapse;
+const { Panel } = Collapse
 
 class PodMonitorDetail extends React.Component {
     static propTypes = {

@@ -143,7 +143,7 @@ class AppStoreManageApp extends React.Component {
         })
         this.setState({
             applicationPackageVersionIds, 
-            selectedAppPackageVersions,
+            selectedAppPackageVersions, // 渲染被选中的版本需要整个版本数据
             isShelfManageModalVisible: false
         })
     }
@@ -151,7 +151,6 @@ class AppStoreManageApp extends React.Component {
         const { form, intl, match: { params: { id } } } = this.props
         const { tagInput, name, description, tags, applicationPackageId, applicationPackageVersionIds, selectedAppPackageVersions, projectId, 
             projectList, appPackageList, isShelfManageModalVisible, packageVersionsAll } = this.state
-
         return (
             <div id="AppStoreAppManage">
                 <Form
@@ -315,6 +314,7 @@ class AppStoreManageApp extends React.Component {
                     onOk={this.handleShelfManageModalConfirm}
                     onCancel={() => this.handleChange('isShelfManageModalVisible', false)}
                     className='version_dialog'
+                    destroyOnClose={true}
                 >
                     <ManagePackageVersion
                         intl={intl}

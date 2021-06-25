@@ -5,6 +5,7 @@ import { Table } from 'huayunui'
 import './index.less'
 import HuayunRequest from '~/http/request'
 import { applicationPackage as api, application } from '~/http/api'
+import Regex from '~/utils/regex'
 
 const { FormGroup, Form, Input, Button, RadioGroup, Textarea, FormRow, Panel, Select } = RcForm
 const _ = window._
@@ -12,6 +13,7 @@ class ShareAppPackage extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            name: '',
             applicationPackageVersionIds: [], // 选中的id集合
             projectId: '',
             projectList: [], // 项目列表
@@ -71,7 +73,7 @@ class ShareAppPackage extends React.Component {
 
     render() {
         const { form, intl, currentPorjectId } = this.props
-        const { applicationPackageVersionIds, projectId, projectList, versionList } = this.state
+        const { name, applicationPackageVersionIds, projectId, projectList, versionList } = this.state
 
         return (
             <Form
@@ -82,6 +84,16 @@ class ShareAppPackage extends React.Component {
                 className="m-b-lg create_step"
                 subMessage
             >
+                <Input
+                    form={form}
+                    name='name'
+                    value={name}
+                    onChange={this.handleChange.bind(this, 'name')}
+                    label={intl.formatMessage({ id: 'Name' })}
+                    validRegex={Regex.isName}
+                    invalidMessage={intl.formatMessage({ id: 'NamePlaceHolder' })}
+                    isRequired
+                />
                 <Select
                     form={form}
                     name="projectId"

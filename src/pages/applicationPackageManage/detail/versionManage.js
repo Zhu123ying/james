@@ -451,7 +451,7 @@ class VersionManage extends React.Component {
                                 return (
                                     <div className='versionItem' key={id} onClick={() => this.handleSelectVersion(id)}>
                                         <span className={`versionName ${currentVersion.id === id ? 'activeBefore' : ''}`}>
-                                            <div className='label'>
+                                            <div className='stateLineWithDot'>
                                                 <div className={`stateDot ${isCommit ? 'bg-success' : 'bg-default'}`}></div>
                                                 {name}
                                             </div>

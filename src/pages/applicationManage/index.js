@@ -178,7 +178,7 @@ class ApplicationManage extends React.Component {
                                                     className={`tableItem ${currentApplication.id === id ? 'activeTableItem' : ''}`}
                                                     onClick={() => this.handleChangeTableItem(item)} >
                                                     <div className='basicInfo'>
-                                                        <div className='topInfo'>
+                                                        <div className='stateLineWithDot'>
                                                             <div className={`stateDot ${secondState === 'NORMAL' ? 'bg-success' : 'bg-danger'}`}></div>
                                                             {name}
                                                         </div>

@@ -14,12 +14,13 @@ class ManagePackageVersion extends React.Component {
         const { applicationPackageVersionIds, packageVersionsAll } = props
         this.state = {
             applicationPackageVersions: packageVersionsAll || [], // 应用包的版本列表
-            applicationPackageVersionIds: applicationPackageVersionIds || []
+            applicationPackageVersionIds: [...applicationPackageVersionIds]
         }
     }
 
     componentDidMount() {
-        // 如果是编辑，则不能用应用包的id去请求版本数据，必须用props里的packageVersionsAll
+        // 如果是创建，则调接口去请求版本列表数据
+        // 如果是编辑，则必须用props里的packageVersionsAll
         !this.props.id && this.getAppPackageVersionDetail()
     }
 
@@ -36,7 +37,7 @@ class ManagePackageVersion extends React.Component {
     }
 
     handleSelectVersion = (bool, id) => {
-        const { applicationPackageVersionIds } = this.state
+        let { applicationPackageVersionIds } = this.state
         if (bool) {
             applicationPackageVersionIds.push(id)
         } else {

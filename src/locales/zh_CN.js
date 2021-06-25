@@ -373,6 +373,8 @@ const zh_CN = {
     SelectVersion: '选择版本',
     ResourceMonitor: '资源监控',
     SystemInfo: '系统信息',
+    MonitorState: '监控状态',
+    AlarmRecord: '告警记录',
 
     // 接口返回提示
     UpdateApplicationSuccess: '编辑应用-{name}成功！',

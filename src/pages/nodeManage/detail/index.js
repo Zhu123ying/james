@@ -12,6 +12,7 @@ import AddLabel from './addLabel'
 import Card from '~/components/Card'
 import TableCommon from '~/components/TableCommon'
 import NodeNetworkMonitor from './nodeNetworkMonitor'
+import NodeResourceMonitor from './nodeResourceMonitor'
 
 const _ = window._
 const { Panel } = Collapse
@@ -433,20 +434,7 @@ class Detail extends React.Component {
                                     </Collapse>
                                 </TabPane>
                                 <TabPane tab={intl.formatMessage({ id: 'ResourceMonitor' })} key="2">
-                                    {/* <Collapse defaultActiveKey={['1']} className='imageLayerInfoCollapse'>
-                                <Panel header={intl.formatMessage({ id: 'ImageLayerInformation' })} key='1'>
-                                    {
-                                        buildHistory.map(({ created, created_by }) => {
-                                            return (
-                                                <div className='historyItem'>
-                                                    <div className='createdBy'>{created_by}</div>
-                                                    <div className='createdItem'>{moment(created).format("YYYY-MM-DD HH:mm:ss")}</div>
-                                                </div>
-                                            )
-                                        })
-                                    }
-                                </Panel>
-                            </Collapse> */}
+                                    <NodeResourceMonitor intl={intl} nodeName={nodeName} />
                                 </TabPane>
                                 <TabPane tab={intl.formatMessage({ id: 'Status' })} key="3">
                                     <TableCommon
@@ -471,7 +459,7 @@ class Detail extends React.Component {
                                     />
                                 </TabPane>
                                 <TabPane tab={intl.formatMessage({ id: 'Network' })} key="5">
-                                    <NodeNetworkMonitor nodeName={nodeName}/>
+                                    <NodeNetworkMonitor intl={intl} nodeName={nodeName} />
                                 </TabPane>
                                 <TabPane tab='pods' key="6">
                                     <TableCommon

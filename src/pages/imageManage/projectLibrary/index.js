@@ -95,7 +95,7 @@ class ProjectLibrary extends React.Component {
                                                     className={`tableItem ${currentTableItem.id === id ? 'activeTableItem' : ''}`}
                                                     onClick={() => this.handleChangeTableItem(item)} >
                                                     <div className='basicInfo'>
-                                                        <div className='topInfo'>
+                                                        <div className='stateLineWithDot'>
                                                             <div className={`stateDot ${init ? 'bg-success' : 'bg-danger'}`}></div>
                                                             {name}
                                                         </div>

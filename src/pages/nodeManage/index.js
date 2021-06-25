@@ -86,9 +86,9 @@ class NodeManage extends React.Component {
                 render: (ready) => {
                     const readyState = Boolean(ready === 'True')
                     return (
-                        <div className='nodeState'>
+                        <div className='stateLineWithDot'>
                             <div className={`stateDot ${readyState ? 'bg-success' : 'bg-danger'}`}></div>
-                            &nbsp;{readyState ? 'ready' : 'nodeReady'}
+                            {readyState ? 'ready' : 'nodeReady'}
                         </div>
                     )
                 }

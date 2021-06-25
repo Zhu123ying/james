@@ -50,6 +50,11 @@ const api = {
     roolbackApplicationReleaseTask: `${prefix}roolbackApplicationReleaseTask`, // 任务回滚
     verifyResourceInfo: `${prefix}verifyResourceInfo`, // 单个资源文件的校验
     getContainerImageArtifactList: `${prefix}getContainerImageArtifactList`, // 获取容器的镜像数据
+    queryApplicationAlarmDetail: `${prefix}queryApplicationAlarmDetail`, // 获取告警记录的详情
+    queryApplicationAlarm: `${prefix}queryApplicationAlarm`, // 查询应用的告警记录
+    confirmApplicationAlarmConfig: `${prefix}confirmApplicationAlarmConfig`, // 更新告警配置(修改告警配置后按确认)
+    queryApplicationAlarmConfig: `${prefix}queryApplicationAlarmConfig`, // 查询应用的告警配置
+
 }
 
 export default api
