@@ -192,6 +192,9 @@ class NodeManage extends React.Component {
     render() {
         const { intl } = this.props
         const { name, pageNumber, pageSize, isFetching, dataList, total, currentNode, isDetailDrawerVisible } = this.state
+        const nodeCpuUsed = _.get(currentNode, 'cpuUsed', [])
+        const nodeMemoryUsed = _.get(currentNode, 'memoryUsed', [])
+        const nodeLoadUsed = _.get(currentNode, 'load', [])
         const params = {
             pageNumber,
             pageSize,
@@ -224,6 +227,9 @@ class NodeManage extends React.Component {
                     intl={intl}
                     nodeName={currentNode.name}
                     nodeAddress={currentNode.address}
+                    nodeCpuUsed={nodeCpuUsed}
+                    nodeMemoryUsed={nodeMemoryUsed}
+                    nodeLoadUsed={nodeLoadUsed}
                     visible={isDetailDrawerVisible}
                     onClose={() => this.handleChange('isDetailDrawerVisible', false)}
                 ></Detail>

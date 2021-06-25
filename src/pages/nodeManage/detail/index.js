@@ -358,7 +358,7 @@ class Detail extends React.Component {
         return columns
     }
     render() {
-        const { intl, onClose, visible, nodeName } = this.props
+        const { intl, onClose, visible, nodeName, nodeCpuUsed, nodeMemoryUsed, nodeLoadUsed } = this.props
         const { isFetching, basicInfo, podTableData, eventTableData, isAddLableModalVisible, addType, tabActiveKey, containerImageList } = this.state
         const { name, roles, address, os, kernelVersion, labels, taints, annotations, conditions } = basicInfo
         const basicKeyValue = [
@@ -434,7 +434,12 @@ class Detail extends React.Component {
                                     </Collapse>
                                 </TabPane>
                                 <TabPane tab={intl.formatMessage({ id: 'ResourceMonitor' })} key="2">
-                                    <NodeResourceMonitor intl={intl} nodeName={nodeName} />
+                                    <NodeResourceMonitor
+                                        intl={intl}
+                                        nodeName={nodeName}
+                                        nodeCpuUsed={nodeCpuUsed}
+                                        nodeMemoryUsed={nodeMemoryUsed}
+                                        nodeLoadUsed={nodeLoadUsed} />
                                 </TabPane>
                                 <TabPane tab={intl.formatMessage({ id: 'Status' })} key="3">
                                     <TableCommon
