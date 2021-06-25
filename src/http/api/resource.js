@@ -13,7 +13,9 @@ const api = {
     listEvents: `${prefix}listEvents`, // 获取node节点的事件信息
     listNodePods: `${prefix}listNodePods`, // 获取node节点的pods信息
     queryNodeNetMonitorData: `${prefix}queryNodeNetMonitorData`, // 获取node的网络上传下载情况
-    queryNodeResourcStatus: `${prefix}queryNodeResourcStatus` // 获取node的节点资源状态信息
+    queryNodeResourcStatus: `${prefix}queryNodeResourcStatus`, // 获取node的节点资源状态信息
+    queryResourcePermissions: `${prefix}queryResourcePermissions`, // 查询平台执行k8s资源权限
+    modifyResourcePermissions: `${prefix}modifyResourcePermissions`, // 修改平台的资源执行权限
 }
 
 export default api

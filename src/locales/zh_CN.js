@@ -61,6 +61,8 @@ const zh_CN = {
     // 业务字段
     NodeManage: '节点',
     DesNodeManage: '这是节点管理的描述',
+    ResourceTypeManage: '资源对象类型',
+    DesResourceTypeManage: '这是资源对象类型的描述',
     DesCreateContainerGroup: '这是创建容器的描述',
     ApplicationStoreManage: '应用商店',
     DesApplicationStoreManage: '这是应用商店的描述',

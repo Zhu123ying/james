@@ -155,8 +155,8 @@ class Alarm extends React.Component {
         const { intl } = this.props
         const { alarmDetail, alarmRecordList, pageNumber, pageSize, total, isFetching } = this.state
         const isStart = _.get(alarmDetail, 'applicationAlarmConfig.isStart', 0) // 是否启用
-        const templateName = _.get(alarmDetail, 'allAlarmTemplates.0.name', '') // 模板名称
-        const allContacts = _.get(alarmDetail, 'allContacts', []).map(item => item.name)
+        const templateName = _.get(alarmDetail, 'applicationAlarmConfig.alarmTemplates.0.name', '') // 模板名称
+        const allContacts = _.get(alarmDetail, 'applicationAlarmConfig.notifyUsers', []).map(item => item.name)
         const priority_1 = _.get(alarmDetail, 'priority_1', 0) // 严重
         const priority_5 = _.get(alarmDetail, 'priority_5', 0) // 一般
 

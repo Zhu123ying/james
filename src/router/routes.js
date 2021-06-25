@@ -12,6 +12,7 @@ import ImageManage from '~/pages/imageManage'
 import ApplicationStoreManage from '~/pages/applicationStoreManage'
 import ManageApplicationStore from '~/pages/applicationStoreManage/manage'
 import NodeManage from '~/pages/nodeManage'
+import ResourceTypeManage from '~/pages/resourceTypeManage'
 
 const routers = [
   {
@@ -165,6 +166,15 @@ const routers = [
         exact: true,
         langCode: 'NodeManage',
         descLangCode: 'DesNodeManage',
+      },
+      {
+        path: "/applicationCenter/resourceTypeManage",
+        component: ResourceTypeManage,
+        name: 'ResourceTypeManage',
+        key: 'ResourceTypeManage',
+        exact: true,
+        langCode: 'ResourceTypeManage',
+        descLangCode: 'DesResourceTypeManage',
       }
     ]
   },
