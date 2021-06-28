@@ -4,7 +4,7 @@ import { RcForm, Loading, Notification, Button, KeyValue, Dialog, TagItem, Input
 import { Collapse, Button as HuayunButton, Modal, Table } from 'huayunui'
 import Regex from '~/utils/regex'
 import './index.less'
-import { application as api } from '~/http/api'
+import { container as api } from '~/http/api'
 import HuayunRequest from '~/http/request'
 
 const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select, Panel } = RcForm
@@ -12,23 +12,12 @@ const _ = window._
 class AlarmConfig extends React.Component {
     constructor(props) {
         super(props)
+        const { enabled, templateId, userIds } = props
         this.state = {
-            isStart: 0, // 0禁用，1启用
-            alarmTemplates: [], // 模板集:[{"id":1},{}]
-            notifyUsers: [], // 告警联系人集:[{"id":1},{"id":2}]
+            alertEnabled: enabled,
+            template: templateId || '',
+            users: userIds
         }
-    }
-    componentDidMount() {
-        this.initData()
-    }
-    initData = () => {
-        const { alarmDetail } = this.props
-        const isStart = _.get(alarmDetail, 'applicationAlarmConfig.isStart', 0)
-        const alarmTemplates = _.get(alarmDetail, 'applicationAlarmConfig.alarmTemplates', []).map(item => item.id)
-        const notifyUsers = _.get(alarmDetail, 'applicationAlarmConfig.notifyUsers', []).map(item => item.id)
-        this.setState({
-            isStart, alarmTemplates, notifyUsers
-        })
     }
     handleChange = (key, val) => {
         const value = _.get(val, 'target.value', val)
@@ -37,10 +26,8 @@ class AlarmConfig extends React.Component {
         })
     }
     render() {
-        const { form, intl, alarmDetail } = this.props
-        const alertTemplateList = _.get(alarmDetail, 'allAlarmTemplates', []) // 模板列表
-        const alertUserList = _.get(alarmDetail, 'allContacts', []) // 联系人列表
-        const { isStart, alarmTemplates, notifyUsers } = this.state
+        const { form, intl, templateList, userList } = this.props
+        const { alertEnabled, template, users } = this.state
         return (
             <Form
                 ref={(node) => { this.form = node }}
@@ -51,30 +38,28 @@ class AlarmConfig extends React.Component {
             >
                 <Panel
                     form={form}
-                    value={isStart}
-                    name='isStart'
+                    value={alertEnabled}
+                    name='alertEnabled'
                     label='默认启用'
                     inline
                     isRequired
                     className='switchPanel'
                 >
-                    <Switch checked={isStart} onChange={(val) => this.handleChange(`isStart`, val ? 1 : 0)}></Switch>
+                    <Switch checked={alertEnabled} onChange={(val) => this.handleChange(`alertEnabled`, val)}></Switch>
                 </Panel>
                 {
-                    isStart ? (
+                    alertEnabled ? (
                         <React.Fragment>
                             <Select
                                 form={form}
-                                name="alarmTemplates"
-                                mode="multiple"
-                                allowClear
-                                value={alarmTemplates}
+                                name="template"
+                                value={template}
                                 placeholder={intl.formatMessage({ id: 'SelectProjectPlaceHolder' })}
-                                onChange={(val) => this.handleChange('alarmTemplates', val)}
+                                onChange={(val) => this.handleChange('template', val)}
                                 label={intl.formatMessage({ id: 'AlarmTemplate' })}
                                 isRequired
                                 options={
-                                    alertTemplateList.map(item => {
+                                    templateList.map(item => {
                                         return {
                                             value: item.id,
                                             text: item.name,
@@ -86,16 +71,16 @@ class AlarmConfig extends React.Component {
                             />
                             <Select
                                 form={form}
-                                name="notifyUsers"
+                                name="users"
                                 mode="multiple"
                                 allowClear
-                                value={notifyUsers}
+                                value={users}
                                 placeholder={intl.formatMessage({ id: 'SelectProjectPlaceHolder' })}
-                                onChange={(val) => this.handleChange('notifyUsers', val)}
+                                onChange={(val) => this.handleChange('users', val)}
                                 label='告警联系人'
                                 isRequired
                                 options={
-                                    alertUserList.map(item => {
+                                    userList.map(item => {
                                         return {
                                             value: item.id,
                                             text: item.name,

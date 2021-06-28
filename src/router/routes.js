@@ -6,6 +6,7 @@ import CreateApplication from '~/pages/applicationManage/create'
 import ApplicationPackageManage from '~/pages/applicationPackageManage'
 import CreateApplicationPackage from '~/pages/applicationPackageManage/create'
 import ContainerManage from '~/pages/containerManage'
+import ContainerAlarmDetail from '~/pages/containerManage/detail/alarm/detail'
 import CreateContainerGroup from '~/pages/containerManage/create'
 import CredentialManage from '~/pages/imageRepositoryCredentialManage'
 import ImageManage from '~/pages/imageManage'
@@ -112,6 +113,15 @@ const routers = [
         exact: true,
         langCode: 'CreateContainerGroup',
         descLangCode: 'DesCreateContainerGroup'
+      },
+      {
+        path: "/applicationCenter/containerManage/alarmRecordDetail/:id",  // 容器管理-告警详情
+        component: ContainerAlarmDetail,
+        name: 'AlarmDetail',
+        key: 'AlarmDetail',
+        exact: true,
+        langCode: 'AlarmDetail',
+        descLangCode: 'DesAlarmDetail',
       },
       {
         path: "/applicationCenter/imageManage",

@@ -57,8 +57,11 @@ const zh_CN = {
     Push: '推送',
     Network: '网络',
     Save: '保存',
+    All: '全部',
 
     // 业务字段
+    AlarmDetail: '告警详情',
+    DesAlarmDetail: '这是告警详情的描述',
     NodeManage: '节点',
     DesNodeManage: '这是节点管理的描述',
     ResourceTypeManage: '资源对象类型',
@@ -377,6 +380,16 @@ const zh_CN = {
     SystemInfo: '系统信息',
     MonitorState: '监控状态',
     AlarmRecord: '告警记录',
+    ResolveStatus: '解决状态',
+    AlarmTime: '告警时间',
+    Serious: '严重',
+    General: '一般',
+    Resolved: '已解决',
+    Resolving: '待解决',
+    AlarmItemDetail: '告警详情',
+    AlarmLevel: '告警等级',
+    ItemName: '指标名称',
+    AlarmRule: '使用率告警规则',
 
     // 接口返回提示
     UpdateApplicationSuccess: '编辑应用-{name}成功！',

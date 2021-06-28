@@ -12,6 +12,7 @@ import Preview from './preview'
 import Detail from './detail'
 import Information from './information'
 import Event from './event'
+import Alarm from './alarm'
 
 const notification = Notification.newInstance()
 const { TabPane } = Tabs;
@@ -42,7 +43,7 @@ class ContainerDetail extends React.Component {
         getDetailInterval = null
     }
     // 获取应用以及资源的详情信息
-    getDetail = (id) => {
+    getDetail = (id = this.props.currentTableItem.id) => {
         const { intl } = this.props
         const { detail } = this.state
         if (id !== detail.id) {
@@ -176,7 +177,7 @@ class ContainerDetail extends React.Component {
                                                     <Detail {...this.props} detail={detail} getDetail={this.getDetail} />
                                                 </TabPane>
                                                 <TabPane tab={intl.formatMessage({ id: 'Event' })} key="Event">
-                                                    <Event  {...this.props} detail={detail}/>
+                                                    <Event  {...this.props} detail={detail} />
                                                 </TabPane>
                                                 <TabPane tab={intl.formatMessage({ id: 'Message' })} key="Message">
                                                     <Information {...this.props} detail={detail} />
@@ -185,7 +186,7 @@ class ContainerDetail extends React.Component {
                                                     {/* <Log {...this.props}></Log> */}
                                                 </TabPane>
                                                 <TabPane tab={intl.formatMessage({ id: 'Alarm' })} key="Alarm">
-                                                    {/* <Publish {...this.props} detail={detail}></Publish> */}
+                                                    <Alarm {...this.props} detail={detail} getDetail={this.getDetail} />
                                                 </TabPane>
                                             </Tabs>
                                         </div>

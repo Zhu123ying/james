@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from 'react'
-import { application as api } from '~/http/api'
+import { container as api } from '~/http/api'
 import HuayunRequest from '~/http/request'
 import { DatePicker, Select, Input, Modal, Button as HuayunButton } from 'huayunui';
 import { Icon, Notification, Loading, Button } from 'ultraui'
@@ -22,79 +22,71 @@ class Alarm extends React.Component {
         super(props)
         this.state = {
             isFetching: false,
-            alarmDetail: {},
             pageNumber: 1,
             pageSize: 20,
             total: 0,
             alarmRecordList: [], // 告警记录
-            isAlarmConfigModalVisible: false
+            seriousRecord: 0, // 严重漏洞
+            ordinaryRecord: 0, // 普通漏洞
+            isAlarmConfigModalVisible: false,
+            userList: [], // 告警联系人列表
+            templateList: [], // 告警模板列表
         }
     }
     componentDidMount() {
-        this.getData()
+        this.handleGetAlarmRecord()
+        this.listAlertUsers()
+        this.listAlertTemplates()
     }
     componentWillReceiveProps(nextProps) {
-        const { currentApplication: { id } } = this.props
-        const { currentApplication: { id: nextId } } = nextProps
+        const { detail: { id } } = this.props
+        const { detail: { id: nextId } } = nextProps
         if (id !== nextId) {
-            this.getData(nextId)
+            this.handleGetAlarmRecord(nextId)
         }
     }
-    getData(id = this.props.currentApplication.id) {
-        // 因为接口返回有点慢，所以要做loading效果，所以用了promise.all，其实也可以多定义几个loading，然后或一下，但是为了高大上。。。
-        const p1 = new Promise((resolve, reject) => {
-            this.queryApplicationAlarmConfig(id, resolve, reject)
-        })
-        const p2 = new Promise((resolve, reject) => {
-            this.handleGetAlarmRecord(id, resolve, reject)
-        })
-        this.setState({
-            isFetching: true
-        })
-        let promiseAll = Promise.all([p1, p2]).then(res => {
-            this.setState({
-                isFetching: false
-            })
-        }).catch(res => {
-            this.setState({
-                isFetching: false
-            })
-        })
-    }
-    // 基础信息
-    queryApplicationAlarmConfig = (id = this.props.currentApplication.id, resolve, reject) => {
-        HuayunRequest(api.queryApplicationAlarmConfig, { id }, {
+    // 告警联系人
+    listAlertUsers = () => {
+        HuayunRequest(api.listAlertUsers, {}, {
             success: (res) => {
                 this.setState({
-                    alarmDetail: res.data
+                    userList: res.data.users
                 })
-                resolve()
             },
-            fail: () => {
-                reject()
-            }
+        })
+    }
+    // 告警模板
+    listAlertTemplates = () => {
+        HuayunRequest(api.listAlertTemplates, {}, {
+            success: (res) => {
+                this.setState({
+                    templateList: res.data.templates
+                })
+            },
         })
     }
     // 告警记录
-    handleGetAlarmRecord = (applicationId = this.props.currentApplication.id, resolve, reject) => {
+    handleGetAlarmRecord = (platformContainerID = this.props.detail.id) => {
         const { pageNumber, pageSize } = this.state
         const params = {
             pageNumber,
             pageSize,
-            conditions: {
-                applicationId
-            }
+            platformContainerID
         }
-        HuayunRequest(api.queryApplicationAlarm, params, {
+        this.setState({
+            isFetching: true
+        })
+        HuayunRequest(api.listAlertAlarms, params, {
             success: (res) => {
                 this.setState({
-                    alarmRecordList: res.data.data || [],
+                    alarmRecordList: res.data.alarms || [],
                     total: res.totalCount
                 })
-                resolve()
             },
-            fail: () => {
-                reject()
+            complete: () => {
+                this.setState({
+                    isFetching: false
+                })
             }
         })
     }
@@ -134,6 +126,24 @@ class Alarm extends React.Component {
                 dataIndex: 'timestamp',
                 key: 'timestamp',
                 title: '告警时间',
+            },
+            {
+                dataIndex: 'action',
+                key: 'operate',
+                width: '13%',
+                minCalcuWidth: 76,
+                title: intl.formatMessage({ id: 'Operate' }),
+                render: (value, data) => {
+                    return (
+                        <ActionAuth action={actions.AdminApplicationCenterApplicationOperate}>
+                            <HuayunButton
+                                type="link"
+                                name={intl.formatMessage({ id: 'Detail' })}
+                                onClick={() => this.seeRecordDetail(data.id)}
+                            />
+                        </ActionAuth>
+                    )
+                }
             }
         ]
     }
@@ -151,26 +161,22 @@ class Alarm extends React.Component {
         })
     }
     handleAlarmConfigModalConfirm = () => {
-        const { intl, currentApplication: { id: applicationId } } = this.props
+        const { intl, detail: { id }, getDetail } = this.props
         this.$AlarmConfig.props.form.validateFields((error, values) => {
             if (!error) {
-                const { isStart, alarmTemplates, notifyUsers } = this.$AlarmConfig.state
+                const { alertEnabled, template, users } = this.$AlarmConfig.state
                 const params = {
-                    applicationId,
-                    isStart,
-                    alarmTemplates: alarmTemplates.map(id => {
-                        return { id }
-                    }),
-                    notifyUsers: notifyUsers.map(id => {
-                        return { id }
-                    }),
+                    platformContainerId: id,
+                    alertEnabled,
+                    template,
+                    users
                 }
-                HuayunRequest(api.confirmApplicationAlarmConfig, params, {
+                HuayunRequest(api.updateAlert, params, {
                     success: (res) => {
                         this.setState({
                             isAlarmConfigModalVisible: false
                         })
-                        this.getData()
+                        getDetail() // 因为告警的信息是从detail接口取的，所以到刷新详情接口
                         notification.notice({
                             id: 'updateSuccess',
                             type: 'success',
@@ -185,14 +191,17 @@ class Alarm extends React.Component {
             }
         })
     }
+    seeRecordDetail = (id) => {
+        this.props.history.push(`/applicationCenter/containerManage/alarmRecordDetail/${id}`)
+    }
     render() {
-        const { intl } = this.props
-        const { alarmDetail, alarmRecordList, pageNumber, pageSize, total, isFetching, isAlarmConfigModalVisible } = this.state
-        const isStart = _.get(alarmDetail, 'applicationAlarmConfig.isStart', 0) // 是否启用
-        const templateName = _.get(alarmDetail, 'applicationAlarmConfig.alarmTemplates.0.name', '') // 模板名称
-        const allContacts = _.get(alarmDetail, 'applicationAlarmConfig.notifyUsers', []).map(item => item.name)
-        const priority_1 = _.get(alarmDetail, 'priority_1', 0) // 严重
-        const priority_5 = _.get(alarmDetail, 'priority_5', 0) // 一般
+        const { intl, detail } = this.props
+        const { alarmRecordList, pageNumber, pageSize, total, isFetching, isAlarmConfigModalVisible, userList, templateList, seriousRecord, ordinaryRecord } = this.state
+        const enabled = _.get(detail, 'alert.enabled', 0) // 是否启用
+        const templateId = _.get(detail, 'alert.template', '') // 模板id
+        const userIds = _.get(detail, 'alert.users', []) || []
+        const currentTemplate = templateList.find(item => item.id === templateId) || {}
+        const currentUsers = userList.filter(item => userIds.indexOf(item.id) > -1) || []
 
         return (
             <div className='applicationDetail_alarm'>
@@ -214,7 +223,7 @@ class Alarm extends React.Component {
                                     <div className='summaryItem alarmState'>
                                         <div className='detail-icon-wrapper'><Icon type='alarmsetting' /></div>
                                         <div className='state'>
-                                            <div className={`value ${isStart ? 'text-success' : 'text-danger'}`}>{isStart ? '启用' : '未启用'}</div>
+                                            <div className={`value ${enabled ? 'text-success' : 'text-danger'}`}>{enabled ? '启用' : '未启用'}</div>
                                             <div className='title'>{intl.formatMessage({ id: 'Alarm' })}{intl.formatMessage({ id: 'Status' })}</div>
                                         </div>
                                     </div>
@@ -225,7 +234,7 @@ class Alarm extends React.Component {
                                                 size='small-s'
                                                 name={
                                                     <span>
-                                                        <span className='blackColor'>严重</span>&nbsp;{priority_1}
+                                                        <span className='blackColor'>严重</span>&nbsp;{seriousRecord}
                                                     </span>
                                                 } />&nbsp;
                                             <HuayunButton
@@ -233,18 +242,20 @@ class Alarm extends React.Component {
                                                 size='small-s'
                                                 name={
                                                     <span>
-                                                        <span className='blackColor'>一般</span>&nbsp;{priority_5}
+                                                        <span className='blackColor'>一般</span>&nbsp;{seriousRecord}
                                                     </span>
                                                 } />
                                         </div>
                                         <div className='title'>{intl.formatMessage({ id: 'MonitorState' })}</div>
                                     </div>
                                     <div className='summaryItem'>
-                                        <div className='value'>{templateName || DEFAULT_EMPTY_LABEL}</div>
+                                        <div className='value'>{currentTemplate.name || DEFAULT_EMPTY_LABEL}</div>
                                         <div className='title'>{intl.formatMessage({ id: 'AlarmTemplate' })}</div>
                                     </div>
                                     <div className='summaryItem contactItem'>
-                                        <div className='value'>{allContacts.join('、') || DEFAULT_EMPTY_LABEL}</div>
+                                        <div className='value'>{
+                                            currentUsers.map(item => item.name).join('、') || DEFAULT_EMPTY_LABEL
+                                        }</div>
                                         <div className='title'>{`${intl.formatMessage({ id: 'Alarm' })}${intl.formatMessage({ id: 'Contactor' })}`}</div>
                                     </div>
                                 </div>
@@ -274,7 +285,11 @@ class Alarm extends React.Component {
                             >
                                 <AlarmConfig
                                     intl={intl}
-                                    alarmDetail={alarmDetail}
+                                    enabled={enabled}
+                                    templateId={templateId}
+                                    userIds={userIds}
+                                    templateList={templateList}
+                                    userList={userList}
                                     wrappedComponentRef={node => this.$AlarmConfig = node} />
                             </Modal>
                         </>

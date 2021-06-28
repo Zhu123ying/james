@@ -14,6 +14,9 @@ const api = {
     getEvents: `getEvents`, // 获取容器事件
     getMessages: `getMessages`, // 获取容器事件
     getCSNetworks: `getCSNetworks`, // 获取外部网络列表
+    listAlertAlarms: `listAlertAlarms`, // 获取告警记录列表
+    updateAlert: `updateAlert`, // 容器告警修改
+    listAlertAlarmDetails: `listAlertAlarmDetails`, // 获取告警记录详情
 }
 
 export default api
