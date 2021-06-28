@@ -118,7 +118,12 @@ class ResourceTypeManage extends React.Component {
   }
   handleConfirmEdit = () => {
     const { intl } = this.props
-    const { platformResources: resources } = this.state
+    const { platformResources } = this.state
+    const resources = platformResources.map(item => {
+      return {
+        name: item
+      }
+    })
     HuayunRequest(api.modifyResourcePermissions, { resources }, {
       success: (res) => {
         notification.notice({
