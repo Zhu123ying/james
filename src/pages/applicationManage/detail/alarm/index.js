@@ -10,7 +10,9 @@ import actions from '~/constants/authAction'
 import { DEFAULT_EMPTY_LABEL } from '~/constants'
 import TableCommon from '~/components/TableCommon'
 import { renderStateWithDot } from '~/pages/utils'
+import AlarmConfig from './alarmConfig'
 
+const notification = Notification.newInstance()
 const resolveStateObj = {
     PROBLEM: '待解决',
     OK: '已解决'
@@ -25,6 +27,7 @@ class Alarm extends React.Component {
             pageSize: 20,
             total: 0,
             alarmRecordList: [], // 告警记录
+            isAlarmConfigModalVisible: false
         }
     }
     componentDidMount() {
@@ -134,16 +137,6 @@ class Alarm extends React.Component {
             }
         ]
     }
-    handleManageAlarmConfig = () => {
-        // const { intl, detail } = this.props
-        // Modal.info(
-        //     {
-        //         content: (<ApplicationVersionConfig {...this.props} />),
-        //         title: intl.formatMessage({ id: 'VersionConfig' }),
-        //         className: 'applicationVersionConfigModal',
-        //     }
-        // )
-    }
     handleTableChange = ({ pageNumber, pageSize }) => {
         this.setState({
             pageNumber, pageSize
@@ -151,9 +144,50 @@ class Alarm extends React.Component {
             this.handleGetAlarmRecord()
         })
     }
+    handleChange = (key, val) => {
+        const value = _.get(val, 'target.value', val)
+        this.setState({
+            [key]: value
+        })
+    }
+    handleAlarmConfigModalConfirm = () => {
+        const { intl, currentApplication: { id: applicationId } } = this.props
+        this.$AlarmConfig.props.form.validateFields((error, values) => {
+            if (!error) {
+                const { isStart, alarmTemplates, notifyUsers } = this.$AlarmConfig.state
+                const params = {
+                    applicationId,
+                    isStart,
+                    alarmTemplates: alarmTemplates.map(id => {
+                        return { id }
+                    }),
+                    notifyUsers: notifyUsers.map(id => {
+                        return { id }
+                    }),
+                }
+                HuayunRequest(api.confirmApplicationAlarmConfig, params, {
+                    success: (res) => {
+                        this.setState({
+                            isAlarmConfigModalVisible: false
+                        })
+                        this.getData()
+                        notification.notice({
+                            id: 'updateSuccess',
+                            type: 'success',
+                            title: intl.formatMessage({ id: 'Success' }),
+                            content: `更新告警配置${intl.formatMessage({ id: 'Success' })}`,
+                            iconNode: 'icon-success-o',
+                            duration: 5,
+                            closable: true
+                        })
+                    }
+                })
+            }
+        })
+    }
     render() {
         const { intl } = this.props
-        const { alarmDetail, alarmRecordList, pageNumber, pageSize, total, isFetching } = this.state
+        const { alarmDetail, alarmRecordList, pageNumber, pageSize, total, isFetching, isAlarmConfigModalVisible } = this.state
         const isStart = _.get(alarmDetail, 'applicationAlarmConfig.isStart', 0) // 是否启用
         const templateName = _.get(alarmDetail, 'applicationAlarmConfig.alarmTemplates.0.name', '') // 模板名称
         const allContacts = _.get(alarmDetail, 'applicationAlarmConfig.notifyUsers', []).map(item => item.name)
@@ -168,7 +202,10 @@ class Alarm extends React.Component {
                             <div className='alarmConfig'>
                                 <div className='header'>
                                     <div className='title activeBefore'>{intl.formatMessage({ id: 'Alarm' })}</div>
-                                    <Button type='text' onClick={this.handleManageAlarmConfig} className='alarmConfig'>
+                                    <Button
+                                        type='text'
+                                        onClick={() => this.handleChange('isAlarmConfigModalVisible', true)}
+                                        className='alarmConfig'>
                                         <Icon type='setting2'></Icon>&nbsp;
                                         {intl.formatMessage({ id: 'AlarmConfig' })}
                                     </Button>
@@ -227,6 +264,19 @@ class Alarm extends React.Component {
                                     }}
                                 />
                             </div>
+                            <Modal
+                                title='告警配置'
+                                visible={isAlarmConfigModalVisible}
+                                onOk={this.handleAlarmConfigModalConfirm}
+                                onCancel={() => this.handleChange('isAlarmConfigModalVisible', false)}
+                                className='alarmConfigManageModal'
+                                destroyOnClose={true}
+                            >
+                                <AlarmConfig
+                                    intl={intl}
+                                    alarmDetail={alarmDetail}
+                                    wrappedComponentRef={node => this.$AlarmConfig = node} />
+                            </Modal>
                         </>
                     )
                 }
