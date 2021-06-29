@@ -1,6 +1,5 @@
 /* eslint-disable */
 import React from 'react'
-import PropTypes from 'prop-types'
 import { RcForm, Icon, Loading, SortTable, Dialog, Radio, Input, Button as UltrauiButton } from 'ultraui'
 import './index.less'
 import echarts from 'echarts'
@@ -14,7 +13,6 @@ import { KeyValue } from '@huayun/ultraui'
 import { DEFAULT_EMPTY_LABEL } from '~/constants'
 const _ = window._
 const { Panel } = Collapse;
-
 class Detail extends React.Component {
     constructor(props) {
         super(props)
@@ -22,7 +20,28 @@ class Detail extends React.Component {
 
         }
     }
-    renderChart = (id, title, data) => {
+    componentWillReceiveProps({ visible, monitorData }) {
+        visible && visible !== this.props.visible && this.initData(monitorData)
+    }
+    initData = (monitorData) => {
+        const cpu_usage_rate = _.get(monitorData, 'cpu_usage_rate', [])
+        const memory_usage_rate = _.get(monitorData, 'memory_usage_rate', [])
+        setTimeout(() => {
+            this.initLineChart('cpu', cpu_usage_rate)
+            this.initLineChart('memory', memory_usage_rate)
+        })
+    }
+    initLineChart = (id, data) => {
+        if (!this[`$${id}`]) {
+            this[`$${id}`] = echarts.init(document.getElementById(id))// 初始化echarts
+        }
+        console.log(id)
+        console.log(data)
+
+        // 设置options
+        this[`$${id}`].setOption(this.getLineOption(id, data))
+    }
+    getLineOption = (id, data) => {
         const { intl } = this.props
         let xAxisData = []
         let seriesData = []
@@ -30,22 +49,20 @@ class Detail extends React.Component {
             xAxisData.push(moment(item[0] * 1000).format('HH:mm:ss'))
             seriesData.push(parseFloat(item[1]))
         })
-        const color = id === 'cpu' ? '#4c8cca' : '#ed6f4d'
+        const color = id === 'cpu' ? '#0091AE' : '#5E6AB8 '
         let option = {
             color: [color],
             grid: {
-                left: 10,
-                top: 10,
-                right: 10,
-                bottom: 10
+                left: 35,
+                top: 20,
+                right: 20,
+                bottom: 30
             },
             xAxis: {
-                name: intl.formatMessage({ id: 'Time' }),
                 type: 'category',
-                data: xAxisData
+                data: xAxisData,
             },
             yAxis: {
-                name: title,
                 type: 'value'
             },
             series: [{
@@ -53,10 +70,7 @@ class Detail extends React.Component {
                 type: 'line'
             }]
         }
-        let dom = document.getElementById(id)
-        if (dom) {
-            echarts.init(dom).setOption(option)
-        }
+        return option
     }
     handleChange = (key, val) => {
         const value = _.get(val, 'target.value', val)
@@ -70,8 +84,16 @@ class Detail extends React.Component {
     handleReadLog = () => {
 
     }
+    renderChartPanelTitle = (left, right) => {
+        return (
+            <div className='chartPanelTitle'>
+                <div className='left'>{left}</div>
+                <div className='right'>当前值：{right}</div>
+            </div>
+        )
+    }
     render() {
-        const { intl, onClose, visible, currentContainer } = this.props
+        const { intl, onClose, visible, currentContainer, monitorData } = this.props
         const { name, runVar, envs, image, probe } = currentContainer
         const { args, workDir, command } = runVar || {}
         const { envKey, envValue } = envs || {}
@@ -143,6 +165,8 @@ class Detail extends React.Component {
                 value: initialDeploy || DEFAULT_EMPTY_LABEL
             }
         ]
+        const cpu_usage_current = _.get(monitorData, 'cpu_usage_current', '0')
+        const memory_usage_current = _.get(monitorData, 'memory_usage_current', '0')
         return (
             <DetailDrawer
                 name={name}
@@ -178,10 +202,10 @@ class Detail extends React.Component {
                     </Panel>
                 </Collapse>
                 <Collapse defaultActiveKey={['cpu', 'memory']} className='cpu_memory'>
-                    <Panel header="CPU(m)" forceRender={true} key='cpu' className='w50'>
+                    <Panel header={this.renderChartPanelTitle('CPU(m)', `${cpu_usage_current}m`)} forceRender={true} key='cpu' className='w50'>
                         <div id='cpu' className='chartItem'></div>
                     </Panel>
-                    <Panel header="Memory(Mi)" forceRender={true} key='memory' className='w50'>
+                    <Panel header={this.renderChartPanelTitle('Memory(Mi)', `${memory_usage_current}Mi`)} forceRender={true} key='memory' className='w50'>
                         <div id='memory' className='chartItem'></div>
                     </Panel>
                 </Collapse>

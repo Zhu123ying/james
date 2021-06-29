@@ -44,25 +44,29 @@ class ApplicationDetail extends React.Component {
         }
     }
     // 获取应用以及资源的详情信息
-    getDetail = (id) => {
+    getDetail = (id, isInterval) => {
         const { intl } = this.props
         const { detail } = this.state
         if (id !== detail.id) {
-            // 只要是应用变化了就需要loading
-            this.setState({
-                isLoading: true
-            })
+            if (isInterval) {
+                // 如果是轮询的请求并且容器已经改变了，则不请求了
+                return false
+            } else {
+                this.setState({
+                    isLoading: true
+                })
+            }
         }
         HuayunRequest(api.detail, { id }, {
             success: (res) => {
                 this.setState({
                     detail: res.data,
                 }, () => {
-                    const { state, id } = res.data
+                    const { state } = res.data
                     // 状态不等于config开启定时器
                     if (state !== 'config') {
                         setTimeout(() => {
-                            this.getDetail(id)
+                            this.getDetail(id, true)
                         }, 10000)
                     }
                 })

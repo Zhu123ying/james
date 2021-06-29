@@ -171,13 +171,13 @@ class Detail extends React.Component {
             }
         ]
     }
-    handleSetState = (key ,value) => {
+    handleSetState = (key, value) => {
         this.setState({
             [key]: value
         })
     }
     render() {
-        const { intl, detail, getDetail } = this.props
+        const { intl, detail, getDetail, monitorData } = this.props
         const { id, containers, configurations, storages } = detail
         const { isContainerDetailModalVisible, currentContainer } = this.state
         return (
@@ -245,6 +245,7 @@ class Detail extends React.Component {
                     currentContainer={currentContainer}
                     visible={isContainerDetailModalVisible}
                     getDetail={getDetail}
+                    monitorData={_.get(monitorData, currentContainer.name, {})}
                     onClose={() => this.handleSetState('isContainerDetailModalVisible', false)}
                 ></ContainerDetail>
             </div>

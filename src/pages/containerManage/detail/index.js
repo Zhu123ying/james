@@ -15,64 +15,70 @@ import Event from './event'
 import Alarm from './alarm'
 
 const notification = Notification.newInstance()
-const { TabPane } = Tabs;
-let getDetailInterval = null // 获取详情的定时器
+const { TabPane } = Tabs
 class ContainerDetail extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             detail: {}, // 应用详情
             isLoading: false, // 是否需要loading，定时刷新是不需要loading的
+            monitorData: {}
         }
         this.operationTarget = props.intl.formatMessage({ id: 'Container' })
     }
     componentDidMount() {
         const { currentTableItem: { id } } = this.props
         this.getDetail(id)
+        this.getPlatformContainerMonitoring(id)
     }
     componentWillReceiveProps(nextProps) {
         const { currentTableItem: { id } } = this.props
         const { currentTableItem: { id: nextId } } = nextProps
         if (id !== nextId) {
-            this.clearDetailInterval()            // 切换应用要先清空定时器！
             this.getDetail(nextId)
+            this.getPlatformContainerMonitoring(nextId)
         }
     }
-    clearDetailInterval = () => {
-        window.clearInterval(getDetailInterval)
-        getDetailInterval = null
-    }
-    // 获取应用以及资源的详情信息
-    getDetail = (id = this.props.currentTableItem.id) => {
+    // 获取应用以及资源的详情信息, isInterval:是否是轮询请求
+    getDetail = (id = this.props.currentTableItem.id, isInterval) => {
         const { intl } = this.props
         const { detail } = this.state
         if (id !== detail.id) {
-            // 只要是应用变化了就需要loading
-            this.setState({
-                isLoading: true
-            })
+            if (isInterval) {
+                // 如果是轮询的请求并且容器已经改变了，则不请求了
+                return false
+            } else {
+                this.setState({
+                    isLoading: true
+                })
+            }
         }
         HuayunRequest(api.detail, { id }, {
             success: (res) => {
                 this.setState({
                     detail: res.data,
                 }, () => {
-                    const { state, id } = res.data
+                    const { state } = res.data
                     // 状态不等于config开启定时器
-                    if (state !== 'config' && !getDetailInterval) {
+                    if (state !== 'config') {
                         setTimeout(() => {
-                            getDetailInterval = setInterval(() => {
-                                this.getDetail(id)
-                            }, 10000)
+                            this.getDetail(id, true)
                         }, 10000)
-                    } else if (state === 'config' && getDetailInterval) {
-                        this.clearDetailInterval()
                     }
                 })
             },
             complete: (res) => {
                 this.setState({
                     isLoading: false
+                })
+            }
+        })
+    }
+    getPlatformContainerMonitoring = (platformContainerId = this.props.currentTableItem.id) => {
+        HuayunRequest(api.getPlatformContainerMonitoring, { platformContainerId }, {
+            success: (res) => {
+                this.setState({
+                    monitorData: res.data
                 })
             }
         })
@@ -137,7 +143,7 @@ class ContainerDetail extends React.Component {
     }
     render() {
         const { intl } = this.props
-        const { isLoading, detail } = this.state
+        const { isLoading, detail, monitorData } = this.state
         const { state, id } = detail
         const on_offLine = state === 'config' ? (<><Icon type="rise-o" />&nbsp;{intl.formatMessage({ id: 'OnLine' })}</>) : (<><Icon type="drop-o" />&nbsp;{intl.formatMessage({ id: 'OffLine' })}</>)
         const operaOptions = [
@@ -152,6 +158,9 @@ class ContainerDetail extends React.Component {
                 <Icon type="delete" />&nbsp;{intl.formatMessage({ id: 'Delete' })}
             </Button>,
         ]
+        const podMonitorData = _.get(monitorData, 'pod', {}) // 概览里的监控数据
+        const containerMonitorData = _.get(monitorData, 'container', {}) // 容器详情里的监控数据
+
         return (
             <div className='containerDetail'>
                 {
@@ -171,10 +180,10 @@ class ContainerDetail extends React.Component {
                                         <div className='detailContent'>
                                             <Tabs defaultActiveKey="Preview" onChange={this.handleTabChange}>
                                                 <TabPane tab={intl.formatMessage({ id: 'OverView' })} key="Preview">
-                                                    <Preview {...this.props} detail={detail} />
+                                                    <Preview {...this.props} detail={detail} monitorData={podMonitorData} />
                                                 </TabPane>
                                                 <TabPane tab={intl.formatMessage({ id: 'ContainerInfo' })} key="ContainerInfo">
-                                                    <Detail {...this.props} detail={detail} getDetail={this.getDetail} />
+                                                    <Detail {...this.props} detail={detail} getDetail={this.getDetail} monitorData={containerMonitorData} />
                                                 </TabPane>
                                                 <TabPane tab={intl.formatMessage({ id: 'Event' })} key="Event">
                                                     <Event  {...this.props} detail={detail} />

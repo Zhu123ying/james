@@ -24,27 +24,29 @@ class Preview extends React.Component {
         }
     }
     componentDidMount() {
-
+        const { monitorData } = this.props
+        const cpu_usage_rate = _.get(monitorData, 'cpu_usage_rate', [])
+        const memory_usage_rate = _.get(monitorData, 'memory_usage_rate', [])
+        this.initLineChart('cpu_line', cpu_usage_rate)
+        this.initLineChart('memory_line', memory_usage_rate)
     }
-    initLineChart = (id, detail) => {
+    initLineChart = (id, data) => {
         if (!this[`$${id}`]) {
             this[`$${id}`] = echarts.init(document.getElementById(id))// 初始化echarts
         }
         // 设置options
-        this[`$${id}`].setOption(this.getLineOption(id, detail))
+        this[`$${id}`].setOption(this.getLineOption(id, data))
     }
-    getLineOption = (id, detail) => {
+    getLineOption = (id, data) => {
         const type = id.replace('_line', '')
         const { intl } = this.props
-        const { cpu_usage_rate, memory_usage_rate } = detail
-        let data = type === 'cpu' ? cpu_usage_rate : memory_usage_rate
         let xAxisData = []
         let seriesData = []
         Array.isArray(data) && data.forEach(item => {
             xAxisData.push(moment(item[0] * 1000).format('HH:mm:ss'))
             seriesData.push(parseFloat(item[1]))
         })
-        const color = type === 'cpu' ? '#4c8cca' : '#ed6f4d'
+        const color = type === 'cpu' ? '#0091AE' : '#5E6AB8 '
         let option = {
             color: [color],
             grid: {
@@ -159,7 +161,7 @@ class Preview extends React.Component {
         return columns
     }
     render() {
-        const { intl, detail } = this.props
+        const { intl, detail, monitorData } = this.props
         const { name, projectId, projectName, createTime, resource, createdByName, imageList,
             startTime, labels, namespace, restartPolicy, restartTimes, state, status, affinityDetails, networkDetails
         } = detail
@@ -262,6 +264,8 @@ class Preview extends React.Component {
                 label: restartPolicy || DEFAULT_EMPTY_LABEL
             }
         ]
+        const cpu_usage_current = _.get(monitorData, 'cpu_usage_current', '0')
+        const memory_usage_current = _.get(monitorData, 'memory_usage_current', '0')
         return (
             <div className='commonDetail_preview containerDetail_preview'>
                 <Row gutter={10}>
@@ -303,14 +307,14 @@ class Preview extends React.Component {
                                 <div className='monitorItem'>
                                     <div className='summary'>
                                         <span className='name'>CPU(%)</span>
-                                        <span className='value'>3%(写死)</span>
+                                        <span className='value'>{cpu_usage_current}</span>
                                     </div>
                                     <div id="cpu_line" className="lineItem" />
                                 </div>
                                 <div className='monitorItem'>
                                     <div className='summary'>
                                         <span className='name'>Memory(Mi)</span>
-                                        <span className='value'>100Mi(写死)</span>
+                                        <span className='value'>{memory_usage_current}</span>
                                     </div>
                                     <div id="memory_line" className="lineItem" />
                                 </div>

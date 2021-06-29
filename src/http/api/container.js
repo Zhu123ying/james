@@ -17,6 +17,7 @@ const api = {
     listAlertAlarms: `listAlertAlarms`, // 获取告警记录列表
     updateAlert: `updateAlert`, // 容器告警修改
     listAlertAlarmDetails: `listAlertAlarmDetails`, // 获取告警记录详情
+    getPlatformContainerMonitoring: `getPlatformContainerMonitoring`, // 容器组资源统计
 }
 
 export default api
