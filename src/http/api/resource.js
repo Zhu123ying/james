@@ -3,7 +3,7 @@ import { API_Prefix as prefix } from '~/constants'
 
 const api = {
     listNode: `${prefix}listNode`, // 获取node列表；
-    pvList: `${prefix}listClusterPVInfo`, // 获取PV列表；
+    listClusterPVInfo: `${prefix}listClusterPVInfo`, // 获取PV列表；
     getNodeDetail: `${prefix}getNodeDetail`, // 获取App包详情
     updateLabels: `${prefix}updateLabels`, // 获取node节点的标签
     updateAnnotations: `${prefix}updateAnnotations`, // 获取node节点的Annotations

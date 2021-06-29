@@ -15,6 +15,7 @@ import ManageApplicationStore from '~/pages/applicationStoreManage/manage'
 import NodeManage from '~/pages/nodeManage'
 import ResourceTypeManage from '~/pages/resourceTypeManage'
 import NetworkResourceManage from '~/pages/networkResourceManage'
+import StorageResource from '~/pages/storageResource'
 
 const routers = [
   {
@@ -170,7 +171,7 @@ const routers = [
         descLangCode: 'DesEditApplicationStore',
       },
       {
-        path: "/applicationCenter/nodeManage",
+        path: "/applicationCenter/nodeResource",
         component: NodeManage,
         name: 'NodeManage',
         key: 'NodeManage',
@@ -179,7 +180,7 @@ const routers = [
         descLangCode: 'DesNodeManage',
       },
       {
-        path: "/applicationCenter/resourceTypeManage",
+        path: "/applicationCenter/resourceObjectType",
         component: ResourceTypeManage,
         name: 'ResourceTypeManage',
         key: 'ResourceTypeManage',
@@ -188,13 +189,22 @@ const routers = [
         descLangCode: 'DesResourceTypeManage',
       },
       {
-        path: "/applicationCenter/networkResourceManage",
+        path: "/applicationCenter/networkResource",
         component: NetworkResourceManage,
         name: 'NetworkResourceManage',
         key: 'NetworkResourceManage',
         exact: true,
         langCode: 'NetworkResourceManage',
         descLangCode: 'DesNetworkResourceManage',
+      },
+      {
+        path: "/applicationCenter/storageResource",
+        component: StorageResource,
+        name: 'StorageResource',
+        key: 'StorageResource',
+        exact: true,
+        langCode: 'StorageResource',
+        descLangCode: 'DesStorageResource',
       }
     ]
   },

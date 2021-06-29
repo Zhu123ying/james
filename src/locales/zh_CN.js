@@ -60,6 +60,8 @@ const zh_CN = {
     All: '全部',
 
     // 业务字段
+    StorageResource: '存储资源',
+    DesStorageResource: '这是存储资源的描述',
     NetworkResourceManage: '网络资源',
     DesNetworkResourceManage: '这是网络资源的描述',
     AlarmDetail: '告警详情',
