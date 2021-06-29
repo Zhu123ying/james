@@ -14,6 +14,7 @@ import ApplicationStoreManage from '~/pages/applicationStoreManage'
 import ManageApplicationStore from '~/pages/applicationStoreManage/manage'
 import NodeManage from '~/pages/nodeManage'
 import ResourceTypeManage from '~/pages/resourceTypeManage'
+import NetworkResourceManage from '~/pages/networkResourceManage'
 
 const routers = [
   {
@@ -185,6 +186,15 @@ const routers = [
         exact: true,
         langCode: 'ResourceTypeManage',
         descLangCode: 'DesResourceTypeManage',
+      },
+      {
+        path: "/applicationCenter/networkResourceManage",
+        component: NetworkResourceManage,
+        name: 'NetworkResourceManage',
+        key: 'NetworkResourceManage',
+        exact: true,
+        langCode: 'NetworkResourceManage',
+        descLangCode: 'DesNetworkResourceManage',
       }
     ]
   },

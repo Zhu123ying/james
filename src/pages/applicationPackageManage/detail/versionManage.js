@@ -150,7 +150,7 @@ class VersionManage extends React.Component {
                     onClick={() => this.handleChange('isPortManageModalVisible', true)}
                     name="新增入口"
                     className='addBtn'
-                    disabled={!currentVersion.isCommit}
+                    disabled={currentVersion.isCommit}
                 />
                 <div className='portList'>
                     {

@@ -60,6 +60,8 @@ const zh_CN = {
     All: '全部',
 
     // 业务字段
+    NetworkResourceManage: '网络资源',
+    DesNetworkResourceManage: '这是网络资源的描述',
     AlarmDetail: '告警详情',
     DesAlarmDetail: '这是告警详情的描述',
     NodeManage: '节点',
@@ -390,6 +392,7 @@ const zh_CN = {
     AlarmLevel: '告警等级',
     ItemName: '指标名称',
     AlarmRule: '使用率告警规则',
+    NetworkType: '网络类型',
 
     // 接口返回提示
     UpdateApplicationSuccess: '编辑应用-{name}成功！',

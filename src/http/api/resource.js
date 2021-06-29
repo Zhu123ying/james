@@ -16,6 +16,7 @@ const api = {
     queryNodeResourcStatus: `${prefix}queryNodeResourcStatus`, // 获取node的节点资源状态信息
     queryResourcePermissions: `${prefix}queryResourcePermissions`, // 查询平台执行k8s资源权限
     modifyResourcePermissions: `${prefix}modifyResourcePermissions`, // 修改平台的资源执行权限
+    querylistSdnNetwork: `${prefix}querylistSdnNetwork`, // 获取网络资源
 }
 
 export default api
