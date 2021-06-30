@@ -66,5 +66,5 @@ export {
     versionDetailKeyObject,
     packageDetailKeyObject,
     renderStorageConfigTooltip,
-    renderStateWithDot
+    renderStateWithDot,
 }

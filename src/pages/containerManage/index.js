@@ -23,7 +23,7 @@ class ContainerManage extends React.Component {
             dataList: [], // 列表数据
             currentTableItem: {}, // 当前的应用
             pageNumber: 1,
-            pageSize: 10,
+            pageSize: 30,
             isFetching: false,
             projectList: [], // 项目列表
         }
@@ -114,6 +114,19 @@ class ContainerManage extends React.Component {
             currentTableItem: item
         })
     }
+    handleScroll = (e) => {
+        let dom = e.currentTarget
+        let viewH = dom.clientHeight
+        let contentH = dom.scrollHeight
+        let scrollTop = dom.scrollTop
+        if (scrollTop === (contentH - viewH)) {
+            this.setState({
+                pageSize: this.state.pageSize + 30
+            }, () => {
+                this.handleSearch()
+            })
+        }
+    }
     render() {
         const { intl } = this.props
         const { name, createTime, projectId, dataList, currentTableItem, isFetching, projectList } = this.state
@@ -154,7 +167,7 @@ class ContainerManage extends React.Component {
                                         onSearch={() => this.handleSearch(true)}
                                     />
                                 </div>
-                                <div className='tableList'>
+                                <div className='tableList' onScroll={this.handleScroll}>
                                     {
                                         dataList.map(item => {
                                             const { id, name, projectName, state, secondState, containerCount } = item
