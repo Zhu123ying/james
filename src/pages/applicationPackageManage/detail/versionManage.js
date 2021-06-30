@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from 'react'
-import { RcForm, Icon, Loading, SortTable, Dialog, Radio, Input, Button as UltrauiButton, KeyValue, TagItem, InlineInput, Notification } from 'ultraui'
+import { RcForm, Icon, Loading, SortTable, Dialog, Radio, Input, Button as UltrauiButton, KeyValue, TagItem, InlineInput, Notification, NoData } from 'ultraui'
 import '../index.less'
 import moment from 'moment'
 import HuayunRequest from '~/http/request'
@@ -13,6 +13,7 @@ import actions from '~/constants/authAction'
 import Card from '~/components/Card'
 import CreateAppPort from './createAppPort'
 import FileEdit from './fileEdit'
+import AlarmConfig from './alarmConfig'
 
 const _ = window._
 const { Panel } = Collapse
@@ -29,6 +30,10 @@ class VersionManage extends React.Component {
             isStateManageModalVisible: false, // 文件树
             portList: [], // 入口数据
             currentPort: {}, // 当前的入口对象
+            isAlarmConfigModalVisible: false, // 告警配置
+            alarmDetail: {}, // 告警详情
+            alarmTemplates: [], // 告警模板
+            alarmContacts: [], // 告警联系人
         }
     }
     componentDidMount() {
@@ -36,21 +41,57 @@ class VersionManage extends React.Component {
         this.getAppPackagePortData()
         // 版本的详情
         this.getApplicationPackageVersionInfo()
+        // 获取告警数据
+        this.getAlarmConfigData()
+        // 获取告警模板
+        this.getAlarmTemplates()
+        // 获取告警联系人
+        this.getAlarmContacts()
     }
     componentWillReceiveProps({ applicationPackageVersionList }) {
         // 判断是否要重新设置currentVersionId
         const { currentVersionId } = this.state
-        const currentVersionId_ = applicationPackageVersionList.find(item => item.id === currentVersionId) || _.get(applicationPackageVersionList, '0.id', {})
-        this.setState({
-            currentVersionId: currentVersionId_
-        })
-        // 如果currentVersionId变了，则需要重新获取入口数据和详情数据
-        if (currentVersionId !== currentVersionId_) {
-            this.getAppPackagePortData(currentVersionId_)
-            this.getApplicationPackageVersionInfo(currentVersionId_)
+        const currentVersion = applicationPackageVersionList.find(item => item.id === currentVersionId)
+        if (!currentVersion) {
+            const currentVersionId_ = _.get(applicationPackageVersionList, '0.id', '')
+            this.setState({
+                currentVersionId: currentVersionId_
+            })
+            currentVersionId_ && this.getAppPackagePortData(currentVersionId_)
+            currentVersionId_ && this.getApplicationPackageVersionInfo(currentVersionId_)
+            currentVersionId_ && this.getAlarmConfigData(currentVersionId_)
         }
     }
-
+    // 获取告警模板
+    getAlarmTemplates = () => {
+        HuayunRequest(api.getApplicationPackageVersionAlarmTemplates, {}, {
+            success: (res) => {
+                this.setState({
+                    alarmTemplates: res.data
+                })
+            }
+        })
+    }
+    // 获取告警联系人
+    getAlarmContacts = () => {
+        HuayunRequest(api.getApplicationPackageVersionAlarmUsers, {}, {
+            success: (res) => {
+                this.setState({
+                    alarmContacts: res.data
+                })
+            }
+        })
+    }
+    // 获取告警数据
+    getAlarmConfigData = (applicationPackageVersionId = this.state.currentVersionId) => {
+        HuayunRequest(api.getApplicationPackageVersionAlarmConfig, { applicationPackageVersionId }, {
+            success: (res) => {
+                this.setState({
+                    alarmDetail: res.data
+                })
+            }
+        })
+    }
     // 获取入口列表数据
     getAppPackagePortData = (applicationVersionId = this.state.currentVersionId) => {
         HuayunRequest(api.queryApplicationPackageVersionGateway, { applicationVersionId }, {
@@ -136,6 +177,72 @@ class VersionManage extends React.Component {
                         {chartTemplate}
                     </TabPane>
                 </Tabs>
+            </>
+        )
+    }
+    renderAlarmPanel = () => {
+        const { intl, applicationPackageVersionList } = this.props
+        const { alarmDetail, alarmTemplates, alarmContacts } = this.state
+        const isStart = _.get(alarmDetail, 'isStart', 0) // 是否启用
+        const templateId = _.get(alarmDetail, 'alarmTemplates.0.id', '') // 模板名称
+        const contactIds = _.get(alarmDetail, 'notifyUsers', []) || []
+        const templateName = (alarmTemplates.find(item => item.id === templateId) || {}).name
+        const contactUsers = contactIds.map(item => {
+            return alarmContacts.find(item_ => item.id === item_.id)
+        })
+        const keyValueData = [
+            {
+                label: intl.formatMessage({ id: 'AlarmStatus' }),
+                value: (
+                    <div className='editLine'>
+                        <span>{isStart ? '启用' : '未启用'}</span>
+                        <UltrauiButton
+                            type="text"
+                            onClick={() => this.handleChange('isAlarmConfigModalVisible', true)}
+                        >
+                            <Icon type="edit" />&nbsp;{intl.formatMessage({ id: 'Edit' })}
+                        </UltrauiButton>
+                    </div>
+                )
+            },
+            {
+                label: intl.formatMessage({ id: 'AlarmTemplate' }),
+                value: templateName || DEFAULT_EMPTY_LABEL
+            },
+            {
+                label: intl.formatMessage({ id: 'AlarmContact' }),
+                value: (
+                    <div className='contactUsers'>
+                        {
+                            contactUsers.map(item => {
+                                const { name, phone, email } = item || {}
+                                const KeyValueData = [
+                                    {
+                                        label: intl.formatMessage({ id: 'Email' }),
+                                        value: email || DEFAULT_EMPTY_LABEL
+                                    },
+                                    {
+                                        label: intl.formatMessage({ id: 'Phone' }),
+                                        value: phone || DEFAULT_EMPTY_LABEL
+                                    }
+                                ]
+                                return (
+                                    <div className='contactItem'>
+                                        <div className='title'>{name}</div>
+                                        <KeyValue values={KeyValueData} />
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
+                )
+            }
+        ]
+        return (
+            <>
+                {
+                    applicationPackageVersionList.length ? <KeyValue values={keyValueData} className='alarmConfig' /> : <NoData />
+                }
             </>
         )
     }
@@ -385,9 +492,47 @@ class VersionManage extends React.Component {
             this.getApplicationPackageVersionInfo(id)
         })
     }
+    handleAlarmConfigModalConfirm = () => {
+        const { intl } = this.props
+        this.$AlarmConfig.props.form.validateFields((error, values) => {
+            if (!error) {
+                const { isStart, alarmTemplates, notifyUsers } = this.$AlarmConfig.state
+                const params = {
+                    applicationPackageVersionId: this.state.currentVersionId,
+                    isStart,
+                    alarmTemplates: alarmTemplates.map(id => {
+                        return { id }
+                    }),
+                    notifyUsers: notifyUsers.map(id => {
+                        return { id }
+                    }),
+                }
+                HuayunRequest(api.confirmApplicationPackageVersionAlarmConfig, params, {
+                    success: (res) => {
+                        this.setState({
+                            isAlarmConfigModalVisible: false
+                        })
+                        this.getAlarmConfigData()
+                        notification.notice({
+                            id: 'updateSuccess',
+                            type: 'success',
+                            title: intl.formatMessage({ id: 'Success' }),
+                            content: `更新告警配置${intl.formatMessage({ id: 'Success' })}`,
+                            iconNode: 'icon-success-o',
+                            duration: 5,
+                            closable: true
+                        })
+                    }
+                })
+            }
+        })
+    }
     render() {
         const { intl, currentDataItem, applicationPackageVersionList } = this.props
-        const { currentVersion, isVersionModalVisible, isPortManageModalVisible, isStateManageModalVisible, currentPort } = this.state
+        const {
+            currentVersion, isVersionModalVisible, isPortManageModalVisible, isStateManageModalVisible, currentPort,
+            isAlarmConfigModalVisible, alarmDetail, alarmTemplates, alarmContacts
+        } = this.state
         const tabOperation = {
             right: [
                 <ActionAuth action={actions.AdminApplicationCenterApplicationPackageVersionOperate}>
@@ -430,7 +575,7 @@ class VersionManage extends React.Component {
                         {this.renderPortPanel()}
                     </TabPane>
                     <TabPane tab={intl.formatMessage({ id: 'Alarm' })} key="4">
-                        Alarm
+                        {this.renderAlarmPanel()}
                     </TabPane>
                 </Tabs>
                 <div className='versionList'>
@@ -510,6 +655,21 @@ class VersionManage extends React.Component {
                         {...this.props}
                         currentVersion={currentVersion}
                         ref={node => this.$FileEdit = node} />
+                </Modal>
+                <Modal
+                    title='告警配置'
+                    visible={isAlarmConfigModalVisible}
+                    onOk={this.handleAlarmConfigModalConfirm}
+                    onCancel={() => this.handleChange('isAlarmConfigModalVisible', false)}
+                    className='alarmConfigManageModal'
+                    destroyOnClose={true}
+                >
+                    <AlarmConfig
+                        intl={intl}
+                        alarmDetail={alarmDetail}
+                        alertTemplateList={alarmTemplates}
+                        alertUserList={alarmContacts}
+                        wrappedComponentRef={node => this.$AlarmConfig = node} />
                 </Modal>
             </div>
         )

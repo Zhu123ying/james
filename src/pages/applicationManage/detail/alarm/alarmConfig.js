@@ -60,54 +60,48 @@ class AlarmConfig extends React.Component {
                 >
                     <Switch checked={isStart} onChange={(val) => this.handleChange(`isStart`, val ? 1 : 0)}></Switch>
                 </Panel>
-                {
-                    isStart ? (
-                        <React.Fragment>
-                            <Select
-                                form={form}
-                                name="alarmTemplates"
-                                mode="multiple"
-                                allowClear
-                                value={alarmTemplates}
-                                placeholder={intl.formatMessage({ id: 'SelectProjectPlaceHolder' })}
-                                onChange={(val) => this.handleChange('alarmTemplates', val)}
-                                label={intl.formatMessage({ id: 'AlarmTemplate' })}
-                                isRequired
-                                options={
-                                    alertTemplateList.map(item => {
-                                        return {
-                                            value: item.id,
-                                            text: item.name,
-                                        }
-                                    })
-                                }
-                                optionFilterProp='children'
-                                optionLabelProp='children'
-                            />
-                            <Select
-                                form={form}
-                                name="notifyUsers"
-                                mode="multiple"
-                                allowClear
-                                value={notifyUsers}
-                                placeholder={intl.formatMessage({ id: 'SelectProjectPlaceHolder' })}
-                                onChange={(val) => this.handleChange('notifyUsers', val)}
-                                label='告警联系人'
-                                isRequired
-                                options={
-                                    alertUserList.map(item => {
-                                        return {
-                                            value: item.id,
-                                            text: item.name,
-                                        }
-                                    })
-                                }
-                                optionFilterProp='children'
-                                optionLabelProp='children'
-                            />
-                        </React.Fragment>
-                    ) : null
-                }
+                <Select
+                    form={form}
+                    name="alarmTemplates"
+                    mode="multiple"
+                    allowClear
+                    value={alarmTemplates}
+                    placeholder={intl.formatMessage({ id: 'SelectProjectPlaceHolder' })}
+                    onChange={(val) => this.handleChange('alarmTemplates', val)}
+                    label={intl.formatMessage({ id: 'AlarmTemplate' })}
+                    isRequired
+                    options={
+                        alertTemplateList.map(item => {
+                            return {
+                                value: item.id,
+                                text: item.name,
+                            }
+                        })
+                    }
+                    optionFilterProp='children'
+                    optionLabelProp='children'
+                />
+                <Select
+                    form={form}
+                    name="notifyUsers"
+                    mode="multiple"
+                    allowClear
+                    value={notifyUsers}
+                    placeholder={intl.formatMessage({ id: 'SelectProjectPlaceHolder' })}
+                    onChange={(val) => this.handleChange('notifyUsers', val)}
+                    label='告警联系人'
+                    isRequired
+                    options={
+                        alertUserList.map(item => {
+                            return {
+                                value: item.id,
+                                text: item.name,
+                            }
+                        })
+                    }
+                    optionFilterProp='children'
+                    optionLabelProp='children'
+                />
             </Form>
         )
     }

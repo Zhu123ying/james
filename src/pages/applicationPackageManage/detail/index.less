@@ -172,6 +172,71 @@
                     }
                 }
             }
+            // 告警
+            .alarmConfig{
+                .ult-key-value-item-label{
+                    text-align: left;
+                    width: 15%;
+                    color: #516F90;
+                }
+                .ult-key-value-item-value{
+                    text-align: left;
+                    width: 85%;
+                    color: #33475B;
+                    .contactUsers{
+                        width: 100%;
+                        display: flex;
+                        align-items: center;
+                        flex-wrap: wrap;
+                        justify-content: space-between;
+                        .contactItem{
+                            background-color: #F5F8FA;
+                            border-radius: 3px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            padding: 15px 16px;     
+                            width: calc(50% - 4px);   
+                            margin-bottom: 8px; 
+                            .title{
+                                padding-right: 16px;
+                            }
+                            .ult-key-value{
+                                min-width: 194px;
+                                padding-left: 16px;
+                                border-left: 1px solid #E7EBF3;
+                                .ult-key-value-item{
+                                    .ult-key-value-item-label{
+                                        width: 38px;
+                                        padding: 4px;
+                                    }
+                                    .ult-key-value-item-value{
+                                        padding: 4px;
+                                    }
+                                }
+                                .ult-key-value-item:last-child{
+                                    flex-direction: inherit;
+                                }
+                            }                           
+                        }
+                    }
+                }
+                .ult-key-value-item:last-child{
+                    display: flex;
+                    flex-direction: column;
+                    .ult-key-value-item-value{
+                        width: 100%;
+                    }
+                }
+                .editLine{
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    button{
+                        padding: 0 8px;
+                    }
+                }
+            }
         }
         .versionList{
             background: #F5F8FA;
@@ -303,6 +368,21 @@
                         width: 100%;
                     }
                 }
+            }
+        }
+    }
+}
+
+.alarmConfigManageModal{
+    .archer-modal-body{
+        .ult-rcform-group{
+            .validation-error{
+                padding-left: calc(20% + 16px)!important;
+            }
+        }
+        .switchPanel{
+            .ult-rcform-panel{
+                padding-top: 10px;
             }
         }
     }

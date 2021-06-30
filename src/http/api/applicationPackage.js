@@ -29,7 +29,10 @@ const api = {
     getApplicationPackageVersionInfo: `${prefix}getApplicationPackageVersionInfo`, // 应用包详情切换版本信息
     verifyChartContent: `${prefix}verifyChartContent`, // 验证chart包内容
     updateApplicationPackageVersionSaveChartFile: `${prefix}updateApplicationPackageVersionSaveChartFile`, // 保存chart包内容
-
+    getApplicationPackageVersionAlarmConfig: `${prefix}getApplicationPackageVersionAlarmConfig`, // 查看应用包版本告警配置
+    getApplicationPackageVersionAlarmTemplates: `${prefix}getApplicationPackageVersionAlarmTemplates`, // 查询应用包版本的告警模板
+    getApplicationPackageVersionAlarmUsers: `${prefix}getApplicationPackageVersionAlarmUsers`, // 查询应用包版本可供选择的告警通知人
+    confirmApplicationPackageVersionAlarmConfig: `${prefix}confirmApplicationPackageVersionAlarmConfig`, // 配置应用包版本告警
 }
 
 export default api

@@ -346,6 +346,8 @@ const zh_CN = {
     EnvironmentVariable: '环境变量',
     ContainerImage: '容器镜像',
     AlarmTemplate: '告警模板',
+    AlarmStatus: '告警状态',
+    AlarmContact: '告警联系人',
     OnlineTime: '上线时间',
     QuotaStatistics: '配额统计',
     ContainerGroupInfo: '容器组信息',
