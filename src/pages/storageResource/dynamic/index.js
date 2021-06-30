@@ -1,6 +1,5 @@
 /* eslint-disable */
 import React from 'react'
-import PropTypes from 'prop-types'
 import { resource as api } from '~/http/api'
 import HuayunRequest from '~/http/request'
 import { DatePicker, Select, Input, SearchBar, Button, Table, Modal, Space, Checkbox, Popover, Tooltip } from 'huayunui';
@@ -26,11 +25,11 @@ class DynamicList extends React.Component {
         this.setState({
             isFetching: true
         })
-        HuayunRequest(api.listClusterPVInfo, {}, {
+        HuayunRequest(api.listClusterResourceStorageClass, {}, {
             success: (res) => {
-                // this.setState({
-                //     totalData: res.data,
-                // })
+                this.setState({
+                    totalData: res.data,
+                })
             },
             complete: (res) => {
                 this.setState({
@@ -43,38 +42,41 @@ class DynamicList extends React.Component {
         const { intl } = this.props
         return [
             {
-                dataIndex: 'applicationName',
-                key: 'applicationName',
+                dataIndex: 'name',
+                key: 'name',
                 title: intl.formatMessage({ id: 'Name' })
             },
             {
-                dataIndex: 'STORAGECLASS',
-                key: 'STORAGECLASS',
+                dataIndex: 'storageBackend',
+                key: 'storageBackend',
                 title: '存储系统'
             },
             {
-                dataIndex: 'RECLAIM',
-                key: 'RECLAIM',
+                dataIndex: 'reclaimPolicy',
+                key: 'reclaimPolicy',
                 title: '回收策略'
             },
             {
                 dataIndex: 'accessModes',
                 key: 'accessModes',
                 title: '支持访问模式',
+                render(accessModes){
+                    return (accessModes || []).join('、')
+                }
             },
             {
-                dataIndex: 'accessModes',
-                key: 'accessModes',
+                dataIndex: 'isDefault',
+                key: 'isDefault',
                 title: '是否默认存储',
             },
             {
-                dataIndex: 'accessModes',
-                key: 'accessModes',
+                dataIndex: 'allowVolumeExpansion',
+                key: 'allowVolumeExpansion',
                 title: '支持扩容',
             },
             {
-                dataIndex: 'CAPACITY',
-                key: 'CAPACITY',
+                dataIndex: 'capacity',
+                key: 'capacity',
                 title: '最大容量',
             }
         ]
@@ -87,8 +89,7 @@ class DynamicList extends React.Component {
     render() {
         const { intl } = this.props
         const { pageNumber, pageSize, totalData, isFetching } = this.state
-        const tableData = totalData.splice(pageNumber * pageSize, pageSize)
-
+        const tableData = _.cloneDeep(totalData).splice((pageNumber - 1), pageSize)
         return (
             <TableCommon
                 uniqueId='ApplicationCenter_StorageResource_PvList'
