@@ -85,8 +85,8 @@ class VersionManage extends React.Component {
         const storageLine = Object.keys(storage || {}).map(key => {
             return `${key}:${storage[key]}`
         })
-        const array = [`CPU:${cpu} `, `Memory:${memory}`, ...storageLine]
-        return <div className='quotaRecommand'>{array.join('|')}</div>
+        const array = [`CPU:${cpu}`, `Memory:${memory}`, ...storageLine]
+        return <div className='quotaRecommand'>{array.join(` | `)}</div>
     }
     renderVersionInfoPanel = () => {
         const { intl } = this.props
