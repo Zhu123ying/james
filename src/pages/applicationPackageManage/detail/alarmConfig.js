@@ -53,7 +53,6 @@ class AlarmConfig extends React.Component {
                     name='isStart'
                     label='默认启用'
                     inline
-                    isRequired
                     className='switchPanel'
                 >
                     <Switch checked={isStart} onChange={(val) => this.handleChange(`isStart`, val ? 1 : 0)}></Switch>
@@ -64,10 +63,9 @@ class AlarmConfig extends React.Component {
                     mode="multiple"
                     allowClear
                     value={alarmTemplates}
-                    placeholder={intl.formatMessage({ id: 'SelectProjectPlaceHolder' })}
+                    placeholder={intl.formatMessage({ id: 'SelectPlaceHolder' }, { name: '模板' })}
                     onChange={(val) => this.handleChange('alarmTemplates', val)}
                     label={intl.formatMessage({ id: 'AlarmTemplate' })}
-                    isRequired
                     options={
                         alertTemplateList.map(item => {
                             return {
@@ -88,7 +86,6 @@ class AlarmConfig extends React.Component {
                     placeholder={intl.formatMessage({ id: 'SelectProjectPlaceHolder' })}
                     onChange={(val) => this.handleChange('notifyUsers', val)}
                     label='告警联系人'
-                    isRequired
                     options={
                         alertUserList.map(item => {
                             return {
