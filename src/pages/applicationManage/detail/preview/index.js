@@ -46,7 +46,10 @@ class Preview extends React.Component {
         HuayunRequest(api.resourceInfor, { id: this.props.detail.id }, {
             success: (res) => {
                 this.setState({
-                    resourceInfor: res.data
+                    resourceInfor: res.data || {
+                        cpu_usage_rate: [],
+                        memory_usage_rate: []
+                    }
                 })
                 this.initLineChart('cpu_line', res.data) // cpu折线图
                 this.initLineChart('memory_line', res.data) // memory折线图
@@ -339,7 +342,9 @@ class Preview extends React.Component {
                                     <Tag color="geekblue" className='appState'>{ApplicationStatuList[state]}</Tag>
                                     <Tag color={secondState === 'NORMAL' ? 'green' : 'red'} className='appSecondState'>{ApplicationSecondStatuList[secondState] || '未知'}</Tag>
                                 </div>
-                                <Button type='link' className='update' onClick={this.handleUpdateApplication}><Icon type='edit-o' />&nbsp;{intl.formatMessage({ id: 'Edit' })}</Button>
+                                <ActionAuth action={actions.AdminApplicationCenterApplicationOperate}>
+                                    <Button type='link' className='update' onClick={this.handleUpdateApplication}><Icon type='edit-o' />&nbsp;{intl.formatMessage({ id: 'Edit' })}</Button>
+                                </ActionAuth>
                             </div>
                             <div className='boxContent'>
                                 <div className='description'>{description || DEFAULT_EMPTY_LABEL}</div>
@@ -371,12 +376,16 @@ class Preview extends React.Component {
                                     {intl.formatMessage({ id: 'ApplicationQuota' })}
                                 </div>
                                 <div className='operaGroup'>
-                                    <Button type='link' onClick={() => this.handleSetState('isQuotaManageModalVisible', true)}>
-                                        <Icon type='edit-o' />&nbsp;{intl.formatMessage({ id: 'AppCenterQuotaManage' })}&nbsp;&nbsp;
-                                    </Button>
-                                    <Button type='link' onClick={() => this.handleSetState('isClusterResourcesDrawerVisible', true)}>
-                                        <Icon type='listing' />&nbsp;{intl.formatMessage({ id: 'Cluster resources' })}
-                                    </Button>
+                                    <ActionAuth action={actions.AdminApplicationCenterApplicationQuotaManage}>
+                                        <Button type='link' onClick={() => this.handleSetState('isQuotaManageModalVisible', true)}>
+                                            <Icon type='edit-o' />&nbsp;{intl.formatMessage({ id: 'AppCenterQuotaManage' })}&nbsp;&nbsp;
+                                        </Button>
+                                    </ActionAuth>,
+                                    <ActionAuth action={actions.AdminApplicationCenterApplicationQuotaManage}>
+                                        <Button type='link' onClick={() => this.handleSetState('isClusterResourcesDrawerVisible', true)}>
+                                            <Icon type='listing' />&nbsp;{intl.formatMessage({ id: 'Cluster resources' })}
+                                        </Button>
+                                    </ActionAuth>
                                 </div>
                             </div>
                             <div className='boxContent'>

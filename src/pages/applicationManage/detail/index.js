@@ -205,19 +205,29 @@ class ApplicationDetail extends React.Component {
         const { state, id } = detail
         const on_offLine = state === 'config' ? (<><Icon type="rise-o" />&nbsp;{intl.formatMessage({ id: 'OnLine' })}</>) : (<><Icon type="drop-o" />&nbsp;{intl.formatMessage({ id: 'OffLine' })}</>)
         const operaOptions = [
-            <Button className='operaItem' type='text' onClick={this.setAppStatus}>{on_offLine}</Button>,
-            <Button className='operaItem' type='text' onClick={() => this.handleSetState('isApplicationUpdateModalVisible', true)} disabled={state === 'config'}>
-                <Icon type="reboot" />&nbsp;{intl.formatMessage({ id: 'Update' })}
-            </Button>,
-            <Button className='operaItem' type='text' onClick={() => this.handleSetState('isApplicationUpdateModalVisible', true)} disabled={state !== 'config'}>
-                <Icon type="release" />&nbsp;{intl.formatMessage({ id: 'ChangeSetting' })}
-            </Button>,
-            <Button className='operaItem' type='text' onClick={() => this.handleSetState('isApplicationRollBackModalVisible', true)} disabled={state === 'config' || !id}>
-                <Icon type="refresh" />&nbsp;{intl.formatMessage({ id: 'RollBack' })}
-            </Button>,
-            <Button className='operaItem noborder' type='text' onClick={this.handleDelete}>
-                <Icon type="delete" />&nbsp;{intl.formatMessage({ id: 'Delete' })}
-            </Button>,
+            <ActionAuth action={actions.AdminApplicationCenterApplicationMaintain}>
+                <Button className='operaItem' type='text' onClick={this.setAppStatus}>{on_offLine}</Button>
+            </ActionAuth>,
+            <ActionAuth action={actions.AdminApplicationCenterApplicationMaintain}>
+                <Button className='operaItem' type='text' onClick={() => this.handleSetState('isApplicationUpdateModalVisible', true)} disabled={state === 'config'}>
+                    <Icon type="reboot" />&nbsp;{intl.formatMessage({ id: 'Update' })}
+                </Button>
+            </ActionAuth>,
+            <ActionAuth action={actions.AdminApplicationCenterApplicationMaintain}>
+                <Button className='operaItem' type='text' onClick={() => this.handleSetState('isApplicationUpdateModalVisible', true)} disabled={state !== 'config'}>
+                    <Icon type="release" />&nbsp;{intl.formatMessage({ id: 'ChangeSetting' })}
+                </Button>
+            </ActionAuth>,
+            <ActionAuth action={actions.AdminApplicationCenterApplicationMaintain}>
+                <Button className='operaItem' type='text' onClick={() => this.handleSetState('isApplicationRollBackModalVisible', true)} disabled={state === 'config' || !id}>
+                    <Icon type="refresh" />&nbsp;{intl.formatMessage({ id: 'RollBack' })}
+                </Button>
+            </ActionAuth>,
+            <ActionAuth action={actions.AdminApplicationCenterApplicationOperate}>
+                <Button className='operaItem noborder' type='text' onClick={this.handleDelete}>
+                    <Icon type="delete" />&nbsp;{intl.formatMessage({ id: 'Delete' })}
+                </Button>
+            </ActionAuth>
         ]
         return (
             <div className='applicationDetail'>

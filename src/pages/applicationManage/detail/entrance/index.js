@@ -7,6 +7,8 @@ import './index.less'
 import CreateAppPort from './createAppPort'
 import HuayunRequest from '~/http/request'
 import { application as api } from '~/http/api'
+import ActionAuth from '~/components/ActionAuth'
+import actions from '~/constants/authAction'
 
 const notification = Notification.newInstance()
 const _ = window._
@@ -81,7 +83,7 @@ class AppPortalManage extends React.Component {
                             id: 'updateSuccess',
                             type: 'success',
                             title: intl.formatMessage({ id: 'Success' }),
-                            content: `${action}${this.operaTarget}${intl.formatMessage({ id: 'Success' })}`,
+                            content: `${intl.formatMessage({ id: action })}${this.operaTarget}${intl.formatMessage({ id: 'Success' })}`,
                             iconNode: 'icon-success-o',
                             duration: 5,
                             closable: true
@@ -128,9 +130,11 @@ class AppPortalManage extends React.Component {
                 }
                 <div className='header'>
                     <div className='title activeBefore'>{intl.formatMessage({ id: 'ApplicationPort' })}</div>
-                    <Button type='text' onClick={() => this.manageAppPort()}>
-                        <Icon type="add" />&nbsp;{`${intl.formatMessage({ id: 'Create' })}${intl.formatMessage({ id: 'ApplicationPort' })}`}
-                    </Button>
+                    <ActionAuth action={actions.AdminApplicationCenterApplicationMaintain}>
+                        <Button type='text' onClick={() => this.manageAppPort()}>
+                            <Icon type="add" />&nbsp;{`${intl.formatMessage({ id: 'Create' })}${intl.formatMessage({ id: 'ApplicationPort' })}`}
+                        </Button>
+                    </ActionAuth>
                 </div>
                 <div className='content'>
                     {
@@ -139,13 +143,15 @@ class AppPortalManage extends React.Component {
                                 <div className='dataItem' key={id}>
                                     <Icon type='error' className='closeIcon' onClick={() => this.handleDelete(id, name)}></Icon>
                                     <div className='header'>
-                                        <div className='portName'>{name}</div>
-                                        <div className='des'>
-                                            <span>{description}</span>
+                                        <div className='name_des'>
+                                            <span className='name'>{name}</span>
+                                            <span className='des'>{description}</span>
+                                        </div>
+                                        <ActionAuth action={actions.AdminApplicationCenterApplicationMaintain}>
                                             <Button type='text' onClick={() => this.manageAppPort(id)}>
                                                 <Icon type="edit" />&nbsp;{intl.formatMessage({ id: 'Update' })}
                                             </Button>
-                                        </div>
+                                        </ActionAuth>
                                     </div>
                                     <div className='body'>
                                         <div>对象：{resourceObjectName}</div>
