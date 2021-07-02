@@ -1,4 +1,4 @@
-FROM harbor.huayun.org/library/alpine:3.14_amd64
+FROM harbor.huayun.org/library/alpine:3.14_arm64v8
 
 ARG DIST_PATH=/opt/haihe/tmp_front/application/
 
