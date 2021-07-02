@@ -98,7 +98,7 @@ class Create extends React.Component {
                         ) : null
                     }
                     {
-                        credentialType === 0 ? null : (
+                        credentialType === '0' ? null : (
                             <Select
                                 form={form}
                                 name="projectId"

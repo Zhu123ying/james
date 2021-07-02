@@ -24,7 +24,10 @@ class Preview extends React.Component {
         this.state = {
             isAllowVisit: true,
             currentSlide: 0,
-            resourceInfor: {},
+            resourceInfor: {
+                cpu_usage_rate: [],
+                memory_usage_rate: []
+            },
             isQuotaManageModalVisible: false, // 配额管理模态框是否显示
             isClusterResourcesDrawerVisible: false, // 集群资源是否显示
         }
@@ -302,7 +305,7 @@ class Preview extends React.Component {
             percentValue: Math.round(usedCpu) / Math.round(quotaCpu) * 100,
             strokeColor: { '0%': '#61AAF0', '100%': '#4C8CCA' }
         }
-        const cMemoryProgressData =            {
+        const cMemoryProgressData = {
             name: `cMemory(Mi)`,
             percentText: `${usedMemory}/${quotaMemory}`,
             percentValue: Math.round(usedMemory) / Math.round(quotaMemory) * 100,
@@ -322,6 +325,9 @@ class Preview extends React.Component {
                 strokeColor: { '0%': '#F8C640', '100%': '#F0A332' }
             }
         ]
+        const currentCpu = _.get(resourceInfor.cpu_usage_rate.pop(), '1', 0)
+        const currentMemory = _.get(resourceInfor.memory_usage_rate.pop(), '1', 0)
+
         return (
             <div className='commonDetail_preview applicationDetail_preview'>
                 <Row gutter={10}>
@@ -404,14 +410,14 @@ class Preview extends React.Component {
                                 <div className='monitorItem'>
                                     <div className='summary'>
                                         <span className='name'>CPU(%)</span>
-                                        <span className='value'>3%(写死)</span>
+                                        <span className='value'>{currentCpu ? currentCpu + '%' : 0}</span>
                                     </div>
                                     <div id="cpu_line" className="lineItem" />
                                 </div>
                                 <div className='monitorItem'>
                                     <div className='summary'>
                                         <span className='name'>Memory(Mi)</span>
-                                        <span className='value'>100Mi(写死)</span>
+                                        <span className='value'>{currentMemory ? currentMemory + 'Mi' : 0}</span>
                                     </div>
                                     <div id="memory_line" className="lineItem" />
                                 </div>
