@@ -5,7 +5,8 @@ import '../index.less'
 import moment from 'moment'
 import HuayunRequest from '~/http/request'
 import { applicationPackage as api, application } from '~/http/api'
-import { Collapse, Select, Button, Popover, Modal, Tabs, Table, ButtonGroup } from 'huayunui'
+import { Collapse, Select, Button, Popover, Tabs, Table, ButtonGroup } from 'huayunui'
+import { Modal } from 'antd' 
 import { DEFAULT_EMPTY_LABEL } from '~/constants'
 import CreateVersion from './createVersion'
 import ActionAuth from '~/components/ActionAuth'
@@ -642,14 +643,14 @@ class VersionManage extends React.Component {
                 <Modal
                     title={intl.formatMessage({ id: 'ManageStatement' })}
                     visible={isStateManageModalVisible}
-                    onOk={this.handleValidateStatement}
-                    onCancel={this.handleSaveStatement}
+                    footer={[
+                        <Button key='back' disabled={currentVersion.isCommit} onClick={this.handleSaveStatement}>{intl.formatMessage({ id: 'Save' })}</Button>,
+                        <Button key='submit' type='primary' onClick={this.handleValidateStatement}>{intl.formatMessage({ id: 'Validate' })}</Button>
+                    ]}
+                    onCancel={() => this.handleChange('isStateManageModalVisible', false)}
                     className='stateManageModal'
                     destroyOnClose={true}
                     width={680}
-                    cancelText={intl.formatMessage({ id: 'Save' })}
-                    okText={intl.formatMessage({ id: 'Validate' })}
-                    closable={false}
                 >
                     <FileEdit
                         {...this.props}
