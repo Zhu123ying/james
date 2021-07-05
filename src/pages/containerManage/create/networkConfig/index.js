@@ -110,7 +110,7 @@ class NetworkConfig extends React.Component {
         return (
             <Input
                 form={form}
-                value={value}
+                value={value || ''}
                 name={name}
                 placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'Port' }) })}
                 onChange={(val) => this.handleOnChange(`${key}.port`, parseInt(_.get(val, 'target.value', val)))}
@@ -144,7 +144,7 @@ class NetworkConfig extends React.Component {
                 />
                 <Input
                     form={form}
-                    value={port}
+                    value={port || ''}
                     name={`${key}NodePortInput`}
                     placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'Port' }) })}
                     onChange={(val) => this.handleOnChange(`${key}.port`, parseInt(_.get(val, 'target.value', val)))}
@@ -217,10 +217,10 @@ class NetworkConfig extends React.Component {
         const portItem = portType === 'NodePort' ? {
             containerPort: '',
             manner: 'random', // 先给个默认值
-            port: ''
+            port: 0
         } : {
             containerPort: '',
-            port: '',
+            port: 0,
         }
         let ports = _.get(network, key, [])
         ports.push(portItem)
@@ -324,7 +324,7 @@ class NetworkConfig extends React.Component {
             ports: [
                 {
                     containerPort: '',
-                    port: ''
+                    port: 0
                 }
             ]
         })
@@ -367,7 +367,7 @@ class NetworkConfig extends React.Component {
                 {
                     containerPort: '',
                     manner: 'random',
-                    port: ''
+                    port: 0
                 }
             ]
         })

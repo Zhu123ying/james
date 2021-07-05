@@ -110,7 +110,7 @@ export const networkInitData = { // 容器网络
             ports: [
                 {
                     containerPort: '',
-                    port: ''
+                    port: 0
                 }
             ]
         }
@@ -122,7 +122,7 @@ export const networkInitData = { // 容器网络
                 {
                     containerPort: '',
                     manner: 'random',
-                    port: ''
+                    port: 0
                 }
             ]
         }
