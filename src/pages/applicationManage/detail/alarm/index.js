@@ -202,13 +202,15 @@ class Alarm extends React.Component {
                             <div className='alarmConfig'>
                                 <div className='header'>
                                     <div className='title activeBefore'>{intl.formatMessage({ id: 'Alarm' })}</div>
-                                    <Button
-                                        type='text'
-                                        onClick={() => this.handleChange('isAlarmConfigModalVisible', true)}
-                                        className='alarmConfig'>
-                                        <Icon type='setting2'></Icon>&nbsp;
-                                        {intl.formatMessage({ id: 'AlarmConfig' })}
-                                    </Button>
+                                    <ActionAuth action={actions.AdminApplicationCenterApplicationMaintain}>
+                                        <Button
+                                            type='text'
+                                            onClick={() => this.handleChange('isAlarmConfigModalVisible', true)}
+                                            className='alarmConfig'>
+                                            <Icon type='setting2'></Icon>&nbsp;
+                                            {intl.formatMessage({ id: 'AlarmConfig' })}
+                                        </Button>
+                                    </ActionAuth>
                                 </div>
                                 <div className='detailSummary'>
                                     <div className='summaryItem alarmState'>

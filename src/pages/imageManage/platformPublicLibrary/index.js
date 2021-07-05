@@ -103,7 +103,7 @@ class PlatformPublicLibrary extends React.Component {
                 title: intl.formatMessage({ id: 'Operate' }),
                 render: (value, data) => {
                     return (
-                        <ActionAuth action={actions.AdminApplicationCenterApplicationOperate}>
+                        <ActionAuth action={actions.AdminApplicationCenterImagePublicImageOperate}>
                             <Button
                                 type="link"
                                 name={intl.formatMessage({ id: 'Delete' })}
@@ -222,7 +222,7 @@ class PlatformPublicLibrary extends React.Component {
                                 onTableChange={this.handleTableChange}
                                 loading={isFetching}
                                 operateButtons={[
-                                    <ActionAuth action={actions.AdminApplicationCenterApplicationOperate}>
+                                    <ActionAuth action={actions.AdminApplicationCenterImagePublicImageOperate}>
                                         <Tooltip title='新增拉取'>
                                             <Button
                                                 className='mr8'
@@ -233,7 +233,7 @@ class PlatformPublicLibrary extends React.Component {
                                                 onClick={() => this.handleChange('isAddPullModalVisible', true)} />
                                         </Tooltip>
                                     </ActionAuth>,
-                                    <ActionAuth action={actions.AdminApplicationCenterApplicationOperate}>
+                                    <ActionAuth action={actions.AdminApplicationCenterImagePublicImageOperate}>
                                         <Tooltip title='拉取记录'>
                                             <Button
                                                 className='mr8'

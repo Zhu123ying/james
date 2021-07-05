@@ -38,7 +38,7 @@ class ResourceTypeManage extends React.Component {
     const { isEdit } = this.state
     handleExtra({
       extraChildren: (
-        <ActionAuth action={actions.AdminApplicationCenterApplicationOperate}>
+        <ActionAuth action={actions.AdminApplicationCenterResourceObjectTypeOperate}>
           <div className='editResourceTypeButton'>
             编辑模式&nbsp;
             <Switch size="large" checked={isEdit} onChange={this.handleEditSwitchChange} />

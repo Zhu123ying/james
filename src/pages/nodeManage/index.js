@@ -10,6 +10,8 @@ import moment from 'moment'
 import echarts from 'echarts'
 import DetailIcon from '~/components/DetailIcon'
 import Detail from './detail'
+import ActionAuth from '~/components/ActionAuth'
+import actions from '~/constants/authAction'
 
 const notification = Notification.newInstance()
 class NodeManage extends React.Component {

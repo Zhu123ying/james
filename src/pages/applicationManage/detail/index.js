@@ -246,17 +246,19 @@ class ApplicationDetail extends React.Component {
                                                     })
                                                 }
                                             </div>
-                                            <Dropdown
-                                                trigger={['click']}
-                                                overlay={<OutputHistory id={id} intl={intl} />}
-                                                placement="bottomLeft"
-                                                onVisibleChange={(visible) => this.handleSetState('isShowOutputHistory', visible)}
-                                            >
-                                                <div className="operaItem">
-                                                    {intl.formatMessage({ id: 'OutputHistory' })}
-                                                    <Icon type={isShowOutputHistory ? "up" : "down"} />
-                                                </div>
-                                            </Dropdown>
+                                            <ActionAuth action={actions.AdminApplicationCenterApplicationMaintain}>
+                                                <Dropdown
+                                                    trigger={['click']}
+                                                    overlay={<OutputHistory id={id} intl={intl} />}
+                                                    placement="bottomLeft"
+                                                    onVisibleChange={(visible) => this.handleSetState('isShowOutputHistory', visible)}
+                                                >
+                                                    <div className="operaItem">
+                                                        {intl.formatMessage({ id: 'OutputHistory' })}
+                                                        <Icon type={isShowOutputHistory ? "up" : "down"} />
+                                                    </div>
+                                                </Dropdown>
+                                            </ActionAuth>
                                         </div>
                                         <div className='detailContent'>
                                             <Tabs defaultActiveKey="Preview">

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -7,13 +8,32 @@ class ActionAuth extends React.Component {
         super(props)
         this.state = {}
     }
+    checkAuth = (action, permission) => {
+        if (!action) return true // 如果不需要action，则直接过
+        const type = Object.prototype.toString.call(action)
+        switch (type) {
+            case '[object String]':
+                return permission[action]
+                break
+            case '[object Array]':
+                let f = false
+                action.forEach(item => {
+                    f = f || permission[item]
+                })
+                return f
+                break
+            default:
+                return false
+                break
+        }
+    }
     render() {
         const { userPermission, action, children } = this.props
         return (
             <React.Fragment>
                 {
                     // 先写死肯定通过
-                    userPermission[action] ? children : children
+                    this.checkAuth(action, userPermission) ? children : children
                 }
             </React.Fragment>
         )

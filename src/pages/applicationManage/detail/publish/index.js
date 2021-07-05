@@ -178,7 +178,7 @@ class Publish extends React.Component {
                         }
                     ]
                     return (
-                        <ActionAuth action={actions.AdminApplicationCenterApplicationOperate}>
+                        <ActionAuth action={actions.AdminApplicationCenterApplicationMaintain}>
                             <Dropdown options={options} placement='bottomRight' />
                         </ActionAuth>
                     )
@@ -233,17 +233,19 @@ class Publish extends React.Component {
             <div className='applicationDetail_publish'>
                 <SearchBar
                     slot={() => (
-                        <Button
-                            type="operate"
-                            icon={<Icon type="add" />}
-                            onClick={() => {
-                                this.setState({
-                                    isTaskModalVisible: true,
-                                    currentTask: {}
-                                })
-                            }}
-                            name="新建发布任务"
-                        />
+                        <ActionAuth action={actions.AdminApplicationCenterApplicationMaintain}>
+                            <Button
+                                type="operate"
+                                icon={<Icon type="add" />}
+                                onClick={() => {
+                                    this.setState({
+                                        isTaskModalVisible: true,
+                                        currentTask: {}
+                                    })
+                                }}
+                                name="新建发布任务"
+                            />
+                        </ActionAuth>
                     )}
                     params={{
                         name

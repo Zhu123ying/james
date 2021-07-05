@@ -173,7 +173,7 @@ class ContainerDetail extends React.Component {
                                         <div className='operaBar'>
                                             {
                                                 operaOptions.map((item, index) => {
-                                                    return <ActionAuth action={actions.AdminApplicationCenterContainerMaintain} key={index}>{item}</ActionAuth>
+                                                    return <ActionAuth action={actions.AdminApplicationCenterContainerOperate} key={index}>{item}</ActionAuth>
                                                 })
                                             }
                                         </div>

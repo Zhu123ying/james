@@ -6,7 +6,7 @@ import moment from 'moment'
 import HuayunRequest from '~/http/request'
 import { applicationPackage as api, application } from '~/http/api'
 import { Collapse, Select, Button, Popover, Tabs, Table, ButtonGroup } from 'huayunui'
-import { Modal } from 'antd' 
+import { Modal } from 'antd'
 import { DEFAULT_EMPTY_LABEL } from '~/constants'
 import CreateVersion from './createVersion'
 import ActionAuth from '~/components/ActionAuth'
@@ -167,7 +167,9 @@ class VersionManage extends React.Component {
                     </div>
                     <div className='horizontalKeyValue'>
                         <KeyValue values={versionKeyValueData2} />
-                        <Button type='primary' name={intl.formatMessage({ id: 'SubmitAppPackageVersion' })} onClick={() => this.handleSubmitVersion()} disabled={isCommit} />
+                        <ActionAuth action={actions.AdminApplicationCenterApplicationPackageVersionOperate}>
+                            <Button type='primary' name={intl.formatMessage({ id: 'SubmitAppPackageVersion' })} onClick={() => this.handleSubmitVersion()} disabled={isCommit} />
+                        </ActionAuth>
                     </div>
                 </div>
                 <Tabs defaultActiveKey="1" className='versionChart'>
@@ -197,12 +199,14 @@ class VersionManage extends React.Component {
                 value: (
                     <div className='editLine'>
                         <span>{isStart ? '启用' : '未启用'}</span>
-                        <UltrauiButton
-                            type="text"
-                            onClick={() => this.handleChange('isAlarmConfigModalVisible', true)}
-                        >
-                            <Icon type="edit" />&nbsp;{intl.formatMessage({ id: 'Edit' })}
-                        </UltrauiButton>
+                        <ActionAuth action={actions.AdminApplicationCenterApplicationPackageVersionOperate}>
+                            <UltrauiButton
+                                type="text"
+                                onClick={() => this.handleChange('isAlarmConfigModalVisible', true)}
+                            >
+                                <Icon type="edit" />&nbsp;{intl.formatMessage({ id: 'Edit' })}
+                            </UltrauiButton>
+                        </ActionAuth>
                     </div>
                 )
             },
@@ -242,7 +246,7 @@ class VersionManage extends React.Component {
         return (
             <>
                 {
-                    applicationPackageVersionList.length ? <KeyValue values={keyValueData} className='alarmConfig' /> : <NoData />
+                    applicationPackageVersionList && applicationPackageVersionList.length ? <KeyValue values={keyValueData} className='alarmConfig' /> : <NoData />
                 }
             </>
         )
@@ -252,14 +256,16 @@ class VersionManage extends React.Component {
         const { currentVersion, portList } = this.state
         return (
             <div className='portManage'>
-                <Button
-                    type="operate"
-                    icon={<Icon type="add" />}
-                    onClick={() => this.handleChange('isPortManageModalVisible', true)}
-                    name="新增入口"
-                    className='addBtn'
-                    disabled={currentVersion.isCommit}
-                />
+                <ActionAuth action={actions.AdminApplicationCenterApplicationPackageVersionOperate}>
+                    <Button
+                        type="operate"
+                        icon={<Icon type="add" />}
+                        onClick={() => this.handleChange('isPortManageModalVisible', true)}
+                        name="新增入口"
+                        className='addBtn'
+                        disabled={currentVersion.isCommit}
+                    />
+                </ActionAuth>
                 <div className='portList'>
                     {
                         portList.map((item) => {
@@ -269,12 +275,14 @@ class VersionManage extends React.Component {
                                     <div className='portName'>{name}</div>
                                     <div className='portDes'>
                                         <span>{description}</span>
-                                        <UltrauiButton
-                                            type="text"
-                                            onClick={() => this.handleManagePort(item)}
-                                        >
-                                            <Icon type="edit" />&nbsp;{intl.formatMessage({ id: 'Manage' })}
-                                        </UltrauiButton>
+                                        <ActionAuth action={actions.AdminApplicationCenterApplicationPackageVersionOperate}>
+                                            <UltrauiButton
+                                                type="text"
+                                                onClick={() => this.handleManagePort(item)}
+                                            >
+                                                <Icon type="edit" />&nbsp;{intl.formatMessage({ id: 'Manage' })}
+                                            </UltrauiButton>
+                                        </ActionAuth>
                                     </div>
                                     <div className='portKey'>
                                         <div className='title'>{intl.formatMessage({ id: 'AppPortObject' })}</div>
@@ -553,7 +561,7 @@ class VersionManage extends React.Component {
                         <Icon type="download" />&nbsp;{intl.formatMessage({ id: 'DownloadStatement' })}
                     </UltrauiButton>
                 </ActionAuth>,
-                <ActionAuth action={actions.AdminApplicationCenterApplicationPackageVersionOperate}>
+                <ActionAuth action={actions.AdminApplicationCenterApplicationOperate}>
                     <UltrauiButton
                         type="text"
                         onClick={this.handleAddApplication}
@@ -582,13 +590,15 @@ class VersionManage extends React.Component {
                 <div className='versionList'>
                     <div className='title'>
                         版本列表
-                        <UltrauiButton
-                            type="text"
-                            onClick={() => this.handleChange('isVersionModalVisible', true)}
-                            className='br'
-                        >
-                            <Icon type="add" />&nbsp;新增
-                        </UltrauiButton>
+                        <ActionAuth action={actions.AdminApplicationCenterApplicationPackageVersionOperate}>
+                            <UltrauiButton
+                                type="text"
+                                onClick={() => this.handleChange('isVersionModalVisible', true)}
+                                className='br'
+                            >
+                                <Icon type="add" />&nbsp;新增
+                            </UltrauiButton>
+                        </ActionAuth>
                     </div>
                     <div className='listContent'>
                         {
@@ -601,7 +611,9 @@ class VersionManage extends React.Component {
                                                 <div className={`stateDot ${isCommit ? 'bg-success' : 'bg-default'}`}></div>
                                                 {name}
                                             </div>
-                                            <Icon type='error-o' onClick={() => this.handleDelete([id])} />
+                                            <ActionAuth action={actions.AdminApplicationCenterApplicationPackageVersionOperate}>
+                                                <Icon type='error-o' onClick={() => this.handleDelete([id])} />
+                                            </ActionAuth>
                                         </span>
                                         <span className='createTime'>{createTime}</span>
                                     </div>

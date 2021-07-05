@@ -143,7 +143,7 @@ class ApplicationPackageList extends React.Component {
                         }
                     ]
                     return (
-                        <ActionAuth action={actions.AdminApplicationCenterApplicationOperate}>
+                        <ActionAuth action={actions.AdminApplicationCenterApplicationPackageOperate}>
                             <Dropdown options={options} placement='bottomRight' />
                         </ActionAuth>
                     )
@@ -251,7 +251,7 @@ class ApplicationPackageList extends React.Component {
                     onTableChange={this.handleTableChange}
                     loading={isFetching}
                     operateButtons={[
-                        <ActionAuth action={actions.AdminApplicationCenterApplicationOperate}>
+                        <ActionAuth action={actions.AdminApplicationCenterApplicationPackageOperate}>
                             <Tooltip title='新增应用包'>
                                 <Button
                                     disabled={!projectInitState}

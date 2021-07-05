@@ -55,7 +55,7 @@ class ImageRepositoryCredentialManage extends React.Component {
         const { handleExtra, intl } = this.props
         handleExtra({
             extraChildren: (
-                <ActionAuth action={actions.AdminApplicationCenterContainerOperate}>
+                <ActionAuth action={[actions.AdminApplicationCenterCredentialSystemOperate, actions.AdminApplicationCenterCredentialPorjectOperate]}>
                     <Button
                         type="primary"
                         size="large"
@@ -182,14 +182,14 @@ class ImageRepositoryCredentialManage extends React.Component {
                 render: (value, data) => {
                     return (
                         <div className='operation-column-button-group'>
-                            <ActionAuth action={actions.AdminApplicationCenterContainerOperate}>
+                            <ActionAuth action={[actions.AdminApplicationCenterCredentialSystemOperate, actions.AdminApplicationCenterCredentialPorjectOperate]}>
                                 <Button
                                     type="link"
                                     onClick={() => this.handleEdit(data)}
                                     name={intl.formatMessage({ id: 'Edit' })}
                                 />
                             </ActionAuth>
-                            <ActionAuth action={actions.AdminApplicationCenterContainerOperate}>
+                            <ActionAuth action={[actions.AdminApplicationCenterCredentialSystemOperate, actions.AdminApplicationCenterCredentialPorjectOperate]}>
                                 <Button
                                     type="link"
                                     onClick={() => this.handleDelete(data)}

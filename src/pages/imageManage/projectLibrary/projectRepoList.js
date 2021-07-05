@@ -116,7 +116,7 @@ class ProjectRepoList extends React.Component {
                 title: intl.formatMessage({ id: 'Operate' }),
                 render: (value, data) => {
                     return (
-                        <ActionAuth action={actions.AdminApplicationCenterApplicationOperate}>
+                        <ActionAuth action={actions.AdminApplicationCenterImagePrivateImageOperate}>
                             <Button
                                 type="link"
                                 name={intl.formatMessage({ id: 'Delete' })}
@@ -223,20 +223,22 @@ class ProjectRepoList extends React.Component {
         const { name, pageNumber, pageSize, total, tableData, isFetching, tableType, currentTableItem, isAddPullModalVisible, isPullRecordModalVisible } = this.state
         const noDataProps = projectInitState ? {} : {
             emptyText: (
-                <NoData
-                    className='noDataTable'
-                    name={
-                        <div div className='noDataTitle' >
-                            <div className='des'>该项目暂无镜像数据，请先初始化！</div>
-                            <Button
-                                type="primary"
-                                name="初始化"
-                                icon={<Icon type="point" />}
-                                onClick={this.handleInitPorject}
-                            />
-                        </div>
-                    }
-                />
+                <ActionAuth action={actions.AdminApplicationCenterImagePrivateRepoOperate}>
+                    <NoData
+                        className='noDataTable'
+                        name={
+                            <div div className='noDataTitle' >
+                                <div className='des'>该项目暂无镜像数据，请先初始化！</div>
+                                <Button
+                                    type="primary"
+                                    name="初始化"
+                                    icon={<Icon type="point" />}
+                                    onClick={this.handleInitPorject}
+                                />
+                            </div>
+                        }
+                    />
+                </ActionAuth>
             )
         }
         return (
@@ -266,7 +268,7 @@ class ProjectRepoList extends React.Component {
                                 onTableChange={this.handleTableChange}
                                 loading={isFetching}
                                 operateButtons={[
-                                    <ActionAuth action={actions.AdminApplicationCenterApplicationOperate}>
+                                    <ActionAuth action={actions.AdminApplicationCenterImagePrivateImageOperate}>
                                         <Tooltip title='新增拉取'>
                                             <Button
                                                 disabled={!projectInitState}
@@ -278,7 +280,7 @@ class ProjectRepoList extends React.Component {
                                                 onClick={() => this.handleChange('isAddPullModalVisible', true)} />
                                         </Tooltip>
                                     </ActionAuth>,
-                                    <ActionAuth action={actions.AdminApplicationCenterApplicationOperate}>
+                                    <ActionAuth action={actions.AdminApplicationCenterImagePrivateImageOperate}>
                                         <Tooltip title='拉取记录'>
                                             <Button
                                                 disabled={!projectInitState}

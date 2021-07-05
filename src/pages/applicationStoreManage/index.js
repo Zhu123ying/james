@@ -60,7 +60,7 @@ class ApplicationStore extends React.Component {
     const { handleExtra, intl } = this.props
     handleExtra({
       extraChildren: (
-        <ActionAuth action={actions.AdminApplicationCenterApplicationOperate}>
+        <ActionAuth action={actions.AdminApplicationCenterApplicationCenterApplicationCreate}>
           <Button
             type="primary"
             size="large"
@@ -212,9 +212,11 @@ class ApplicationStore extends React.Component {
                 <>
                   <Checkbox indeterminate={indeterminateState} onChange={this.onCheckAllChange} checked={selectedRowIds.length === dataList.length} />
                   <a type='text' onClick={() => this.handleSetBatchSelect(false)} className='cancleBtn' >取消</a>
-                  <UltrauiButton type='text' onClick={() => this.handleDelete(selectedRowIds)} disabled={selectedRowIds.length === 0}>
-                    <Icon type="delete" />&nbsp;{intl.formatMessage({ id: 'Delete' })}
-                  </UltrauiButton>
+                  <ActionAuth action={actions.AdminApplicationCenterApplicationCenterOperate}>
+                    <UltrauiButton type='text' onClick={() => this.handleDelete(selectedRowIds)} disabled={selectedRowIds.length === 0}>
+                      <Icon type="delete" />&nbsp;{intl.formatMessage({ id: 'Delete' })}
+                    </UltrauiButton>
+                  </ActionAuth>
                 </>
               ) : <span onClick={() => this.handleSetBatchSelect(true)}>选择</span>
             }
@@ -291,9 +293,11 @@ class ApplicationStore extends React.Component {
                                 <span>{intl.formatMessage({ id: 'Tag' })}</span>
                               </div>
                             </div>
-                            <UltrauiButton type="text" onClick={() => this.handleManageStoreItem(id)}>
-                              <Icon type="edit" />&nbsp;{intl.formatMessage({ id: '::Manage' })}
-                            </UltrauiButton>
+                            <ActionAuth action={actions.AdminApplicationCenterApplicationCenterOperate}>
+                              <UltrauiButton type="text" onClick={() => this.handleManageStoreItem(id)}>
+                                <Icon type="edit" />&nbsp;{intl.formatMessage({ id: '::Manage' })}
+                              </UltrauiButton>
+                            </ActionAuth>
                           </div>
                         </Card>
                       </div>

@@ -151,19 +151,23 @@ class Detail extends React.Component {
                     className='applicationPackageDetailDrawer'
                 >
                     <div className='operaBar'>
-                        <UltrauiButton
-                            type="text"
-                            onClick={() => this.handleManage(id)}
-                            className='br'
-                        >
-                            <Icon type="edit" />&nbsp;{intl.formatMessage({ id: 'UpdateApplicationPackage' })}
-                        </UltrauiButton>
-                        <UltrauiButton
-                            type="text"
-                            onClick={() => this.handleChange('isShareAppPackageModalVisible', true)}
-                        >
-                            <Icon type="release" />&nbsp;{intl.formatMessage({ id: 'ShareApplicationPackage' })}
-                        </UltrauiButton>
+                        <ActionAuth action={actions.AdminApplicationCenterApplicationPackageOperate}>
+                            <UltrauiButton
+                                type="text"
+                                onClick={() => this.handleManage(id)}
+                                className='br'
+                            >
+                                <Icon type="edit" />&nbsp;{intl.formatMessage({ id: 'UpdateApplicationPackage' })}
+                            </UltrauiButton>
+                        </ActionAuth>
+                        <ActionAuth action={actions.AdminApplicationCenterApplicationPackageOperate}>
+                            <UltrauiButton
+                                type="text"
+                                onClick={() => this.handleChange('isShareAppPackageModalVisible', true)}
+                            >
+                                <Icon type="release" />&nbsp;{intl.formatMessage({ id: 'ShareApplicationPackage' })}
+                            </UltrauiButton>
+                        </ActionAuth>
                     </div>
                     <Tabs defaultActiveKey="1">
                         <TabPane tab={intl.formatMessage({ id: 'Detail' })} key="1">

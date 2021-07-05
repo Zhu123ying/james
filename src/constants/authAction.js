@@ -38,7 +38,7 @@ export default {
     AdminApplicationCenterImagePrivateImageRead: 'Admin::ApplicationCenter_Image_PrivateImage::Read',
     // 项目库镜像管理
     AdminApplicationCenterImagePrivateImageOperate: 'Admin::ApplicationCenter_Image_PrivateImage::Operate',
-    // 项目库管理
+    // 项目库初始化
     AdminApplicationCenterImagePrivateRepoOperate: 'Admin::ApplicationCenter_Image_PrivateRepo::Operate',
     // 镜像凭证查看
     AdminApplicationCenterCredentialRead: 'Admin::ApplicationCenter_Credential::Read',

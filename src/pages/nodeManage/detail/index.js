@@ -13,6 +13,8 @@ import Card from '~/components/Card'
 import TableCommon from '~/components/TableCommon'
 import NodeNetworkMonitor from './nodeNetworkMonitor'
 import NodeResourceMonitor from './nodeResourceMonitor'
+import ActionAuth from '~/components/ActionAuth'
+import actions from '~/constants/authAction'
 
 const _ = window._
 const { Panel } = Collapse
@@ -111,12 +113,14 @@ class Detail extends React.Component {
         return (
             <div className='tagLine'>
                 <div className='opera'>
-                    <Button
-                        type="primary"
-                        size="small"
-                        icon="icon-add"
-                        onClick={() => this.handleAddLabel('labels')}
-                    />
+                    <ActionAuth action={actions.AdminApplicationCenterNodeResourceOperate}>
+                        <Button
+                            type="primary"
+                            size="small"
+                            icon="icon-add"
+                            onClick={() => this.handleAddLabel('labels')}
+                        />
+                    </ActionAuth>
                     <div className='labelList'>
                         {
                             Object.keys(labels).map((key) => {
@@ -144,12 +148,14 @@ class Detail extends React.Component {
         return (
             <div className='tagLine'>
                 <div className='opera'>
-                    <Button
-                        type="primary"
-                        size="small"
-                        icon="icon-add"
-                        onClick={() => this.handleAddLabel('taints')}
-                    />
+                    <ActionAuth action={actions.AdminApplicationCenterNodeResourceOperate}>
+                        <Button
+                            type="primary"
+                            size="small"
+                            icon="icon-add"
+                            onClick={() => this.handleAddLabel('taints')}
+                        />
+                    </ActionAuth>
                     <div className='labelList'>
                         {
                             taints.map(({ key, value, effect }, index) => {
@@ -411,12 +417,14 @@ class Detail extends React.Component {
                                             <div className='descriptionLine'>
                                                 <div className='header'>
                                                     <span>备注</span>
-                                                    <UltrauiButton
-                                                        type="text"
-                                                        onClick={() => this.handleAddLabel('annotations')}
-                                                    >
-                                                        <Icon type="add" />&nbsp;新增备注
-                                                    </UltrauiButton>
+                                                    <ActionAuth action={actions.AdminApplicationCenterNodeResourceOperate}>
+                                                        <UltrauiButton
+                                                            type="text"
+                                                            onClick={() => this.handleAddLabel('annotations')}
+                                                        >
+                                                            <Icon type="add" />&nbsp;新增备注
+                                                        </UltrauiButton>
+                                                    </ActionAuth>
                                                 </div>
                                                 <div className='desList'>
                                                     {
