@@ -6,4 +6,4 @@ RUN mkdir -p $DIST_PATH
 
 COPY dist $DIST_PATH
 
-CMD ["cp", "-r", "/opt/haihe/tmp_front/application", "/opt/haihe/front/application"]
+CMD ["cp", "-r", "/opt/haihe/tmp_front/application/*", "/opt/haihe/front/application/"]
