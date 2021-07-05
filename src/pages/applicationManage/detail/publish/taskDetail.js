@@ -392,7 +392,7 @@ class TaskDetail extends React.Component {
             <Button className='operaItem' type='text' onClick={() => this.handleCancelPublish(id)} disabled={state !== 'releasing' ? true : false}>
                 <Icon type="error-o" />&nbsp;{intl.formatMessage({ id: 'CancelPublish' })}
             </Button>,
-            <Button className='operaItem' type='text' onClick={() => this.handleRollback(id)} disabled={state !== 'releasing' ? true : false}>
+            <Button className='operaItem' type='text' onClick={() => this.handleRollback(id)} disabled={state !== 'fail' ? true : false}>
                 <Icon type="synchro" />&nbsp;{intl.formatMessage({ id: 'RollBack' })}
             </Button>,
         ]
