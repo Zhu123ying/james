@@ -28,9 +28,7 @@ export async function bootstrap() {
 }
 
 export async function mount(props) {
-  const { permission } = props
-  console.log(props)
-  // getUserPermission(permission) // 设置用户权限
+  getUserPermission() // 设置用户权限
   // 在主应用提供的dom节点下插入子应用index.html定义的节点，保证style顺利加载
   ReactDOM.render(
     <React.StrictMode>
