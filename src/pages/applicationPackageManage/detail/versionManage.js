@@ -269,10 +269,24 @@ class VersionManage extends React.Component {
                 <div className='portList'>
                     {
                         portList.map((item) => {
-                            const { id, name, description, type, config } = item
+                            const { id, name, description, type, config, chartExist } = item
                             return (
                                 <Card handleDelete={() => this.handleDeletePort(id, name)} key={id}>
-                                    <div className='portName'>{name}</div>
+                                    <div className='portName'>
+                                        {name}&nbsp;
+                                        {
+                                            chartExist ? null : (
+                                                <Popover
+                                                    placement="top"
+                                                    content={<div>入口对应资源已不存在</div>}
+                                                    trigger="click"
+                                                    type="text"
+                                                >
+                                                    <Icon type='warning-o' className='text-danger' />
+                                                </Popover>
+                                            )
+                                        }
+                                    </div>
                                     <div className='portDes'>
                                         <span>{description}</span>
                                         <ActionAuth action={actions.AdminApplicationCenterApplicationPackageVersionOperate}>

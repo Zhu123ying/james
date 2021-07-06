@@ -206,21 +206,21 @@ class ApplicationStore extends React.Component {
     return (
       <div id='ApplicationStore'>
         <div className='header'>
-          <div className='selectRow'>
-            {
-              isSelectable ? (
-                <>
-                  <Checkbox indeterminate={indeterminateState} onChange={this.onCheckAllChange} checked={selectedRowIds.length === dataList.length} />
-                  <a type='text' onClick={() => this.handleSetBatchSelect(false)} className='cancleBtn' >取消</a>
-                  <ActionAuth action={actions.AdminApplicationCenterApplicationCenterOperate}>
+          <ActionAuth action={actions.AdminApplicationCenterApplicationCenterOperate}>
+            <div className='selectRow'>
+              {
+                isSelectable ? (
+                  <>
+                    <Checkbox indeterminate={indeterminateState} onChange={this.onCheckAllChange} checked={selectedRowIds.length === dataList.length} />
+                    <a type='text' onClick={() => this.handleSetBatchSelect(false)} className='cancleBtn' >取消</a>
                     <UltrauiButton type='text' onClick={() => this.handleDelete(selectedRowIds)} disabled={selectedRowIds.length === 0}>
                       <Icon type="delete" />&nbsp;{intl.formatMessage({ id: 'Delete' })}
                     </UltrauiButton>
-                  </ActionAuth>
-                </>
-              ) : <span onClick={() => this.handleSetBatchSelect(true)}>选择</span>
-            }
-          </div>
+                  </>
+                ) : <span onClick={() => this.handleSetBatchSelect(true)}>选择</span>
+              }
+            </div>
+          </ActionAuth>
           <div className='searchBar'>
             <Input.Search
               value={name}
