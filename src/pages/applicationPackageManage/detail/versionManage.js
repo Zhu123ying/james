@@ -275,14 +275,14 @@ class VersionManage extends React.Component {
                                     <div className='portName'>
                                         {name}&nbsp;
                                         {
-                                            chartExist ? null : (
+                                            !chartExist ? null : (
                                                 <Popover
                                                     placement="top"
                                                     content={<div>入口对应资源已不存在</div>}
-                                                    trigger="click"
+                                                    trigger="hover"
                                                     type="text"
                                                 >
-                                                    <Icon type='warning-o' className='text-danger' />
+                                                    <i className='iconfont icon-warning-o text-danger' />
                                                 </Popover>
                                             )
                                         }
