@@ -14,6 +14,6 @@ export const getUserPermission = () => {
 
     store.dispatch({
         action: GET_USER_PERMISSION,
-        permission: permissionObject
+        permission: {}
     })
 }
