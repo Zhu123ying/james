@@ -11,21 +11,21 @@ class ActionAuth extends React.Component {
     checkAuth = (action, permission) => {
         if (!action) return true // 如果不需要action，则直接过
         const type = Object.prototype.toString.call(action)
+        let f = false
         switch (type) {
             case '[object String]':
-                return permission[action]
+                f = Boolean(permission[action])
                 break
             case '[object Array]':
-                let f = false
                 action.forEach(item => {
                     f = f || permission[item]
                 })
-                return f
-                break
-            default:
-                return false
                 break
         }
+        console.log(action)
+        console.log(permission)
+        console.log(f)
+        return f
     }
     render() {
         const { userPermission, action, children } = this.props
