@@ -22,9 +22,6 @@ class ActionAuth extends React.Component {
                 })
                 break
         }
-        console.log(action)
-        console.log(permission)
-        console.log(f)
         return f
     }
     render() {

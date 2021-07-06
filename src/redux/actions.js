@@ -9,11 +9,8 @@ export const getUserPermission = () => {
     permissions.forEach(key => {
         permissionObject[key] = key
     })
-    console.log(permissions)
-    console.log(permissionObject)
-
     store.dispatch({
-        action: GET_USER_PERMISSION,
-        permission: {}
+        type: GET_USER_PERMISSION,
+        permission: permissionObject
     })
 }

@@ -3,7 +3,6 @@ import { Icon, Notification } from 'ultraui'
 import request, { extend } from 'umi-request';
 
 const prefix = '/api/'
-
 if (process.env.NODE_ENV === 'development') {
     // 模拟加入sessionId
     const set = function (name, value, day = 30) {
