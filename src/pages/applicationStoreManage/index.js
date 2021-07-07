@@ -228,17 +228,6 @@ class ApplicationStore extends React.Component {
               onChange={(val) => this.handleSearchParamChange('name', val, false)}
               onSearch={() => this.handleSearch()}
             />
-            <Select
-              mode="tags"
-              allowClear
-              placeholder={intl.formatMessage({ id: 'Tag' })}
-              style={{ width: 'auto' }}
-              bordered={false}
-              onChange={(val) => this.handleSearchParamChange('tags', val)}
-              dropdownRender={(originNode) => (<div>{originNode}</div>)}
-            >
-              <Select.Option value="jack">Jaasasasck</Select.Option>
-            </Select >
           </div>
         </div>
         {

@@ -154,18 +154,7 @@ class ApplicationManage extends React.Component {
                         return <Select.Option value={id} key={id}>{name}</Select.Option>
                     })
                 }
-            </Select>,
-            <Select
-                mode="tags"
-                allowClear
-                placeholder={intl.formatMessage({ id: 'Tag' })}
-                style={{ width: 'auto' }}
-                bordered={false}
-                onChange={(val) => this.handleSearchParamChange('tags', val)}
-                dropdownRender={(originNode) => (<div>{originNode}</div>)}
-            >
-                <Select.Option value="jack">Jaasasasck</Select.Option>
-            </Select >
+            </Select>
         ]
         return (
             <div id='applicationCenter_layout' className='applicationManage'>
