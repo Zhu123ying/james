@@ -258,7 +258,10 @@ class ApplicationStore extends React.Component {
                             />
                           ) : null
                         }
-                        <Card handleDelete={() => this.handleDelete([id])} key={id}>
+                        <Card
+                          action={actions.AdminApplicationCenterApplicationCenterOperate}
+                          handleDelete={() => this.handleDelete([id])}
+                          key={id}>
                           <div className='storeItem'>
                             <div className='storeInfo'>
                               <div className='basicInfo br'>

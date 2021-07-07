@@ -30,7 +30,7 @@ class ActionAuth extends React.Component {
             <React.Fragment>
                 {
                     // 先写死肯定通过
-                    this.checkAuth(action, userPermission) ? children : children
+                    this.checkAuth(action, userPermission) ? children : null
                 }
             </React.Fragment>
         )

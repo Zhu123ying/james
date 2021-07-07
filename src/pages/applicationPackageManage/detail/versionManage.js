@@ -271,7 +271,10 @@ class VersionManage extends React.Component {
                         portList.map((item) => {
                             const { id, name, description, type, config, chartExist } = item
                             return (
-                                <Card handleDelete={() => this.handleDeletePort(id, name)} key={id}>
+                                <Card
+                                    action={actions.AdminApplicationCenterApplicationPackageVersionOperate}
+                                    handleDelete={() => this.handleDeletePort(id, name)}
+                                    key={id}>
                                     <div className='portName'>
                                         {name}&nbsp;
                                         {

@@ -430,7 +430,10 @@ class Detail extends React.Component {
                                                     {
                                                         Object.keys(annotations || {}).map(key => {
                                                             return (
-                                                                <Card handleDelete={() => this.handleRemoveAnnotation(key)} key={key}>
+                                                                <Card
+                                                                    action={actions.AdminApplicationCenterNodeResourceOperate}
+                                                                    handleDelete={() => this.handleRemoveAnnotation(key)}
+                                                                    key={key}>
                                                                     {`${key}:${annotations[key]}`}
                                                                 </Card>
                                                             )
