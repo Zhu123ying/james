@@ -86,30 +86,30 @@ class ResourceObject extends React.Component {
 
     readStatementInfor = (row) => {
         const { intl } = this.props
-        Modal.info({
+        Modal.confirm({
             title: intl.formatMessage({ id: 'ReadStatementInfor' }),
             content: (<div className="chartValues" dangerouslySetInnerHTML={{ __html: formatChartValues(row.yamlConfigInfo) }}></div>),
-            className: 'chartValueDialog',
+            className: 'chartValueDialog noModalCancelBtn',
         })
     }
 
     readNodeEvent = (row) => {
         const { name, namespace } = _.get(row, 'metadata', {})
         const { intl } = this.props
-        Modal.info({
+        Modal.confirm({
             title: intl.formatMessage({ id: 'ReadNodeEvent' }),
             content: (<NodeEventInfo name={name} namespace={namespace} intl={intl} />),
-            className: 'w600',
+            className: 'w600 noModalCancelBtn',
         })
     }
 
     readNodeMessage = (row) => {
         const { intl } = this.props
         const tableData = _.get(row, 'runInfo.messages', []) || []
-        Modal.info({
+        Modal.confirm({
             title: intl.formatMessage({ id: 'ReadNodeMessage' }),
             content: (<NodeMessageInfo intl={intl} tableData={tableData} />),
-            className: 'w600',
+            className: 'w600 noModalCancelBtn',
         })
     }
 

@@ -20,20 +20,20 @@ class Detail extends React.Component {
     }
     handleSeeAppVersionHistory = () => {
         const { intl, detail } = this.props
-        Modal.info({
+        Modal.confirm({
             title: `${detail.name} ${intl.formatMessage({ id: 'ApplicationVersion' })}`,
             content: (<AppVersionHistory wrappedComponentRef={(node) => { this.$AppVersionHistory = node }} {...this.props} />),
-            className: 'appVersionHistoryDialog',
+            className: 'appVersionHistoryDialog noModalCancelBtn',
         })
     }
     // 版本配置
     handleSeeVersionConfig = () => {
         const { intl, detail } = this.props
-        Modal.info(
+        Modal.confirm(
             {
                 content: (<ApplicationVersionConfig {...this.props} />),
                 title: intl.formatMessage({ id: 'VersionConfig' }),
-                className: 'applicationVersionConfigModal',
+                className: 'applicationVersionConfigModal noModalCancelBtn',
             }
         )
     }

@@ -117,7 +117,6 @@ class ApplicationStore extends React.Component {
     const { intl } = this.props
     const title = `${intl.formatMessage({ id: 'Delete' })}${intl.formatMessage({ id: 'Application' })}`
     Modal.error({
-      title,
       content: intl.formatMessage({ id: 'IsSureToDelete' }, { name: intl.formatMessage({ id: 'Application' }) }),
       onOk: () => {
         HuayunRequest(api.delete, { ids }, {

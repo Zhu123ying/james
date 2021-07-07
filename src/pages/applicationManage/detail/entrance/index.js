@@ -98,7 +98,6 @@ class AppPortalManage extends React.Component {
         const { intl } = this.props
         const title = `${intl.formatMessage({ id: 'Delete' })}${intl.formatMessage({ id: 'ApplicationPort' })}`
         Modal.error({
-            title,
             content: intl.formatMessage({ id: 'IsSureToDeleteAppPort' }),
             onOk: () => {
                 HuayunRequest(api.deleteApplicationGateway, { id }, {

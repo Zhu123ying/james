@@ -5,8 +5,7 @@ import '../index.less'
 import moment from 'moment'
 import HuayunRequest from '~/http/request'
 import { applicationPackage as api, application } from '~/http/api'
-import { Collapse, Select, Button, Popover, Tabs, Table, ButtonGroup } from 'huayunui'
-import { Modal } from 'antd'
+import { Collapse, Select, Button, Popover, Tabs, Table, ButtonGroup, Modal } from 'huayunui'
 import { DEFAULT_EMPTY_LABEL } from '~/constants'
 import CreateVersion from './createVersion'
 import ActionAuth from '~/components/ActionAuth'
@@ -359,7 +358,6 @@ class VersionManage extends React.Component {
         const { intl } = this.props
         const title = `${intl.formatMessage({ id: 'Delete' })}${intl.formatMessage({ id: 'ApplicationPort' })}`
         Modal.error({
-            title,
             content: intl.formatMessage({ id: 'IsSureToDeleteAppPort' }),
             onOk: () => {
                 HuayunRequest(application.deleteApplicationGateway, { id }, {
@@ -396,7 +394,7 @@ class VersionManage extends React.Component {
             content: `${intl.formatMessage({ id: 'IsSureToDelete' }, { name: intl.formatMessage({ id: 'AppPackageVersion' }) })}`,
             onOk: () => {
                 HuayunRequest(api.deleteApplicationPackageVersion, { ids }, {
-                    success(res) {
+                    success: (res) => {
                         getDetailData()
                         notification.notice({
                             id: new Date(),
@@ -413,12 +411,14 @@ class VersionManage extends React.Component {
         })
     }
     handleSubmitVersion = () => {
+        const { intl, getDetailData } = this.props
         const { currentVersion: { id } } = this.state
         Modal.confirm({
+            title: intl.formatMessage({ id: 'SubmitAppPackageVersion' }),
             content: '确认提交该应用包版本吗？',
             onOk: () => {
                 HuayunRequest(api.updateApplicationPackageVersionChartCommit, { id }, {
-                    success(res) {
+                    success: (res) => {
                         getDetailData()
                         notification.notice({
                             id: new Date(),
