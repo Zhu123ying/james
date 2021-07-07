@@ -52,11 +52,11 @@ class ContainerConfig extends React.Component {
 
     }
     renderPanelHeader = (index) => {
-        const { intl } = this.props
+        const { intl, formData: { containers } } = this.props
         return (
             <div className='panelHeader'>
                 <div className='panelTitle'>{`${intl.formatMessage({ id: 'Container' })}${index + 1}`}</div>
-                <Button type='text' onClick={() => this.handleRemoveFormDataItem('containers', index)}>
+                <Button type='text' onClick={() => this.handleRemoveFormDataItem('containers', index)} disabled={containers.length === 1}>
                     <Icon type="empty" />&nbsp;{intl.formatMessage({ id: 'Delete' })}
                 </Button>
             </div>

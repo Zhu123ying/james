@@ -29,7 +29,7 @@ class ApplicationStore extends React.Component {
       isSelectable: false, // 是否是可选的
       selectedRowIds: [], // 被选中的id集合
       isDetailModalVisible: false, // 详情抽屉
-      currentDataItem: {}, // 选中的应用包
+      currentDataItem: {}, // 选中的应用
     }
   }
   componentDidMount() {
@@ -60,7 +60,7 @@ class ApplicationStore extends React.Component {
     const { handleExtra, intl } = this.props
     handleExtra({
       extraChildren: (
-        <ActionAuth action={actions.AdminApplicationCenterApplicationCenterApplicationCreate}>
+        <ActionAuth action={actions.AdminApplicationCenterApplicationCenterOperate}>
           <Button
             type="primary"
             size="large"

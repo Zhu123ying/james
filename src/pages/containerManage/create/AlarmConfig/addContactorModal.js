@@ -26,11 +26,13 @@ class AddContactorModal extends React.Component {
             },
             {
                 title: intl.formatMessage({ id: 'Email' }),
-                dataIndex: 'email'
+                dataIndex: 'email',
+                width: 220
             },
             {
                 title: intl.formatMessage({ id: 'Phone' }),
-                dataIndex: 'phone'
+                dataIndex: 'phone',
+                width: 150
             }
         ]
     }

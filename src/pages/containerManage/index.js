@@ -170,14 +170,14 @@ class ContainerManage extends React.Component {
                                 <div className='tableList' onScroll={this.handleScroll}>
                                     {
                                         dataList.map(item => {
-                                            const { id, name, projectName, state, secondState, containerCount } = item
+                                            const { id, name, projectName, state, status, containerCount } = item
                                             return (
                                                 <div
                                                     className={`tableItem ${currentTableItem.id === id ? 'activeTableItem' : ''}`}
                                                     onClick={() => this.handleChangeTableItem(item)} >
                                                     <div className='basicInfo'>
                                                         <div className='stateLineWithDot'>
-                                                            <div className={`stateDot ${secondState === 'NORMAL' ? 'bg-success' : 'bg-danger'}`}></div>
+                                                            <div className={`stateDot ${state === 'running' ? 'bg-success' : 'bg-danger'}`}></div>
                                                             {`${name}(${containerCount})`}
                                                         </div>
                                                         <div className='bottomInfo'>{projectName}</div>

@@ -16,6 +16,11 @@ import DetailIcon from '~/components/DetailIcon'
 
 const notification = Notification.newInstance()
 const _ = window._
+const exposureModeObject = {
+    Node: '节点网络',
+    Container: '容器网络',
+    LoadBalance: '外部网络'
+}
 class Preview extends React.Component {
     constructor(props) {
         super(props)
@@ -135,7 +140,10 @@ class Preview extends React.Component {
             {
                 dataIndex: 'type',
                 title: intl.formatMessage({ id: 'ExposureMode' }),
-                width: '20%'
+                width: '20%',
+                render(type) {
+                    return exposureModeObject[type] || DEFAULT_EMPTY_LABEL
+                }
             },
             {
                 dataIndex: 'ip',
@@ -229,7 +237,7 @@ class Preview extends React.Component {
             },
             {
                 value: intl.formatMessage({ id: 'OnlineTime' }),
-                label: startTime || DEFAULT_EMPTY_LABEL
+                label: state === 'config' ? DEFAULT_EMPTY_LABEL : startTime
             }
         ]
         const KeyValueData3 = [

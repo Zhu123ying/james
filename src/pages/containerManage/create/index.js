@@ -55,7 +55,7 @@ class ManageContainerItem extends React.Component {
                 alert: {
                     enabled: false,
                 },
-                // containers: [{ ...containerConfig_containerItem }], // 容器
+                containers: [{ ...containerConfig_containerItem }], // 容器
                 // affinity: { ...affinityConfigInitData }, // 亲和性
                 // network: { ...networkInitData }, // 网络配置
                 // alert: {

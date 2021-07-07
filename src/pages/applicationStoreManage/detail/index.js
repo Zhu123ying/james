@@ -66,6 +66,11 @@ class Detail extends React.Component {
         const array = [`CPU : ${cpu || DEFAULT_EMPTY_LABEL} `, `Memory : ${memory || DEFAULT_EMPTY_LABEL}`, ...storageLine]
         return <div className='quotaRecommand'>{array.join(' | ')}</div>
     }
+    handleAddApplication = () => {
+        const { currentVersion: { id: applicationPackageVersionId } } = this.state
+        const { currentDataItem: { id } } = this.props
+        this.props.history.push(`/applicationCenter/applicationManage/create?id=${id}&applicationPackageVersionId=${applicationPackageVersionId}`)
+    }
     render() {
         const { intl, onClose, visible, currentDataItem, handleDelete } = this.props
         const { detail, currentVersion, isFetching } = this.state
@@ -167,7 +172,17 @@ class Detail extends React.Component {
                                                 <div className='versionContent'>
                                                     <div className='versionInfo'>
                                                         <div className='p16'>
-                                                            <div className='versionName'>{currentDataItem.name}</div>
+                                                            <div className='versionName'>
+                                                                {currentDataItem.name}
+                                                                <ActionAuth action={actions.AdminApplicationCenterApplicationCenterApplicationCreate}>
+                                                                    <UltrauiButton
+                                                                        type="text"
+                                                                        onClick={this.handleAddApplication}
+                                                                    >
+                                                                        <Icon type="add" />&nbsp;{intl.formatMessage({ id: 'CreateApplication' })}
+                                                                    </UltrauiButton>
+                                                                </ActionAuth>
+                                                            </div>
                                                             <div className='versionDes'>{currentDataItem.description}</div>
                                                             <KeyValue values={versionKeyValueData} />
                                                         </div>

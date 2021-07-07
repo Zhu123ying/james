@@ -154,6 +154,7 @@ class AlarmConfig extends React.Component {
                     className='addAlarmContactorModal'
                     getContainer={document.getElementById('ManageContainerItem')}
                     destroyOnClose={true}
+                    width={680}
                 >
                     <AddAlarmContactorModal
                         intl={intl}
