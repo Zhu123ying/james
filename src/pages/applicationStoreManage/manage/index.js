@@ -92,16 +92,29 @@ class AppStoreManageApp extends React.Component {
         const content = intl.formatMessage({ id: id ? 'Update' : 'Create' }) + intl.formatMessage({ id: 'AppStore' })
         HuayunRequest(api[url], params, {
             success: (res) => {
-                notification.notice({
-                    id: new Date(),
-                    type: 'success',
-                    title: intl.formatMessage({ id: 'Success' }),
-                    content: `${content}'${intl.formatMessage({ id: 'Success' })}`,
-                    iconNode: 'icon-success-o',
-                    duration: 5,
-                    closable: true
-                })
-                this.handleCancel()
+                const { retCode, retInfo } = res.data
+                if (retCode) {
+                    notification.notice({
+                        id: new Date(),
+                        type: 'danger',
+                        title: intl.formatMessage({ id: 'Error' }),
+                        content: retInfo,
+                        iconNode: 'icon-error-o',
+                        duration: 5,
+                        closable: true
+                    })
+                } else {
+                    notification.notice({
+                        id: new Date(),
+                        type: 'success',
+                        title: intl.formatMessage({ id: 'Success' }),
+                        content: `${content}${intl.formatMessage({ id: 'Success' })}`,
+                        iconNode: 'icon-success-o',
+                        duration: 5,
+                        closable: true
+                    })
+                    this.handleCancel()
+                }
             }
         })
     }
@@ -142,14 +155,14 @@ class AppStoreManageApp extends React.Component {
             return applicationPackageVersionIds.indexOf(item.id) !== -1
         })
         this.setState({
-            applicationPackageVersionIds, 
+            applicationPackageVersionIds,
             selectedAppPackageVersions, // 渲染被选中的版本需要整个版本数据
             isShelfManageModalVisible: false
         })
     }
     render() {
         const { form, intl, match: { params: { id } } } = this.props
-        const { tagInput, name, description, tags, applicationPackageId, applicationPackageVersionIds, selectedAppPackageVersions, projectId, 
+        const { tagInput, name, description, tags, applicationPackageId, applicationPackageVersionIds, selectedAppPackageVersions, projectId,
             projectList, appPackageList, isShelfManageModalVisible, packageVersionsAll } = this.state
         return (
             <div id="AppStoreAppManage">

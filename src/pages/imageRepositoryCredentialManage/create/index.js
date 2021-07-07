@@ -13,7 +13,6 @@ const _ = window._
 class Create extends React.Component {
     constructor(props) {
         super(props)
-        this.id = _.get(props, 'match.params.id', null) // 编辑的时候传过来的应用的id
         this.state = {
             repoName: '',
             credentialType: 1,
@@ -61,7 +60,7 @@ class Create extends React.Component {
     }
 
     render() {
-        const { form, intl, projectList } = this.props
+        const { form, intl, projectList, currentTableItem } = this.props
         const { repoName, credentialType, projectId, protocol, host, port, userName, password, certInfo } = this.state
         return (
             <div id="CreateImageVoucher">
@@ -87,18 +86,18 @@ class Create extends React.Component {
                                 name="credentialType"
                                 label='凭证类型'
                                 items={[
-                                    { title: '系统凭证', value: '0' },
-                                    { title: '项目凭证', value: '1' }
+                                    { title: '系统凭证', value: '0', disabled: currentTableItem.id },
+                                    { title: '项目凭证', value: '1', disabled: currentTableItem.id }
                                 ]}
-                                value={credentialType.toString()}
-                                onChange={(val) => this.handleChange('credentialType', val)}
+                                defaultValue={String(credentialType)}
+                                onChange={(val) => this.handleChange('credentialType', parseInt(val))}
                                 inline
                                 isRequired
                             />
                         ) : null
                     }
                     {
-                        credentialType === '0' ? null : (
+                        credentialType === 0 ? null : (
                             <Select
                                 form={form}
                                 name="projectId"
@@ -117,6 +116,7 @@ class Create extends React.Component {
                                 }
                                 optionFilterProp='children'
                                 optionLabelProp='children'
+                                disabled={currentTableItem.id}
                             />
                         )
                     }

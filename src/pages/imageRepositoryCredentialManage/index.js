@@ -117,9 +117,10 @@ class ImageRepositoryCredentialManage extends React.Component {
         })
         HuayunRequest(api.getRepositoryCredentialList, params, {
             success: (res) => {
-                const { data: { datas } } = res
+                const { data: { datas, total } } = res
                 this.setState({
-                    dataList: datas
+                    dataList: datas,
+                    total
                 })
             },
             complete: (res) => {
@@ -140,7 +141,10 @@ class ImageRepositoryCredentialManage extends React.Component {
             {
                 dataIndex: 'credentialType',
                 key: 'credentialType',
-                title: intl.formatMessage({ id: 'Type' })
+                title: intl.formatMessage({ id: 'Type' }),
+                render(type){
+                    return type ? '项目凭证' : '系统凭证'
+                }
             },
             {
                 dataIndex: 'projectName',
@@ -150,7 +154,10 @@ class ImageRepositoryCredentialManage extends React.Component {
             {
                 dataIndex: 'protocol',
                 key: 'protocol',
-                title: intl.formatMessage({ id: 'ProtocolType' })
+                title: intl.formatMessage({ id: 'ProtocolType' }),
+                render(type){
+                    return type ? 'Https' : 'Http'
+                }
             },
             {
                 dataIndex: 'host',

@@ -9,6 +9,10 @@ import DetailDrawer from '~/components/DetailDrawer'
 import { Collapse, Select, Button, Popover, Modal, Tabs, Table } from 'huayunui'
 import { Row, Col } from 'antd'
 import { DEFAULT_EMPTY_LABEL } from '~/constants'
+import ActionAuth from '~/components/ActionAuth'
+import actions from '~/constants/authAction'
+import { formatChartValues } from '~/pages/utils'
+
 const _ = window._
 const { Panel } = Collapse
 const { TabPane } = Tabs
@@ -131,21 +135,23 @@ class Detail extends React.Component {
                 {
                     isFetching ? <Loading /> : (
                         <>
-                            <div className='operaBar'>
-                                <UltrauiButton
-                                    type="text"
-                                    onClick={() => this.handleManage(id)}
-                                    className='br'
-                                >
-                                    <Icon type="release" />&nbsp;{intl.formatMessage({ id: '::Manage' })}
-                                </UltrauiButton>
-                                <UltrauiButton
-                                    type="text"
-                                    onClick={handleDelete}
-                                >
-                                    <Icon type="empty" />&nbsp;{intl.formatMessage({ id: 'Delete' })}
-                                </UltrauiButton>
-                            </div>
+                            <ActionAuth action={actions.AdminApplicationCenterApplicationCenterOperate}>
+                                <div className='operaBar'>
+                                    <UltrauiButton
+                                        type="text"
+                                        onClick={() => this.handleManage(id)}
+                                        className='br'
+                                    >
+                                        <Icon type="release" />&nbsp;{intl.formatMessage({ id: '::Manage' })}
+                                    </UltrauiButton>
+                                    <UltrauiButton
+                                        type="text"
+                                        onClick={handleDelete}
+                                    >
+                                        <Icon type="empty" />&nbsp;{intl.formatMessage({ id: 'Delete' })}
+                                    </UltrauiButton>
+                                </div>
+                            </ActionAuth>
                             <Tabs defaultActiveKey="1">
                                 <TabPane tab={intl.formatMessage({ id: 'Detail' })} key="1">
                                     <Collapse defaultActiveKey={['1']} className='basicInforCollapse'>
@@ -169,10 +175,10 @@ class Detail extends React.Component {
                                                     </div>
                                                     <Tabs defaultActiveKey="1" className='versionChart'>
                                                         <TabPane tab='VALUES' key="1">
-                                                            {currentVersion.chartValues}
+                                                            <div className='chartValueContent' dangerouslySetInnerHTML={{ __html: formatChartValues(currentVersion.chartValues) }}></div>
                                                         </TabPane>
                                                         <TabPane tab='TEMPLATE' key="2">
-                                                            {currentVersion.chartTemplate}
+                                                            <div className='chartValueContent' dangerouslySetInnerHTML={{ __html: formatChartValues(currentVersion.chartTemplate) }}></div>
                                                         </TabPane>
                                                     </Tabs>
                                                 </div>
