@@ -553,6 +553,22 @@ class VersionManage extends React.Component {
             }
         })
     }
+    renderStatementModalTitle = () => {
+        const { intl } = this.props
+        return (
+            <div className='modalTitle'>
+                {intl.formatMessage({ id: 'ManageStatement' })}
+                <Popover
+                    placement="right"
+                    content={<div>平台会自动为每个使用镜像的应用创建一个名为 secret_image 的 Secret 作为容器获取镜像的凭证</div>}
+                    trigger="hover"
+                    type="text"
+                >
+                    <a>&nbsp;&nbsp;镜像获取凭证</a>
+                </Popover>
+            </div>
+        )
+    }
     render() {
         const { intl, currentDataItem, applicationPackageVersionList } = this.props
         const {
@@ -670,7 +686,7 @@ class VersionManage extends React.Component {
                         wrappedComponentRef={node => this.$CreateAppPort = node} />
                 </Modal>
                 <Modal
-                    title={intl.formatMessage({ id: 'ManageStatement' })}
+                    title={this.renderStatementModalTitle()}
                     visible={isStateManageModalVisible}
                     footer={[
                         <Button key='back' disabled={currentVersion.isCommit} onClick={this.handleSaveStatement}>{intl.formatMessage({ id: 'Save' })}</Button>,
