@@ -96,8 +96,7 @@ class Detail extends React.Component {
         const { intl, onClose, visible, currentContainer, monitorData } = this.props
         const { name, runVar, envs, image, probe } = currentContainer
         const { args, workDir, command } = runVar || {}
-        const { envKey, envValue } = envs || {}
-        const { project, repo, tag } = image || {}
+        const { project, repo, tag, pullStrategy } = image || {}
         const { type, command: probeCommand, periodSeconds, failureThreshold, initialDeploy, timeoutSeconds, manner } = probe || {}
         const basicKeyValue = [
             {
@@ -110,11 +109,14 @@ class Detail extends React.Component {
             },
             {
                 label: intl.formatMessage({ id: 'EnvironmentVariable' }),
-                value: `${envKey || DEFAULT_EMPTY_LABEL} : ${envValue || DEFAULT_EMPTY_LABEL}`
+                value: (envs || []).map(({ envKey, envValue }) => {
+                    return `${envKey || DEFAULT_EMPTY_LABEL} : ${envValue || DEFAULT_EMPTY_LABEL}`
+                }).join('、')
             },
             {
                 label: `${intl.formatMessage({ id: 'Image' })}${intl.formatMessage({ id: 'PullStrategy' })}`,
-                value: [project, repo, tag].filter(item => !!item).join('/')
+                // value: [project, repo, tag].filter(item => !!item).join('/')
+                value: pullStrategy
             }
         ]
         // const mountPointConfigKeyValue = [

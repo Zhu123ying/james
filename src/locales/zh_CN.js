@@ -58,6 +58,7 @@ const zh_CN = {
     Network: '网络',
     Save: '保存',
     All: '全部',
+    Abort: '终止',
 
     // 业务字段
     StorageResource: '存储资源',
@@ -329,7 +330,7 @@ const zh_CN = {
     ContainerClusterNetwork: '容器集群网络',
     ContainerPort: '容器端口',
     ClusterNetworkPort: '集群网络端口',
-    LoadBalancePort: '集群网络端口',
+    LoadBalancePort: '外部网络端口',
     NodePort: '节点端口',
     ContainerNetwork: '容器网络',
     NodeNetwork: '节点网络',
@@ -399,6 +400,8 @@ const zh_CN = {
     NetworkType: '网络类型',
 
     // 接口返回提示
+    InternalError: '服务器错误，请联系管理员',
+    InvalidParameter: '参数错误',
     UpdateApplicationSuccess: '编辑应用-{name}成功！',
     CreateApplicationSuccess: '创建应用-{name}成功！',
     UpdateAppPackageSuccess: '编辑应用包-{name}成功！',
@@ -584,7 +587,7 @@ const zh_CN = {
     ImageArtifactPullScriptExecError: '从外部仓库拉取镜像失败，错误未知',
     ImageArtifactPullScriptNotFoundError: '镜像拉取失败，无法执行拉取操作',
     ApplicationPackageVersionNameMatcherError: '应用包版本名称不合规，需匹配^[A-Za-z0-9]+([\\w-.]*[A-Za-z0-9])*$',
-    ApplicationPackageVersionChartNameMatcherError: 'Chart包内Chart.yaml的名字不合规，需匹配^[A-Za-z0-9]+([\\w]*[-.]?[A-Za-z0-9])*$',
+    ApplicationPackageVersionChartNameMatcherError: 'Chart包内Chart.yaml的名字不合规，需匹配^[A-Za-z1-9]+([\\w]*[-.]?[A-Za-z0-9])*$',
     ApplicationPackageVersionChartVersionMatcherError: 'Chart包内Chart.yaml的版本不合规，需匹配^[A-Za-z0-9]+([\\w-.]?[A-Za-z0-9])*$',
     ApplicationPackageVersionChartNameLengthError: 'Chart包内Chart.yaml的名字不合规，长度不能超过128个字符',
     ApplicationPackageVersionChartVersionLengthError: 'Chart包内Chart.yaml的版本不合规，长度不能超过128个字符',
@@ -599,5 +602,6 @@ const zh_CN = {
     ApplicationPackageShareNameIllegalError: '分享应用包失败，应用包名称参数非法',
     ApplicationPackageShareVersionNotFoundError: '分享应用包版本失败，待分享的应用包中版本已调整',
     ApplicationPackageVersionGatewayResourceError: '应用包版本提交失败，版本入口与资源对象不匹配',
+    ApplicationPackageVersionChartVersionNumberError: 'Chart包内Chart.yaml的版本version全为数字时，不可以0开头',
 }
 export default zh_CN

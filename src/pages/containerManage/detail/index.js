@@ -13,6 +13,7 @@ import Detail from './detail'
 import Information from './information'
 import Event from './event'
 import Alarm from './alarm'
+import { ContainerStateList, ContainerStatusList } from '~/constants'
 
 const notification = Notification.newInstance()
 const { TabPane } = Tabs
@@ -87,12 +88,22 @@ class ContainerDetail extends React.Component {
     handleSetStatus = () => {
         const { intl, refreshTableList } = this.props
         const { detail: { state, name, id } } = this.state
-        const action = intl.formatMessage({ id: state === 'config' ? 'OnLine' : 'OffLine' })
+        let action, actionType
+        if (state === 'config') {
+            action = intl.formatMessage({ id: 'OnLine' })
+            actionType = 'startPlatformContainer'
+        } else if (state === 'running' || state === 'stratFailed' || state === 'stopFailed') {
+            action = intl.formatMessage({ id: 'OnLine' })
+            actionType = 'stopPlatformContainer'
+        } else {
+            action = intl.formatMessage({ id: 'Abort' })
+            actionType = 'abortPlatformContainer'
+        }
         const content = `${action}${this.operationTarget} - ${name}`
-        Modal.warning({
+        Modal.confirm({
+            title: `容器${action}`,
             content: `确认${content} ？`,
             onOk: () => {
-                const actionType = state === 'config' ? 'startPlatformContainer' : 'stopPlatformContainer'
                 HuayunRequest(api[actionType], { id }, {
                     success: (res) => {
                         refreshTableList() // 更新列表
@@ -100,7 +111,7 @@ class ContainerDetail extends React.Component {
                             id: new Date(),
                             type: 'success',
                             title: intl.formatMessage({ id: 'Success' }),
-                            content: `${content}'${intl.formatMessage({ id: 'Success' })}`,
+                            content: `${content}${intl.formatMessage({ id: 'Success' })}`,
                             iconNode: 'icon-success-o',
                             duration: 5,
                             closable: true
@@ -121,7 +132,7 @@ class ContainerDetail extends React.Component {
             content: `${intl.formatMessage({ id: 'IsSureToDelete' }, { name: `${this.operationTarget} - ${name}` })}`,
             onOk: () => {
                 HuayunRequest(api.delete, { id }, {
-                    success(res) {
+                    success: (res) => {
                         refreshTableList(true) // 更新列表
                         notification.notice({
                             id: new Date(),
@@ -145,16 +156,23 @@ class ContainerDetail extends React.Component {
         const { intl } = this.props
         const { isLoading, detail, monitorData } = this.state
         const { state, id } = detail
-        const on_offLine = state === 'config' ? (<><Icon type="rise-o" />&nbsp;{intl.formatMessage({ id: 'OnLine' })}</>) : (<><Icon type="drop-o" />&nbsp;{intl.formatMessage({ id: 'OffLine' })}</>)
+        let on_off_stopBtnText // 上线、下线、终止按钮
+        if (state === 'config') {
+            on_off_stopBtnText = <><Icon type="rise-o" />&nbsp;{intl.formatMessage({ id: 'OnLine' })}</>
+        } else if (state === 'running' || state === 'stratFailed' || state === 'stopFailed') {
+            on_off_stopBtnText = <><Icon type="drop-o" />&nbsp;{intl.formatMessage({ id: 'OffLine' })}</>
+        } else if (state === 'starting' || state === 'stopping') {
+            on_off_stopBtnText = <><Icon type="ignor" />&nbsp;终止</>
+        }
         const operaOptions = [
-            <Button className='operaItem' type='text' onClick={this.handleSetStatus}>{on_offLine}</Button>,
+            <Button className='operaItem' type='text' onClick={this.handleSetStatus}>{on_off_stopBtnText}</Button>,
             <Button className='operaItem' type='text' onClick={() => this.handleGoLink(`create/${id}/1`)}>
                 <Icon type="copy" />&nbsp;{intl.formatMessage({ id: 'Copy' })}
             </Button>,
             <Button className='operaItem' type='text' onClick={() => this.handleGoLink(`edit/${id}`)} disabled={state !== 'config'}>
                 <Icon type="release" />&nbsp;{intl.formatMessage({ id: 'ChangeSetting' })}
             </Button>,
-            <Button className='operaItem noborder' type='text' onClick={this.handleDelete}>
+            <Button className='operaItem noborder' type='text' onClick={this.handleDelete} disabled={state !== 'config'}>
                 <Icon type="delete" />&nbsp;{intl.formatMessage({ id: 'Delete' })}
             </Button>,
         ]

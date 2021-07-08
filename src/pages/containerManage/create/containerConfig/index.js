@@ -473,7 +473,8 @@ class ContainerConfig extends React.Component {
                                                     options={testTypeList}
                                                     optionFilterProp='children'
                                                     optionLabelProp='children'
-                                                    isRequired
+                                                    // isRequired
+                                                    allowClear={Boolean(probe.type)}
                                                     className='w50'
                                                 />
                                                 <Select
@@ -486,7 +487,8 @@ class ContainerConfig extends React.Component {
                                                     options={testMethodList}
                                                     optionFilterProp='children'
                                                     optionLabelProp='children'
-                                                    isRequired
+                                                    // isRequired
+                                                    allowClear={Boolean(probe.manner)}
                                                     className='w50'
                                                 />
                                                 <Input
@@ -496,7 +498,7 @@ class ContainerConfig extends React.Component {
                                                     onChange={(val) => this.handleFormDataOnChange(`${index}.probe.command`, val)}
                                                     placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'Command' }) })}
                                                     label={intl.formatMessage({ id: 'Command' })}
-                                                    isRequired
+                                                    // isRequired
                                                 />
                                                 <DividerBox title={intl.formatMessage({ id: 'AdvancedSetting' })}>
                                                     <div className='advancedSetting'>

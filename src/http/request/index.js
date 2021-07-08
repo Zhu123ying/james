@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === 'development') {
         exp.setTime(exp.getTime() + day * 24 * 60 * 60 * 1000)
         document.cookie = `${name}=${encodeURI(value)};expires=${exp.toGMTString()}; path=/`
     }
-    set('sessionId', 'identity:login.session:9de0a582-0f01-4a19-b9a5-d9a6452295c3_10.51.60.105_57f74a7c-0368-4d5d-93c2-79547b5139b9')
+    set('sessionId', 'identity:login.session:9de0a582-0f01-4a19-b9a5-d9a6452295c3_10.51.60.105_a2fd1a17-4c40-48c5-8374-c58fa9269cc6')
 }
 
 // request拦截器
@@ -44,13 +44,14 @@ const HuayunRequest = (api, param, callback = {}) => http
         if (callback.fail) {
             callback.fail(response)
         } else {
+            console.log(response)
             const language = window.LanguageData[window.LangCode]
-            const { data, message } = response || {}
+            const { errorCode, errorMessage } = response || {}
             notification.notice({
                 id: new Date(),
                 type: 'danger',
                 title: '错误提示',
-                content: data && data.errorCode ? language[data.errorCode] : message,
+                content: errorCode ? language[errorCode] : errorMessage,
                 iconNode: 'icon-error-o',
                 duration: 5,
                 closable: true
@@ -81,12 +82,12 @@ export const HuayunUploadRequest = (api, params, callback = {}) => {
                 callback.fail(response)
             } else {
                 const language = window.LanguageData[window.LangCode]
-                const { data, message } = response || {}
+                const { errorCode, errorMessage } = response || {}
                 notification.notice({
                     id: new Date(),
                     type: 'danger',
                     title: '错误提示',
-                    content: data && data.errorCode ? language[data.errorCode] : message,
+                    content: errorCode ? language[errorCode] : errorMessage,
                     iconNode: 'icon-error-o',
                     duration: 5,
                     closable: true

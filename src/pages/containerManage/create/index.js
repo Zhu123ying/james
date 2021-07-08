@@ -48,14 +48,14 @@ class ManageContainerItem extends React.Component {
                 qos: {
                     egress: 0,
                     ingress: 0
-                }, 
+                },
                 containers: [],
                 affinity: null,
                 network: null,
                 alert: {
                     enabled: false,
                 },
-                containers: [{ ...containerConfig_containerItem }], // 容器
+                containers: [_.cloneDeep(containerConfig_containerItem)], // 容器
                 // affinity: { ...affinityConfigInitData }, // 亲和性
                 // network: { ...networkInitData }, // 网络配置
                 // alert: {
