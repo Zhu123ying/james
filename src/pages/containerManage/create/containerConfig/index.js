@@ -500,58 +500,86 @@ class ContainerConfig extends React.Component {
                                                 />
                                                 <DividerBox title={intl.formatMessage({ id: 'AdvancedSetting' })}>
                                                     <div className='advancedSetting'>
-                                                        <InputNumber
+                                                        <Panel
                                                             form={form}
                                                             value={probe.initialDelaySeconds}
-                                                            min={0}
-                                                            slot={{
-                                                                position: 'right',
-                                                                format: () => '秒'
-                                                            }}
-                                                            type='number'
-                                                            onChange={(val) => this.handleFormDataOnChange(`${index}.probe.initialDelaySeconds`, val)}
-                                                            className='w50'
+                                                            name={`containers${index}ProbeInitialDelaySeconds`}
                                                             label='初始化等待'
-                                                        />
-                                                        <InputNumber
+                                                            inline
+                                                            className='w50'
+                                                        >
+                                                            <InputNumber
+                                                                form={form}
+                                                                value={probe.initialDelaySeconds}
+                                                                min={0}
+                                                                slot={{
+                                                                    position: 'right',
+                                                                    format: () => '秒'
+                                                                }}
+                                                                type='number'
+                                                                onChange={(val) => this.handleFormDataOnChange(`${index}.probe.initialDelaySeconds`, val)}
+                                                            />
+                                                        </Panel>
+                                                        <Panel
                                                             form={form}
                                                             value={probe.periodSeconds}
-                                                            min={0}
-                                                            slot={{
-                                                                position: 'right',
-                                                                format: () => '秒'
-                                                            }}
-                                                            type='number'
-                                                            onChange={(val) => this.handleFormDataOnChange(`${index}.probe.periodSeconds`, val)}
-                                                            className='w50'
+                                                            name={`containers${index}ProbePeriodSeconds`}
                                                             label='检测间隔'
-                                                        />
-                                                        <InputNumber
+                                                            inline
+                                                            className='w50'
+                                                        >
+                                                            <InputNumber
+                                                                form={form}
+                                                                value={probe.periodSeconds}
+                                                                min={0}
+                                                                slot={{
+                                                                    position: 'right',
+                                                                    format: () => '秒'
+                                                                }}
+                                                                type='number'
+                                                                onChange={(val) => this.handleFormDataOnChange(`${index}.probe.periodSeconds`, val)}
+                                                            />
+                                                        </Panel>
+                                                        <Panel
                                                             form={form}
                                                             value={probe.timeoutSeconds}
-                                                            min={0}
-                                                            slot={{
-                                                                position: 'right',
-                                                                format: () => '秒'
-                                                            }}
-                                                            type='number'
-                                                            onChange={(val) => this.handleFormDataOnChange(`${index}.probe.timeoutSeconds`, val)}
-                                                            className='w50'
+                                                            name={`containers${index}ProbeTimeoutSeconds`}
                                                             label='检测超时'
-                                                        />
-                                                        <InputNumber
+                                                            inline
+                                                            className='w50'
+                                                        >
+                                                            <InputNumber
+                                                                form={form}
+                                                                value={probe.timeoutSeconds}
+                                                                min={0}
+                                                                slot={{
+                                                                    position: 'right',
+                                                                    format: () => '秒'
+                                                                }}
+                                                                type='number'
+                                                                onChange={(val) => this.handleFormDataOnChange(`${index}.probe.timeoutSeconds`, val)}
+                                                            />
+                                                        </Panel>
+                                                        <Panel
                                                             form={form}
                                                             value={probe.failureThreshold}
-                                                            min={0}
-                                                            slot={{
-                                                                position: 'right',
-                                                                format: () => '次'
-                                                            }}
-                                                            type='number'
-                                                            onChange={(val) => this.handleFormDataOnChange(`${index}.probe.failureThreshold`, val)}
-                                                            className='w50'
+                                                            name={`containers${index}ProbeFailureThreshold`}
                                                             label='失败时重复'
-                                                        />
+                                                            inline
+                                                            className='w50'
+                                                        >
+                                                            <InputNumber
+                                                                form={form}
+                                                                value={probe.failureThreshold}
+                                                                min={0}
+                                                                slot={{
+                                                                    position: 'right',
+                                                                    format: () => '秒'
+                                                                }}
+                                                                type='number'
+                                                                onChange={(val) => this.handleFormDataOnChange(`${index}.probe.failureThreshold`, val)}
+                                                            />
+                                                        </Panel>
                                                     </div>
                                                 </DividerBox>
                                             </Panel>
