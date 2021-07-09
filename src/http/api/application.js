@@ -54,6 +54,11 @@ const api = {
     queryApplicationAlarm: `${prefix}queryApplicationAlarm`, // 查询应用的告警记录
     confirmApplicationAlarmConfig: `${prefix}confirmApplicationAlarmConfig`, // 更新告警配置(修改告警配置后按确认)
     queryApplicationAlarmConfig: `${prefix}queryApplicationAlarmConfig`, // 查询应用的告警配置
+    queryApplicationContainers: `${prefix}queryApplicationContainers`, // 获取应用下所有容器信息
+    confirmContainerLogConfig: `${prefix}confirmContainerLogConfig`, // 添加容器日志采集配置
+    listContainerLogConfig: `${prefix}listContainerLogConfig`, // 获取应用下容器日志采集的配置列表信息
+    queryContainerLog: `${prefix}queryContainerLog`, // 查询应用日志
+    deleteContainerLogConfig: `${prefix}deleteContainerLogConfig`, // 删除应用日志配置
 
 }
 
