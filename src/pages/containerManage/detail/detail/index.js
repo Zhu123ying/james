@@ -215,6 +215,7 @@ class Detail extends React.Component {
                                                 content={this.renderDetailPopover(item)}
                                                 trigger="click"
                                                 type="text"
+                                                getPopupContainer={() => document.querySelector('.containerDetail_infor')}
                                                 id='detailPopover'>
                                                 <a>查看</a>
                                             </Popover>

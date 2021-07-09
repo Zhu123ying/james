@@ -76,13 +76,11 @@ class ApplicationStore extends React.Component {
   handleCreateApplication = () => {
     this.props.history.push(`${this.props.match.path}/create`)
   }
-  handleSearchParamChange = (key, val, isFetch = true) => {
-    // 此处的请求逻辑有问题，暂不改
-    const value = _.get(val, 'target.value', val)
+  handleInputSearchChange = () => {
     this.setState({
-      [key]: value
+      pageNumber: 1
     }, () => {
-      isFetch && this.handleSearch()
+      this.handleSearch()
     })
   }
   handleSearch = () => {
@@ -224,8 +222,8 @@ class ApplicationStore extends React.Component {
             <Input.Search
               value={name}
               placeholder={intl.formatMessage({ id: 'Search' })}
-              onChange={(val) => this.handleSearchParamChange('name', val, false)}
-              onSearch={() => this.handleSearch()}
+              onChange={(val) => this.handleChange('name', val)}
+              onSearch={this.handleInputSearchChange}
             />
           </div>
         </div>

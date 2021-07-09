@@ -270,8 +270,10 @@ class FileEdit extends React.Component {
         this.setState({
             selectedKeys: keys
         }, () => {
-            let content = _.get(node, 'fcontent', '')
-            this.$editorInstance.doc.setValue(content)
+            if (node.type === 'file') {
+                let content = _.get(node, 'fcontent', '')
+                this.$editorInstance.doc.setValue(content)
+            }
         })
     }
     render() {
@@ -281,9 +283,30 @@ class FileEdit extends React.Component {
                 <div className='treeBox'>
                     <div className='searchBar'>
                         <div className='operaGroup'>
-                            <Icon type='object' className='br' onClick={() => this.handleChange('expandedKeys', [])} />
-                            <Icon type='folde' onClick={() => this.handleAddTreeNodeItem('dir')} />
-                            <Icon type='file' onClick={() => this.handleAddTreeNodeItem('file')} />
+                            <Popover
+                                placement="top"
+                                content={<div>收起</div>}
+                                trigger="hover"
+                                type="text"
+                            >
+                                <i className='iconfont icon-object br' onClick={() => this.handleChange('expandedKeys', [])} />
+                            </Popover>
+                            <Popover
+                                placement="top"
+                                content={<div>创建文件夹</div>}
+                                trigger="hover"
+                                type="text"
+                            >
+                                <i className='iconfont icon-folde' onClick={() => this.handleAddTreeNodeItem('dir')} />
+                            </Popover>
+                            <Popover
+                                placement="top"
+                                content={<div>创建文件</div>}
+                                trigger="hover"
+                                type="text"
+                            >
+                                <i className='iconfont icon-file' onClick={() => this.handleAddTreeNodeItem('file')} />
+                            </Popover>
                         </div>
                         <Button
                             className='searchBtn'

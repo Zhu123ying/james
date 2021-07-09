@@ -61,7 +61,9 @@ class Detail extends React.Component {
                                     content={<div>{intl.formatMessage({ id: 'View' })}</div>}
                                     trigger="hover"
                                     type="text"
-                                ><i className='iconfont icon-view' onClick={this.handleSeeAppVersionHistory}></i></Popover>
+                                >
+                                    <i className='iconfont icon-view' onClick={this.handleSeeAppVersionHistory}></i>
+                                </Popover>
                             </div>
                             <div className='title'>{intl.formatMessage({ id: 'ApplicationVersion' })}</div>
                         </div>

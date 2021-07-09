@@ -54,8 +54,12 @@ class VersionManage extends React.Component {
         const currentVersion = applicationPackageVersionList.find(item => item.id === currentVersionId)
         if (!currentVersion) {
             const currentVersionId_ = _.get(applicationPackageVersionList, '0.id', '')
+            // 如果没匹配的版本，要将currentVersion， portList， alarmDetail这些跟版本相关的数据先重置，然后再调接口赋值，否则切换应用包，在没有版本的情况下数据会保留先前的
             this.setState({
-                currentVersionId: currentVersionId_
+                currentVersionId: currentVersionId_,
+                currentVersion: {},
+                portList: [],
+                alarmDetail: {}
             })
             currentVersionId_ && this.getAppPackagePortData(currentVersionId_)
             currentVersionId_ && this.getApplicationPackageVersionInfo(currentVersionId_)
@@ -122,17 +126,14 @@ class VersionManage extends React.Component {
         if (!quota) {
             return DEFAULT_EMPTY_LABEL
         }
-        const { memory, cpu, storage } = quota || {}
-        const storageLine = Object.keys(storage || {}).map(key => {
-            return `${key}:${storage[key]}`
-        })
-        const array = [`CPU:${cpu}`, `Memory:${memory}`, ...storageLine]
+        const { memory, cpu, eStorage, storage } = quota || {}
+        const array = [`cpu:${cpu}(m)`, `memory:${memory}(Mi)`, `storage:${storage}(Gi)`, `临时存储:${eStorage}(Gi)`]
         return <div className='quotaRecommand'>{array.join(` | `)}</div>
     }
     renderVersionInfoPanel = () => {
         const { intl } = this.props
         const { currentVersion } = this.state
-        const { name, description, packageVersion, quota, createByName, createTime, chartValues, chartTemplate, isCommit } = currentVersion
+        const { id, name, description, packageVersion, quota, createByName, createTime, chartValues, chartTemplate, isCommit } = currentVersion
         const versionKeyValueData = [
             {
                 label: intl.formatMessage({ id: 'Index of versions' }),
@@ -167,7 +168,7 @@ class VersionManage extends React.Component {
                     <div className='horizontalKeyValue'>
                         <KeyValue values={versionKeyValueData2} />
                         <ActionAuth action={actions.AdminApplicationCenterApplicationPackageVersionOperate}>
-                            <Button type='primary' name={intl.formatMessage({ id: 'SubmitAppPackageVersion' })} onClick={() => this.handleSubmitVersion()} disabled={isCommit} />
+                            <Button type='primary' name={intl.formatMessage({ id: 'SubmitAppPackageVersion' })} onClick={() => this.handleSubmitVersion()} disabled={!id || isCommit} />
                         </ActionAuth>
                     </div>
                 </div>
@@ -444,6 +445,7 @@ class VersionManage extends React.Component {
         }
         HuayunRequest(api.verifyChartContent, params, {
             success: (res) => {
+                this.getApplicationPackageVersionInfo(currentVersionId)
                 notification.notice({
                     id: new Date(),
                     type: 'success',
@@ -453,9 +455,9 @@ class VersionManage extends React.Component {
                     duration: 5,
                     closable: true
                 })
-                this.setState({
-                    isStateManageModalVisible: false
-                })
+                // this.setState({
+                //     isStateManageModalVisible: false
+                // })
             }
         })
     }
@@ -469,6 +471,7 @@ class VersionManage extends React.Component {
         }
         HuayunRequest(api.updateApplicationPackageVersionSaveChartFile, params, {
             success: (res) => {
+                this.getApplicationPackageVersionInfo(currentVersionId)
                 notification.notice({
                     id: new Date(),
                     type: 'success',
@@ -487,7 +490,8 @@ class VersionManage extends React.Component {
     handleDownload = () => {
         const { currentVersion: { id } } = this.state
         let data = { id }
-        fetch(api.downApplicationPackageVersionChart, {
+        const url = `/api/${api.downApplicationPackageVersionChart}`
+        fetch(url, {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {
@@ -507,7 +511,7 @@ class VersionManage extends React.Component {
     }
     handleAddApplication = () => {
         const { currentVersion: { applicationPackageId, id: applicationPackageVersionId } } = this.state
-        this.props.history.push(`/applicationCenter/applicationPackageManage/create?applicationPackageId=${applicationPackageId}&applicationPackageVersionId=${applicationPackageVersionId}`)
+        this.props.history.push(`/applicationCenter/applicationManage/create?applicationPackageId=${applicationPackageId}&applicationPackageVersionId=${applicationPackageVersionId}`)
     }
     handleSelectVersion = (id) => {
         if (id === this.state.currentVersionId) return
@@ -598,6 +602,7 @@ class VersionManage extends React.Component {
                     <UltrauiButton
                         type="text"
                         onClick={this.handleAddApplication}
+                        disabled={!currentVersion.isCommit}
                     >
                         <Icon type="add" />&nbsp;{intl.formatMessage({ id: 'CreateApplication' })}
                     </UltrauiButton>
@@ -689,8 +694,8 @@ class VersionManage extends React.Component {
                     title={this.renderStatementModalTitle()}
                     visible={isStateManageModalVisible}
                     footer={[
-                        <Button key='back' disabled={currentVersion.isCommit} onClick={this.handleSaveStatement}>{intl.formatMessage({ id: 'Save' })}</Button>,
-                        <Button key='submit' type='primary' onClick={this.handleValidateStatement}>{intl.formatMessage({ id: 'Validate' })}</Button>
+                        <Button key='back' disabled={currentVersion.isCommit} onClick={this.handleSaveStatement} >{intl.formatMessage({ id: 'Save' })}</Button>,
+                        <Button key='submit' type='primary' onClick={this.handleValidateStatement} >{intl.formatMessage({ id: 'Validate' })}</Button>
                     ]}
                     onCancel={() => this.handleChange('isStateManageModalVisible', false)}
                     className='stateManageModal'
