@@ -611,5 +611,12 @@ const zh_CN = {
     ApplicationPackageShareVersionNotFoundError: '分享应用包版本失败，待分享的应用包中版本已调整',
     ApplicationPackageVersionGatewayResourceError: '应用包版本提交失败，版本入口与资源对象不匹配',
     ApplicationPackageVersionChartVersionNumberError: 'Chart包内Chart.yaml的版本version全为数字时，不可以0开头',
+    ApplicationReleaseTaskNodeNotExecuteError: '发布任务节点处于不能执行状态！',
+    ApplicationReleaseTaskReleasingExecuteError: '应用有发布任务处于发布中，操作失败!',
+    ApplicationCreateError: '创建应用失败！',
+    ApplicationStatusError: '应用状态异常！',
+    ApplicationAlarmConfigError: '设置告警配置出错！',
+    ApplicationIllegalDataErrror: '非法数据',
+
 }
 export default zh_CN
