@@ -240,19 +240,20 @@ class TaskDetail extends React.Component {
         const operate_delete = <Icon type='empty' onClick={() => this.handleDeleteTaskNode(item.id, item.name)}></Icon> // 删除
         switch (index) {
             case 0:
-                return <Step title={this.renderStepContent([nameObj, resourceInfoObj], [operate_add])} icon={<Icon type='boot' />} />
+                return <Step title={this.renderStepContent([nameObj, resourceInfoObj], [operate_add], index)} icon={<Icon type='boot' />} />
                 break
             case parseInt(taskNodeList.length - 1):
-                return <Step title={this.renderStepContent([nameObj, resourceInfoObj])} icon={<Icon type='shutdown' />} />
+                return <Step title={this.renderStepContent([nameObj, resourceInfoObj], [], index)} icon={<Icon type='shutdown' />} />
                 break
             default:
-                return <Step title={this.renderStepContent([nameObj, resourceInfoObj, stateObj], [operate_add, operate_edit, operate_delete], item)} icon={<Icon type='connection' />} className='middleNode' />
+                return <Step title={this.renderStepContent([nameObj, resourceInfoObj, stateObj], [operate_add, operate_edit, operate_delete], index)} icon={<Icon type='connection' />} className='middleNode' />
                 break
         }
     }
-    renderStepContent = (data, operaOptions = [], nodeItem = {}) => {
-        const { taskDetail: { state, currentNode } } = this.state
-        const { name, state: nodeState, nextTaskNode } = nodeItem
+    renderStepContent = (data, operaOptions = [], nodeIndex = 0) => {
+        const { taskNodeList, taskDetail: { state, currentNode } } = this.state
+        const { id, name, state: nodeState } = taskNodeList[nodeIndex]
+        const isExcuteable = _.get(taskNodeList, `${parseInt(nodeIndex - 1)}.name`, '') === currentNode
         return (
             <div className='stepContent'>
                 <div className='keyValues'>
@@ -273,10 +274,10 @@ class TaskDetail extends React.Component {
                         state === 'config' ? operaOptions : null
                     }
                     {
-                        // 节点的state为success，且该节点为当前节点的时候，有执行按钮
-                        state === 'releasing' && nodeState === 'config' && (name === currentNode) ? (
+                        // 任务状态为releasing，上一个节点为当前执行的节点，节点状态为config，有执行按钮
+                        state === 'releasing' && nodeState === 'config' && isExcuteable ? (
                             // 执行节点
-                            <Icon type='boot' onClick={() => this.handleExcuteTaskNode(name, nextTaskNode)}></Icon>
+                            <Icon type='boot' onClick={() => this.handleExcuteTaskNode(name, id)}></Icon>
                         ) : null
                     }
                 </div>

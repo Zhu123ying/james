@@ -455,9 +455,6 @@ class VersionManage extends React.Component {
                     duration: 5,
                     closable: true
                 })
-                // this.setState({
-                //     isStateManageModalVisible: false
-                // })
             }
         })
     }
