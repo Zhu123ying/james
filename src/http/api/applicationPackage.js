@@ -33,6 +33,11 @@ const api = {
     getApplicationPackageVersionAlarmTemplates: `${prefix}getApplicationPackageVersionAlarmTemplates`, // 查询应用包版本的告警模板
     getApplicationPackageVersionAlarmUsers: `${prefix}getApplicationPackageVersionAlarmUsers`, // 查询应用包版本可供选择的告警通知人
     confirmApplicationPackageVersionAlarmConfig: `${prefix}confirmApplicationPackageVersionAlarmConfig`, // 配置应用包版本告警
+    confirmApplicationPackageVersionLogConfig: `${prefix}confirmApplicationPackageVersionLogConfig`, // 保存应用包版本的应用日志配置
+    updateApplicationPackageVersionLogConfig: `${prefix}updateApplicationPackageVersionLogConfig`, // 更新应用包版本的应用日志配置
+    getApplicationPackageVersionLogConfigs: `${prefix}getApplicationPackageVersionLogConfigs`, // 查看应用包版本的应用日志配置
+    deleteApplicationPackageVersionLogConfig: `${prefix}deleteApplicationPackageVersionLogConfig`, // 删除应用包版本的应用日志配置
+    getApplicationPackageVersionLogResourceList: `${prefix}getApplicationPackageVersionLogResourceList`, // 解析Chart包内容获取应用日志配置的资源对象
 }
 
 export default api

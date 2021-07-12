@@ -14,6 +14,7 @@ import Card from '~/components/Card'
 import CreateAppPort from './createAppPort'
 import FileEdit from './fileEdit'
 import AlarmConfig from './alarmConfig'
+import LogManage from './createLog'
 
 const _ = window._
 const { Panel } = Collapse
@@ -27,6 +28,9 @@ class VersionManage extends React.Component {
             currentVersion: {},
             isVersionModalVisible: false, // 新增版本modal
             isPortManageModalVisible: false, // 入口modal
+            isLogManageModalVisible: false, // 日志modal
+            logList: [], // 日志数据
+            currentLog: {}, // 当前的日志对象
             isStateManageModalVisible: false, // 文件树
             portList: [], // 入口数据
             currentPort: {}, // 当前的入口对象
@@ -37,6 +41,8 @@ class VersionManage extends React.Component {
         }
     }
     componentDidMount() {
+        // 获取版本的日志数据
+        this.getApplicationPackageVersionLogConfigs()
         // 版本的入口数据
         this.getAppPackagePortData()
         // 版本的详情
@@ -59,12 +65,24 @@ class VersionManage extends React.Component {
                 currentVersionId: currentVersionId_,
                 currentVersion: {},
                 portList: [],
-                alarmDetail: {}
+                alarmDetail: {},
+                logList: []
             })
+            currentVersionId_ && this.getApplicationPackageVersionLogConfigs(currentVersionId_)
             currentVersionId_ && this.getAppPackagePortData(currentVersionId_)
             currentVersionId_ && this.getApplicationPackageVersionInfo(currentVersionId_)
             currentVersionId_ && this.getAlarmConfigData(currentVersionId_)
         }
+    }
+    // 获取日志
+    getApplicationPackageVersionLogConfigs = (packageVersionId = this.state.currentVersionId) => {
+        HuayunRequest(api.getApplicationPackageVersionLogConfigs, { packageVersionId }, {
+            success: (res) => {
+                this.setState({
+                    logList: res.data
+                })
+            }
+        })
     }
     // 获取告警模板
     getAlarmTemplates = () => {
@@ -250,6 +268,139 @@ class VersionManage extends React.Component {
                 }
             </>
         )
+    }
+    renderLogPanel = () => {
+        const { intl } = this.props
+        const { currentVersion, logList } = this.state
+        return (
+            <div className='logManage'>
+                <ActionAuth action={actions.AdminApplicationCenterApplicationPackageVersionOperate}>
+                    <Button
+                        type="operate"
+                        icon={<Icon type="add" />}
+                        onClick={() => this.handleManageLog()}
+                        name="新增日志"
+                        className='addBtn'
+                        disabled={!currentVersion.isCommit}
+                    />
+                </ActionAuth>
+                <div className='logList'>
+                    {
+                        logList.map((item) => {
+                            const { packageVersionId, logResource, isStandardLogConfig, isServiceLogConfig, standardLogConfig, serviceLogConfig, configId } = item
+                            return (
+                                <Card
+                                    action={actions.AdminApplicationCenterApplicationPackageVersionOperate}
+                                    handleDelete={() => this.handleDeleteLog(packageVersionId, configId)}
+                                    key={configId}>
+                                    <div className='logInfo'>
+                                        <div className='logName'>{logResource.join('/')}</div>
+                                        <div className='btnGroupList'>
+                                            {
+                                                isStandardLogConfig ? (
+                                                    <ButtonGroup className='keyContent'>
+                                                        <Button type="operate">日志标注输出</Button>
+                                                        <Button type="message">{`${standardLogConfig.maxSize}Gi | ${standardLogConfig.expireTime}天`}</Button>
+                                                    </ButtonGroup>
+                                                ) : null
+                                            }
+                                            {
+                                                isServiceLogConfig ? (
+                                                    <ButtonGroup className='keyContent'>
+                                                        <Button type="operate">服务日志</Button>
+                                                        <Button type="message">{`${serviceLogConfig.maxSize}Gi | ${serviceLogConfig.expireTime}天 | ${serviceLogConfig.path}`}</Button>
+                                                    </ButtonGroup>
+                                                ) : null
+                                            }
+                                        </div>
+                                    </div>
+                                    <ActionAuth action={actions.AdminApplicationCenterApplicationPackageVersionOperate}>
+                                        <UltrauiButton
+                                            type="text"
+                                            onClick={() => this.handleManageLog(item)}
+                                        >
+                                            <Icon type="edit" />&nbsp;{intl.formatMessage({ id: 'Edit' })}
+                                        </UltrauiButton>
+                                    </ActionAuth>
+                                </Card>
+                            )
+                        })
+                    }
+                </div>
+            </div>
+        )
+    }
+    handleManageLog = (item = {}) => {
+        this.setState({
+            currentLog: item,
+            isLogManageModalVisible: true
+        })
+    }
+    handleLogManageModalConfirm = () => {
+        const { intl } = this.props
+        const { currentLog: { kind, configId }, currentVersionId } = this.state
+        let { cascaderValue, isStandardLogConfig, standardLogConfig, isServiceLogConfig, serviceLogConfig } = this.$LogManage.state
+        if (!cascaderValue.length) {
+            this.$LogManage.handleChange('cascaderPanelErrorMessage', '请选择容器！')
+        }
+        this.$LogManage.props.form.validateFields((errs, values) => {
+            if (errs || !cascaderValue) {
+                return
+            }
+            let containerName = [...cascaderValue].pop()
+            let podName = [...cascaderValue].pop()
+            let params = {
+                podName, kind, containerName, isStandardLogConfig, standardLogConfig, isServiceLogConfig, serviceLogConfig,
+                packageVersionId: currentVersionId,
+                logResource: cascaderValue,
+                configId
+            }
+            let content = `${intl.formatMessage({ id: configId ? 'Edit' : 'Add' })}${intl.formatMessage({ id: 'Log' })}`
+            let urlType = configId ? 'updateApplicationPackageVersionLogConfig' : 'confirmApplicationPackageVersionLogConfig'
+            HuayunRequest(api[urlType], params, {
+                success: (res) => {
+                    notification.notice({
+                        id: new Date(),
+                        type: 'success',
+                        title: intl.formatMessage({ id: 'Success' }),
+                        content: `${content}${intl.formatMessage({ id: 'Success' })}`,
+                        iconNode: 'icon-success-o',
+                        duration: 5,
+                        closable: true
+                    })
+                    this.setState({
+                        isLogManageModalVisible: false
+                    })
+                    this.getApplicationPackageVersionLogConfigs()
+                }
+            })
+        })
+    }
+    handleDeleteLog = (packageVersionId, configId) => {
+        const { intl } = this.props
+        const title = `${intl.formatMessage({ id: 'Delete' })}${intl.formatMessage({ id: 'Log' })}`
+        Modal.error({
+            content: intl.formatMessage({ id: 'IsSureToDelete' }, { name: intl.formatMessage({ id: 'Log'}) }),
+            onOk: () => {
+                HuayunRequest(api.deleteApplicationPackageVersionLogConfig, { packageVersionId, configId }, {
+                    success: () => {
+                        this.setState({
+                            isLogManageModalVisible: false
+                        })
+                        this.getApplicationPackageVersionLogConfigs() // 更新日志列表
+                        notification.notice({
+                            id: new Date(),
+                            type: 'success',
+                            title: intl.formatMessage({ id: 'Success' }),
+                            content: `${title}${intl.formatMessage({ id: 'Success' })}`,
+                            iconNode: 'icon-success-o',
+                            duration: 5,
+                            closable: true
+                        })
+                    }
+                })
+            }
+        })
     }
     renderPortPanel = () => {
         const { intl } = this.props
@@ -517,6 +668,7 @@ class VersionManage extends React.Component {
         }, () => {
             this.getAppPackagePortData(id)
             this.getApplicationPackageVersionInfo(id)
+            this.getApplicationPackageVersionLogConfigs(id)
         })
     }
     handleAlarmConfigModalConfirm = () => {
@@ -573,8 +725,8 @@ class VersionManage extends React.Component {
     render() {
         const { intl, currentDataItem, applicationPackageVersionList } = this.props
         const {
-            currentVersion, isVersionModalVisible, isPortManageModalVisible, isStateManageModalVisible, currentPort,
-            isAlarmConfigModalVisible, alarmDetail, alarmTemplates, alarmContacts
+            currentVersionId, currentVersion, isVersionModalVisible, isPortManageModalVisible, isStateManageModalVisible, currentPort,
+            isAlarmConfigModalVisible, alarmDetail, alarmTemplates, alarmContacts, isLogManageModalVisible, currentLog
         } = this.state
         const tabOperation = {
             right: [
@@ -613,7 +765,7 @@ class VersionManage extends React.Component {
                         {this.renderVersionInfoPanel()}
                     </TabPane>
                     <TabPane tab={intl.formatMessage({ id: 'Log' })} key="2">
-                        log
+                        {this.renderLogPanel()}
                     </TabPane>
                     <TabPane tab={`${intl.formatMessage({ id: 'Manage' })}${intl.formatMessage({ id: 'Entrance' })}`} key="3">
                         {this.renderPortPanel()}
@@ -718,6 +870,20 @@ class VersionManage extends React.Component {
                         alertTemplateList={alarmTemplates}
                         alertUserList={alarmContacts}
                         wrappedComponentRef={node => this.$AlarmConfig = node} />
+                </Modal>
+                <Modal
+                    title={currentLog.configId ? '编辑日志' : '添加日志'}
+                    visible={isLogManageModalVisible}
+                    onOk={this.handleLogManageModalConfirm}
+                    onCancel={() => this.handleChange('isLogManageModalVisible', false)}
+                    className='applicationPackageVersion_logManageModal'
+                    destroyOnClose={true}
+                >
+                    <LogManage
+                        intl={intl}
+                        currentLog={currentLog}
+                        currentVersionId={currentVersionId}
+                        wrappedComponentRef={node => this.$LogManage = node} />
                 </Modal>
             </div>
         )

@@ -243,6 +243,42 @@
                     }
                 }
             }
+            // 日志管理
+            .logManage{
+                .addBtn{
+                    width: 100%;
+                }
+                .logList{
+                    .card{
+                        padding: 14px 16px;
+                        margin-top: 8px;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        .logInfo{
+                            width: 80%;
+                            .logName{
+                                font-size: 14px;
+                                color: #33475B;
+                                display: flex;
+                                align-items: center;
+                            }
+                            .btnGroupList{
+                                width: 100%;
+                                display: flex;
+                                align-items: center;
+                                .keyContent{
+                                    display: flex;
+                                    margin: 8px 16px 0 0;
+                                    .archer-btn-operate{
+                                        background-color: #B6D9FB;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
         .versionList{
             background: #F5F8FA;
@@ -401,5 +437,72 @@
         a{
             font-size: 12px;
         }
+    }
+}
+
+.applicationPackageVersion_logManageModal{
+    .archer-modal-content{
+        .archer-modal-body{
+            padding: 16px;
+            .ult-rcform-group{
+                margin-bottom: 15px;
+            }
+            .panel{
+                .ult-label{
+                    text-align: left;
+                }
+                .validation-error{
+                    bottom: 0;
+                    margin-bottom: -15px;
+                }
+            }
+            .columnPanel{
+                display: flex;
+                flex-direction: column;
+                .ult-rcform-panel{
+                    width: 100%;
+                }
+                .ult-rcform-group-input-wrapper{
+                    width: 100%;
+                }
+            }
+            .inlinePanel{
+                display: flex;
+                align-items: center;
+            }
+            .cascaderPanel{
+                .archer-cascader-picker{
+                    width: 100%;
+                }
+            }
+            .switchPanel{
+                .ult-rcform-panel{
+                    padding-top: 8px;
+                }
+            }
+            .panelGroup{
+                background: #F5F8FA;
+                border-radius: 3px;
+                padding: 0 10px;
+                display: flex;
+                align-items: center;
+                .ult-rcform-group{
+                    margin-right: 16px;
+                    .ult-label{
+                        font-size: 12px;
+                    }
+                    .ult-input-number .slot{
+                        width: auto;
+                    }
+                }
+            }
+        }
+        .custom-error{
+            color: #eb5f5c;
+            font-size: 12px;
+        }
+    }
+    .ult-input-number{
+        max-width: 100px;
     }
 }

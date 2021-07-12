@@ -6,7 +6,7 @@ import { Cascader } from 'antd'
 import './index.less'
 import Regex from '~/utils/regex'
 import HuayunRequest from '~/http/request'
-import { application as api } from '~/http/api'
+import { applicationPackage as api } from '~/http/api'
 
 const { FormGroup, Form, Input, Textarea, FormRow, Select, Panel } = RcForm
 const _ = window._
@@ -33,11 +33,13 @@ class CreateLog extends React.Component {
     }
 
     componentDidMount() {
-        this.queryApplicationContainers()
+        this.getCascaderSelectData()
+        const { currentLog: { configId } } = this.props
+        configId && this.initData()
     }
 
-    queryApplicationContainers = (id = this.props.detail.id) => {
-        HuayunRequest(api.queryApplicationContainers, { id }, {
+    getCascaderSelectData = (id = this.props.currentVersionId) => {
+        HuayunRequest(api.getApplicationPackageVersionLogResourceList, { id }, {
             success: (res) => {
                 this.setState({
                     cascaderSelectData: res.data
@@ -46,7 +48,20 @@ class CreateLog extends React.Component {
         })
     }
 
-    handleChange = (key, val, item) => {
+    initData = () => {
+        const { currentLog } = this.props
+        const { logResource, isStandardLogConfig, isServiceLogConfig, serviceLogConfig, standardLogConfig } = _.cloneDeep(currentLog)
+        this.setState({
+            cascaderValue: logResource,
+            isStandardLogConfig,
+            isStandardLogConfig,
+            serviceLogConfig,
+            standardLogConfig
+        })
+    }
+
+    handleChange = (key, val) => {
+        console.log(key)
         const value = _.get(val, 'target.value', val)
         this.setState({
             [key]: value
@@ -68,6 +83,7 @@ class CreateLog extends React.Component {
                     errorMsg={cascaderPanelErrorMessage}
                 >
                     <Cascader
+                        value={cascaderValue}
                         allowClear={false}
                         options={cascaderSelectData}
                         onChange={(val) => this.handleChange('cascaderValue', val)}
