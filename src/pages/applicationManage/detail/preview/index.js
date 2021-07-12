@@ -37,9 +37,11 @@ class Preview extends React.Component {
         this.getIsolationState()
         this.renderPieChart() // 应用状态拼图
     }
-    componentWillReceiveProps(nextProps) {
-        this.getResourceInfor()
-        this.renderPieChart()
+    componentWillReceiveProps({ detail }) {
+        if (detail !== this.props.detail) {
+            this.getResourceInfor()
+            this.renderPieChart()
+        }
     }
     // cpu.memory,storage的饼图和折线图数据
     getResourceInfor = () => {

@@ -12,7 +12,7 @@ import ActionAuth from '~/components/ActionAuth'
 import actions from '~/constants/authAction'
 
 const notification = Notification.newInstance()
-const { RangePicker } = DatePicker;
+const { RangePicker } = DatePicker
 class ApplicationManage extends React.Component {
     constructor(props) {
         super(props)

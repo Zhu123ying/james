@@ -5,12 +5,12 @@ import HuayunRequest from '~/http/request'
 import { DatePicker, Select, Input, SearchBar, Button, Table, Modal, Space, Checkbox, Popover, Tooltip } from 'huayunui';
 import { Icon, NoData, Notification } from 'ultraui'
 import './index.less'
-import { DEFAULT_EMPTY_LABEL } from '~/constants'
 import TableCommon from '~/components/TableCommon'
 import ActionAuth from '~/components/ActionAuth'
 import actions from '~/constants/authAction'
-import Dropdown from '~/components/Dropdown'
 import DetailIcon from '~/components/DetailIcon'
+import AddLog from './addLog'
+import Detail from './detail'
 
 const notification = Notification.newInstance()
 class Log extends React.Component {
@@ -21,13 +21,16 @@ class Log extends React.Component {
             name: '',
             pageNumber: 1,
             pageSize: 10,
-            total: 0,
             isFetching: false,
-            tableData: [],
+            totalData: [],
             currentDataItem: {},
-            isDetailModalVisible: false
+            isDetailModalVisible: false,
+            isAddLogModalVisible: false
         }
         this.operationTarget = intl.formatMessage({ id: 'Log' })
+    }
+    componentDidMount() {
+        this.handleSearch()
     }
     handleSearch = () => {
         const { name } = this.state
@@ -40,10 +43,9 @@ class Log extends React.Component {
         })
         HuayunRequest(api.listContainerLogConfig, params, {
             success: (res) => {
-                // this.setState({
-                //     tableData: res.data.datas,
-                //     total: res.data.total
-                // })
+                this.setState({
+                    totalData: res
+                })
             },
             complete: (res) => {
                 this.setState({
@@ -69,13 +71,13 @@ class Log extends React.Component {
                 }
             },
             {
-                dataIndex: 'projectName',
-                key: 'projectName',
+                dataIndex: 'maxSize',
+                key: 'maxSize',
                 title: '容量上限(Gi)'
             },
             {
-                dataIndex: 'versionCount',
-                key: 'versionCount',
+                dataIndex: 'expireTime',
+                key: 'expireTime',
                 title: '保存天数'
             },
             {
@@ -90,7 +92,7 @@ class Log extends React.Component {
                             <Button
                                 type="link"
                                 name={intl.formatMessage({ id: 'Delete' })}
-                                onClick={() => this.handleDelete([data.id])}
+                                onClick={() => this.handleDelete(data.id, data.type)}
                             />
                         </ActionAuth>
                     )
@@ -98,13 +100,13 @@ class Log extends React.Component {
             }
         ]
     }
-    handleDelete = (ids) => {
-        const { intl, projectId } = this.props
+    handleDelete = (id, type) => {
+        const { intl } = this.props
         const action = intl.formatMessage({ id: 'Delete' })
         Modal.error({
             content: `${intl.formatMessage({ id: 'IsSureToDelete' }, { name: this.operationTarget })}`,
             onOk: () => {
-                HuayunRequest(api.deleteApplicationPackage, { ids }, {
+                HuayunRequest(api.deleteContainerLogConfig, { id, type }, {
                     success: (res) => {
                         this.handleSearch()
                         notification.notice({
@@ -134,12 +136,50 @@ class Log extends React.Component {
             isDetailModalVisible: true
         })
     }
-    handleAddLog = () => {
-
+    handleChange = (key, value) => {
+        this.setState({
+            [key]: value
+        })
+    }
+    handleAddLogModalConfirm = () => {
+        const { intl, detail: { id: namespace } } = this.props
+        let { cascaderValue, isStandardLogConfig, standardLogConfig, isServiceLogConfig, serviceLogConfig } = this.$AddLog.state
+        if (!cascaderValue.length) {
+            this.$AddLog.handleChange('cascaderPanelErrorMessage', '请选择容器！')
+        }
+        this.$AddLog.props.form.validateFields((errs, values) => {
+            if (errs || !cascaderValue) {
+                return
+            }
+            let containerName = cascaderValue.pop()
+            let podName = cascaderValue.pop()
+            let params = {
+                podName, namespace, containerName, isStandardLogConfig, standardLogConfig, isServiceLogConfig, serviceLogConfig
+            }
+            let content = `${intl.formatMessage({ id: 'Add' })}${intl.formatMessage({ id: 'Container' })}${intl.formatMessage({ id: 'Log' })}`
+            HuayunRequest(api.confirmContainerLogConfig, params, {
+                success: (res) => {
+                    notification.notice({
+                        id: new Date(),
+                        type: 'success',
+                        title: intl.formatMessage({ id: 'Success' }),
+                        content: `${content}${intl.formatMessage({ id: 'Success' })}`,
+                        iconNode: 'icon-success-o',
+                        duration: 5,
+                        closable: true
+                    })
+                    this.setState({
+                        isAddLogModalVisible: false
+                    })
+                    this.handleSearch()
+                }
+            })
+        })
     }
     render() {
         const { intl } = this.props
-        const { name, pageNumber, pageSize, total, tableData, isFetching, currentDataItem, isDetailModalVisible } = this.state
+        const { name, pageNumber, pageSize, totalData, isFetching, currentDataItem, isDetailModalVisible, isAddLogModalVisible } = this.state
+        const tableData = _.cloneDeep(totalData).splice((pageNumber - 1), pageSize)
         return (
             <div className='applicationDetail_log'>
                 <TableCommon
@@ -160,7 +200,7 @@ class Log extends React.Component {
                     columns={this.getColums()}
                     data={tableData}
                     checkable={false}
-                    total={total}
+                    total={totalData.length}
                     onTableChange={this.handleTableChange}
                     loading={isFetching}
                     operateButtons={[
@@ -172,11 +212,31 @@ class Log extends React.Component {
                                     type='operate'
                                     name='新增日志'
                                     icon={<Icon type="add" />}
-                                    onClick={() => this.handleAddLog()} />
+                                    onClick={() => this.handleChange('isAddLogModalVisible', true)} />
                             </Tooltip>
                         </ActionAuth>
                     ]}
                 />
+                <Modal
+                    title='新增日志'
+                    visible={isAddLogModalVisible}
+                    onOk={this.handleAddLogModalConfirm}
+                    onCancel={() => this.handleChange('isAddLogModalVisible', false)}
+                    className='addLogModal'
+                    destroyOnClose={true}
+                    width={440}
+                    getContainer={() => document.querySelector('.applicationDetail_log')}
+                >
+                    <AddLog
+                        {...this.props}
+                        wrappedComponentRef={node => this.$AddLog = node} />
+                </Modal>
+                <Detail
+                    intl={intl}
+                    currentDataItem={currentDataItem}
+                    visible={isDetailModalVisible}
+                    onClose={() => this.handleChange('isDetailModalVisible', false)}
+                ></Detail>
             </div>
         )
     }

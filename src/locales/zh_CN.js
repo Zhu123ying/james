@@ -400,6 +400,7 @@ const zh_CN = {
     NetworkType: '网络类型',
 
     // 接口返回提示
+    ApplicationPackageVersionLogConfigNotFoundError: '应用包版本的容器日志配置无法找到',
     'Container.PlatformContainer.NotFoundError': '容器组不存在',
     'Container.PlatformContainer.OperationForbiddenError': '该状态下，不允许该操作该容器组',
     'Container.PlatformContainer.ResourceError': '容器组资源配置错误',
@@ -407,6 +408,11 @@ const zh_CN = {
     'Container.PlatformContainer.ResourceQuotaError': '容器组资源配额配置错误',
     'Container.Configuration.NotFoundError': '容器组配置不存在',
     'Container.Storage.NotFoundError': '容器组持久存储不存在',
+    'Container.PlatformContainer.NameExistsError': '容器组名称已存在',
+    'Container.Container.NameExistsError': '容器名称重复',
+    'Container.Configuration.NameExistsError': '容器组配置名称重复',
+    'Container.Storage.NameExistsError': '容器组持久存储名称重复',
+    'Container.Network.NameExistsError': '容器组网络名称重复',
     'InvalidApi.NotFound': '服务请求不存在',
     InternalError: '服务器错误，请联系管理员',
     InvalidParameter: '参数不合法',

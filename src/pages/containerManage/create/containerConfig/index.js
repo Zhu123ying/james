@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { RcForm, Loading, Notification, Button, KeyValue, Dialog, TagItem, InputNumber, Icon, Switch } from 'ultraui'
 import { Collapse, Button as HuayunButton, Modal } from 'huayunui'
-import { Cascader } from 'antd';
+import { Cascader } from 'antd'
 import Regex from '~/utils/regex'
 import '../index.less'
 import Card from '~/components/Card'
