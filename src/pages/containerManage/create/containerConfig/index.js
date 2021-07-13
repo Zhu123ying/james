@@ -533,7 +533,7 @@ class ContainerConfig extends React.Component {
                                                             <InputNumber
                                                                 form={form}
                                                                 value={probe.periodSeconds}
-                                                                min={0}
+                                                                min={1}
                                                                 slot={{
                                                                     position: 'right',
                                                                     format: () => '秒'
@@ -553,7 +553,7 @@ class ContainerConfig extends React.Component {
                                                             <InputNumber
                                                                 form={form}
                                                                 value={probe.timeoutSeconds}
-                                                                min={0}
+                                                                min={1}
                                                                 slot={{
                                                                     position: 'right',
                                                                     format: () => '秒'
@@ -573,7 +573,7 @@ class ContainerConfig extends React.Component {
                                                             <InputNumber
                                                                 form={form}
                                                                 value={probe.failureThreshold}
-                                                                min={0}
+                                                                min={1}
                                                                 slot={{
                                                                     position: 'right',
                                                                     format: () => '秒'

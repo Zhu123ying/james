@@ -20,9 +20,9 @@ export const containerConfig_containerItem = {
         manner: '', // exec只有这个选项
         command: '', // 指令
         initialDelaySeconds: 0, // 初始化等待
-        periodSeconds: 0, // 检测间隔
-        timeoutSeconds: 0, // 检测超时
-        failureThreshold: 0 // 失败重复
+        periodSeconds: 10, // 检测间隔
+        timeoutSeconds: 1, // 检测超时
+        failureThreshold: 3 // 失败重复
     }, // 监看检测
     ports: [], // 端口
     mounts: [], // 挂载
