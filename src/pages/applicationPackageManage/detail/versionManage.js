@@ -380,7 +380,7 @@ class VersionManage extends React.Component {
         const { intl } = this.props
         const title = `${intl.formatMessage({ id: 'Delete' })}${intl.formatMessage({ id: 'Log' })}`
         Modal.error({
-            content: intl.formatMessage({ id: 'IsSureToDelete' }, { name: intl.formatMessage({ id: 'Log'}) }),
+            content: intl.formatMessage({ id: 'IsSureToDelete' }, { name: intl.formatMessage({ id: 'Log' }) }),
             onOk: () => {
                 HuayunRequest(api.deleteApplicationPackageVersionLogConfig, { packageVersionId, configId }, {
                     success: () => {
@@ -423,13 +423,14 @@ class VersionManage extends React.Component {
                             const { id, name, description, type, config, chartExist } = item
                             return (
                                 <Card
+                                    disabled={currentVersion.isCommit}
                                     action={actions.AdminApplicationCenterApplicationPackageVersionOperate}
                                     handleDelete={() => this.handleDeletePort(id, name)}
                                     key={id}>
                                     <div className='portName'>
                                         {name}&nbsp;
                                         {
-                                            !chartExist ? null : (
+                                            chartExist ? null : (
                                                 <Popover
                                                     placement="top"
                                                     content={<div>入口对应资源已不存在</div>}
@@ -447,6 +448,7 @@ class VersionManage extends React.Component {
                                             <UltrauiButton
                                                 type="text"
                                                 onClick={() => this.handleManagePort(item)}
+                                                disabled={currentVersion.isCommit}
                                             >
                                                 <Icon type="edit" />&nbsp;{intl.formatMessage({ id: 'Manage' })}
                                             </UltrauiButton>

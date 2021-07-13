@@ -7,7 +7,7 @@ import Regex from '~/utils/regex'
 import '../index.less'
 const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select, Panel } = RcForm
 const _ = window._
-const restartPolicyList = ['Always', 'OnFailure', 'Never']
+const restartPolicyList = ['Always']
 class ContainerGroupConfig extends React.Component {
     static propTypes = {
         form: PropTypes.object.isRequired,

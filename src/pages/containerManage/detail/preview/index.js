@@ -9,7 +9,7 @@ import { Row, Col, Tag, Carousel } from 'antd'
 import './index.less'
 import ActionAuth from '~/components/ActionAuth'
 import actions from '~/constants/authAction'
-import { ContainerStateList, ContainerStatusList, DEFAULT_EMPTY_LABEL } from '~/constants'
+import { ContainerGroupStateList, ContainerGroupSecondStateList, DEFAULT_EMPTY_LABEL } from '~/constants'
 import echarts from 'echarts'
 import moment from 'moment'
 import DetailIcon from '~/components/DetailIcon'
@@ -151,7 +151,7 @@ class Preview extends React.Component {
                 width: '20%'
             },
             {
-                dataIndex: 'namespace',
+                dataIndex: 'protocal',
                 title: intl.formatMessage({ id: 'ProtocolType' }),
                 width: '15%'
             },
@@ -163,7 +163,10 @@ class Preview extends React.Component {
             {
                 dataIndex: 'externalPort',
                 title: intl.formatMessage({ id: 'ExternalPort' }),
-                width: '15%'
+                width: '15%',
+                render(val){
+                    return val || DEFAULT_EMPTY_LABEL
+                }
             }
         ]
         return columns
@@ -202,8 +205,8 @@ class Preview extends React.Component {
                 value: (
                     <div className='name_state'>
                         <div className='name'>{name}</div>
-                        <Tag color="geekblue" className='containerState'>{ContainerStateList[state]}</Tag>
-                        <Tag color={status === 'running' ? 'green' : 'red'} className='containerStatus'>{ContainerStatusList[status] || '未知'}</Tag>
+                        <Tag color="geekblue" className='containerState'>{ContainerGroupStateList[state]}</Tag>
+                        <Tag color={status === 'running' ? 'green' : 'red'} className='containerStatus'>{ContainerGroupSecondStateList[status]}</Tag>
                     </div>
                 )
             },
@@ -214,21 +217,21 @@ class Preview extends React.Component {
             {
                 label: intl.formatMessage({ id: 'CreaterName' }),
                 value: createdByName || DEFAULT_EMPTY_LABEL
-            },
-            {
-                label: intl.formatMessage({ id: 'Image' }),
-                value: (
-                    <div>
-                        {
-                            imageList.map(image => {
-                                const { project, repo, tag } = image
-                                const arr = [project, repo, tag].filter(item => !!item)
-                                return <div>{arr.join('/')}</div>
-                            })
-                        }
-                    </div>
-                )
             }
+            // {
+            //     label: intl.formatMessage({ id: 'Image' }),
+            //     value: (
+            //         <div>
+            //             {
+            //                 imageList.map(image => {
+            //                     const { project, repo, tag } = image
+            //                     const arr = [project, repo, tag].filter(item => !!item)
+            //                     return <div>{arr.join('/')}</div>
+            //                 })
+            //             }
+            //         </div>
+            //     )
+            // }
         ]
         const KeyValueData2 = [
             {

@@ -5,7 +5,7 @@ import { application as api } from '~/http/api'
 import HuayunRequest from '~/http/request'
 import { DatePicker, Select, Input, Popover, Modal, ButtonGroup, Button, SearchBar, Table } from 'huayunui';
 import { Icon, KeyValue, NoData, TagItem } from 'ultraui'
-import { DEFAULT_EMPTY_LABEL } from '~/constants'
+import { DEFAULT_EMPTY_LABEL, ContainerStateList } from '~/constants'
 import './index.less'
 import DetailIcon from '~/components/DetailIcon'
 import ContainerDetail from './containerDetail'
@@ -106,8 +106,8 @@ class Detail extends React.Component {
             {
                 dataIndex: 'status',
                 title: intl.formatMessage({ id: 'Status' }),
-                render(val) {
-                    return val || DEFAULT_EMPTY_LABEL
+                render(status) {
+                    return ContainerStateList[status] || DEFAULT_EMPTY_LABEL
                 }
             },
             {
@@ -151,7 +151,7 @@ class Detail extends React.Component {
     }
     getStorageItemData = (item) => {
         const { intl } = this.props
-        const { typeClass, capacity, accessMode, platformContainerId } = item
+        const { typeClass, capacity, accessMode, platformContainerId, recycleStrategy } = item
         return [
             {
                 label: intl.formatMessage({ id: 'Usage' }),
@@ -167,7 +167,7 @@ class Detail extends React.Component {
             },
             {
                 label: intl.formatMessage({ id: 'RecyclingStrategy' }),
-                value: '先写死' || DEFAULT_EMPTY_LABEL
+                value: recycleStrategy || DEFAULT_EMPTY_LABEL
             }
         ]
     }
@@ -232,7 +232,10 @@ class Detail extends React.Component {
                                 storages.length ? storages.map(item => {
                                     return (
                                         <div className='contentItem storageItem'>
-                                            <div className='storageName'>{item.name}</div>
+                                            <div className='storageName'>
+                                                <span>{item.name}</span>
+                                                <span>{item.status}</span>
+                                            </div>
                                             <KeyValue values={this.getStorageItemData(item)} />
                                         </div>
                                     )

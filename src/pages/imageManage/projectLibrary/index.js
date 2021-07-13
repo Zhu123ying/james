@@ -6,7 +6,6 @@ import HuayunRequest from '~/http/request'
 import { DatePicker, Select, Input, message, Button } from 'huayunui';
 import './index.less'
 import { Notification, Loading, Icon } from 'ultraui'
-import { ContainerStateList, ContainerStatusList } from '~/constants'
 import ActionAuth from '~/components/ActionAuth'
 import actions from '~/constants/authAction'
 import ProjectRepoList from './projectRepoList'

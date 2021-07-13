@@ -13,7 +13,6 @@ import Detail from './detail'
 import Information from './information'
 import Event from './event'
 import Alarm from './alarm'
-import { ContainerStateList, ContainerStatusList } from '~/constants'
 
 const notification = Notification.newInstance()
 const { TabPane } = Tabs
@@ -159,7 +158,7 @@ class ContainerDetail extends React.Component {
         let on_off_stopBtnText // 上线、下线、终止按钮
         if (state === 'config') {
             on_off_stopBtnText = <><Icon type="rise-o" />&nbsp;{intl.formatMessage({ id: 'OnLine' })}</>
-        } else if (state === 'running' || state === 'stratFailed' || state === 'stopFailed') {
+        } else if (state === 'running' || state === 'startFailed' || state === 'stopFailed') {
             on_off_stopBtnText = <><Icon type="drop-o" />&nbsp;{intl.formatMessage({ id: 'OffLine' })}</>
         } else if (state === 'starting' || state === 'stopping') {
             on_off_stopBtnText = <><Icon type="ignor" />&nbsp;终止</>

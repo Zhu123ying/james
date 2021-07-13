@@ -30,8 +30,8 @@ export const ApplicationPublishTaskStatuList = {
     rollbackfail: '回滚失败',
     cancel: '取消'
 }
-// 容器一级状态
-export const ContainerStateList = {
+// 容器组一级状态
+export const ContainerGroupStateList = {
     config: '配置中',
     starting: '启动中',
     running: '运行中',
@@ -39,9 +39,20 @@ export const ContainerStateList = {
     startFailed: '启动失败',
     stopFailed: '停止失败'
 }
-// 容器二级状态
-export const ContainerStatusList = {
+// 容器组二级状态
+export const ContainerGroupSecondStateList = {
     config: '配置中',
     running: '运行中',
-    error: '异常'
+    error: '异常',
+    unknown: '未知',
+    working: ' 执行中'
+}
+// 容器状态
+export const ContainerStateList = {
+    config: '配置中',
+    running: '正常',
+    waiting: '等待',
+    terminated: '已结束',
+    error: '异常',
+    unknown: '未知'
 }

@@ -1,6 +1,5 @@
 /* eslint-disable */
 import React from 'react'
-import PropTypes from 'prop-types'
 import { RcForm, Loading, Notification, Button, KeyValue, Dialog, TagItem, InputNumber, Icon, Switch } from 'ultraui'
 import { Collapse, Button as HuayunButton, Modal } from 'huayunui'
 import { Cascader } from 'antd'
@@ -31,10 +30,6 @@ const paramItem = {
     path: '', // data元素对应的路径
 }
 class ContainerConfig extends React.Component {
-    static propTypes = {
-        form: PropTypes.object.isRequired,
-        intl: PropTypes.object.isRequired
-    }
     constructor(props) {
         super(props)
         this.state = {
@@ -190,6 +185,13 @@ class ContainerConfig extends React.Component {
         Object.assign(image, { project, repo, tag })
         handleFormChange('containers', [...containers])
     }
+    // 健康检测的验证，都为空的时候都可以不填，填了一个就必须都填
+    validateHealthyTest = (value, callback) => {
+        const { formData: { containers } } = this.props
+        console.log(value)
+        console.log(containers)
+        callback('aaaaa')
+    }
     render() {
         const { form, intl, formData, handleFormChange, containerImageList } = this.props
         const { containers } = formData
@@ -202,12 +204,14 @@ class ContainerConfig extends React.Component {
             <div className='ContainerConfig'>
                 {
                     Array.isArray(containers) && containers.length ? (
-                        <Collapse defaultActiveKey={[0]}>
+                        // 默认全展开吧
+                        <Collapse defaultActiveKey={containers.map((item, index) => index)}>
                             {
                                 containers.map((item, index) => {
                                     const { name, type, image, runVar, mounts, envs, probe, ports } = item
                                     const { project, repo, tag, pullStrategy } = image
                                     const { workDir, command, privileged, args } = runVar
+                                    const cascaderValue = project && repo && tag && [project, repo, tag]
                                     return (
                                         <Collapse.Panel header={this.renderPanelHeader(index)} key={index}>
                                             <Input
@@ -244,6 +248,7 @@ class ContainerConfig extends React.Component {
                                                     fieldNames={{ label: 'name', value: 'id' }}
                                                     allowClear={false}
                                                     options={containerImageList}
+                                                    value={cascaderValue}
                                                     onChange={(val) => this.handleCascaderOnChange(`${index}.image`, val)}
                                                     placeholder={intl.formatMessage({ id: 'SelectPlaceHolder' }, { name: intl.formatMessage({ id: 'ContainerImage' }) })}
                                                 />
@@ -460,7 +465,6 @@ class ContainerConfig extends React.Component {
                                                 name={`containers${index}Probe`}
                                                 label='健康检测'
                                                 inline
-                                                isRequired
                                                 className='commonPanel healthyTest'
                                             >
                                                 <Select
@@ -473,7 +477,20 @@ class ContainerConfig extends React.Component {
                                                     options={testTypeList}
                                                     optionFilterProp='children'
                                                     optionLabelProp='children'
-                                                    // isRequired
+                                                    isRequired={probe.type || probe.manner || probe.command}
+                                                    validate={[{
+                                                        trigger: 'onBlur',
+                                                        rules: [
+                                                            (rule, value, callback) => {
+                                                                let isRequired = probe.manner || probe.command
+                                                                if (isRequired && !value) {
+                                                                    callback('请选择检测类型')
+                                                                } else {
+                                                                    callback()
+                                                                }
+                                                            }
+                                                        ]
+                                                    }]}
                                                     allowClear={Boolean(probe.type)}
                                                     className='w50'
                                                 />
@@ -487,7 +504,20 @@ class ContainerConfig extends React.Component {
                                                     options={testMethodList}
                                                     optionFilterProp='children'
                                                     optionLabelProp='children'
-                                                    // isRequired
+                                                    isRequired={probe.type || probe.manner || probe.command}
+                                                    validate={[{
+                                                        trigger: 'onBlur',
+                                                        rules: [
+                                                            (rule, value, callback) => {
+                                                                let isRequired = probe.type || probe.command
+                                                                if (isRequired && !value) {
+                                                                    callback('请选择检测方式')
+                                                                } else {
+                                                                    callback()
+                                                                }
+                                                            }
+                                                        ]
+                                                    }]}
                                                     allowClear={Boolean(probe.manner)}
                                                     className='w50'
                                                 />
@@ -498,7 +528,20 @@ class ContainerConfig extends React.Component {
                                                     onChange={(val) => this.handleFormDataOnChange(`${index}.probe.command`, val)}
                                                     placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'Command' }) })}
                                                     label={intl.formatMessage({ id: 'Command' })}
-                                                    // isRequired
+                                                    validate={[{
+                                                        trigger: 'onBlur',
+                                                        rules: [
+                                                            (rule, value, callback) => {
+                                                                let isRequired = probe.type || probe.manner
+                                                                if (isRequired && !value) {
+                                                                    callback('请输入指令')
+                                                                } else {
+                                                                    callback()
+                                                                }
+                                                            }
+                                                        ]
+                                                    }]}
+                                                    isRequired={probe.type || probe.manner || probe.command}
                                                 />
                                                 <DividerBox title={intl.formatMessage({ id: 'AdvancedSetting' })}>
                                                     <div className='advancedSetting'>

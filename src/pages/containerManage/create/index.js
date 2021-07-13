@@ -104,6 +104,8 @@ class ManageContainerItem extends React.Component {
                 this.setState({
                     formData: data
                 })
+                // 获取镜像数据
+                this.getImageData(data.projectId)
             }
         })
     }

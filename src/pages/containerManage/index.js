@@ -1,13 +1,11 @@
 /* eslint-disable */
 import React from 'react'
-import PropTypes from 'prop-types'
 import { container as api, application } from '~/http/api'
 import HuayunRequest from '~/http/request'
 import { DatePicker, Select, Input, message, Button } from 'huayunui';
 import ContainerDetail from './detail'
 import './index.less'
 import { Notification, Loading, Icon } from 'ultraui'
-import { ContainerStateList, ContainerStatusList } from '~/constants'
 import ActionAuth from '~/components/ActionAuth'
 import actions from '~/constants/authAction'
 
@@ -99,7 +97,7 @@ class ContainerManage extends React.Component {
                 const { data: { platformContainers } } = res
                 this.setState({
                     dataList: platformContainers,
-                    currentTableItem: (isResetCurrentTableItem && platformContainers[0]) ? platformContainers[0] : currentTableItem,
+                    currentTableItem: isResetCurrentTableItem ? (platformContainers[0] || {}) : currentTableItem,
                 })
             },
             complete: (res) => {

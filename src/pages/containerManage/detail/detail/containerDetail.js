@@ -115,7 +115,6 @@ class Detail extends React.Component {
             },
             {
                 label: `${intl.formatMessage({ id: 'Image' })}${intl.formatMessage({ id: 'PullStrategy' })}`,
-                // value: [project, repo, tag].filter(item => !!item).join('/')
                 value: pullStrategy
             }
         ]
