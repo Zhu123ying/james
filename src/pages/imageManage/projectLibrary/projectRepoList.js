@@ -16,7 +16,6 @@ import AddPullModal from './addPullModal'
 import PullRecord from './pullRecord'
 
 const notification = Notification.newInstance()
-
 class ProjectRepoList extends React.Component {
     constructor(props) {
         super(props)
@@ -34,6 +33,10 @@ class ProjectRepoList extends React.Component {
             isPullRecordModalVisible: false
         }
         this.operationTarget = intl.formatMessage({ id: 'AppStoreLibrary' })
+    }
+    componentDidMount(){
+        const { projectInitState, projectId } = this.props
+        this.handleProjectChange(projectInitState, projectId)
     }
     componentWillReceiveProps({ projectInitState, projectId }) {
         projectId && projectId !== this.props.projectId && this.handleProjectChange(projectInitState, projectId)

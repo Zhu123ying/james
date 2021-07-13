@@ -53,7 +53,7 @@ class ProjectLibrary extends React.Component {
                 this.setState({
                     dataList: datas,
                     // 需要更新currentTableItem
-                    currentTableItem: (isResetCurrentTableItem && datas[0]) ? datas[0] : datas.find(item => item.id === currentTableItem.id),
+                    currentTableItem: isResetCurrentTableItem ? (datas[0] || {}) : datas.find(item => item.id === currentTableItem.id),
                 })
             },
             complete: (res) => {

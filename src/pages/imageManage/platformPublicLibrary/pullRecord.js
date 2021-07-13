@@ -7,7 +7,15 @@ import { DatePicker, Select, Input, SearchBar, Button, Table, Modal, Space, Chec
 import { Icon, NoData, Notification } from 'ultraui'
 import './index.less'
 import TableCommon from '~/components/TableCommon'
+import { DEFAULT_EMPTY_LABEL } from '~/constants'
 
+const pullStatusObj = {
+    0: '拉取中',
+    1: '拉取失败',
+    2: '推送中',
+    3: '推送失败',
+    4: '拉取成功'
+}
 class PullRecord extends React.Component {
     constructor(props) {
         super(props)
@@ -57,8 +65,8 @@ class PullRecord extends React.Component {
                 title: intl.formatMessage({ id: 'ProjectBelongTo' }),
             },
             {
-                dataIndex: 'sourceRepoId',
-                key: 'sourceRepoId',
+                dataIndex: 'sourceRepoName',
+                key: 'sourceRepoName',
                 title: '来源仓库'
             },
             {
@@ -72,16 +80,18 @@ class PullRecord extends React.Component {
                 title: '目标镜像'
             },
             {
-                dataIndex: 'createBy',
-                key: 'createBy',
+                dataIndex: 'createByName',
+                key: 'createByName',
                 title: '创建人'
             },
             {
                 dataIndex: 'pullStatus',
                 key: 'pullStatus',
-                title: '拉取状态'
-            }
-            ,
+                title: '拉取状态',
+                render(status) {
+                    return pullStatusObj[status] || DEFAULT_EMPTY_LABEL
+                }
+            },
             {
                 dataIndex: 'createTime',
                 key: 'createTime',

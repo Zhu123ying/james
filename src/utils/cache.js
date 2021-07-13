@@ -91,7 +91,8 @@ export const getAllRoles = () => {
 }
 
 export const getCurrentRole = () => {
-    const user = JSON.parse(localStorage['currentUser'])
+    const currentUser = localStorage['currentUser']
+    const user = currentUser ? JSON.parse(currentUser) : {}
     const allRoles = getAllRoles()
 
     return allRoles.find(item => item.id === user?.currentRole?.roleId)
@@ -373,4 +374,22 @@ export const getUserVDCId = () => {
     }
     // 如果是平台管理员登录，vdc的id是root，但是因为前端无感知root的存在，因此不返回id
     return vdcListId === ROOT_VDC_ID ? '' : vdcListId
+}
+
+export const checkUserAuth = (action) => {
+    const userPermission = getPermissions()
+    if (!action) return true // 如果不需要action，则直接过
+    const type = Object.prototype.toString.call(action)
+    let f = false
+    switch (type) {
+        case '[object String]':
+            f = Boolean(userPermission[action])
+            break
+        case '[object Array]':
+            action.forEach(item => {
+                f = f || userPermission[item]
+            })
+            break
+    }
+    return f
 }

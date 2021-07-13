@@ -7,6 +7,7 @@ import Regex from '~/utils/regex'
 import '../index.less'
 import HuayunRequest from '~/http/request'
 import { application, image } from '~/http/api'
+import { isAdmin } from '~/utils/cache'
 
 const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select, Panel } = RcForm
 const _ = window._
@@ -14,7 +15,7 @@ class PushImage extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            type: 'pubRepo', // 添加拉取有两种方案，1：从外部库拉取。2：从项目库拉取
+            type: 'projectRepo', // 添加拉取有两种方案，1：从外部库拉取。2：从项目库拉取
             projectId: '', // 项目ID
             targetImage: '', // 目标镜像Repo:tag
             targetRepo: '', // 目标镜像仓库地址
@@ -23,7 +24,7 @@ class PushImage extends React.Component {
     }
     componentDidMount() {
         this.getProjectList()
-        this.getImageRepositoryPath()
+        // this.getImageRepositoryPath()
     }
     getImageRepositoryPath = () => {
         const { projectId, type: repoType } = this.state
@@ -65,6 +66,9 @@ class PushImage extends React.Component {
                     targetImage: '', // 目标镜像Repo:tag
                     targetRepo: '', // 目标镜像仓库地址
                 })
+                if (value === 'pubRepo') {
+                    this.getImageRepositoryPath()
+                }
             }
             if (key === 'projectId') {
                 this.getImageRepositoryPath()
@@ -74,6 +78,7 @@ class PushImage extends React.Component {
     render() {
         const { form, intl } = this.props
         const { type, projectId, targetImage, targetRepo, projectList } = this.state
+        const isAdmin_ = isAdmin()
         return (
             <Form
                 ref={(node) => { this.form = node }}
@@ -84,9 +89,9 @@ class PushImage extends React.Component {
                 <RadioGroup
                     form={form}
                     name="type"
-                    label={intl.formatMessage({ id: 'ImageResource' })}
+                    label='目标仓库'
                     items={[
-                        { title: '公共库', value: 'pubRepo' },
+                        { title: '公共库', value: 'pubRepo', disabled: !isAdmin },
                         { title: '项目库', value: 'projectRepo' }
                     ]}
                     value={type}

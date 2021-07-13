@@ -72,8 +72,8 @@ class PullRecord extends React.Component {
                 title: '时间'
             },
             {
-                dataIndex: 'createBy',
-                key: 'createBy',
+                dataIndex: 'createByName',
+                key: 'createByName',
                 title: '创建人'
             }
         ]

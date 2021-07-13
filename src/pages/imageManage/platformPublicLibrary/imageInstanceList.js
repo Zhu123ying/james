@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { image as api } from '~/http/api'
 import HuayunRequest from '~/http/request'
-import { DatePicker, Select, Input, SearchBar, Button, Table, Modal, Space, Checkbox, Popover, Tooltip } from 'huayunui';
+import { DatePicker, Select, Input, SearchBar, Button, Table, Modal, Space, Checkbox, Popover, Tooltip, message } from 'huayunui';
 import { Icon, NoData, Notification } from 'ultraui'
 import './index.less'
 import TableCommon from '~/components/TableCommon'
@@ -71,17 +71,40 @@ class ImageInstanceList extends React.Component {
                 title: 'ID',
                 render: (value, row) => {
                     return (
-                        <>
+                        <div className='popoverLine'>
                             <DetailIcon iconType="log-1" className="m-r-sm" />
-                            <a onClick={() => this.seeImageInstanceDetail(row)}>{value}</a>
-                        </>
+                            <a onClick={() => this.seeImageInstanceDetail(row)} id={value}>{value}</a>
+                            <Popover
+                                placement="top"
+                                content={<div>{intl.formatMessage({ id: 'Copy' })}</div>}
+                                trigger="hover"
+                                type="text"
+                            >
+                                <i className='iconfont icon-copy' onClick={() => this.handleCopy(value)}></i>
+                            </Popover>
+                        </div>
                     )
                 }
             },
             {
                 dataIndex: 'artifactTagName',
                 key: 'artifactTagName',
-                title: 'Tag'
+                title: 'Tag',
+                render: (value) => {
+                    return (
+                        <div className='popoverLine'>
+                            <span id={value}>{value}</span>
+                            <Popover
+                                placement="top"
+                                content={<div>{intl.formatMessage({ id: 'Copy' })}</div>}
+                                trigger="hover"
+                                type="text"
+                            >
+                                <i className='iconfont icon-copy' onClick={() => this.handleCopy(value)}></i>
+                            </Popover>
+                        </div>
+                    )
+                }
             },
             {
                 dataIndex: 'summary',
@@ -101,7 +124,7 @@ class ImageInstanceList extends React.Component {
                 title: intl.formatMessage({ id: 'Operate' }),
                 render: (value, data) => {
                     return (
-                        <ActionAuth action={actions.AdminApplicationCenterApplicationOperate}>
+                        <ActionAuth action={actions.AdminApplicationCenterImagePublicImageOperate}>
                             <Button
                                 type="link"
                                 name={intl.formatMessage({ id: 'Delete' })}
@@ -161,6 +184,15 @@ class ImageInstanceList extends React.Component {
             [key]: value
         })
     }
+    handleCopy = (id) => {
+        const range = document.createRange()
+        range.selectNode(document.getElementById(id))
+        const selection = window.getSelection();
+        if (selection.rangeCount > 0) selection.removeAllRanges()
+        selection.addRange(range)
+        document.execCommand('copy')
+        message.success('复制成功！')
+    }
     render() {
         const { intl, handleChangeTableType } = this.props
         const { name, pageNumber, pageSize, total, tableData, isFetching, isDetailModalVisible, currentImageInstance } = this.state
@@ -170,15 +202,10 @@ class ImageInstanceList extends React.Component {
                 <TableCommon
                     searchOption={{
                         key: 'name',
-                        title: intl.formatMessage({ id: 'Name' })
+                        title: intl.formatMessage({ id: 'Tag' })
                     }}
                     params={{
                         pageNumber, pageSize, name
-                    }}
-                    paramsAlias={{
-                        name: {
-                            title: '名称'
-                        }
                     }}
                     uniqueId='ApplicationCenter_Image_ImageInstanceList'
                     onRefresh={this.handleSearch}

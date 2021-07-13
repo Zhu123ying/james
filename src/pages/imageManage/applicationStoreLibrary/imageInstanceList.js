@@ -120,15 +120,10 @@ class ImageInstanceList extends React.Component {
                 <TableCommon
                     searchOption={{
                         key: 'name',
-                        title: intl.formatMessage({ id: 'Name' })
+                        title: intl.formatMessage({ id: 'Tag' })
                     }}
                     params={{
                         pageNumber, pageSize, name
-                    }}
-                    paramsAlias={{
-                        name: {
-                            title: '名称'
-                        }
                     }}
                     uniqueId='ApplicationCenter_Image_ImageInstanceList'
                     onRefresh={this.handleSearch}

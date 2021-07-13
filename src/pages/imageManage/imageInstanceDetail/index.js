@@ -1,6 +1,5 @@
 /* eslint-disable */
 import React from 'react'
-import PropTypes from 'prop-types'
 import { RcForm, Icon, Loading, SortTable, Dialog, Radio, Input, Button as UltrauiButton, KeyValue, TagItem, InlineInput, Notification } from 'ultraui'
 import './index.less'
 import moment from 'moment'
@@ -13,6 +12,10 @@ import { DEFAULT_EMPTY_LABEL } from '~/constants'
 import EditInputInline from '~/components/EditInputInline'
 import MaintenanceRecord from './maintenanceRecord'
 import PushImage from './pushImage'
+import ActionAuth from '~/components/ActionAuth'
+import actions from '~/constants/authAction'
+import { checkUserAuth } from '~/utils/cache'
+
 const _ = window._
 const { Panel } = Collapse
 const { TabPane } = Tabs
@@ -78,19 +81,23 @@ class Detail extends React.Component {
         })
     }
     handleScan = (id = this.props.currentImageInstance.id) => {
-        HuayunRequest(api.getImageArtifactScanStatus, { id }, {
+        HuayunRequest(api.scanImageById, { id }, {
             success: (res) => {
-                const { isRunning } = res.data
-                this.setState({
-                    scanState: isRunning
-                }, () => {
-                    // 如果正在扫描，则需要定时去获取状态，当状态为false的时候，去掉漏洞列表的接口
-                    if (isRunning) {
-                        setTimeout(() => {
-                            this.handleScan(id)
-                        }, 1000)
-                    } else {
-                        this.getImageArtifactVulnerabilities(id)
+                HuayunRequest(api.getImageArtifactScanStatus, { id }, {
+                    success: (res) => {
+                        const { isRunning } = res.data
+                        this.setState({
+                            scanState: isRunning
+                        }, () => {
+                            // 如果正在扫描，则需要定时去获取状态，当状态为false的时候，去掉漏洞列表的接口
+                            if (isRunning) {
+                                setTimeout(() => {
+                                    this.handleScan(id)
+                                }, 1000)
+                            } else {
+                                this.getImageArtifactVulnerabilities(id)
+                            }
+                        })
                     }
                 })
             }
@@ -126,11 +133,12 @@ class Detail extends React.Component {
     renderTagLine = (tags) => {
         const { tagSubmitting } = this.state
         const { intl, repoType } = this.props
+        const isChecked = checkUserAuth(actions.AdminApplicationCenterImagePublicImageOperate)
         return (
             <div className='tagLine'>
                 <div className='opera'>
                     {
-                        repoType === 'applicationStore' ? (
+                        repoType === 'applicationStore' || !isChecked ? (
                             <div className='labelList'>
                                 {
                                     tags.map(({ name, id }) => {
@@ -185,13 +193,15 @@ class Detail extends React.Component {
                         )
                     }
                 </div>
-                <UltrauiButton
-                    type="text"
-                    onClick={() => this.handleChange('isMaintenanceRecordModalVisible', true)}
-                    className='br'
-                >
-                    <Icon type="Willdo" />&nbsp;维护记录
-                </UltrauiButton>
+                <ActionAuth action={actions.AdminApplicationCenterImagePublicImageOperate}>
+                    <UltrauiButton
+                        type="text"
+                        onClick={() => this.handleChange('isMaintenanceRecordModalVisible', true)}
+                        className='br'
+                    >
+                        <Icon type="Willdo" />&nbsp;维护记录
+                    </UltrauiButton>
+                </ActionAuth>
             </div>
         )
     }
@@ -329,21 +339,23 @@ class Detail extends React.Component {
             >
                 {
                     repoType === 'applicationStore' ? null : (
-                        <div className='operaBar'>
-                            <UltrauiButton
-                                type="text"
-                                onClick={() => this.handleChange('isPushImageModalVisible', true)}
-                                className='br'
-                            >
-                                <Icon type="release" />&nbsp;{intl.formatMessage({ id: 'Push' })}
-                            </UltrauiButton>
-                            <UltrauiButton
-                                type="text"
-                                onClick={handleDelete}
-                            >
-                                <Icon type="empty" />&nbsp;{intl.formatMessage({ id: 'Delete' })}
-                            </UltrauiButton>
-                        </div>
+                        <ActionAuth action={actions.AdminApplicationCenterImagePublicImageOperate}>
+                            <div className='operaBar'>
+                                <UltrauiButton
+                                    type="text"
+                                    onClick={() => this.handleChange('isPushImageModalVisible', true)}
+                                    className='br'
+                                >
+                                    <Icon type="release" />&nbsp;{intl.formatMessage({ id: 'Push' })}
+                                </UltrauiButton>
+                                <UltrauiButton
+                                    type="text"
+                                    onClick={handleDelete}
+                                >
+                                    <Icon type="empty" />&nbsp;{intl.formatMessage({ id: 'Delete' })}
+                                </UltrauiButton>
+                            </div>
+                        </ActionAuth>
                     )
                 }
                 <Tabs defaultActiveKey="1">
@@ -358,10 +370,10 @@ class Detail extends React.Component {
                         <Collapse defaultActiveKey={['1']} className='imageLayerInfoCollapse'>
                             <Panel header={intl.formatMessage({ id: 'ImageLayerInformation' })} key='1'>
                                 {
-                                    buildHistory.map(({ created, created_by }) => {
+                                    buildHistory.map(({ created, created_by, comment }) => {
                                         return (
                                             <div className='historyItem'>
-                                                <div className='createdBy'>{created_by}</div>
+                                                <div className='createdBy'>{created_by || comment}</div>
                                                 <div className='createdItem'>{moment(created).format("YYYY-MM-DD HH:mm:ss")}</div>
                                             </div>
                                         )
@@ -371,13 +383,15 @@ class Detail extends React.Component {
                         </Collapse>
                     </TabPane>
                     <TabPane tab={intl.formatMessage({ id: 'VulnerabilityInformation' })} key="3" className='vulnerabilityInfoPanel'>
-                        <Button
-                            type={scanState ? 'default' : 'operate'}
-                            icon={<Icon type={scanState ? 'loading' : 'xunjian'} />}
-                            onClick={() => this.handleScan()}
-                            name={scanState ? `扫描中` : `扫描`}
-                            className='scanBtn'
-                        />
+                        <ActionAuth action={actions.AdminApplicationCenterImagePublicImageOperate}>
+                            <Button
+                                type={scanState ? 'default' : 'operate'}
+                                icon={<Icon type={scanState ? 'loading' : 'xunjian'} />}
+                                onClick={() => this.handleScan()}
+                                name={scanState ? `扫描中` : `扫描`}
+                                className='scanBtn'
+                            />
+                        </ActionAuth>
                         <Table
                             columns={this.getTableColumns()}
                             dataSource={tableData}
