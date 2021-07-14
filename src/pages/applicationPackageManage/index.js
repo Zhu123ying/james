@@ -18,6 +18,7 @@ class ProjectLibrary extends React.Component {
             name: '',
             createTime: '',
             dataList: [], // 列表数据
+            total: 0,
             currentTableItem: {}, // 当前的应用
             pageNumber: 1,
             pageSize: 30,
@@ -53,6 +54,7 @@ class ProjectLibrary extends React.Component {
                 const { datas, total } = res.data
                 this.setState({
                     dataList: datas,
+                    total,
                     // 需要更新currentTableItem
                     currentTableItem: (isResetCurrentTableItem && datas[0]) ? datas[0] : datas.find(item => item.id === currentTableItem.id),
                 })
@@ -70,11 +72,12 @@ class ProjectLibrary extends React.Component {
         })
     }
     handleScroll = (e) => {
+        const { total, dataList } = this.state
         let dom = e.currentTarget
         let viewH = dom.clientHeight
         let contentH = dom.scrollHeight
         let scrollTop = dom.scrollTop
-        if (scrollTop === (contentH - viewH)) {
+        if (scrollTop === (contentH - viewH) && dataList.length !== total) {
             this.setState({
                 pageSize: this.state.pageSize + 30
             }, () => {

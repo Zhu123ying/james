@@ -25,6 +25,7 @@ class ContainerManage extends React.Component {
             pageSize: 30,
             isFetching: false,
             projectList: [], // 项目列表
+            total: 0
         }
     }
     componentDidMount() {
@@ -95,9 +96,10 @@ class ContainerManage extends React.Component {
         })
         HuayunRequest(api.list, params, {
             success: (res) => {
-                const { data: { platformContainers } } = res
+                const { data: { platformContainers, totalRecord } } = res
                 this.setState({
                     dataList: platformContainers,
+                    total: totalRecord,
                     currentTableItem: isResetCurrentTableItem ? (platformContainers[0] || {}) : currentTableItem,
                 })
             },
@@ -114,11 +116,12 @@ class ContainerManage extends React.Component {
         })
     }
     handleScroll = (e) => {
+        const { total, dataList } = this.state
         let dom = e.currentTarget
         let viewH = dom.clientHeight
         let contentH = dom.scrollHeight
         let scrollTop = dom.scrollTop
-        if (scrollTop === (contentH - viewH)) {
+        if (scrollTop === (contentH - viewH) && dataList.length !== total) {
             this.setState({
                 pageSize: this.state.pageSize + 30
             }, () => {
