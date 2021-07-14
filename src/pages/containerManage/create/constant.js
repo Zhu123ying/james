@@ -1,4 +1,6 @@
 /* eslint-disable */
+import { Popover } from 'huayunui'
+
 export const containerConfig_containerItem = {
     name: '',
     type: '',
@@ -128,3 +130,52 @@ export const networkInitData = { // 容器网络
         }
     ], // 节点网络
 }
+
+// 创建容器所有标签的key的正则
+export const LabelKeyRegex = /^([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9]$/
+
+export const ValidLabelKeyProps = {
+    validRegex: LabelKeyRegex,
+    invalidMessage: (
+        <div>
+            不符合规范&nbsp;
+            <Popover
+                placement="top"
+                content={<div>{`正则：${LabelKeyRegex}`}</div>}
+                trigger="hover"
+                type="text"
+            >
+                <i className='iconfont icon-info-o'></i>
+            </Popover>
+        </div>
+    )
+}
+
+// 创建容器所有标签的value的正则
+export const LabelValueRegex = /^(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$/
+
+export const ValidLabelValueProps = {
+    validRegex: LabelValueRegex,
+    invalidMessage: (
+        <div>
+            不符合规范&nbsp;
+            <Popover
+                placement="top"
+                content={<div>{`正则：${LabelKeyRegex}`}</div>}
+                trigger="hover"
+                type="text"
+            >
+                <i className='iconfont icon-info-o'></i>
+            </Popover>
+        </div>
+    )
+}
+
+// 创建容器，除了容器组名称，其他所有的名称输入的正则
+export const CommonNameRegex = /^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/
+
+export const ValidCommonNameProps = {
+    validRegex: CommonNameRegex,
+    invalidMessage: `不符合规范${CommonNameRegex}`
+}
+

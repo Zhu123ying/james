@@ -32,7 +32,7 @@ class ProjectRepoList extends React.Component {
             isAddPullModalVisible: false,
             isPullRecordModalVisible: false
         }
-        this.operationTarget = intl.formatMessage({ id: 'AppStoreLibrary' })
+        this.operationTarget = intl.formatMessage({ id: 'ProjectLibrary' })
     }
     componentDidMount(){
         const { projectInitState, projectId } = this.props

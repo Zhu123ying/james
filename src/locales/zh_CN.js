@@ -2,6 +2,7 @@
 
 const zh_CN = {
     // 公用字段
+    NameErrorMsg: '2~20个字符，支持英文大小写、数字、中文、中划线以及下划线',
     '::Manage': '管理',
     CreateTime: '创建时间',
     CreaterName: '创建人',
@@ -400,6 +401,8 @@ const zh_CN = {
     NetworkType: '网络类型',
 
     // 接口返回提示
+    'Container.Container.PortNameExistsError': '容器端口名称重复',
+    'Container.Container.ApplicationContainerNotExists': '容器组中必须存在应用容器',
     ApplicationPackageVersionLogConfigNotFoundError: '应用包版本的容器日志配置无法找到',
     'Container.PlatformContainer.NotFoundError': '容器组不存在',
     'Container.PlatformContainer.OperationForbiddenError': '该状态下，不允许该操作该容器组',

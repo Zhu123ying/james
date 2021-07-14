@@ -228,7 +228,6 @@ class NodeManage extends React.Component {
                 <Detail
                     intl={intl}
                     nodeName={currentNode.name}
-                    nodeAddress={currentNode.managementIp}
                     nodeCpuUsed={nodeCpuUsed}
                     nodeMemoryUsed={nodeMemoryUsed}
                     nodeLoadUsed={nodeLoadUsed}

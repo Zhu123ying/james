@@ -46,15 +46,15 @@ class Detail extends React.Component {
             tabActiveKey: '1', // 当前激活的tab的key，这次需要做成受控的
         }
     }
-    componentWillReceiveProps({ nodeName, nodeAddress }) {
-        nodeName && nodeName !== this.props.nodeName && this.getDetailData(nodeName, nodeAddress)
+    componentWillReceiveProps({ nodeName }) {
+        nodeName && nodeName !== this.props.nodeName && this.getDetailData(nodeName)
     }
     // 获取详情数据
-    getDetailData = (name = this.props.nodeName, nodeAddress = this.props.nodeAddress) => {
+    getDetailData = (name = this.props.nodeName) => {
         this.getBasicDetail(name)
         this.getNodeEvents(name)
         this.getNodePods(name)
-        this.getNodeContainerMirrors(nodeAddress)
+        this.getNodeContainerMirrors(name)
     }
     getBasicDetail = (name = this.props.nodeName) => {
         this.setState({
@@ -91,8 +91,8 @@ class Detail extends React.Component {
             }
         })
     }
-    getNodeContainerMirrors = (hostIp = this.props.nodeAddress) => {
-        HuayunRequest(api.listNodeContainerMirrors, { hostIp }, {
+    getNodeContainerMirrors = (name = this.props.nodeName) => {
+        HuayunRequest(api.listNodeContainerMirrors, { name }, {
             success: (res) => {
                 this.setState({
                     containerImageList: res.data

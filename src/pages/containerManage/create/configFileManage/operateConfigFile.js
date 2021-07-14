@@ -5,6 +5,7 @@ import { RcForm, Loading, Notification, Button, KeyValue, Dialog, TagItem, Input
 import { Collapse, Button as HuayunButton } from 'huayunui'
 import Regex from '~/utils/regex'
 import '../index.less'
+import { CommonNameRegex } from '../constant'
 const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select, Panel } = RcForm
 const _ = window._
 class ManageConfigFile extends React.Component {
@@ -118,7 +119,8 @@ class ManageConfigFile extends React.Component {
                     onChange={(val) => this.handleChange('name', val)}
                     label={intl.formatMessage({ id: 'Name' })}
                     placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'Name' }) })}
-                    validRegex={Regex.isName}
+                    validRegex={CommonNameRegex}
+                    invalidMessage={intl.formatMessage({ id: 'NameErrorMsg' })}
                     isRequired
                 />
                 <Panel

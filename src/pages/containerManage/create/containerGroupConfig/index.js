@@ -1,18 +1,14 @@
 /* eslint-disable */
 import React from 'react'
-import PropTypes from 'prop-types'
 import { RcForm, Loading, Notification, Button, KeyValue, Dialog, TagItem, InputNumber } from 'ultraui'
-import { Collapse, Button as HuayunButton } from 'huayunui'
+import { Collapse, Button as HuayunButton, Popover } from 'huayunui'
 import Regex from '~/utils/regex'
 import '../index.less'
+import { LabelKeyRegex, LabelValueRegex } from '../constant'
 const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select, Panel } = RcForm
 const _ = window._
 const restartPolicyList = ['Always']
 class ContainerGroupConfig extends React.Component {
-    static propTypes = {
-        form: PropTypes.object.isRequired,
-        intl: PropTypes.object.isRequired
-    }
     constructor(props) {
         super(props)
         this.state = {
@@ -63,6 +59,7 @@ class ContainerGroupConfig extends React.Component {
                     label={intl.formatMessage({ id: 'ContainerGroupName' })}
                     placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'ContainerGroupName' }) })}
                     validRegex={Regex.isName}
+                    invalidMessage={intl.formatMessage({ id: 'NameErrorMsg' })}
                     isRequired
                 />
                 <Textarea
@@ -91,6 +88,20 @@ class ContainerGroupConfig extends React.Component {
                             onChange={(val) => this.handleSetCurrentLabel('key', val)}
                             label=''
                             placeholder='键'
+                            validRegex={LabelKeyRegex}
+                            invalidMessage={
+                                <div>
+                                    不符合规范&nbsp;
+                                    <Popover
+                                        placement="top"
+                                        content={<div>{`正则：${LabelKeyRegex}`}</div>}
+                                        trigger="hover"
+                                        type="text"
+                                    >
+                                        <i className='iconfont icon-info-o'></i>
+                                    </Popover>
+                                </div>
+                            }
                         />
                         <span className='splitLine'>&nbsp;|&nbsp;</span>
                         <Input
@@ -100,6 +111,21 @@ class ContainerGroupConfig extends React.Component {
                             onChange={(val) => this.handleSetCurrentLabel('value', val)}
                             label=''
                             placeholder='值'
+
+                            validRegex={LabelValueRegex}
+                            invalidMessage={
+                                <div>
+                                    不符合规范&nbsp;
+                                    <Popover
+                                        placement="top"
+                                        content={<div>{`正则：${LabelValueRegex}`}</div>}
+                                        trigger="hover"
+                                        type="text"
+                                    >
+                                        <i className='iconfont icon-info-o'></i>
+                                    </Popover>
+                                </div>
+                            }
                         />
                         <HuayunButton
                             disabled={currentLabel.value === '' || currentLabel.key === ''}
@@ -187,7 +213,7 @@ class ContainerGroupConfig extends React.Component {
                         <InputNumber
                             form={form}
                             value={cpu}
-                            min={0}
+                            min={100}
                             slot={{
                                 position: 'right',
                                 format: () => 'm'
@@ -210,7 +236,7 @@ class ContainerGroupConfig extends React.Component {
                         <InputNumber
                             form={form}
                             value={memory}
-                            min={0}
+                            min={256}
                             slot={{
                                 position: 'right',
                                 format: () => 'Mi'
@@ -268,7 +294,7 @@ class ContainerGroupConfig extends React.Component {
                                     format: () => 'Mbps'
                                 }}
                                 onChange={(val) => handleFormChange('qos', {
-                                    egress: val, 
+                                    egress: val,
                                     ingress
                                 })}
                             />
@@ -288,7 +314,7 @@ class ContainerGroupConfig extends React.Component {
                                     format: () => 'Mbps'
                                 }}
                                 onChange={(val) => handleFormChange('qos', {
-                                    egress, 
+                                    egress,
                                     ingress: val
                                 })}
                             />
