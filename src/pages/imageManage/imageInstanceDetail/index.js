@@ -83,23 +83,26 @@ class Detail extends React.Component {
     handleScan = (id = this.props.currentImageInstance.id) => {
         HuayunRequest(api.scanImageById, { id }, {
             success: (res) => {
-                HuayunRequest(api.getImageArtifactScanStatus, { id }, {
-                    success: (res) => {
-                        const { isRunning } = res.data
-                        this.setState({
-                            scanState: isRunning
-                        }, () => {
-                            // 如果正在扫描，则需要定时去获取状态，当状态为false的时候，去掉漏洞列表的接口
-                            if (isRunning) {
-                                setTimeout(() => {
-                                    this.handleScan(id)
-                                }, 1000)
-                            } else {
-                                this.getImageArtifactVulnerabilities(id)
-                            }
-                        })
-                    }
-                })
+                const loop = () => {
+                    HuayunRequest(api.getImageArtifactScanStatus, { id }, {
+                        success: (res) => {
+                            const { isRunning } = res.data
+                            this.setState({
+                                scanState: isRunning
+                            }, () => {
+                                // 如果正在扫描，则需要定时去获取状态，当状态为false的时候，去掉漏洞列表的接口
+                                if (isRunning) {
+                                    setTimeout(() => {
+                                        loop()
+                                    }, 1000)
+                                } else {
+                                    this.getImageArtifactVulnerabilities(id)
+                                }
+                            })
+                        }
+                    })
+                }
+                loop()
             }
         })
     }

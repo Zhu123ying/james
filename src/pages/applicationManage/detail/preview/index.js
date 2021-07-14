@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { application as api } from '~/http/api'
 import HuayunRequest from '~/http/request'
 import { DatePicker, Select, Input, Switch, Button, ButtonGroup, Progress, Modal, Drawer } from 'huayunui';
-import { Icon, KeyValue, Notification } from 'ultraui'
+import { Icon, KeyValue, Notification, Button as UltrauiButton } from 'ultraui'
 import { Row, Col, Tag, Carousel } from 'antd'
 import './index.less'
 import ActionAuth from '~/components/ActionAuth'
@@ -236,7 +236,7 @@ class Preview extends React.Component {
         let option = {
             color: [color],
             grid: {
-                left: 15,
+                left: 20,
                 top: 10,
                 right: 15,
                 bottom: 20
@@ -345,7 +345,7 @@ class Preview extends React.Component {
                                     <Tag color={secondState === 'NORMAL' ? 'green' : 'red'} className='appSecondState'>{ApplicationSecondStatuList[secondState] || '未知'}</Tag>
                                 </div>
                                 <ActionAuth action={actions.AdminApplicationCenterApplicationOperate}>
-                                    <Button type='link' className='update' onClick={this.handleUpdateApplication}><Icon type='edit-o' />&nbsp;{intl.formatMessage({ id: 'Edit' })}</Button>
+                                    <UltrauiButton type='text' className='p7-0' onClick={this.handleUpdateApplication}><Icon type='edit-o' />&nbsp;{intl.formatMessage({ id: 'Edit' })}</UltrauiButton>
                                 </ActionAuth>
                             </div>
                             <div className='boxContent'>
@@ -379,14 +379,14 @@ class Preview extends React.Component {
                                 </div>
                                 <div className='operaGroup'>
                                     <ActionAuth action={actions.AdminApplicationCenterApplicationQuotaManage}>
-                                        <Button type='link' onClick={() => this.handleSetState('isQuotaManageModalVisible', true)}>
-                                            <Icon type='edit-o' />&nbsp;{intl.formatMessage({ id: 'AppCenterQuotaManage' })}&nbsp;&nbsp;
-                                        </Button>
-                                    </ActionAuth>,
+                                        <UltrauiButton type='text' className='p7-0' onClick={() => this.handleSetState('isQuotaManageModalVisible', true)}>
+                                            <Icon type='edit-o' />{intl.formatMessage({ id: 'AppCenterQuotaManage' })}&nbsp;&nbsp;
+                                        </UltrauiButton>
+                                    </ActionAuth>
                                     <ActionAuth action={actions.AdminApplicationCenterApplicationQuotaManage}>
-                                        <Button type='link' onClick={() => this.handleSetState('isClusterResourcesDrawerVisible', true)}>
-                                            <Icon type='listing' />&nbsp;{intl.formatMessage({ id: 'Cluster resources' })}
-                                        </Button>
+                                        <UltrauiButton type='text' className='p7-0' onClick={() => this.handleSetState('isClusterResourcesDrawerVisible', true)}>
+                                            <Icon type='listing' />{intl.formatMessage({ id: 'Cluster resources' })}
+                                        </UltrauiButton>
                                     </ActionAuth>
                                 </div>
                             </div>
