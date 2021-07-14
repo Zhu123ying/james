@@ -3,11 +3,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { application as api } from '~/http/api'
 import HuayunRequest from '~/http/request'
-import { DatePicker, Select, Input, message, Button } from 'huayunui';
+import { DatePicker, Select, Input, message, Button } from 'huayunui'
 import ApplicationDetail from './detail'
 import './index.less'
 import { Notification, Loading, Icon } from 'ultraui'
-import { ApplicationSecondStatuColorList } from '~/constants'
+import { ApplicationSecondStatuColorList, ApplicationStatuDomList } from '~/constants'
 import ActionAuth from '~/components/ActionAuth'
 import actions from '~/constants/authAction'
 
@@ -186,7 +186,7 @@ class ApplicationManage extends React.Component {
                                                         </div>
                                                         <div className='bottomInfo'>{projectName}</div>
                                                     </div>
-                                                    <div className='status'></div>
+                                                    <div className='status'>{ApplicationStatuDomList[state]}</div>
                                                 </div>
                                             )
                                         })

@@ -5,18 +5,22 @@ export const DEFULT_PAGE_SIZE = 20 // 默认列表分页大小
 export const API_Prefix = 'application/v1/'
 // 应用一级状态（部署状态）
 export const ApplicationStatuList = {
-    unknown: '未知状态',
-    deployed: '已部署',
-    uninstalled: '已下线',
+    deployed: '已上线',
     uninstalling: '下线中',
-    'pending-install': '等待上线',
-    'pending-upgrade': '等待更新',
-    'pending-rollback': '等待回滚',
+    pending_deploy: '上线中',
+    pending_upgrade: '更新中',
+    pending_rollback: '回滚中',
     config: '配置中',
-    failed: '失败'
+    failed: '执行失败'
 }
 export const ApplicationStatuDomList = {
-
+    deployed: <i className='iconfont icon-correct-o text-primary' />,
+    uninstalling: <i className='iconfont icon-loading text-primary' />,
+    pending_deploy: <i className='iconfont icon-loading text-primary' />,
+    pending_upgrade: <i className='iconfont icon-loading text-warning' />,
+    pending_rollback: <i className='iconfont icon-loading text-warning' />,
+    config: <i className='iconfont icon-circle text-primary' />,
+    failed: <i className='iconfont icon-warning-o text-danger' />
 }
 // 应用二级状态（健康状态）
 export const ApplicationSecondStatuList = {
