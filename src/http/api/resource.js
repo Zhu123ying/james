@@ -18,6 +18,7 @@ const api = {
     queryResourcePermissions: `${prefix}queryResourcePermissions`, // 查询平台执行k8s资源权限
     modifyResourcePermissions: `${prefix}modifyResourcePermissions`, // 修改平台的资源执行权限
     querylistSdnNetwork: `${prefix}querylistSdnNetwork`, // 获取网络资源
+    queryNodePortRange: `${prefix}queryNodePortRange`, // 获取节点的nodeport范围
 }
 
 export default api

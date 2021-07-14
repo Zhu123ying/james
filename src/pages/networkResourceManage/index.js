@@ -6,6 +6,7 @@ import { DEFAULT_EMPTY_LABEL } from 'Cnst/config'
 import { resource as api } from '~/http/api'
 import HuayunRequest from '~/http/request'
 import moment from 'moment'
+import './index.less'
 
 const NetworkResourceManage = ({
   history
@@ -23,6 +24,7 @@ const NetworkResourceManage = ({
   const [tableData, setTableData] = useState([])
   const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(false)
+  const [range, setRange] = useState('')
 
   useEffect(() => {
     if (!_.isEmpty(queryParams)) {
@@ -30,7 +32,20 @@ const NetworkResourceManage = ({
     }
   }, [queryParams])
 
-  /* 初始化数据设置和调用 */
+  useEffect(() => {
+    getPortAvailableRange()
+  }, [])
+
+  // 获取节点网络端口可用范围
+  const getPortAvailableRange = () => {
+    HuayunRequest(api.queryNodePortRange, {}, {
+      success: (res) => {
+        const { min, max } = res.data
+        const range_ = <span className='portRange'>{`节点网络可用端口范围：${min}~${max}`}</span>
+        setRange(range_)
+      }
+    })
+  }
 
   /* table相关操作 */
   // 请求table数据
@@ -98,27 +113,30 @@ const NetworkResourceManage = ({
   ]
 
   return (
-    <TableCommon
-      searchOption={{
-        key: 'name',
-        title: intl.formatMessage({ id: 'Name' })
-      }}
-      params={queryParams}
-      paramsAlias={{
-        name: {
-          title: '名称'
-        }
-      }}
-      uniqueId={uniquePageKey}
-      onRefresh={handleRefresh}
-      onTableChange={handleTableChange}
-      total={total}
-      columns={columns}
-      loading={loading}
-      data={tableData}
-      checkable={false} // 是否需要复选框
-      extraParams={[]} // 额外不体现在搜索条件的参数
-    />
+    <div id='NetworkResourceManage'>
+      <TableCommon
+        searchOption={{
+          key: 'name',
+          title: intl.formatMessage({ id: 'Name' })
+        }}
+        params={queryParams}
+        paramsAlias={{
+          name: {
+            title: '名称'
+          }
+        }}
+        operateButtons={[range]}
+        uniqueId={uniquePageKey}
+        onRefresh={handleRefresh}
+        onTableChange={handleTableChange}
+        total={total}
+        columns={columns}
+        loading={loading}
+        data={tableData}
+        checkable={false} // 是否需要复选框
+        extraParams={[]} // 额外不体现在搜索条件的参数
+      />
+    </div>
   )
 }
 

@@ -91,8 +91,8 @@ class ContainerDetail extends React.Component {
         if (state === 'config') {
             action = intl.formatMessage({ id: 'OnLine' })
             actionType = 'startPlatformContainer'
-        } else if (state === 'running' || state === 'stratFailed' || state === 'stopFailed') {
-            action = intl.formatMessage({ id: 'OnLine' })
+        } else if (state === 'running' || state === 'startFailed' || state === 'stopFailed') {
+            action = intl.formatMessage({ id: 'OffLine' })
             actionType = 'stopPlatformContainer'
         } else {
             action = intl.formatMessage({ id: 'Abort' })

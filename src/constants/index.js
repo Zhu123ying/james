@@ -15,10 +15,17 @@ export const ApplicationStatuList = {
     config: '配置中',
     failed: '失败'
 }
+export const ApplicationStatuDomList = {
+
+}
 // 应用二级状态（健康状态）
 export const ApplicationSecondStatuList = {
     NORMAL: '健康',
     ABNORMAL: '异常'
+}
+export const ApplicationSecondStatuColorList = {
+    NORMAL: 'bg-success',
+    ABNORMAL: 'bg-danger'
 }
 // 应用发布任务状态
 export const ApplicationPublishTaskStatuList = {
@@ -33,19 +40,34 @@ export const ApplicationPublishTaskStatuList = {
 // 容器组一级状态
 export const ContainerGroupStateList = {
     config: '配置中',
-    starting: '启动中',
-    running: '运行中',
-    stopping: '停止中',
-    startFailed: '启动失败',
-    stopFailed: '停止失败'
+    starting: '上线中',
+    running: '已上线',
+    stopping: '下线中',
+    startFailed: '上线失败',
+    stopFailed: '下线失败'
+}
+export const ContainerGroupStateDomList = {
+    config: <i className='iconfont icon-circle text-primary' />,
+    starting: <i className='iconfont icon-loading text-primary' />,
+    running: <i className='iconfont icon-correct-o text-primary' />,
+    stopping: <i className='iconfont icon-loading text-primary' />,
+    startFailed: <i className='iconfont icon-warning-o text-danger' />,
+    stopFailed: <i className='iconfont icon-warning-o text-danger' />
 }
 // 容器组二级状态
 export const ContainerGroupSecondStateList = {
     config: '配置中',
-    running: '运行中',
+    running: '正常',
     error: '异常',
     unknown: '未知',
-    working: ' 执行中'
+    working: '执行中'
+}
+export const ContainerGroupSecondStateColorList = {
+    config: 'bg-default',
+    running: 'bg-success',
+    error: 'bg-danger',
+    unknown: 'bg-danger',
+    working: 'bg-default'
 }
 // 容器状态
 export const ContainerStateList = {

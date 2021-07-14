@@ -7,7 +7,7 @@ import { DatePicker, Select, Input, message, Button } from 'huayunui';
 import ApplicationDetail from './detail'
 import './index.less'
 import { Notification, Loading, Icon } from 'ultraui'
-import { ApplicationStatuList } from '~/constants'
+import { ApplicationSecondStatuColorList } from '~/constants'
 import ActionAuth from '~/components/ActionAuth'
 import actions from '~/constants/authAction'
 
@@ -181,7 +181,7 @@ class ApplicationManage extends React.Component {
                                                     onClick={() => this.handleChangeTableItem(item)} >
                                                     <div className='basicInfo'>
                                                         <div className='stateLineWithDot'>
-                                                            <div className={`stateDot ${secondState === 'NORMAL' ? 'bg-success' : 'bg-danger'}`}></div>
+                                                            <div className={`stateDot ${ApplicationSecondStatuColorList[secondState]}`}></div>
                                                             {name}
                                                         </div>
                                                         <div className='bottomInfo'>{projectName}</div>

@@ -8,6 +8,7 @@ import './index.less'
 import { Notification, Loading, Icon } from 'ultraui'
 import ActionAuth from '~/components/ActionAuth'
 import actions from '~/constants/authAction'
+import { ContainerGroupStateDomList, ContainerGroupSecondStateColorList } from '~/constants'
 
 const notification = Notification.newInstance()
 const { RangePicker } = DatePicker;
@@ -175,12 +176,12 @@ class ContainerManage extends React.Component {
                                                     onClick={() => this.handleChangeTableItem(item)} >
                                                     <div className='basicInfo'>
                                                         <div className='stateLineWithDot'>
-                                                            <div className={`stateDot ${state === 'running' ? 'bg-success' : 'bg-danger'}`}></div>
+                                                            <div className={`stateDot ${ContainerGroupSecondStateColorList[status]}`}></div>
                                                             {`${name}(${containerCount})`}
                                                         </div>
                                                         <div className='bottomInfo'>{projectName}</div>
                                                     </div>
-                                                    <div className='status'></div>
+                                                    <div className='status'>{ContainerGroupStateDomList[state]}</div>
                                                 </div>
                                             )
                                         })
