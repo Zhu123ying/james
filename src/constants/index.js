@@ -15,10 +15,10 @@ export const ApplicationStatuList = {
 }
 export const ApplicationStatuDomList = {
     deployed: <i className='iconfont icon-correct-o text-primary' />,
-    uninstalling: <i className='iconfont icon-loading text-primary' />,
-    pending_deploy: <i className='iconfont icon-loading text-primary' />,
-    pending_upgrade: <i className='iconfont icon-loading text-warning' />,
-    pending_rollback: <i className='iconfont icon-loading text-warning' />,
+    uninstalling: <div className='rotateClass'><i className='iconfont icon-loading text-primary' /></div>,
+    pending_deploy: <div className='rotateClass'><i className='iconfont icon-loading text-primary' /></div>,
+    pending_upgrade: <div className='rotateClass'><i className='iconfont icon-loading text-primary' /></div>,
+    pending_rollback: <div className='rotateClass'><i className='iconfont icon-loading text-primary' /></div>,
     config: <i className='iconfont icon-circle text-primary' />,
     failed: <i className='iconfont icon-warning-o text-danger' />
 }
@@ -52,9 +52,9 @@ export const ContainerGroupStateList = {
 }
 export const ContainerGroupStateDomList = {
     config: <i className='iconfont icon-circle text-primary' />,
-    starting: <i className='iconfont icon-loading text-primary' />,
+    starting: <div className='rotateClass'><i className='iconfont icon-loading text-primary' /></div>,
     running: <i className='iconfont icon-correct-o text-primary' />,
-    stopping: <i className='iconfont icon-loading text-primary' />,
+    stopping: <div className='rotateClass'><i className='iconfont icon-loading text-primary' /></div>,
     startFailed: <i className='iconfont icon-warning-o text-danger' />,
     stopFailed: <i className='iconfont icon-warning-o text-danger' />
 }

@@ -28,7 +28,6 @@ class ApplicationDetail extends React.Component {
             isLoading: false, // 是否需要loading，定时刷新是不需要loading的
             isApplicationUpdateModalVisible: false, // 应用更新
             isShowOutputHistory: false, // 是否展开输出历史
-
         }
         this.operationTarget = props.intl.formatMessage({ id: 'Application' })
     }
@@ -45,7 +44,7 @@ class ApplicationDetail extends React.Component {
     }
     // 获取应用以及资源的详情信息
     getDetail = (id, isInterval) => {
-        const { intl } = this.props
+        const { intl, refreshTableList } = this.props
         const { detail } = this.state
         if (id !== detail.id) {
             if (isInterval) {
@@ -64,10 +63,14 @@ class ApplicationDetail extends React.Component {
                 }, () => {
                     const { state } = res.data
                     // 状态不等于config开启定时器
-                    if (state !== 'config') {
+                    if (state !== 'config' && state !== 'failed') {
                         setTimeout(() => {
                             this.getDetail(id, true)
                         }, 10000)
+                    }
+                    if (state !== detail.state) {
+                        // 状态改变更新列表页
+                        refreshTableList()
                     }
                 })
             },
@@ -80,7 +83,7 @@ class ApplicationDetail extends React.Component {
     }
     // 设置app上下线
     setAppStatus = () => {
-        const { intl, refreshTableList } = this.props
+        const { intl } = this.props
         const { detail: { state, name, id } } = this.state
         const action = intl.formatMessage({ id: state === 'config' ? 'OnLine' : 'OffLine' })
         const content = `${action}${this.operationTarget}-${name}`
@@ -90,12 +93,12 @@ class ApplicationDetail extends React.Component {
                 const actionType = state === 'config' ? 'deploy' : 'undeploy'
                 HuayunRequest(api[actionType], { id }, {
                     success: (res) => {
-                        refreshTableList() // 更新应用列表
+                        this.getDetail(id)
                         notification.notice({
                             id: 'setAppOn_OffLine',
                             type: 'success',
                             title: intl.formatMessage({ id: 'Success' }),
-                            content: `${content}'${intl.formatMessage({ id: 'Success' })}`,
+                            content: `${content}${intl.formatMessage({ id: 'Success' })}`,
                             iconNode: 'icon-success-o',
                             duration: 5,
                             closable: true
@@ -142,7 +145,7 @@ class ApplicationDetail extends React.Component {
                 return false
             }
             const { detail: { id, name } } = this.state
-            const { intl, refreshTableList } = this.props
+            const { intl } = this.props
             const action = intl.formatMessage({ id: 'Update' })
             const params = {
                 id,
@@ -153,7 +156,7 @@ class ApplicationDetail extends React.Component {
             this.handleSetState('isApplicationUpdateModalVisible', false)
             HuayunRequest(api.upgrade, params, {
                 success: (res) => {
-                    refreshTableList() // 更新应用列表
+                    this.getDetail(id)
                     notification.notice({
                         id: 'updateSuccess',
                         type: 'success',
@@ -175,7 +178,7 @@ class ApplicationDetail extends React.Component {
                 return false
             }
             const { detail } = this.state
-            const { intl, refreshTableList } = this.props
+            const { intl } = this.props
             const action = intl.formatMessage({ id: 'RollBack' })
             const params = {
                 id,
@@ -185,7 +188,7 @@ class ApplicationDetail extends React.Component {
             this.handleSetState('isApplicationRollBackModalVisible', false)
             HuayunRequest(api.rollBack, params, {
                 success: (res) => {
-                    refreshTableList() // 更新应用列表
+                    this.getDetail(detail.id)
                     notification.notice({
                         id: 'RollBackSuccess',
                         type: 'success',
@@ -206,25 +209,52 @@ class ApplicationDetail extends React.Component {
         const on_offLine = state === 'config' ? (<><Icon type="rise-o" />&nbsp;{intl.formatMessage({ id: 'OnLine' })}</>) : (<><Icon type="drop-o" />&nbsp;{intl.formatMessage({ id: 'OffLine' })}</>)
         const operaOptions = [
             <ActionAuth action={actions.AdminApplicationCenterApplicationMaintain}>
-                <Button className='operaItem' type='text' onClick={this.setAppStatus}>{on_offLine}</Button>
+                <Button
+                    className='operaItem'
+                    type='text'
+                    onClick={this.setAppStatus}
+                    disabled={state !== 'config' && state !== 'deployed' && state !== 'failed'}
+                >
+                    {on_offLine}
+                </Button>
             </ActionAuth>,
             <ActionAuth action={actions.AdminApplicationCenterApplicationMaintain}>
-                <Button className='operaItem' type='text' onClick={() => this.handleSetState('isApplicationUpdateModalVisible', true)} disabled={state === 'config'}>
+                <Button
+                    className='operaItem'
+                    type='text'
+                    onClick={() => this.handleSetState('isApplicationUpdateModalVisible', true)}
+                    disabled={state !== 'config' && state !== 'deployed' && state !== 'failed'}
+                >
                     <Icon type="reboot" />&nbsp;{intl.formatMessage({ id: 'Update' })}
                 </Button>
             </ActionAuth>,
             <ActionAuth action={actions.AdminApplicationCenterApplicationMaintain}>
-                <Button className='operaItem' type='text' onClick={() => this.handleSetState('isApplicationUpdateModalVisible', true)} disabled={state !== 'config'}>
+                <Button
+                    className='operaItem'
+                    type='text'
+                    onClick={() => this.handleSetState('isApplicationUpdateModalVisible', true)}
+                    disabled={state !== 'config'}
+                >
                     <Icon type="release" />&nbsp;{intl.formatMessage({ id: 'ChangeSetting' })}
                 </Button>
             </ActionAuth>,
             <ActionAuth action={actions.AdminApplicationCenterApplicationMaintain}>
-                <Button className='operaItem' type='text' onClick={() => this.handleSetState('isApplicationRollBackModalVisible', true)} disabled={state === 'config' || !id}>
+                <Button
+                    className='operaItem'
+                    type='text'
+                    onClick={() => this.handleSetState('isApplicationRollBackModalVisible', true)}
+                    disabled={state !== 'deployed' && state !== 'failed'}
+                >
                     <Icon type="refresh" />&nbsp;{intl.formatMessage({ id: 'RollBack' })}
                 </Button>
             </ActionAuth>,
             <ActionAuth action={actions.AdminApplicationCenterApplicationOperate}>
-                <Button className='operaItem noborder' type='text' onClick={this.handleDelete}>
+                <Button
+                    className='operaItem noborder'
+                    type='text'
+                    onClick={this.handleDelete}
+                    disabled={state !== 'config'}
+                >
                     <Icon type="delete" />&nbsp;{intl.formatMessage({ id: 'Delete' })}
                 </Button>
             </ActionAuth>

@@ -95,7 +95,7 @@ class ApplicationManage extends React.Component {
                 projectId
             }
         }
-        this.setState({
+        isResetCurrentApplication && this.setState({
             isFetching: true
         })
         HuayunRequest(api.list, params, {
