@@ -6,7 +6,7 @@ import HuayunRequest from '~/http/request'
 import { container as api } from '~/http/api'
 import Regex from '~/utils/regex'
 import '../index.less'
-import { networkInitData } from '../constant'
+import { networkInitData, ValidCommonNameProps } from '../constant'
 const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select, Panel } = RcForm
 const _ = window._
 const portTypeList = ['ClusterNetworkPort', 'NodePort', 'LoadBalancePort']
@@ -240,8 +240,8 @@ class NetworkConfig extends React.Component {
                     onChange={(val) => this.handleOnChange(`containerNetworks.${index}.name`, val)}
                     label={intl.formatMessage({ id: 'Name' })}
                     placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'Name' }) })}
-                    validRegex={Regex.isName}
                     isRequired
+                    {...ValidCommonNameProps}
                 />
                 {this.renderPortPanel(`containerNetworks.${index}.ports`, portTypeList[0])}
             </Collapse.Panel>
@@ -261,8 +261,8 @@ class NetworkConfig extends React.Component {
                     onChange={(val) => this.handleOnChange(`nodeNetworks.${index}.name`, val)}
                     label={intl.formatMessage({ id: 'Name' })}
                     placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'Name' }) })}
-                    validRegex={Regex.isName}
                     isRequired
+                    {...ValidCommonNameProps}
                 />
                 {this.renderPortPanel(`nodeNetworks.${index}.ports`, portTypeList[1])}
             </Collapse.Panel>
@@ -391,8 +391,8 @@ class NetworkConfig extends React.Component {
                                     onChange={(val) => this.handleOnChange('loadBalanceNetwork.name', val)}
                                     label={intl.formatMessage({ id: 'Name' })}
                                     placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'Name' }) })}
-                                    validRegex={Regex.isName}
                                     isRequired
+                                    {...ValidCommonNameProps}
                                 />
                                 <Select
                                     form={form}

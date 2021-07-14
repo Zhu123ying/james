@@ -4,7 +4,7 @@ import { RcForm, Loading, Notification, Button, KeyValue, Dialog, TagItem, Input
 import { Collapse, Button as HuayunButton, Popover } from 'huayunui'
 import Regex from '~/utils/regex'
 import '../index.less'
-import { LabelKeyRegex, LabelValueRegex } from '../constant'
+import { ValidLabelKeyProps, ValidLabelValueProps } from '../constant'
 const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select, Panel } = RcForm
 const _ = window._
 const restartPolicyList = ['Always']
@@ -88,20 +88,7 @@ class ContainerGroupConfig extends React.Component {
                             onChange={(val) => this.handleSetCurrentLabel('key', val)}
                             label=''
                             placeholder='键'
-                            validRegex={LabelKeyRegex}
-                            invalidMessage={
-                                <div>
-                                    不符合规范&nbsp;
-                                    <Popover
-                                        placement="top"
-                                        content={<div>{`正则：${LabelKeyRegex}`}</div>}
-                                        trigger="hover"
-                                        type="text"
-                                    >
-                                        <i className='iconfont icon-info-o'></i>
-                                    </Popover>
-                                </div>
-                            }
+                            {...ValidLabelKeyProps}
                         />
                         <span className='splitLine'>&nbsp;|&nbsp;</span>
                         <Input
@@ -111,21 +98,7 @@ class ContainerGroupConfig extends React.Component {
                             onChange={(val) => this.handleSetCurrentLabel('value', val)}
                             label=''
                             placeholder='值'
-
-                            validRegex={LabelValueRegex}
-                            invalidMessage={
-                                <div>
-                                    不符合规范&nbsp;
-                                    <Popover
-                                        placement="top"
-                                        content={<div>{`正则：${LabelValueRegex}`}</div>}
-                                        trigger="hover"
-                                        type="text"
-                                    >
-                                        <i className='iconfont icon-info-o'></i>
-                                    </Popover>
-                                </div>
-                            }
+                            {...ValidLabelValueProps}
                         />
                         <HuayunButton
                             disabled={currentLabel.value === '' || currentLabel.key === ''}

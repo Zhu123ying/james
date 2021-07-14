@@ -176,6 +176,19 @@ export const CommonNameRegex = /^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0
 
 export const ValidCommonNameProps = {
     validRegex: CommonNameRegex,
-    invalidMessage: `不符合规范${CommonNameRegex}`
+    invalidMessage: (
+        <div>
+            不符合规范&nbsp;
+            <Popover
+                placement="top"
+                content={<div>{`正则：${CommonNameRegex}`}</div>}
+                trigger="hover"
+                type="text"
+            >
+                <i className='iconfont icon-info-o'></i>
+            </Popover>
+        </div>
+    )
+    // invalidMessage: `不符合规范${CommonNameRegex}`
 }
 

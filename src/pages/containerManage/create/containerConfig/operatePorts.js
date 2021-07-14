@@ -5,6 +5,7 @@ import { RcForm, Notification, Button, TagItem, Switch, Input as UltrauiInput, S
 import { Collapse, Button as HuayunButton } from 'huayunui'
 import Regex from '~/utils/regex'
 import '../index.less'
+import { ValidCommonNameProps } from '../constant'
 const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select, Panel } = RcForm
 const _ = window._
 
@@ -54,6 +55,7 @@ class ManagePorts extends React.Component {
                     label={intl.formatMessage({ id: 'Name' })}
                     placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'Name' }) })}
                     isRequired
+                    {...ValidCommonNameProps}
                 />
                 <Select
                     form={form}

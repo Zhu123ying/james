@@ -10,7 +10,8 @@ import DividerBox from '~/components/DividerBox'
 import OperateMountConfig from './operateMountConfig'
 import OperateEnvs from './operateEnvs'
 import OperatePorts from './operatePorts'
-import { containerConfig_containerItem } from '../constant'
+import { containerConfig_containerItem, ValidCommonNameProps } from '../constant'
+
 const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select, Panel } = RcForm
 const _ = window._
 const pullStrategyList = ['Always', 'IfNotPresent', 'Never']
@@ -221,8 +222,8 @@ class ContainerConfig extends React.Component {
                                                 onChange={(val) => this.handleFormDataOnChange(`${index}.name`, val)}
                                                 label={intl.formatMessage({ id: 'ContainerName' })}
                                                 placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'ContainerName' }) })}
-                                                validRegex={Regex.isName}
                                                 isRequired
+                                                {...ValidCommonNameProps}
                                             />
                                             <Select
                                                 form={form}

@@ -2,7 +2,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { RcForm, Notification, Button, TagItem, Switch, Input as UltrauiInput, Select as UltrauiSelect } from 'ultraui'
-import { Collapse, Button as HuayunButton } from 'huayunui'
+import { Collapse, Button as HuayunButton, Popover } from 'huayunui'
 import Regex from '~/utils/regex'
 import '../index.less'
 const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select, Panel } = RcForm
@@ -11,7 +11,6 @@ const addTypeList = [
     { value: 'manual', text: '手动输入' },
     { value: 'file', text: '选择文件' }
 ]
-
 class ManageEnvs extends React.Component {
     static propTypes = {
         form: PropTypes.object.isRequired,
@@ -75,6 +74,21 @@ class ManageEnvs extends React.Component {
                     label='Key'
                     placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: 'Key' })}
                     isRequired
+
+                    validRegex={/^[-._a-zA-Z][-._a-zA-Z0-9]*$/}
+                    invalidMessage={
+                        <div>
+                            不符合规范&nbsp;
+                            <Popover
+                                placement="top"
+                                content={<div>{`正则：/^[-._a-zA-Z][-._a-zA-Z0-9]*$/`}</div>}
+                                trigger="hover"
+                                type="text"
+                            >
+                                <i className='iconfont icon-info-o'></i>
+                            </Popover>
+                        </div>
+                    }
                 />
                 <Select
                     form={form}

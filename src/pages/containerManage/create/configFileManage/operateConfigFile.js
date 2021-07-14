@@ -2,10 +2,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { RcForm, Loading, Notification, Button, KeyValue, Dialog, TagItem, InputNumber } from 'ultraui'
-import { Collapse, Button as HuayunButton } from 'huayunui'
+import { Collapse, Button as HuayunButton, Popover } from 'huayunui'
 import Regex from '~/utils/regex'
 import '../index.less'
-import { CommonNameRegex } from '../constant'
+import { ValidLabelKeyProps, ValidLabelValueProps, ValidCommonNameProps } from '../constant'
 const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select, Panel } = RcForm
 const _ = window._
 class ManageConfigFile extends React.Component {
@@ -119,9 +119,8 @@ class ManageConfigFile extends React.Component {
                     onChange={(val) => this.handleChange('name', val)}
                     label={intl.formatMessage({ id: 'Name' })}
                     placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'Name' }) })}
-                    validRegex={CommonNameRegex}
-                    invalidMessage={intl.formatMessage({ id: 'NameErrorMsg' })}
                     isRequired
+                    {...ValidCommonNameProps}
                 />
                 <Panel
                     form={form}
@@ -140,6 +139,7 @@ class ManageConfigFile extends React.Component {
                             onChange={(val) => this.handleSetCurrentLabel('key', val)}
                             label=''
                             placeholder='键'
+                            {...ValidLabelKeyProps}
                         />
                         <span className='splitLine'>&nbsp;|&nbsp;</span>
                         <Input
@@ -149,6 +149,7 @@ class ManageConfigFile extends React.Component {
                             onChange={(val) => this.handleSetCurrentLabel('value', val)}
                             label=''
                             placeholder='值'
+                            {...ValidLabelValueProps}
                         />
                         <HuayunButton
                             disabled={!currentLabel.value || !currentLabel.key}
@@ -230,6 +231,20 @@ class ManageConfigFile extends React.Component {
                             onChange={(val) => this.handleSetCurrentData('key', val)}
                             label=''
                             placeholder='键'
+                            validRegex={/^[-._a-zA-Z][-._a-zA-Z0-9]*$/}
+                            invalidMessage={
+                                <div>
+                                    不符合规范&nbsp;
+                                    <Popover
+                                        placement="top"
+                                        content={<div>{`正则：/^[-._a-zA-Z][-._a-zA-Z0-9]*$/`}</div>}
+                                        trigger="hover"
+                                        type="text"
+                                    >
+                                        <i className='iconfont icon-info-o'></i>
+                                    </Popover>
+                                </div>
+                            }
                         />
                         <span className='splitLine'>&nbsp;|&nbsp;</span>
                         <Input
