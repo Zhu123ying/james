@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { application as api } from '~/http/api'
 import HuayunRequest from '~/http/request'
-import { DatePicker, Select, Input, Switch, Button, ButtonGroup, Progress, Modal, Drawer } from 'huayunui';
+import { DatePicker, Select, Input, Switch, Button, ButtonGroup, Progress, Modal, Drawer, Popover } from 'huayunui';
 import { Icon, KeyValue, Notification, Button as UltrauiButton } from 'ultraui'
 import { Row, Col, Tag, Carousel } from 'antd'
 import './index.less'
@@ -30,18 +30,31 @@ class Preview extends React.Component {
             },
             isQuotaManageModalVisible: false, // 配额管理模态框是否显示
             isClusterResourcesDrawerVisible: false, // 集群资源是否显示
+            availableQuotaData: {}, // 剩余可用配额
+
         }
     }
     componentDidMount() {
         this.getResourceInfor() // 资源使用监控数据
         this.getIsolationState()
         this.renderPieChart() // 应用状态拼图
+        this.getAvailableQuota()
     }
     componentWillReceiveProps({ detail }) {
         if (detail !== this.props.detail) {
             this.getResourceInfor()
             this.renderPieChart()
         }
+    }
+    // 获取剩余可用配额
+    getAvailableQuota = () => {
+        HuayunRequest(api.getAvailableQuota, { projectId: this.props.detail.projectId }, {
+            success: (res) => {
+                this.setState({
+                    availableQuotaData: res.data
+                })
+            }
+        })
     }
     // cpu.memory,storage的饼图和折线图数据
     getResourceInfor = () => {
@@ -263,9 +276,43 @@ class Preview extends React.Component {
             [key]: value
         })
     }
+    renderQuotaManageModalTitle = () => {
+        const { intl } = this.props
+        return (
+            <div className='quotaManageModalTitle'>
+                {intl.formatMessage({ id: 'AppCenterQuotaManage' })}
+                <Popover
+                    placement="top"
+                    content={this.renderQuotaAvailablePopover()}
+                    trigger="hover"
+                    type="text"
+                    getPopupContainer={() => document.querySelector('.quotaManageModalTitle')}
+                >
+                    &nbsp;<i className='iconfont icon-view' />
+                </Popover>
+            </div>
+        )
+    }
+    renderQuotaAvailablePopover = () => {
+        const { intl } = this.props
+        const { availableQuotaData } = this.state
+        return <div className='quotaAvailablePopoverContent'>
+            <div className='title'>{intl.formatMessage({ id: 'RemainingAvailableQuota' })}</div>
+            <div className='lineItem'>cCPU(m)<div className='dottedLine'></div>{availableQuotaData.cCPU}</div>
+            <div className='lineItem'>cMemory(Mi)<div className='dottedLine'></div>{availableQuotaData.cMemory}</div>
+            <div className='title'>{intl.formatMessage({ id: 'Static Storage' })}</div>
+            {
+                Object.keys((availableQuotaData.availableStorageQuota || {})).map(key => {
+                    return (
+                        <div className='lineItem' key={key}>{key}<div className='dottedLine'></div>{availableQuotaData.availableStorageQuota[key]}</div>
+                    )
+                })
+            }
+        </div>
+    }
     render() {
         const { intl, detail } = this.props
-        const { isAllowVisit, currentSlide, resourceInfor, isQuotaManageModalVisible, isClusterResourcesDrawerVisible } = this.state
+        const { isAllowVisit, currentSlide, resourceInfor, isQuotaManageModalVisible, isClusterResourcesDrawerVisible, availableQuotaData } = this.state
         const {
             id, name, createrName, createTime, description, tags, resourceObjectDtos, state, secondState, resourceObjectStatistics, projectId,
             commandExecuteLogs, applicationType, reversionNum, projectName, updateTime, historyResourceObjectDtos, quota, usedCpu, usedMemory
@@ -437,18 +484,19 @@ class Preview extends React.Component {
                     </Col>
                 </Row>
                 <Modal
-                    title={intl.formatMessage({ id: 'AppCenterQuotaManage' })}
+                    title={this.renderQuotaManageModalTitle()}
                     visible={isQuotaManageModalVisible}
                     onOk={this.handleConfirmQuotaManage}
                     onCancel={() => this.handleSetState('isQuotaManageModalVisible', false)}
                     className='quotaManageDialog'
                     destroyOnClose={true}
-                    width={800}
+                    width={512}
                 >
                     <QuotaManage
                         intl={intl}
                         projectId={projectId}
                         quota={quota}
+                        availableQuotaData={availableQuotaData}
                         wrappedComponentRef={node => this.$QuotaManage = node} />
                 </Modal>
                 <ClusterResources

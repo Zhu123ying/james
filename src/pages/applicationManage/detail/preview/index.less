@@ -154,54 +154,68 @@
     }
 }
 .quotaManageDialog{
-    .content{
+    .quotaManageModalTitle{
         display: flex;
-        justify-content: space-between;
-        .left{
-            width: 450px;
-            border-right: @border;
-            .@{ult-prefix}-rcform-group{
+        align-items: center;
+        .iconfont{
+            size: 12px;
+            color: #4C8CCA; 
+        }
+        .archer-popover{
+            width: 195px;
+            .quotaAvailablePopoverContent{
+                .title{
+                    font-size: 12px;
+                    color: #B0C1D4;
+                    margin: 4px 0;
+                }
+                .lineItem{
+                    display: flex;
+                    align-items: flex-end;
+                    margin: 4px 0;
+                    .dottedLine{
+                        width: 100%;
+                        border-top: 1px solid #7C98B6;
+                        padding: 1px 2px;
+                    }
+                }
+            }
+        }
+    }
+    .archer-modal-body{
+        .ult-rcform-group{
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+            .ult-label{
+                width: auto;
+                text-align: left;
+                font-size: 12px;
+                color: #33475B;
+            }
+            .ult-rcform-group-input-wrapper{
+                width: 100%;
+            }
+            .validation-error{
+                bottom: 0;
+                margin-bottom: -18px;
+                padding: 0;
+            }
+        }
+        .storageInfoPanel{
+            .ult-rcform-panel{
                 display: flex;
                 align-items: center;
-                .@{ult-prefix}-label{
-                    width: 140px!important;
-                }
-                .@{ult-prefix}-rcform-group-input-wrapper{
-                    width: 290px!important;
-                }
-                .validation-error{
-                    margin-top: 38px;
-                    margin-left: 120px;
-                }
-            }
-            .storageInfoPanel{
-                .@{ult-prefix}-rcform-panel{
-                    width: 310px!important;
-                    flex-direction: column;
-                    .@{ult-prefix}-rcform-group-input-wrapper{
-                        width: 150px!important;
-                    }
-                    .@{ult-prefix}-label{
-                        padding-right: 8px;
+                justify-content: space-between;
+                width: 100%;
+                .ult-rcform-group{
+                    width: calc(50% - 8px);
+                    .ult-label{
+                        font-size: 12px;
+                        color: #7C98B6;
                     }
                 }
             }
-        }
-        .right{
-            width: 300px;
-            .@{ult-prefix}-key-value{
-                .@{ult-prefix}-key-value-item{
-                    font-size: 14px;
-                    line-height: 28px;
-                    .@{ult-prefix}-key-value-item-value{
-                        text-align: center;
-                    }
-                }
-            }
-        }
-        .title{
-            font-size: 20px;
-            margin-bottom: 10px;
         }
     }
 }

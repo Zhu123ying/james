@@ -21,31 +21,25 @@ class QuotaManage extends React.Component {
             cCPU,
             cMemory,
             storageInfo: storageInfo || {},
-            availableQuotaData: {}, // 可用配额的数据
         }
     }
 
     componentDidMount() {
-        this.getAvailableQuota()
+        this.initStorageInfo()
     }
 
-    getAvailableQuota = () => {
-        HuayunRequest(api.getAvailableQuota, { projectId: this.props.projectId }, {
-            success: (res) => {
-                const { availableStorageQuota } = res.data
-                const storageInfoProps = _.get(this.props, 'quota.storageInfo', {})
-                let { storageInfo } = this.state
-                Object.keys(availableStorageQuota).map(key => {
-                    const total = _.get(storageInfoProps, `${key}.total`, 0)
-                    storageInfo[key] = {
-                        total
-                    }
-                })
-                this.setState({
-                    availableQuotaData: res.data,
-                    storageInfo
-                })
+    initStorageInfo = () => {
+        const { availableQuotaData: { availableStorageQuota }, quota } = this.props
+        const storageInfoProps = _.get(quota, 'storageInfo', {})
+        let { storageInfo } = this.state
+        Object.keys(availableStorageQuota || {}).map(key => {
+            const total = _.get(storageInfoProps, `${key}.total`, 0)
+            storageInfo[key] = {
+                total
             }
+        })
+        this.setState({
+            storageInfo
         })
     }
 
@@ -67,93 +61,61 @@ class QuotaManage extends React.Component {
 
     render() {
         const { intl, form } = this.props
-        const { cCPU, cMemory, storageInfo, availableQuotaData, isFetching } = this.state
-        const { availableStorageQuota, cCPU: cpuAvailable, cMemory: memoryAvailable } = availableQuotaData
-        const remainAvailableQuota = [
-            { label: 'cCPU(m)', value: cpuAvailable },
-            { label: 'cMemory(Mi)', value: memoryAvailable },
-            {
-                label: intl.formatMessage({ id: 'Static Storage' }),
-                value: availableStorageQuota ? (
-                    <React.Fragment>
-                        {
-                            Object.keys(availableStorageQuota).map(key => {
-                                return (
-                                    <div key={key}>
-                                        {
-                                            `${key}     ${availableStorageQuota[key]}`
-                                        }
-                                    </div>
-                                )
-                            })
-                        }
-                    </React.Fragment>
-                ) : ''
-            },
-        ]
+        const { cCPU, cMemory, storageInfo } = this.state
         return (
-            <div className='content'>
-                <div className='left'>
-                    <div className='title'>{intl.formatMessage({ id: 'CurrentQuota' })}</div>
-                    <Form
-                        ref={(node) => { this.form = node }}
-                        form={form}
-                    >
-                        <Input
-                            form={form}
-                            name='cCPU'
-                            value={cCPU || ''}
-                            type='number'
-                            onChange={val => this.handleChange('cCPU', val)}
-                            label='cCPU(m)'
-                            validRegex={Regex.isPositive}
-                            isRequired
-                            inline
-                        />
-                        <Input
-                            form={form}
-                            name='cMemory'
-                            value={cMemory || ''}
-                            type='number'
-                            onChange={val => this.handleChange('cMemory', val)}
-                            label='cMemory(Mi)'
-                            validRegex={Regex.isPositive}
-                            isRequired
-                            inline
-                        />
-                        <Panel
-                            form={form}
-                            value={storageInfo}
-                            name="storageInfo"
-                            label={intl.formatMessage({ id: 'Static Storage' })}
-                            inline
-                            className='storageInfoPanel'
-                        >
-                            {
-                                Object.keys(storageInfo).map(key => {
-                                    return (
-                                        <Input
-                                            form={form}
-                                            name={key}
-                                            value={storageInfo[key].total || ''}
-                                            type='number'
-                                            onChange={val => this.handleStorageChange(key, val)}
-                                            label={key}
-                                            validRegex={Regex.isPositive}
-                                            inline
-                                            key={key}
-                                        />
-                                    )
-                                })
-                            }
-                        </Panel>
-                    </Form>
-                </div>
-                <div className='right'>
-                    <div className='title'>{intl.formatMessage({ id: 'RemainingAvailableQuota' })}</div>
-                    <KeyValue values={remainAvailableQuota}></KeyValue>
-                </div>
-            </div>
+            <Form
+                ref={(node) => { this.form = node }}
+                form={form}
+            >
+                <Input
+                    form={form}
+                    name='cCPU'
+                    value={cCPU || ''}
+                    type='number'
+                    onChange={val => this.handleChange('cCPU', val)}
+                    label='cCPU(m)'
+                    validRegex={Regex.isPositive}
+                    isRequired
+                    inline
+                />
+                <Input
+                    form={form}
+                    name='cMemory'
+                    value={cMemory || ''}
+                    type='number'
+                    onChange={val => this.handleChange('cMemory', val)}
+                    label='cMemory(Mi)'
+                    validRegex={Regex.isPositive}
+                    isRequired
+                    inline
+                />
+                <Panel
+                    form={form}
+                    value={storageInfo}
+                    name="storageInfo"
+                    label={intl.formatMessage({ id: 'Static Storage' })}
+                    inline
+                    className='storageInfoPanel'
+                >
+                    {
+                        Object.keys(storageInfo).map(key => {
+                            return (
+                                <Input
+                                    form={form}
+                                    name={key}
+                                    value={storageInfo[key].total || ''}
+                                    type='number'
+                                    onChange={val => this.handleStorageChange(key, val)}
+                                    label={key}
+                                    validRegex={Regex.isPositive}
+                                    inline
+                                    key={key}
+                                />
+                            )
+                        })
+                    }
+                </Panel>
+            </Form>
         )
     }
 }
