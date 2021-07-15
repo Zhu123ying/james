@@ -1,6 +1,7 @@
 /* eslint-disable */
 import { Icon, Notification } from 'ultraui'
 import request, { extend } from 'umi-request';
+import { getCurrentUser } from '~/utils/cache'
 
 const prefix = '/api/'
 if (process.env.NODE_ENV === 'development') {
@@ -15,9 +16,16 @@ if (process.env.NODE_ENV === 'development') {
 
 // request拦截器
 request.interceptors.request.use((url, options) => {
+    const { roleType, roleId } = getCurrentUser()
     return {
         url: `${prefix}${url}`, // request拦截器为入参api字符串添加前缀
-        options: { ...options, interceptors: true }
+        options: {
+            ...options,
+            interceptors: true,
+            headers: roleType === 'Project' ? {
+                'X-Role-Id': roleId
+            } : {}
+        }
     }
 })
 
