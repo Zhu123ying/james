@@ -399,6 +399,7 @@ const zh_CN = {
     ItemName: '指标名称',
     AlarmRule: '使用率告警规则',
     NetworkType: '网络类型',
+    ExcuteResult: '执行结果',
 
     // 接口返回提示
     ImageArtifactDeleteFailContainerError: '镜像实例删除失败，镜像正在被容器使用中',

@@ -6,13 +6,14 @@ import './index.less'
 import HuayunRequest from '~/http/request'
 import { application as api } from '~/http/api'
 import DetailDrawer from '~/components/DetailDrawer'
-import { Collapse, Modal, Select, Popover } from 'huayunui'
+import { Collapse, Modal, Select, Popover, Table } from 'huayunui'
 import { Steps } from 'antd'
 import { DEFAULT_EMPTY_LABEL, ApplicationPublishTaskStatuList } from '~/constants'
 import ActionAuth from '~/components/ActionAuth'
 import actions from '~/constants/authAction'
 import ManageTaskNode from './manageTaskNode'
 import NodeResource from './nodeResource'
+import { renderStateWithDot } from '~/pages/utils'
 
 const { Step } = Steps
 const _ = window._
@@ -193,7 +194,38 @@ class TaskDetail extends React.Component {
         })
     }
     renderTaskNodeSatePopover = (result) => {
-        return result
+        const { intl } = this.props
+        let resultObject = JSON.parse(result) || {}
+        const tableData = Object.keys(resultObject).map(key => {
+            return resultObject[key]
+        })
+        const tableColumns = [
+            {
+                title: intl.formatMessage({ id: 'Type' }),
+                dataIndex: 'kind'
+            },
+            {
+                title: intl.formatMessage({ id: 'Name' }),
+                dataIndex: 'name'
+            }, {
+                title: intl.formatMessage({ id: 'ExcuteResult' }),
+                dataIndex: 'code',
+                render(code) {
+                    const dotClass = code === 200 ? 'text-success' : 'text-error'
+                    const text = intl.formatMessage({ id: code === 200 ? 'Success' : 'Fail' })
+                    return renderStateWithDot(dotClass, text)
+                }
+            }
+        ]
+        return (
+            <Table
+                rowKey='name'
+                dataSource={tableData}
+                columns={tableColumns}
+                pagination={false}
+                className='nodeExcuteResultTable'
+            />
+        )
     }
     renderStep = (item, index) => {
         const { intl } = this.props
@@ -220,7 +252,10 @@ class TaskDetail extends React.Component {
         const stateObj = {
             title: intl.formatMessage({ id: 'Status' }),
             value: (
-                <Popover title={this.renderTaskNodeSatePopover(item.result)}>
+                <Popover
+                    title={this.renderTaskNodeSatePopover(item.result)}
+                    getPopupContainer={() => document.querySelector('.taskDetailDrawerContent')}
+                >
                     <span className={taskNodeStateColor[state]}>
                         {ApplicationPublishTaskStatuList[state]}
                     </span>
