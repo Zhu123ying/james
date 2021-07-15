@@ -34,6 +34,8 @@ class UpdateApplication extends React.Component {
             versionId: applicationVersionId, // 选择的版本id
             applicationVersionList: [], // 应用版本列表
             isCoverApplicationGateway: 'true', // 是否覆盖应用包入口
+            isCoverApplicationAlarmConfig: 'true', // 告警配置是否覆盖
+            isCoverApplicationContainerConfig: 'true', // 日志采集配置是否覆盖
         }
     }
 
@@ -74,7 +76,7 @@ class UpdateApplication extends React.Component {
 
     render() {
         const { intl, detail: { applicationVersionId }, form } = this.props
-        const { versionId, oldConfigInfo, configInfo, chartValuesType, applicationVersionList, isCoverApplicationGateway } = this.state
+        const { versionId, oldConfigInfo, configInfo, chartValuesType, applicationVersionList, isCoverApplicationGateway, isCoverApplicationAlarmConfig, isCoverApplicationContainerConfig } = this.state
         return (
             <Form form={form}>
                 <Select
@@ -115,14 +117,14 @@ class UpdateApplication extends React.Component {
                                     maxLength={NaN}
                                 />
                             ) : (
-                                    <ReactDiffViewer
-                                        className='diffView'
-                                        hideLineNumbers={true}
-                                        oldValue={oldConfigInfo}
-                                        newValue={configInfo}
-                                        splitView={false}
-                                    />
-                                )
+                                <ReactDiffViewer
+                                    className='diffView'
+                                    hideLineNumbers={true}
+                                    oldValue={oldConfigInfo}
+                                    newValue={configInfo}
+                                    splitView={false}
+                                />
+                            )
                         }
                     </div>
                 }
@@ -136,6 +138,30 @@ class UpdateApplication extends React.Component {
                     ]}
                     value={isCoverApplicationGateway}
                     onChange={(val) => this.handleOnChange('isCoverApplicationGateway', val)}
+                    inline
+                />
+                <RadioGroup
+                    form={form}
+                    name="isCoverApplicationAlarmConfig"
+                    label={intl.formatMessage({ id: 'isCoverApplicationAlarmConfig' })}
+                    items={[
+                        { title: '是', value: 'true' },
+                        { title: '否', value: 'false' }
+                    ]}
+                    value={isCoverApplicationAlarmConfig}
+                    onChange={(val) => this.handleOnChange('isCoverApplicationAlarmConfig', val)}
+                    inline
+                />
+                <RadioGroup
+                    form={form}
+                    name="isCoverApplicationContainerConfig"
+                    label={intl.formatMessage({ id: 'isCoverApplicationContainerConfig' })}
+                    items={[
+                        { title: '是', value: 'true' },
+                        { title: '否', value: 'false' }
+                    ]}
+                    value={isCoverApplicationContainerConfig}
+                    onChange={(val) => this.handleOnChange('isCoverApplicationContainerConfig', val)}
                     inline
                 />
             </Form>

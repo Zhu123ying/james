@@ -179,7 +179,7 @@ class Log extends React.Component {
     render() {
         const { intl } = this.props
         const { name, pageNumber, pageSize, totalData, isFetching, currentDataItem, isDetailModalVisible, isAddLogModalVisible } = this.state
-        const tableData = _.cloneDeep(totalData).splice((pageNumber - 1), pageSize)
+        const tableData = _.cloneDeep(totalData).splice((pageNumber - 1) * pageSize, pageSize)
         return (
             <div className='applicationDetail_log'>
                 <TableCommon

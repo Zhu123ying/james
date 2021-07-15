@@ -60,7 +60,7 @@ class DynamicList extends React.Component {
                 dataIndex: 'accessModes',
                 key: 'accessModes',
                 title: '支持访问模式',
-                render(accessModes){
+                render(accessModes) {
                     return (accessModes || []).join('、')
                 }
             },
@@ -89,7 +89,7 @@ class DynamicList extends React.Component {
     render() {
         const { intl } = this.props
         const { pageNumber, pageSize, totalData, isFetching } = this.state
-        const tableData = _.cloneDeep(totalData).splice((pageNumber - 1), pageSize)
+        const tableData = _.cloneDeep(totalData).splice((pageNumber - 1) * pageSize, pageSize)
         return (
             <TableCommon
                 uniqueId='ApplicationCenter_StorageResource_PvList'

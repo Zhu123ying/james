@@ -20,6 +20,8 @@ class AppRollBack extends React.Component {
         this.state = {
             versionId: null,
             isCoverApplicationGateway: 'true', // 是否覆盖应用包入口
+            isCoverApplicationAlarmConfig: 'true', // 告警配置是否覆盖
+            isCoverApplicationContainerConfig: 'true', // 日志采集配置是否覆盖
             rollBackVersionlist: [], // 回滚的版本记录
         }
     }
@@ -28,8 +30,8 @@ class AppRollBack extends React.Component {
     }
     getAppHistoryVersion = () => {
         const { detail: { id: applicationId }, intl } = this.props
-        HuayunRequest(api.queryRollBackVersion, {applicationId}, {
-            success: ({data}) => {
+        HuayunRequest(api.queryRollBackVersion, { applicationId }, {
+            success: ({ data }) => {
                 let rollBackVersionlist = []
                 data.forEach((item, index) => {
                     if (!item.uninstall) {
@@ -53,7 +55,7 @@ class AppRollBack extends React.Component {
     }
     render() {
         const { intl, form } = this.props
-        const { versionId, isCoverApplicationGateway, rollBackVersionlist } = this.state
+        const { versionId, isCoverApplicationGateway, isCoverApplicationAlarmConfig, isCoverApplicationContainerConfig, rollBackVersionlist } = this.state
 
         return (
             <Form form={form}>
@@ -79,6 +81,30 @@ class AppRollBack extends React.Component {
                     ]}
                     value={isCoverApplicationGateway}
                     onChange={(val) => this.handleOnChange('isCoverApplicationGateway', val)}
+                    inline
+                />
+                <RadioGroup
+                    form={form}
+                    name="isCoverApplicationAlarmConfig"
+                    label={intl.formatMessage({ id: 'isCoverApplicationAlarmConfig' })}
+                    items={[
+                        { title: '是', value: 'true' },
+                        { title: '否', value: 'false' }
+                    ]}
+                    value={isCoverApplicationAlarmConfig}
+                    onChange={(val) => this.handleOnChange('isCoverApplicationAlarmConfig', val)}
+                    inline
+                />
+                <RadioGroup
+                    form={form}
+                    name="isCoverApplicationContainerConfig"
+                    label={intl.formatMessage({ id: 'isCoverApplicationContainerConfig' })}
+                    items={[
+                        { title: '是', value: 'true' },
+                        { title: '否', value: 'false' }
+                    ]}
+                    value={isCoverApplicationContainerConfig}
+                    onChange={(val) => this.handleOnChange('isCoverApplicationContainerConfig', val)}
                     inline
                 />
             </Form>

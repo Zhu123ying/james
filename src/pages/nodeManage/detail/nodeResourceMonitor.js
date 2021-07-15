@@ -204,6 +204,12 @@ class ResourceMonitor extends React.Component {
     }
     render() {
         const { intl } = this.props
+        const Load_StoragePanelTitle = (
+            <div className='Load_StoragePanelTitle'>
+                <span>Load(1m)</span>
+                <span>&nbsp;&nbsp;Storage</span>
+            </div>
+        )
         return (
             <Collapse defaultActiveKey={['1', '2', '3']} className='resourceMonitorPanel'>
                 {
@@ -213,7 +219,7 @@ class ResourceMonitor extends React.Component {
                     this.renderPanelItem('Memory(Gi)', '2', 'Memory')
                 }
                 {
-                    this.renderPanelItem('Load(1m)', '3', 'EphemeralStorage')
+                    this.renderPanelItem(Load_StoragePanelTitle, '3', 'EphemeralStorage')
                 }
             </Collapse >
         )

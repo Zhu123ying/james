@@ -139,7 +139,7 @@ class ApplicationDetail extends React.Component {
     }
     // 应用更新
     handleConfirmUpdate = () => {
-        const { props: { form }, state: { versionId: applicationVersionId, configInfo, isCoverApplicationGateway } } = this.$UpdateApplication
+        const { props: { form }, state: { versionId: applicationVersionId, configInfo, isCoverApplicationGateway, isCoverApplicationAlarmConfig, isCoverApplicationContainerConfig } } = this.$UpdateApplication
         form.validateFields((error, values) => {
             if (error) {
                 return false
@@ -151,7 +151,9 @@ class ApplicationDetail extends React.Component {
                 id,
                 applicationVersionId,
                 configInfo,
-                coverApplicationGateway: isCoverApplicationGateway === 'true' ? true : false
+                coverApplicationGateway: isCoverApplicationGateway === 'true' ? true : false,
+                coverApplicationAlarmConfig: isCoverApplicationAlarmConfig === 'true' ? true : false,
+                coverApplicationContainerConfig: isCoverApplicationContainerConfig === 'true' ? true : false
             }
             this.handleSetState('isApplicationUpdateModalVisible', false)
             HuayunRequest(api.upgrade, params, {
@@ -172,7 +174,7 @@ class ApplicationDetail extends React.Component {
     }
     // 应用回滚
     handleConfirmRollBack = () => {
-        const { props: { form }, state: { versionId: id, isCoverApplicationGateway } } = this.$ApplicationRollBack
+        const { props: { form }, state: { versionId: id, isCoverApplicationGateway, isCoverApplicationAlarmConfig, isCoverApplicationContainerConfig } } = this.$ApplicationRollBack
         form.validateFields((error, values) => {
             if (error) {
                 return false
@@ -183,7 +185,9 @@ class ApplicationDetail extends React.Component {
             const params = {
                 id,
                 applicationId: detail.id,
-                coverApplicationGateway: isCoverApplicationGateway === 'true' ? true : false
+                coverApplicationGateway: isCoverApplicationGateway === 'true' ? true : false,
+                coverApplicationAlarmConfig: isCoverApplicationAlarmConfig === 'true' ? true : false,
+                coverApplicationContainerConfig: isCoverApplicationContainerConfig === 'true' ? true : false
             }
             this.handleSetState('isApplicationRollBackModalVisible', false)
             HuayunRequest(api.rollBack, params, {
@@ -193,7 +197,7 @@ class ApplicationDetail extends React.Component {
                         id: 'RollBackSuccess',
                         type: 'success',
                         title: intl.formatMessage({ id: 'Success' }),
-                        content: `${action}${this.operationTarget}'${name}'${intl.formatMessage({ id: 'Success' })}`,
+                        content: `${action}${this.operationTarget}'${detail.name}'${intl.formatMessage({ id: 'Success' })}`,
                         iconNode: 'icon-success-o',
                         duration: 5,
                         closable: true

@@ -1,18 +1,20 @@
 /* eslint-disable */
 import React from 'react'
-import PropTypes from 'prop-types'
 import { resource as api } from '~/http/api'
 import HuayunRequest from '~/http/request'
-import { DatePicker, Select, Input, SearchBar, Button, Table, Modal, Space, Checkbox, Popover, Tooltip } from 'huayunui';
-import { Icon, NoData, Notification } from 'ultraui'
+import { DatePicker, Select, Input, SearchBar, Button, Table, Space, Checkbox, Popover, Tooltip, Modal } from 'huayunui'
+import { Icon, NoData, Notification, Dropdown } from 'ultraui'
 import './index.less'
 import TableCommon from '~/components/TableCommon'
+import { DEFAULT_EMPTY_LABEL } from '~/constants'
+import { formatChartValues } from '~/pages/utils'
 
 class PvList extends React.Component {
     constructor(props) {
         super(props)
         const { intl } = props
         this.state = {
+            name: '',
             pageNumber: 1,
             pageSize: 10,
             totalData: [],
@@ -139,20 +141,35 @@ class PvList extends React.Component {
         ]
     }
     readStatementInfor = (row) => {
-
+        const { intl } = this.props
+        Modal.confirm({
+            title: intl.formatMessage({ id: 'ReadStatementInfor' }),
+            content: (<div className="chartValues" dangerouslySetInnerHTML={{ __html: formatChartValues(row.yamlConfigInfo) }}></div>),
+            className: 'chartValueDialog noModalCancelBtn',
+        })
     }
-    handleTableChange = ({ pageNumber, pageSize }) => {
+    handleTableChange = ({ pageNumber, pageSize, name }) => {
         this.setState({
-            pageNumber, pageSize
+            pageNumber, pageSize, name
         })
     }
     render() {
         const { intl } = this.props
-        const { pageNumber, pageSize, totalData, isFetching } = this.state
-        const tableData = totalData.splice(pageNumber * pageSize, pageSize)
+        const { pageNumber, pageSize, name, totalData, isFetching } = this.state
+        // 要先搜索然后分页
+        const tableData = totalData.filter(item => {
+            return item.name.indexOf(name) > -1
+        }).splice((pageNumber - 1) * pageSize, pageSize)
 
         return (
             <TableCommon
+                searchOption={{
+                    key: 'name',
+                    title: intl.formatMessage({ id: 'Name' })
+                }}
+                params={{
+                    pageNumber, pageSize, name
+                }}
                 uniqueId='ApplicationCenter_StorageResource_PvList'
                 onRefresh={this.handleSearch}
                 columns={this.getColums()}

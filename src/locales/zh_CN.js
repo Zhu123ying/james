@@ -400,6 +400,8 @@ const zh_CN = {
     AlarmRule: '使用率告警规则',
     NetworkType: '网络类型',
     ExcuteResult: '执行结果',
+    isCoverApplicationAlarmConfig: '告警配置是否覆盖',
+    isCoverApplicationContainerConfig: '日志采集配置是否覆盖',
 
     // 接口返回提示
     ImageArtifactDeleteFailContainerError: '镜像实例删除失败，镜像正在被容器使用中',

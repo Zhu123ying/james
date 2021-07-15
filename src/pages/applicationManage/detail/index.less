@@ -18,6 +18,7 @@
 }
 
 .updateApplicationModal{
+    width: 580px!important;
     .archer-modal-content{
         .archer-modal-body{
             padding: 16px;
@@ -26,7 +27,7 @@
                 overflow: auto;
                 .btnGroup{
                     margin-bottom: 15px;
-                    padding-left: 130px;
+                    padding-left: 160px;
                     .archer-btn-primary{
                         border-radius: 3px 0 0 3px;
                     }
@@ -58,10 +59,10 @@
                 }
             }
             .ult-label{
-                width: 130px;
+                width: 160px;
             }
             .ult-rcform-group-input-wrapper{
-                width: calc(100% - 130px);
+                width: calc(100% - 160px);
                 .ult-textarea{
                     min-height: 120px;
                 }
@@ -82,7 +83,6 @@
     }
     .ult-rcform-group{
         display: flex;
-        flex-direction: column;
         margin-bottom: 15px;
         .ult-label{
             width: auto;
@@ -95,6 +95,9 @@
             padding-left: 0!important;
             margin-top: 60px;
         }
+    }
+    .ult-rcform-group:first-child{
+        flex-direction: column;
     }
 }
 
