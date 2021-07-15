@@ -41,14 +41,15 @@ class VersionManage extends React.Component {
         }
     }
     componentDidMount() {
+        const { currentVersionId } = this.state
         // 获取版本的日志数据
-        this.getApplicationPackageVersionLogConfigs()
+        currentVersionId && this.getApplicationPackageVersionLogConfigs(currentVersionId)
         // 版本的入口数据
-        this.getAppPackagePortData()
+        currentVersionId && this.getAppPackagePortData(currentVersionId)
         // 版本的详情
-        this.getApplicationPackageVersionInfo()
+        currentVersionId && this.getApplicationPackageVersionInfo(currentVersionId)
         // 获取告警数据
-        this.getAlarmConfigData()
+        currentVersionId && this.getAlarmConfigData(currentVersionId)
         // 获取告警模板
         this.getAlarmTemplates()
         // 获取告警联系人

@@ -21,7 +21,6 @@ class PullRecord extends React.Component {
         super(props)
         const { intl } = props
         this.state = {
-            name: '',
             pageNumber: 1,
             pageSize: 10,
             total: 0,
@@ -99,31 +98,22 @@ class PullRecord extends React.Component {
             }
         ]
     }
-    handleTableChange = ({ pageNumber, pageSize, name }) => {
+    handleTableChange = ({ pageNumber, pageSize }) => {
         this.setState({
-            pageNumber, pageSize, name
+            pageNumber, pageSize
         }, () => {
             this.handleSearch()
         })
     }
     render() {
         const { intl } = this.props
-        const { name, pageNumber, pageSize, total, tableData, isFetching } = this.state
+        const { pageNumber, pageSize, total, tableData, isFetching } = this.state
         return (
             <div className='pullList'>
                 <TableCommon
-                    // searchOption={{
-                    //     key: 'name',
-                    //     title: intl.formatMessage({ id: 'Name' })
-                    // }}
-                    // params={{
-                    //     pageNumber, pageSize, name
-                    // }}
-                    // paramsAlias={{
-                    //     name: {
-                    //         title: '名称'
-                    //     }
-                    // }}
+                    params={{
+                        pageNumber, pageSize
+                    }}
                     uniqueId='ApplicationCenter_Image_PullList'
                     onRefresh={this.handleSearch}
                     columns={this.getColums()}

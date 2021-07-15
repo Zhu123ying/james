@@ -16,7 +16,7 @@ class ProjectLibrary extends React.Component {
         super(props)
         this.state = {
             name: '',
-            createTime: '',
+            createTime: [],
             dataList: [], // 列表数据
             total: 0,
             currentTableItem: {}, // 当前的应用
@@ -43,7 +43,9 @@ class ProjectLibrary extends React.Component {
             pageNumber,
             pageSize,
             conditions: {
-                nameLike: name
+                nameLike: name,
+                startTime: createTime[0],
+                endTime: createTime[1]
             }
         }
         this.setState({

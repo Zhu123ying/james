@@ -194,7 +194,7 @@ class AppPackageCreate extends React.Component {
                                 label={intl.formatMessage({ id: 'Name' })}
                                 placeholder={intl.formatMessage({ id: 'NamePlaceHolder' })}
                                 validRegex={Regex.isName}
-                                invalidMessage={intl.formatMessage({ id: 'NamePlaceHolder' })}
+                                invalidMessage={intl.formatMessage({ id: 'NameErrorMsg' })}
                                 isRequired
                             />
                             <Textarea

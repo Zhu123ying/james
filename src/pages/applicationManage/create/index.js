@@ -401,9 +401,8 @@ class AppCreate extends React.Component {
                                         value={name}
                                         onChange={this.handleChange.bind(this, 'name')}
                                         label={intl.formatMessage({ id: 'AppName' })}
-                                        // placeholder={intl.formatMessage({ id: 'NamePlaceHolder' })}
                                         validRegex={Regex.isName}
-                                        // invalidMessage={intl.formatMessage({ id: 'NamePlaceHolder' })}
+                                        invalidMessage={intl.formatMessage({ id: 'NameErrorMsg' })}
                                         isRequired
                                     />
                                     <Textarea

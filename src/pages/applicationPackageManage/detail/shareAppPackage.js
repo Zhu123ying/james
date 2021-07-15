@@ -91,7 +91,7 @@ class ShareAppPackage extends React.Component {
                     onChange={this.handleChange.bind(this, 'name')}
                     label={intl.formatMessage({ id: 'Name' })}
                     validRegex={Regex.isName}
-                    invalidMessage={intl.formatMessage({ id: 'NamePlaceHolder' })}
+                    invalidMessage={intl.formatMessage({ id: 'NameErrorMsg' })}
                     isRequired
                 />
                 <Select

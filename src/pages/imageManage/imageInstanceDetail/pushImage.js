@@ -138,7 +138,6 @@ class PushImage extends React.Component {
                         onChange={(val) => this.handleChange('targetImage', val)}
                         label=''
                         placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'TargetImage' }) })}
-                        validRegex={Regex.isName}
                         isRequired
                     />
                 </Panel>

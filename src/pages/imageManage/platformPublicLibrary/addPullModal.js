@@ -157,7 +157,6 @@ class AddPullModal extends React.Component {
                                 onChange={(val) => this.handleChange('sourceImage', val)}
                                 label='源镜像'
                                 placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: '源镜像' })}
-                                validRegex={Regex.isName}
                                 isRequired
                             />
                         </React.Fragment>
@@ -221,7 +220,6 @@ class AddPullModal extends React.Component {
                         onChange={(val) => this.handleChange('targetImage', val)}
                         label=''
                         placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'TargetImage' }) })}
-                        validRegex={Regex.isName}
                         isRequired
                     />
                 </Panel>

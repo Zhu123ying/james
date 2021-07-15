@@ -235,6 +235,7 @@ class AppStoreManageApp extends React.Component {
                                 label={intl.formatMessage({ id: 'AppName' })}
                                 placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'AppName' }) })}
                                 validRegex={Regex.isName}
+                                invalidMessage={intl.formatMessage({ id: 'NameErrorMsg' })}
                                 isRequired
                             />
                             <Textarea

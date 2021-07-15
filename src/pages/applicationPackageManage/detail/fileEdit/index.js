@@ -36,7 +36,6 @@ const formatChartValues = (value = '') => {
     let content = JSON.stringify(value).replace(/\\n/g, '<br></br>').replace(/ /g, '&nbsp;').replace(/^(\s|\")+|(\s|\")+$/g, '').replace(/\\/g, '')
     return content
 }
-
 class FileEdit extends React.Component {
     constructor(props) {
         super(props)
@@ -97,7 +96,7 @@ class FileEdit extends React.Component {
                             item.rootPath ? null : (
                                 <div className='operaGroup'>
                                     <Button type='link' name='' icon={<Icon type='edit' />} onClick={() => this.handleEditTreeNodeItem(item)} />
-                                    <Button type='link' name='' icon={<Icon type='delete' />} onClick={() => this.handleDeleteTreeNodeItem(item.key)} />
+                                    <Button type='link' name='' icon={<Icon type='delete' />} onClick={(e) => this.handleDeleteTreeNodeItem(e, item.key)} />
                                 </div>
                             )
                         }
@@ -182,7 +181,9 @@ class FileEdit extends React.Component {
             treeData: this.formatTreeData(newTreeData)
         })
     }
-    handleDeleteTreeNodeItem = (key) => {
+    handleDeleteTreeNodeItem = (e, key) => {
+        // 这边得禁止冒泡，不然会触发handleSelectTreeNode方法
+        e.stopPropagation()
         let { treeData } = this.state
         // 当前选中的node的路径
         let keyPathArr = key.split('-')
@@ -195,7 +196,10 @@ class FileEdit extends React.Component {
         parentNodeChildren.splice(currentChildNodeIndex, 1)
         let newTreeData = _.cloneDeep(treeData)
         this.setState({
-            treeData: this.formatTreeData(newTreeData)
+            treeData: this.formatTreeData(newTreeData),
+            selectedKeys: [], // 删除要将选中的key删掉，这边可以直接将selectedKeys置空
+        }, () => {
+            this.$editorInstance.doc.setValue('')
         })
     }
     // 创建文件、文件夹
@@ -260,11 +264,14 @@ class FileEdit extends React.Component {
     handleCodeMirrorChange = () => {
         // 获取 CodeMirror.doc.getValue()
         // 赋值 CodeMirror.doc.setValue(value) // 会触发 onChange 事件，小心进入无线递归。
-        const { selectedKeys } = this.state
+        const key = _.get(this.state, 'selectedKeys.0', '')
         let content = this.$editorInstance.doc.getValue()
-        let currentNode = this.getNodeByNodeKey(selectedKeys[0])
+        let currentNode = this.getNodeByNodeKey(key)
         // 将编辑器的内容赋给当前节点
-        currentNode.fcontent = content
+        // 注：删除也会触发change，可能会导致找不到currentNode
+        if (currentNode) {
+            currentNode.fcontent = content
+        }
     }
     handleSelectTreeNode = (keys, node) => {
         this.setState({

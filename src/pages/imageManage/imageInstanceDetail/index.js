@@ -25,7 +25,8 @@ const severityObj = {
     low: '较低',
     Medium: '中等',
     High: '严重',
-    Unknown: '未知'
+    Unknown: '未知',
+    Low: '较低'
 }
 class Detail extends React.Component {
     constructor(props) {

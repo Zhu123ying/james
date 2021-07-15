@@ -92,16 +92,6 @@ class LogPersistence extends React.Component {
                                                 optionLabelProp='children'
                                                 isRequired
                                             />
-                                            {/* <Input
-                                                form={form}
-                                                name={`containers${index}Name`}
-                                                value={name}
-                                                onChange={(val) => this.handleFormDataOnChange(`${index}.name`, val)}
-                                                label={intl.formatMessage({ id: 'ContainerName' })}
-                                                placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'ContainerName' }) })}
-                                                validRegex={Regex.isName}
-                                                isRequired
-                                            /> */}
                                         </Collapse.Panel>
                                     )
                                 })

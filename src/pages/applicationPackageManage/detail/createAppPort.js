@@ -102,7 +102,7 @@ class CreateAppPort extends React.Component {
                     onChange={this.handleChange.bind(this, 'name')}
                     label={intl.formatMessage({ id: 'AppPortName' })}
                     validRegex={Regex.isName}
-                    invalidMessage={intl.formatMessage({ id: 'NamePlaceHolder' })}
+                    invalidMessage={intl.formatMessage({ id: 'NameErrorMsg' })}
                     isRequired
                 />
                 <Textarea
