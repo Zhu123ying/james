@@ -49,8 +49,10 @@
                     .configurationInfo{
                         display: flex;
                         align-items: center;
-                        width: -webkit-fill-available;
+                        justify-content: space-between;
+                        width: calc(100% - 46px);
                         .ult-key-value{
+                            width: 80%;
                             .ult-key-value-item{
                                 .ult-key-value-item-label{
                                     width: auto;
@@ -60,6 +62,10 @@
                                     padding: 2px 4px;
                                 }
                             }
+                        }
+                        .configState{
+                            width: 20%;
+                            font-size: 12px;
                         }
                     }
                     a{
@@ -98,6 +104,9 @@
                                 padding: 0;
                             }
                         }
+                    }
+                    .storageState{
+                        font-size: 12px;
                     }
                 }
             }

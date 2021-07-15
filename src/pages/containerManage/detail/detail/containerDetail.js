@@ -35,9 +35,6 @@ class Detail extends React.Component {
         if (!this[`$${id}`]) {
             this[`$${id}`] = echarts.init(document.getElementById(id))// 初始化echarts
         }
-        console.log(id)
-        console.log(data)
-
         // 设置options
         this[`$${id}`].setOption(this.getLineOption(id, data))
     }
@@ -101,7 +98,7 @@ class Detail extends React.Component {
         const basicKeyValue = [
             {
                 label: intl.formatMessage({ id: 'StartParameter' }),
-                value: command || DEFAULT_EMPTY_LABEL
+                value: (args || []).join('、') || DEFAULT_EMPTY_LABEL
             },
             {
                 label: intl.formatMessage({ id: 'WorkingDirectory' }),
@@ -109,8 +106,9 @@ class Detail extends React.Component {
             },
             {
                 label: intl.formatMessage({ id: 'EnvironmentVariable' }),
-                value: (envs || []).map(({ envKey, envValue }) => {
-                    return `${envKey || DEFAULT_EMPTY_LABEL} : ${envValue || DEFAULT_EMPTY_LABEL}`
+                value: (envs || []).map(({ envKey, envValue, type, selectFile, selectKey }) => {
+                    const value = type === 'manual' ? envValue : `(${selectKey} -> ${selectFile})`
+                    return `${envKey}: ${value}`
                 }).join('、')
             },
             {
@@ -143,7 +141,7 @@ class Detail extends React.Component {
             },
             {
                 label: '检测间隔(秒)',
-                value: periodSeconds || DEFAULT_EMPTY_LABEL
+                value: periodSeconds
             },
             {
                 label: '检测方式',
@@ -151,7 +149,7 @@ class Detail extends React.Component {
             },
             {
                 label: '超时时间(秒)',
-                value: timeoutSeconds || DEFAULT_EMPTY_LABEL
+                value: timeoutSeconds
             },
             {
                 label: '检测命令',
@@ -159,11 +157,11 @@ class Detail extends React.Component {
             },
             {
                 label: '失败时重复(次)',
-                value: failureThreshold || DEFAULT_EMPTY_LABEL
+                value: failureThreshold
             },
             {
                 label: '初始化等待(秒)',
-                value: initialDeploy || DEFAULT_EMPTY_LABEL
+                value: initialDeploy
             }
         ]
         const cpu_usage_current = _.get(monitorData, 'cpu_usage_current', '0')

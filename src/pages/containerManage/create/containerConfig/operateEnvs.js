@@ -22,16 +22,16 @@ class ManageEnvs extends React.Component {
             envKey: '',
             type: 'manual',
             envValue: '',
-            SelectFile: '',
-            SelectKey: '',
+            selectFile: '',
+            selectKey: '',
         }
     }
     componentDidMount() {
         const { currentEnvs } = this.props
         if (currentEnvs && currentEnvs.type) {
-            const { envKey, type, envValue, SelectFile, SelectKey } = currentEnvs
+            const { envKey, type, envValue, selectFile, selectKey } = currentEnvs
             this.setState({
-                envKey, type, envValue, SelectFile, SelectKey
+                envKey, type, envValue, selectFile, selectKey
             })
         }
     }
@@ -43,21 +43,21 @@ class ManageEnvs extends React.Component {
             if (key === 'type') {
                 this.setState({
                     envValue: '',
-                    SelectFile: '',
-                    SelectKey: ''
+                    selectFile: '',
+                    selectKey: ''
                 })
             }
-            if (key === 'SelectFile') {
+            if (key === 'selectFile') {
                 this.setState({
-                    SelectKey: ''
+                    selectKey: ''
                 })
             }
         })
     }
     render() {
         const { form, intl, formData: { configurations } } = this.props
-        const { envKey, type, envValue, SelectFile, SelectKey } = this.state
-        const selectFileObj = configurations.find(item => item.name === SelectFile)
+        const { envKey, type, envValue, selectFile, selectKey } = this.state
+        const selectFileObj = configurations.find(item => item.name === selectFile)
         const selectKeyData = _.get(selectFileObj, 'data', {})
         return (
             <Form
@@ -117,10 +117,10 @@ class ManageEnvs extends React.Component {
                         <div className='inline'>
                             <Select
                                 form={form}
-                                name="SelectFile"
-                                value={SelectFile}
+                                name="selectFile"
+                                value={selectFile}
                                 placeholder={intl.formatMessage({ id: 'SelectPlaceHolder' }, { name: intl.formatMessage({ id: 'File' }) })}
-                                onChange={(val) => this.handleChange('SelectFile', val)}
+                                onChange={(val) => this.handleChange('selectFile', val)}
                                 label={intl.formatMessage({ id: 'File' })}
                                 isRequired
                                 options={
@@ -133,10 +133,10 @@ class ManageEnvs extends React.Component {
                             />
                             <Select
                                 form={form}
-                                name="SelectKey"
-                                value={SelectKey}
+                                name="selectKey"
+                                value={selectKey}
                                 placeholder={intl.formatMessage({ id: 'SelectPlaceHolder' }, { name: 'Key' })}
-                                onChange={(val) => this.handleChange('SelectKey', val)}
+                                onChange={(val) => this.handleChange('selectKey', val)}
                                 label='Key'
                                 isRequired
                                 options={

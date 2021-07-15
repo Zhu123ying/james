@@ -41,7 +41,7 @@ class ContainerDetail extends React.Component {
     }
     // 获取应用以及资源的详情信息, isInterval:是否是轮询请求
     getDetail = (id = this.props.currentTableItem.id, isInterval) => {
-        const { intl } = this.props
+        const { intl, refreshTableList } = this.props
         const { detail } = this.state
         if (id !== detail.id) {
             if (isInterval) {
@@ -64,6 +64,10 @@ class ContainerDetail extends React.Component {
                         setTimeout(() => {
                             this.getDetail(id, true)
                         }, 10000)
+                    }
+                    if (state !== detail.state) {
+                        // 状态改变更新列表页
+                        refreshTableList()
                     }
                 })
             },
@@ -105,7 +109,7 @@ class ContainerDetail extends React.Component {
             onOk: () => {
                 HuayunRequest(api[actionType], { id }, {
                     success: (res) => {
-                        refreshTableList() // 更新列表
+                        this.getDetail(id)
                         notification.notice({
                             id: new Date(),
                             type: 'success',

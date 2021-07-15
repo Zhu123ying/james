@@ -40,7 +40,7 @@ class NetworkConfig extends React.Component {
     handleSwitchOnChange = (value) => {
         let { formData: { network }, handleFormChange } = this.props
         if (value) {
-            network = { ...networkInitData }
+            network = _.cloneDeep(networkInitData)
         } else {
             network = {}
         }

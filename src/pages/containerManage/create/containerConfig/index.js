@@ -30,6 +30,10 @@ const paramItem = {
     type: '', // 添加还是编辑，
     path: '', // data元素对应的路径
 }
+const ContainerMountTypeObj = {
+    configuration: '配置文件',
+    storage: '持久存储'
+}
 class ContainerConfig extends React.Component {
     constructor(props) {
         super(props)
@@ -118,16 +122,16 @@ class ContainerConfig extends React.Component {
     handleConfirmManageEnvs = () => {
         let { handleFormChange, formData: { containers }, intl } = this.props
         const { modalParams: { envs } } = this.state
-        const { envKey, type, envValue, SelectFile, SelectKey } = this.$OperateEnvs.state
+        const { envKey, type, envValue, selectFile, selectKey } = this.$OperateEnvs.state
         this.$OperateEnvs.props.form.validateFields((error, values) => {
             if (!error) {
                 if (envs.type === 'add') {
                     let arr = _.get(containers, envs.path, [])
                     arr.push({
-                        envKey, type, envValue, SelectFile, SelectKey
+                        envKey, type, envValue, selectFile, selectKey
                     })
                 } else {
-                    _.set(containers, envs.path, { envKey, type, envValue, SelectFile, SelectKey })
+                    _.set(containers, envs.path, { envKey, type, envValue, selectFile, selectKey })
                 }
                 handleFormChange('containers', [...containers])
                 this.handleCancelModal('envs')
@@ -376,12 +380,12 @@ class ContainerConfig extends React.Component {
                                                     mounts && mounts.map((item, index_) => {
                                                         const { type, subType, mountItem, mountPath, readOnly, subPath } = item
                                                         return (
-                                                            <Card handleDelete={() => this.handleRemoveFormDataItem(`containers.${index}.mounts`, index_)}>
+                                                            <Card handleDelete={() => this.handleRemoveFormDataItem(`containers.${index}.mounts`, index_)} key={index_}>
                                                                 <div className='commonSet'>
                                                                     <div className='keyValueBox'>
                                                                         <div className='keyValueLine'>
                                                                             <div className='lineTitle'>类型</div>
-                                                                            <div className='lineValue'>{type}</div>
+                                                                            <div className='lineValue'>{ContainerMountTypeObj[type]}</div>
                                                                         </div>
                                                                         <div className='keyValueLine'>
                                                                             <div className='lineTitle'>挂载路径</div>
@@ -399,7 +403,7 @@ class ContainerConfig extends React.Component {
                                                                             <div className='lineValue'>{readOnly ? '是' : '否'}</div>
                                                                         </div>
                                                                         <div className='keyValueLine'>
-                                                                            <div className='lineTitle'>环境变量定义子路径</div>
+                                                                            <div className='lineTitle'>子路径</div>
                                                                             <div className='lineValue'>{subPath}</div>
                                                                         </div>
                                                                     </div>
@@ -427,7 +431,7 @@ class ContainerConfig extends React.Component {
                                                 />
                                                 {
                                                     envs && envs.map((item, index_) => {
-                                                        const { envKey, type, envValue, SelectFile, SelectKey } = item
+                                                        const { envKey, type, envValue, selectFile, selectKey } = item
                                                         return (
                                                             <Card handleDelete={() => this.handleRemoveFormDataItem(`containers.${index}.envs`, index_)}>
                                                                 <div className='commonSet'>
@@ -445,7 +449,7 @@ class ContainerConfig extends React.Component {
                                                                             ) : (
                                                                                 <div className='keyValueLine'>
                                                                                     <div className='lineTitle'>文件/Key</div>
-                                                                                    <div className='value'>{`${SelectFile} | ${SelectKey}`}</div>
+                                                                                    <div className='value'>{`${selectFile} | ${selectKey}`}</div>
                                                                                 </div>
                                                                             )
                                                                         }
@@ -681,7 +685,6 @@ class ContainerConfig extends React.Component {
                                                 name={`containers${index}Privileged`}
                                                 label={intl.formatMessage({ id: 'PrivilegedMode' })}
                                                 inline
-                                                isRequired
                                                 className='switchPanel'
                                             >
                                                 <Switch onChange={() => this.handleFormDataOnChange(`${index}.runVar.privileged`, !privileged)}></Switch>

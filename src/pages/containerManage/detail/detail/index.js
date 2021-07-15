@@ -9,6 +9,24 @@ import { DEFAULT_EMPTY_LABEL, ContainerStateList } from '~/constants'
 import './index.less'
 import DetailIcon from '~/components/DetailIcon'
 import ContainerDetail from './containerDetail'
+
+// 容器配置文件的状态对照
+const ContainerConfigFileStateObject = {
+    config: '配置中',
+    running: '正常',
+    error: '异常',
+    unknown: '未知'
+}
+
+// 容器持久存储的状态对照
+const ContainerStorageStateObject = {
+    config: '配置中',
+    pending: '等待中',
+    bound: '已绑定',
+    lost: '丢失',
+    error: '异常',
+    unknown: '未知'
+}
 class Detail extends React.Component {
     constructor(props) {
         super(props)
@@ -118,13 +136,8 @@ class Detail extends React.Component {
                 }
             },
             {
-                dataIndex: 'image',
-                title: intl.formatMessage({ id: 'Image' }),
-                render(image) {
-                    const { project, repo, tag } = image
-                    const arr = [project, repo, tag].filter(item => !!item)
-                    return arr.join('/')
-                }
+                dataIndex: 'imagePath',
+                title: intl.formatMessage({ id: 'Image' })
             }
         ]
         return columns
@@ -209,6 +222,7 @@ class Detail extends React.Component {
                                             <div className='configurationInfo'>
                                                 <DetailIcon iconType="log" className="m-r-sm" />
                                                 <KeyValue values={this.getConfigurationItemData(item)} />
+                                                <span className='configState'>{ContainerConfigFileStateObject[item.status]}</span>
                                             </div>
                                             <Popover
                                                 placement="right"
@@ -234,7 +248,7 @@ class Detail extends React.Component {
                                         <div className='contentItem storageItem'>
                                             <div className='storageName'>
                                                 <span>{item.name}</span>
-                                                <span>{item.status}</span>
+                                                <span className='storageState'>{ContainerStorageStateObject[item.status]}</span>
                                             </div>
                                             <KeyValue values={this.getStorageItemData(item)} />
                                         </div>

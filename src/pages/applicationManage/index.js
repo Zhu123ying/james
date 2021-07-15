@@ -27,6 +27,7 @@ class ApplicationManage extends React.Component {
             pageSize: 30,
             isFetching: false,
             projectList: [], // 项目列表
+            total: 0
         }
     }
     componentDidMount() {
@@ -100,10 +101,11 @@ class ApplicationManage extends React.Component {
         })
         HuayunRequest(api.list, params, {
             success: (res) => {
-                const { data: { datas } } = res
+                const { data: { datas, total } } = res
                 this.setState({
                     dataList: datas,
-                    currentApplication: (isResetCurrentApplication && datas[0]) ? datas[0] : currentApplication,
+                    total,
+                    currentApplication: isResetCurrentApplication ? (datas[0] || {}) : currentApplication,
                 })
             },
             complete: (res) => {
@@ -119,11 +121,12 @@ class ApplicationManage extends React.Component {
         })
     }
     handleScroll = (e) => {
+        const { total, dataList } = this.state
         let dom = e.currentTarget
         let viewH = dom.clientHeight
         let contentH = dom.scrollHeight
         let scrollTop = dom.scrollTop
-        if (scrollTop === (contentH - viewH)) {
+        if (scrollTop === (contentH - viewH) && dataList.length !== total) {
             this.setState({
                 pageSize: this.state.pageSize + 30
             }, () => {

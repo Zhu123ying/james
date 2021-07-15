@@ -262,6 +262,7 @@ class ContainerGroupConfig extends React.Component {
                                 form={form}
                                 value={egress}
                                 min={0}
+                                max={100000}
                                 slot={{
                                     position: 'right',
                                     format: () => 'Mbps'
@@ -282,6 +283,7 @@ class ContainerGroupConfig extends React.Component {
                                 form={form}
                                 value={ingress}
                                 min={0}
+                                max={100000}
                                 slot={{
                                     position: 'right',
                                     format: () => 'Mbps'

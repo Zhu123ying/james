@@ -167,7 +167,7 @@ class ManageMountConfig extends React.Component {
                             </Panel>
                             <UltrauiInput.InputGroup>
                                 <UltrauiSelect defaultValue="subPath">
-                                    <Option value='subPath' text='环境变量子路径' >环境变量子路径</Option>
+                                    <Option value='subPath' text='子路径' >子路径</Option>
                                 </UltrauiSelect>
                                 <UltrauiInput
                                     value={subPath}

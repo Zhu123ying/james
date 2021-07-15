@@ -401,6 +401,9 @@ const zh_CN = {
     NetworkType: '网络类型',
 
     // 接口返回提示
+    ImageArtifactDeleteFailContainerError: '镜像实例删除失败，镜像正在被容器使用中',
+    ImageArtifactDeleteFailApplicationError: '镜像实例删除失败，镜像正在被应用使用中',
+    ImageArtifactDeleteFailOperateError: '镜像实例删除失败',
     'Container.Container.PortNameExistsError': '容器端口名称重复',
     'Container.Container.ApplicationContainerNotExists': '容器组中必须存在应用容器',
     ApplicationPackageVersionLogConfigNotFoundError: '应用包版本的容器日志配置无法找到',

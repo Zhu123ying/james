@@ -11,7 +11,7 @@ import actions from '~/constants/authAction'
 import { ContainerGroupStateDomList, ContainerGroupSecondStateColorList } from '~/constants'
 
 const notification = Notification.newInstance()
-const { RangePicker } = DatePicker;
+const { RangePicker } = DatePicker
 class ContainerManage extends React.Component {
     constructor(props) {
         super(props)
@@ -91,7 +91,7 @@ class ContainerManage extends React.Component {
             createTimeStart: createTime[0],
             createTimeEnd: createTime[1]
         }
-        this.setState({
+        isResetCurrentTableItem && this.setState({
             isFetching: true
         })
         HuayunRequest(api.list, params, {
@@ -140,6 +140,7 @@ class ContainerManage extends React.Component {
                 customerPlaceholder={intl.formatMessage({ id: 'CreateTime' })}
                 value={createTime}
                 key='RangePicker'
+                showTime={true}
             />,
             <Select
                 placeholder={intl.formatMessage({ id: 'Project' })}

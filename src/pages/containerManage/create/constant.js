@@ -181,7 +181,7 @@ export const ValidCommonNameProps = {
             不符合规范&nbsp;
             <Popover
                 placement="top"
-                content={<div>{`正则：${CommonNameRegex}`}</div>}
+                content={<div>{`正则：${LabelKeyRegex}`}</div>}
                 trigger="hover"
                 type="text"
             >
