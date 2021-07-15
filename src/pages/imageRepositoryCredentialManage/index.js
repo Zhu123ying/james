@@ -223,13 +223,14 @@ class ImageRepositoryCredentialManage extends React.Component {
             if (error) {
                 return
             }
-            const { repoName, credentialType, projectId, protocol, host, port, userName, password, certInfo } = this.$ImageVoucher.state
+            const { repoName, credentialType, projectId, protocol, host, port, userName, password, caCert } = this.$ImageVoucher.state
             const params = {
-                repoName, credentialType, projectId, protocol, host, port, userName, password, certInfo, id: currentTableItem.id
+                repoName, credentialType, projectId, protocol, host, port, userName, password, caCert, id: currentTableItem.id
             }
             const url = api[currentTableItem.id ? 'updateRepositoryCredential' : 'createRepositoryCredential']
             const action = currentTableItem.id ? intl.formatMessage({ id: 'Update' }) : intl.formatMessage({ id: 'Create' })
-            HuayunUploadRequest(url, params, {
+            const requestType = (caCert instanceof File) ? HuayunUploadRequest : HuayunRequest
+            requestType(url, params, {
                 success: (res) => {
                     this.setState({
                         isModalVisible: false

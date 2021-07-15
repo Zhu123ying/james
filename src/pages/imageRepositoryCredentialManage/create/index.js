@@ -22,7 +22,7 @@ class Create extends React.Component {
             port: '',
             userName: '',
             password: '',
-            certInfo: {}
+            caCert: {}
         }
     }
 
@@ -32,7 +32,7 @@ class Create extends React.Component {
         if (id) {
             this.setState({
                 repoName, credentialType, projectId, protocol, host, port, userName, password,
-                certInfo: {
+                caCert: {
                     name: certName
                 }
             })
@@ -54,14 +54,14 @@ class Create extends React.Component {
 
     handleChoseFile = (file) => {
         this.setState({
-            certInfo: file
+            caCert: file
         })
         return false
     }
 
     render() {
         const { form, intl, projectList, currentTableItem } = this.props
-        const { repoName, credentialType, projectId, protocol, host, port, userName, password, certInfo } = this.state
+        const { repoName, credentialType, projectId, protocol, host, port, userName, password, caCert } = this.state
         return (
             <div id="CreateImageVoucher">
                 <Form
@@ -167,8 +167,8 @@ class Create extends React.Component {
                     />
                     <Panel
                         form={form}
-                        value={certInfo}
-                        name="certInfo"
+                        value={caCert}
+                        name="caCert"
                         className="uploadPanel"
                         label='证书'
                         inline
@@ -178,7 +178,7 @@ class Create extends React.Component {
                             beforeUpload={this.handleChoseFile}
                         >
                             <RcForm.Button type="primary" name={intl.formatMessage({ id: 'selectFile' })} />
-                            <span className="fileName">&nbsp;&nbsp;{certInfo && certInfo.name}</span>
+                            <span className="fileName">&nbsp;&nbsp;{caCert && caCert.name}</span>
                         </Upload>
                     </Panel>
                 </Form>
