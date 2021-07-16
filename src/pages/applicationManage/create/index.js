@@ -1,62 +1,57 @@
 /* eslint-disable */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { RcForm, Loading, Notification, Button, KeyValue, Dialog } from 'ultraui'
-import MultiLineMessage from '~/components/MultiLineMessage'
+import { RcForm, Loading, Notification, KeyValue, Dialog, TagItem, InputNumber } from 'ultraui'
+import { Collapse, Button, ButtonGroup } from 'huayunui'
+import ReactDiffViewer from 'react-diff-viewer'
 import Regex from '~/utils/regex'
 import './index.less'
-import ReactDiffViewer from 'react-diff-viewer'
-import { packageDetailKeyObject, formatChartValues, renderStorageConfigTooltip } from '../../utils'
-import { GetQueryString, queryParamsToObject } from '~/utils/url'
 import HuayunRequest from '~/http/request'
 import { application, quota, applicationPackage, applicationStore } from '~/http/api'
+import { GetQueryString, queryParamsToObject } from '~/utils/url'
 
 const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select, Panel } = RcForm
 const notification = Notification.newInstance()
 const _ = window._
-
-// 从应用包进来的带applicationPackageId和applicationVersionId
-// 从应用商店进来的带应用商店应用的id，而非应用的id
-class AppCreate extends React.Component {
+const navigationBarItems = ['BasicInfo', 'ApplicationQuota']
+class CreateApplication extends React.Component {
     static propTypes = {
         form: PropTypes.object.isRequired,
         intl: PropTypes.object.isRequired
     }
-
     constructor(props) {
         super(props)
-        this.id = _.get(props, 'match.params.id', null) // 编辑的时候传过来的应用的id
         this.state = {
-            formData: {
-                projectId: '',
-                name: '',
-                description: '',
-                tags: [],
-                tagInput: '',
-                cCPU: 0,
-                cMemory: 0,
-                cEphemeralStorage: 0,
-                cStorage: 0,
-                applicationPackageId: '',
-                applicationVersionId: '',
-                configInfo: null, // 修改过的chartValues
-                isolation: 'true', // 允许外部访问
-            },
-            currentVersion: {}, // 选中的版本
+            // 表单提交的元素
+            projectId: '',
+            name: '',
+            description: '',
+            tags: [],
+            cCPU: 0,
+            cMemory: 0,
+            cEphemeralStorage: 0,
+            cStorage: 0,
+            applicationPackageId: '',
+            applicationVersionId: '',
+            configInfo: null, // 修改过的chartValues
+            isolation: 'true', // 允许外部访问
+            // 表单提交的元素
+            tagInput: '',
+            currentConfigInfo: '', // 当前选中的版本的configInfo
             chartValuesType: 1, // 显示chartValues的类型
             appPackageList: [], // 应用包列表
             appPackageVersionList: [], // 应用包版本列表
             projectList: [], // 项目列表
             availableQuota: {}, // 可用配额
-            isFetching: false
+            recommandQuota: {}, // 建议配额
+            isFetching: false,
+            currentBarType: navigationBarItems[0],
         }
     }
-
     componentDidMount() {
         this.handleComeFromByDiffPage()
         this.getProjectList()
     }
-
     // 处理从不同路径进入到创建应用
     handleComeFromByDiffPage = () => {
         // 如果是从应用商店进来的，则需要获取默认值
@@ -67,12 +62,8 @@ class AppCreate extends React.Component {
         } else if (applicationPackageId) {
             // 从应用包进入的
             this.getAppPackageDetail(applicationPackageId, applicationPackageVersionId)
-        } else if (this.id) {
-            // 如果是从应用进入的
-            this.getDetail()
         }
     }
-
     // 获取项目列表
     getProjectList = () => {
         let params = {
@@ -87,31 +78,26 @@ class AppCreate extends React.Component {
             }
         })
     }
-
     getAppPackageDetail = (id, applicationPackageVersionId) => {
         HuayunRequest(applicationPackage.getApplicationPackageForApplication, { id, applicationPackageVersionId }, {
             success: (res) => {
                 const { name, applicationPackageVersionList: appPackageVersionList, packageVersionPojo: currentVersion, projectId } = res.data
                 // 应用包可能没有版本列表数据
-                const { quota, chartValues, id: applicationVersionId, applicationPackageId } = currentVersion
+                const { chartValues, id: applicationVersionId, applicationPackageId } = currentVersion
                 this.setState({
                     appPackageList: [{
                         id, name
                     }],
                     appPackageVersionList,
-                    currentVersion: applicationVersionId ? { quota, chartValues } : {},
-                    formData: {
-                        ...this.state.formData,
-                        configInfo: chartValues,
-                        projectId,
-                        applicationPackageId,
-                        applicationVersionId,
-                    }
+                    currentConfigInfo: applicationVersionId ? chartValues : '',
+                    configInfo: chartValues,
+                    projectId,
+                    applicationPackageId,
+                    applicationVersionId,
                 })
             }
         })
     }
-
     getAppPackageList = (projectId) => {
         HuayunRequest(applicationStore.appPackageList, { projectId }, {
             success: (res) => {
@@ -121,57 +107,42 @@ class AppCreate extends React.Component {
             }
         })
     }
-
     handleToCreateAppFromAppStore = (id, applicationPackageVersionId) => {
         HuayunRequest(application.getDetailByAppStoreId, { id, applicationPackageVersionId }, {
             success: (res) => {
                 const { name, applicationPackageVersionStoreList: appPackageVersionList, packageVersionPojo: currentVersion } = res.data
                 // 应用包可能没有版本列表数据
-                const { quota, chartValues, id: applicationVersionId, applicationPackageStoreId } = currentVersion
+                const { chartValues, id: applicationVersionId, applicationPackageStoreId } = currentVersion
                 this.setState({
                     appPackageList: [{
                         id, name
                     }],
                     appPackageVersionList,
-                    currentVersion: applicationVersionId ? { quota, chartValues } : {},
-                    formData: {
-                        ...this.state.formData,
-                        configInfo: chartValues,
-                        applicationPackageId: applicationPackageStoreId,
-                        applicationVersionId,
-                    }
+                    currentConfigInfo: applicationVersionId ? chartValues : '',
+                    configInfo: chartValues,
+                    applicationPackageId: applicationPackageStoreId,
+                    applicationVersionId,
                 })
             }
         })
     }
-
-    getDetail = () => {
-        // 获取详情数据
-        HuayunRequest(application.detail, { id: this.id }, {
+    // 获取建议配额
+    getRecommandQuotaData = () => {
+        const { applicationVersionId, configInfo } = this.state
+        const params = {
+            applicationType: GetQueryString('id') ? 'APPSTORE' : 'COMMON',
+            applicationVersionId,
+            configInfo
+        }
+        HuayunRequest(application.queryApplicationNeedQuato, params, {
             success: (res) => {
-                const { id, name, description, tags, quota: { cCPU, cMemory, storageInfo: { cEphemeralStorage, cStorage } }, configInfo, applicationVersionId, projectId } = res.data
-                const { applicationPackageId } = _.get(res, packageDetailKeyObject[res.applicationType], {})
                 this.setState({
-                    formData: {
-                        ...this.state.formData,
-                        id,
-                        name,
-                        description,
-                        tags,
-                        cCPU,
-                        cMemory,
-                        cEphemeralStorage: cEphemeralStorage.total,
-                        cStorage: cStorage.total,
-                        configInfo,
-                        applicationVersionId,
-                        applicationPackageId,
-                        projectId
-                    }
+                    recommandQuota: res.data
                 })
             }
         })
     }
-
+    // 获取可用配额
     getAvailableQuota = (projectId) => {
         HuayunRequest(application.getAvailableQuota, { projectId }, {
             success: (res) => {
@@ -181,156 +152,127 @@ class AppCreate extends React.Component {
             }
         })
     }
-
     handleChange = (key, val, item) => {
         const value = _.get(val, 'target.value', val)
-        this.setState(({ formData }) => ({
-            formData: {
-                ...formData,
-                [`${key}`]: value
-            }
-        }), () => {
+        this.setState({
+            [key]: value
+        }, () => {
             if (key === 'projectId') {
                 this.getAppPackageList(value)
                 this.getAvailableQuota(value)
                 this.setState({
-                    formData: {
-                        ...this.state.formData,
-                        applicationPackageId: '',
-                        applicationVersionId: ''
-                    },
+                    applicationPackageId: '',
+                    applicationVersionId: '',
                     appPackageVersionList: [],
+                    currentConfigInfo: '',
+                    recommandQuota: {}
                 })
             }
             if (key === 'applicationPackageId') {
                 this.setState({
-                    formData: { ...this.state.formData, applicationVersionId: '' },
-                    currentVersion: {}
+                    applicationVersionId: '',
+                    currentConfigInfo: '',
+                    recommandQuota: {}
                 })
                 this.getAppPackageVersionList()
             }
             if (key === 'applicationVersionId' && item) {
-                const { quota, chartValues } = item.props
+                const { chartValues } = item.props
                 this.setState({
-                    currentVersion: {
-                        quota, chartValues
-                    },
-                    formData: { ...this.state.formData, configInfo: chartValues },
+                    currentConfigInfo: chartValues,
+                    configInfo: chartValues,
                     chartValuesType: 1
                 })
             }
         })
     }
-
     handleChartValuesChange = (key, val) => {
         const value = _.get(val, 'target.value', val)
         this.setState({
             [key]: value
         })
     }
-
     handleAddTag = () => {
-        const { formData } = this.state
-        const { tagInput, tags } = formData
+        const { tagInput, tags } = this.state
         this.setState({
-            formData: {
-                ...formData,
-                tags: [...tags, tagInput],
-                tagInput: ''
-            }
+            tags: [...tags, tagInput],
+            tagInput: ''
         })
     }
-
-    deleteTag = (index) => {
-        const { formData } = this.state
-        const { tags } = formData
+    handleDeleteTag = (index) => {
+        const { tags } = this.state
         tags.splice(index, 1)
         this.setState({
-            formData: {
-                ...formData,
-                tags
+            tags
+        })
+    }
+    handleSubmit = () => {
+        const { form, history, intl } = this.props
+        const { cCPU, cMemory, cEphemeralStorage, cStorage, applicationVersionId, description, name, tags, configInfo, projectId, isolation } = this.state
+        // 创建应用, storageInfo需要如下的格式
+        // storageInfo = {
+        //     big: { total: 0 }
+        // }
+        form.validateFields((errs, values) => {
+            if (!errs) {
+                let data = {
+                    applicationVersionId,
+                    description,
+                    name,
+                    tags,
+                    quota: {
+                        cCPU,
+                        cMemory,
+                        storageInfo: {
+                            cEphemeralStorage: { total: parseInt(cEphemeralStorage) },
+                            cStorage: { total: parseInt(cStorage) }
+                        }
+                    },
+                    configInfo,
+                    projectId,
+                    isolation: isolation === 'true' ? true : false
+                }
+                let content = `${intl.formatMessage({ id: 'Create' })}${intl.formatMessage({ id: 'Application' })}`
+                let urlType = GetQueryString('id') ? 'createStoreApplication' : 'create'
+                HuayunRequest(application[urlType], data, {
+                    success: (res) => {
+                        notification.notice({
+                            id: new Date(),
+                            type: 'success',
+                            title: intl.formatMessage({ id: 'Success' }),
+                            content: `${content}${intl.formatMessage({ id: 'Success' })}`,
+                            iconNode: 'icon-success-o',
+                            duration: 5,
+                            closable: true
+                        })
+                        this.handleCancel()
+                    }
+                })
             }
         })
     }
-
-    handleSubmit = () => {
-        const { form, history, intl } = this.props
-        const { formData: { id, cCPU, cMemory, cEphemeralStorage, cStorage, applicationVersionId, description, name, tags, configInfo, projectId, isolation } } = this.state
-        if (id) {
-            // 编辑应用
-            form.validateFields(['name', 'description', 'tags'], (errs, values) => {
-                if (!errs) {
-                    let data = {
-                        id, name, description, tags
-                    }
-                    let content = `${intl.formatMessage({ id: 'Update' })}${intl.formatMessage({ id: 'Application' })}`
-                    HuayunRequest(application.update, data, {
-                        success: (res) => {
-                            notification.notice({
-                                id: new Date(),
-                                type: 'success',
-                                title: intl.formatMessage({ id: 'Success' }),
-                                content: `${content}'${intl.formatMessage({ id: 'Success' })}`,
-                                iconNode: 'icon-success-o',
-                                duration: 5,
-                                closable: true
-                            })
-                            this.handleCancel()
-                        }
-                    })
-                }
-            })
-        } else {
-            // 创建应用, storageInfo需要如下的格式
-            // storageInfo = {
-            //     big: { total: 0 }
-            // }
-            form.validateFields((errs, values) => {
-                if (!errs) {
-                    let data = {
-                        applicationVersionId,
-                        description,
-                        name,
-                        tags,
-                        quota: {
-                            cCPU,
-                            cMemory,
-                            storageInfo: {
-                                cEphemeralStorage: { total: parseInt(cEphemeralStorage) },
-                                cStorage: { total: parseInt(cStorage) }
-                            }
-                        },
-                        configInfo,
-                        projectId,
-                        isolation: isolation === 'true' ? true : false
-                    }
-                    let content = `${intl.formatMessage({ id: 'Create' })}${intl.formatMessage({ id: 'Application' })}`
-                    let urlType = GetQueryString('id') ? 'createStoreApplication' : 'create'
-                    HuayunRequest(application[urlType], data, {
-                        success: (res) => {
-                            notification.notice({
-                                id: new Date(),
-                                type: 'success',
-                                title: intl.formatMessage({ id: 'Success' }),
-                                content: `${content}'${intl.formatMessage({ id: 'Success' })}`,
-                                iconNode: 'icon-success-o',
-                                duration: 5,
-                                closable: true
-                            })
-                            this.handleCancel()
-                        }
-                    })
-                }
-            })
-        }
-    }
-
     handleCancel = () => {
         this.props.history.push('/applicationCenter/applicationManage')
     }
-
+    handleChangeStep = (index) => {
+        if (index) {
+            this.props.form.validateFields(['name', 'projectId', 'applicationPackageId', 'applicationVersionId'], (error, values) => {
+                if (!error) {
+                    this.setState({
+                        currentBarType: navigationBarItems[index]
+                    })
+                    // 进入到第二部要获取建议配额
+                    this.getRecommandQuotaData()
+                }
+            })
+        } else {
+            this.setState({
+                currentBarType: navigationBarItems[index]
+            })
+        }
+    }
     getAppPackageVersionList = () => {
-        HuayunRequest(applicationPackage.getApplicationPackageVersionsForApplication, { applicationPackageId: this.state.formData.applicationPackageId }, {
+        HuayunRequest(applicationPackage.getApplicationPackageVersionsForApplication, { applicationPackageId: this.state.applicationPackageId }, {
             success: (res) => {
                 this.setState({
                     appPackageVersionList: res.data
@@ -338,22 +280,73 @@ class AppCreate extends React.Component {
             }
         })
     }
-
+    renderQuotaPanel = ({ title, recommand, available, key, value, uni }) => {
+        const { intl, form } = this.props
+        const keyValueData = [
+            {
+                label: intl.formatMessage({ id: 'RecommandQuota' }),
+                value: <div className='mt8'>{recommand || 0}</div>
+            },
+            {
+                label: intl.formatMessage({ id: 'QuotaParams' }),
+                value: (
+                    <InputNumber
+                        form={form}
+                        value={value}
+                        min={0}
+                        slot={{
+                            position: 'right',
+                            format: () => uni
+                        }}
+                        type='number'
+                        onChange={(val) => this.handleChange(key, val)}
+                    />
+                )
+            },
+            {
+                label: intl.formatMessage({ id: 'Available Quota' }),
+                value: <div className='mt8'>{available || 0}</div>
+            },
+        ]
+        return (
+            <Panel
+                form={form}
+                value={value}
+                name={`${title}Panel`}
+                label={title}
+                inline
+                isRequired
+                className='quotaPanel'
+                key={title}
+            >
+                <div className='panelContent'>
+                    <KeyValue values={keyValueData} />
+                </div>
+            </Panel>
+        )
+    }
     render() {
         const { form, intl } = this.props
         const {
-            formData: { name, description, tags, tagInput, applicationPackageId, applicationVersionId, cCPU, cMemory, cEphemeralStorage, cStorage, configInfo, projectId, isolation },
-            currentVersion, chartValuesType, appPackageList, appPackageVersionList, projectList, availableQuota, storageConfig, isFetching
+            name, description, tags, tagInput, applicationPackageId, applicationVersionId, cCPU, cMemory, cEphemeralStorage, cStorage, configInfo, projectId, isolation,
+            chartValuesType, appPackageList, appPackageVersionList, projectList, availableQuota, recommandQuota, storageConfig, isFetching, currentBarType, currentConfigInfo
         } = this.state
-        const cpu_min = _.get(currentVersion, 'quota.cpu', 0)
-        const memory_min = _.get(currentVersion, 'quota.memory', 0)
-        const versionStorageInfor = _.get(currentVersion, 'quota.storage', {}) || {}
+        const cpu_min = _.get(recommandQuota, 'cpu', 0)
+        const memory_min = _.get(recommandQuota, 'memory', 0)
+        const cEphemeralStorage_min = _.get(recommandQuota, 'eStorage', 0)
+        const cStorage_min = _.get(recommandQuota, 'storage', 0)
         const searchParams = queryParamsToObject(this.props.location.search)
         const { availableStorageQuota, cCPU: cpuAvailable, cMemory: memoryAvailable } = availableQuota
         const cEphemeralStorageAvailable = _.get(availableStorageQuota, 'cEphemeralStorage', 0)
         const cStorageAvailable = _.get(availableStorageQuota, 'cStorage', 0)
+        const quotaPanelData = [
+            { title: 'CPU', recommand: cpu_min, available: cpuAvailable, key: 'cCPU', value: cCPU, uni: 'm' },
+            { title: '内存', recommand: memory_min, available: memoryAvailable, key: 'cMemory', value: cMemory, uni: 'Mi' },
+            { title: '临时存储', recommand: cEphemeralStorage_min, available: cEphemeralStorageAvailable, key: 'cEphemeralStorage', value: cEphemeralStorage, uni: 'Gi' },
+            { title: '持久存储', recommand: cStorage_min, available: cStorageAvailable, key: 'cStorage', value: cStorage, uni: 'Gi' }
+        ]
         return (
-            <div id="AppCreate">
+            <div id="ManageApplication">
                 {
                     isFetching ? <Loading /> : (
                         <Form
@@ -363,270 +356,221 @@ class AppCreate extends React.Component {
                             className="m-b-lg create_step"
                             subMessage
                         >
-                            <FormRow mainStyle={{ paddingRight: '10%' }}>
-                                <div>
-                                    <div className="instance-create-heading">
-                                        <h4 className="instance-div-title">
-                                            {intl.formatMessage({ id: 'CreateAppTitle' })}
-                                        </h4>
-                                    </div>
-                                    <div className="details">
-                                        <MultiLineMessage id='CreateAppDes' />
-                                    </div>
-                                </div>
-                                <div>
-                                    <Select
-                                        form={form}
-                                        name="projectId"
-                                        value={projectId}
-                                        placeholder={intl.formatMessage({ id: 'SelectProjectPlaceHolder' })}
-                                        onChange={this.handleChange.bind(this, 'projectId')}
-                                        label={intl.formatMessage({ id: 'ProjectBelongTo' })}
-                                        isRequired
-                                        options={
-                                            projectList.map(item => {
-                                                return {
-                                                    value: item.id,
-                                                    text: item.name,
-                                                }
-                                            })
-                                        }
-                                        optionFilterProp='children'
-                                        optionLabelProp='children'
-                                        disabled={searchParams.applicationPackageId || this.id} // 应用包和应用编辑的时候，项目不能修改
-                                    />
-                                    <Input
-                                        form={form}
-                                        name='name'
-                                        value={name}
-                                        onChange={this.handleChange.bind(this, 'name')}
-                                        label={intl.formatMessage({ id: 'AppName' })}
-                                        validRegex={Regex.isName}
-                                        invalidMessage={intl.formatMessage({ id: 'NameErrorMsg' })}
-                                        isRequired
-                                    />
-                                    <Textarea
-                                        form={form}
-                                        value={description}
-                                        name='description'
-                                        onChange={this.handleChange.bind(this, 'description')}
-                                        label={intl.formatMessage({ id: 'AppDescription' })}
-                                        minLength={0}
-                                        maxLength={200}
-                                    // addon={intl.formatMessage({ id: 'DescriptionError' })}
-                                    />
-                                    <div className="tag">
+                            <div className='left'>
+                                {
+                                    navigationBarItems.map(item => {
+                                        return (
+                                            <div className={`barItem ${currentBarType === item ? 'activeType activeBefore' : ''}`} key={item} >{intl.formatMessage({ id: item })}</div>
+                                        )
+                                    })
+                                }
+                            </div>
+                            <div className='middle'>
+                                <Collapse activeKey={currentBarType} >
+                                    <Collapse.Panel key='BasicInfo' header={intl.formatMessage({ id: 'BasicInfo' })}>
+                                        <Select
+                                            form={form}
+                                            name="projectId"
+                                            value={projectId}
+                                            placeholder={intl.formatMessage({ id: 'SelectProjectPlaceHolder' })}
+                                            onChange={this.handleChange.bind(this, 'projectId')}
+                                            label={intl.formatMessage({ id: 'ProjectBelongTo' })}
+                                            isRequired
+                                            options={
+                                                projectList.map(item => {
+                                                    return {
+                                                        value: item.id,
+                                                        text: item.name,
+                                                    }
+                                                })
+                                            }
+                                            optionFilterProp='children'
+                                            optionLabelProp='children'
+                                            disabled={searchParams.applicationPackageId} // 应用包和应用编辑的时候，项目不能修改
+                                        />
                                         <Input
                                             form={form}
-                                            name='tagInput'
-                                            value={tagInput}
-                                            onChange={this.handleChange.bind(this, 'tagInput')}
-                                            label={intl.formatMessage({ id: 'AppTag' })}
-                                            placeholder={intl.formatMessage({ id: 'TagPlaceHolder' })}
-                                            invalidMessage={intl.formatMessage({ id: 'TagPlaceHolder' })}
+                                            name='name'
+                                            value={name}
+                                            onChange={this.handleChange.bind(this, 'name')}
+                                            label={intl.formatMessage({ id: 'AppName' })}
+                                            validRegex={Regex.isName}
+                                            invalidMessage={intl.formatMessage({ id: 'NameErrorMsg' })}
+                                            isRequired
                                         />
-                                        <i className="iconfont icon-add" onClick={this.handleAddTag} />
-                                    </div>
-                                    <div className="tagList">
+                                        <Textarea
+                                            form={form}
+                                            value={description}
+                                            name='description'
+                                            onChange={this.handleChange.bind(this, 'description')}
+                                            label={intl.formatMessage({ id: 'AppDescription' })}
+                                            minLength={0}
+                                            maxLength={200}
+                                        />
+                                        <Panel
+                                            form={form}
+                                            value={tags}
+                                            name="tags"
+                                            label={intl.formatMessage({ id: 'Tag' })}
+                                            inline
+                                            className='labelPanel'
+                                        >
+                                            <div className='labelLine'>
+                                                <Input
+                                                    form={form}
+                                                    name='tagInput'
+                                                    value={tagInput}
+                                                    onChange={(val) => this.handleChange('tagInput', val)}
+                                                    label=''
+                                                />
+                                                <Button
+                                                    disabled={!tagInput}
+                                                    size='small'
+                                                    type="primary"
+                                                    icon="icon-add"
+                                                    onClick={this.handleAddTag} />
+                                            </div>
+                                            <div className='labelList'>
+                                                {
+                                                    tags.map((item, index) => {
+                                                        return (
+                                                            <TagItem
+                                                                size='medium'
+                                                                key={item}
+                                                                name={item}
+                                                                icon="error"
+                                                                onClick={() => this.handleDeleteTag(index)}
+                                                            />
+                                                        )
+                                                    })
+                                                }
+                                            </div>
+                                        </Panel>
+                                        <Panel
+                                            form={form}
+                                            value={applicationPackageId}
+                                            name='applicationPackagePanel'
+                                            label={intl.formatMessage({ id: 'AppPackage' })}
+                                            inline
+                                            isRequired
+                                            className='appPackagePanel'
+                                        >
+                                            <Select
+                                                form={form}
+                                                name="applicationPackageId"
+                                                value={applicationPackageId}
+                                                onChange={this.handleChange.bind(this, 'applicationPackageId')}
+                                                label='选择应用包'
+                                                isRequired
+                                                options={
+                                                    appPackageList.map(item => {
+                                                        return {
+                                                            value: item.id,
+                                                            text: item.name,
+                                                        }
+                                                    })
+                                                }
+                                                optionFilterProp='children'
+                                                optionLabelProp='children'
+                                                showSearch
+                                                disabled={!appPackageList.length}
+                                            />
+                                            <Select
+                                                form={form}
+                                                name="applicationVersionId"
+                                                value={applicationVersionId}
+                                                label='选择版本'
+                                                onChange={this.handleChange.bind(this, 'applicationVersionId')}
+                                                isRequired
+                                                options={
+                                                    appPackageVersionList.map(item => {
+                                                        return {
+                                                            value: item.id,
+                                                            text: (
+                                                                <div className="appPackageVersionItem">
+                                                                    <div className="circle" />
+                                                                    <span className="versionName">{item.name}</span>
+                                                                </div>
+                                                            ),
+                                                            chartValues: item.chartValues
+                                                        }
+                                                    })
+                                                }
+                                                optionFilterProp='children'
+                                                optionLabelProp='children'
+                                                showSearch
+                                                disabled={!appPackageVersionList.length}
+                                            />
+                                            {
+                                                applicationVersionId ? (
+                                                    <div className='codeDiff'>
+                                                        <ButtonGroup>
+                                                            <Button type="default" name="Values(YAML)" onClick={this.handleChartValuesChange.bind(this, 'chartValuesType', 1)} />
+                                                            <Button type="warning" name="Diff" onClick={this.handleChartValuesChange.bind(this, 'chartValuesType', 2)} />
+                                                        </ButtonGroup>
+                                                        {
+                                                            chartValuesType == 1 ? (
+                                                                <Textarea
+                                                                    className='newChartValuesInput'
+                                                                    form={form}
+                                                                    value={configInfo}
+                                                                    name='configInfo'
+                                                                    onChange={this.handleChange.bind(this, 'configInfo')}
+                                                                    label=''
+                                                                    maxLength={NaN}
+                                                                />
+                                                            ) : (
+                                                                <ReactDiffViewer
+                                                                    className='diffView'
+                                                                    hideLineNumbers={true}
+                                                                    oldValue={currentConfigInfo}
+                                                                    newValue={configInfo}
+                                                                    splitView={false}
+                                                                />
+                                                            )
+                                                        }
+                                                    </div>
+                                                ) : null
+                                            }
+                                        </Panel>
+                                    </Collapse.Panel>
+                                    <Collapse.Panel key='ApplicationQuota' header={intl.formatMessage({ id: 'ApplicationQuota' })}>
                                         {
-                                            tags.map((item, index) => {
-                                                return (
-                                                    <span className="tagItem" key={item}>
-                                                        {item}
-                                                        <i className="iconfont icon-error" onClick={() => this.deleteTag(index)} />
-                                                    </span>
-                                                )
+                                            quotaPanelData.map(item => {
+                                                return this.renderQuotaPanel(item)
                                             })
                                         }
-                                    </div>
+                                        <RadioGroup
+                                            form={form}
+                                            name="isolation"
+                                            label={intl.formatMessage({ id: 'IsAllowOutSideVisit' })}
+                                            items={[
+                                                { title: '是', value: 'true' },
+                                                { title: '否', value: 'false' }
+                                            ]}
+                                            value={isolation}
+                                            onChange={(val) => this.handleChange('isolation', val)}
+                                            inline
+                                        />
+                                    </Collapse.Panel>
+                                </Collapse>
+                                <div className='btnGroup'>
                                     {
-                                        this.id ? null : (
-                                            <React.Fragment>
-                                                <RadioGroup
-                                                    form={form}
-                                                    name="isolation"
-                                                    label={intl.formatMessage({ id: 'IsAllowOutSideVisit' })}
-                                                    items={[
-                                                        { title: '是', value: 'true' },
-                                                        { title: '否', value: 'false' }
-                                                    ]}
-                                                    value={isolation}
-                                                    onChange={(val) => this.handleChange('isolation', val)}
-                                                    inline
-                                                />
-                                                <Select
-                                                    form={form}
-                                                    name="applicationPackageId"
-                                                    value={applicationPackageId}
-                                                    placeholder={intl.formatMessage({ id: 'SelectAppPackage' })}
-                                                    onChange={this.handleChange.bind(this, 'applicationPackageId')}
-                                                    label={intl.formatMessage({ id: 'AppPackage' })}
-                                                    isRequired
-                                                    options={
-                                                        appPackageList.map(item => {
-                                                            return {
-                                                                value: item.id,
-                                                                text: item.name,
-                                                            }
-                                                        })
-                                                    }
-                                                    optionFilterProp='children'
-                                                    optionLabelProp='children'
-                                                    showSearch
-                                                    disabled={!appPackageList.length}
-                                                />
-                                                <Select
-                                                    form={form}
-                                                    name="applicationVersionId"
-                                                    value={applicationVersionId}
-                                                    placeholder={intl.formatMessage({ id: 'SelectAppPackageVersion' })}
-                                                    onChange={this.handleChange.bind(this, 'applicationVersionId')}
-                                                    label={intl.formatMessage({ id: 'AppPackageVersion' })}
-                                                    isRequired
-                                                    options={
-                                                        appPackageVersionList.map(item => {
-                                                            return {
-                                                                value: item.id,
-                                                                text: (
-                                                                    <div className="appPackageVersionItem">
-                                                                        <div className="circle" />
-                                                                        <span className="versionName">{item.name}</span>
-                                                                    </div>
-                                                                ),
-                                                                quota: item.quota,
-                                                                chartValues: item.chartValues
-                                                            }
-                                                        })
-                                                    }
-                                                    optionFilterProp='children'
-                                                    optionLabelProp='children'
-                                                    showSearch
-                                                    disabled={!appPackageVersionList.length}
-                                                />
-                                                {
-                                                    applicationVersionId ? (
-                                                        <div className='codeDiff'>
-                                                            <div className='btnGroup'>
-                                                                <Button type="primary" name="Values(YAML)" onClick={this.handleChartValuesChange.bind(this, 'chartValuesType', 1)} />
-                                                                <Button type="warning" name="Diff" onClick={this.handleChartValuesChange.bind(this, 'chartValuesType', 2)} />
-                                                            </div>
-                                                            {
-                                                                chartValuesType == 1 ? (
-                                                                    <Textarea
-                                                                        className='newChartValuesInput'
-                                                                        form={form}
-                                                                        value={configInfo}
-                                                                        name='configInfo'
-                                                                        onChange={this.handleChange.bind(this, 'configInfo')}
-                                                                        label=''
-                                                                        maxLength={NaN}
-                                                                    />
-                                                                ) : (
-                                                                    <ReactDiffViewer
-                                                                        className='diffView'
-                                                                        hideLineNumbers={true}
-                                                                        oldValue={currentVersion.chartValues}
-                                                                        newValue={configInfo}
-                                                                        splitView={false}
-                                                                    />
-                                                                )
-                                                            }
-                                                        </div>
-                                                    ) : null
-                                                }
-                                                <div className="cpu_memory">
-                                                    <div className="lineItem">
-                                                        <div className="label" />
-                                                        <div className="recommend">应用需求配额</div>
-                                                        <div className="assign">应用分配资源</div>
-                                                        <div className="available">剩余可用配额</div>
-                                                    </div>
-                                                    <div className="lineItem">
-                                                        <div className="label">CPU</div>
-                                                        <div className="recommend">{cpu_min}m</div>
-                                                        <div className="assign">
-                                                            <Input
-                                                                form={form}
-                                                                name='cCPU'
-                                                                value={cCPU || ''}
-                                                                onChange={this.handleChange.bind(this, 'cCPU')}
-                                                                label='cCPU'
-                                                                type="number"
-                                                                unit="m"
-                                                                isRequired
-                                                            />
-                                                        </div>
-                                                        <div className="available">{`cCPU(m) ${cpuAvailable || 0}`}</div>
-                                                    </div>
-                                                    <div className="lineItem">
-                                                        <div className="label">cMemory</div>
-                                                        <div className="recommend">{memory_min}Mi</div>
-                                                        <div className="assign">
-                                                            <Input
-                                                                form={form}
-                                                                name='cMemory'
-                                                                value={cMemory || ''}
-                                                                onChange={this.handleChange.bind(this, 'cMemory')}
-                                                                label='cMemory'
-                                                                type="number"
-                                                                unit="Mi"
-                                                                isRequired
-                                                            />
-                                                        </div>
-                                                        <div className="available">{`Memory(Mi) ${memoryAvailable || 0}`}</div>
-                                                    </div>
-                                                    <div className="lineItem">
-                                                        <div className="label">cEphemeralStorage</div>
-                                                        <div className="recommend">{versionStorageInfor.cEphemeralStorage || 0}Gi</div>
-                                                        <div className="assign">
-                                                            <Input
-                                                                form={form}
-                                                                name='cEphemeralStorage'
-                                                                value={cEphemeralStorage || ''}
-                                                                onChange={this.handleChange.bind(this, 'cEphemeralStorage')}
-                                                                label='cEphemeralStorage'
-                                                                type="number"
-                                                                unit="Gi"
-                                                                isRequired
-                                                            />
-                                                        </div>
-                                                        <div className="available">{`cEphemeralStorage(Gi) ${cEphemeralStorageAvailable || 0}`}</div>
-                                                    </div>
-                                                    <div className="lineItem">
-                                                        <div className="label">cStorage</div>
-                                                        <div className="recommend">{versionStorageInfor.cStorage || 0}Gi</div>
-                                                        <div className="assign">
-                                                            <Input
-                                                                form={form}
-                                                                name='cStorage'
-                                                                value={cStorage || ''}
-                                                                onChange={this.handleChange.bind(this, 'cStorage')}
-                                                                label='cStorage'
-                                                                type="number"
-                                                                unit="Gi"
-                                                                isRequired
-                                                            />
-                                                        </div>
-                                                        <div className="available">{`cStorage(Gi) ${cStorageAvailable || 0}`}</div>
-                                                    </div>
-                                                </div>
-                                            </React.Fragment>
+                                        currentBarType === navigationBarItems[0] ? (
+                                            <>
+                                                <Button type="warning" name="取消" onClick={this.handleCancel} />&nbsp;&nbsp;
+                                                <Button type="primary" name="下一步" onClick={() => this.handleChangeStep(1)} />
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Button type="warning" name="取消" onClick={this.handleCancel} />&nbsp;&nbsp;
+                                                <Button type="default" name="上一步" onClick={() => this.handleChangeStep(0)} />&nbsp;&nbsp;
+                                                <Button type="primary" name="创建" onClick={this.handleSubmit} />
+                                            </>
                                         )
                                     }
-                                    <FormGroup offset className='m-t-lg'>
-                                        <RcForm.Button
-                                            type='primary'
-                                            name={intl.formatMessage({ id: 'Submit' })}
-                                            onClick={this.handleSubmit}
-                                        />
-                                        <RcForm.Button
-                                            type='default'
-                                            name={intl.formatMessage({ id: 'Cancel' })}
-                                            onClick={this.handleCancel}
-                                        />
-                                    </FormGroup>
                                 </div>
-                            </FormRow>
+                            </div>
                         </Form>
                     )
                 }
@@ -635,5 +579,4 @@ class AppCreate extends React.Component {
     }
 }
 
-
-export default RcForm.create()(AppCreate)
+export default RcForm.create()(CreateApplication)

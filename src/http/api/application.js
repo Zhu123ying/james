@@ -59,6 +59,7 @@ const api = {
     listContainerLogConfig: `${prefix}listContainerLogConfig`, // 获取应用下容器日志采集的配置列表信息
     queryContainerLog: `${prefix}queryContainerLog`, // 查询应用日志
     deleteContainerLogConfig: `${prefix}deleteContainerLogConfig`, // 删除应用日志配置
+    queryApplicationNeedQuato: `${prefix}queryApplicationNeedQuato`, // 获取创建应用时的推荐配额
 
 }
 

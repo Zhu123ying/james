@@ -402,6 +402,8 @@ const zh_CN = {
     ExcuteResult: '执行结果',
     isCoverApplicationAlarmConfig: '告警配置是否覆盖',
     isCoverApplicationContainerConfig: '日志采集配置是否覆盖',
+    RecommandQuota: '建议配额',
+    QuotaParams: '配额参数',
 
     // 接口返回提示
     ImageArtifactDeleteFailContainerError: '镜像实例删除失败，镜像正在被容器使用中',
