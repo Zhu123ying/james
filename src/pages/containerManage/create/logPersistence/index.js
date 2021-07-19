@@ -98,7 +98,7 @@ class LogPersistence extends React.Component {
                                                                 name={`containerLogs${index}StandardLogConfigMaxSize`}
                                                                 label='容量上限'
                                                                 isRequired
-                                                                className='inputNumberPanel'
+                                                                className='w50'
                                                             >
                                                                 <InputNumber
                                                                     form={form}
@@ -117,7 +117,7 @@ class LogPersistence extends React.Component {
                                                                 name={`containerLogs${index}StandardLogConfigExpireTime`}
                                                                 label='保存天数'
                                                                 isRequired
-                                                                className='inputNumberPanel'
+                                                                className='w50'
                                                             >
                                                                 <InputNumber
                                                                     form={form}
@@ -128,6 +128,69 @@ class LogPersistence extends React.Component {
                                                                         format: () => '天'
                                                                     }}
                                                                     onChange={(val) => this.handleFormDataOnChange(`${index}.stdoutLogConfig.expireTime`, val)}
+                                                                />
+                                                            </Panel>
+                                                        </div>
+                                                    ) : null
+                                                }
+                                            </Panel>
+                                            <Panel
+                                                form={form}
+                                                value={fileLogEnabled}
+                                                name={`containerLogs${index}FileLogEnabled`}
+                                                label='服务日志'
+                                                inline
+                                                className='switchPanel'
+                                            >
+                                                <Switch checked={fileLogEnabled} onChange={(val) => this.handleFormDataOnChange(`${index}.fileLogEnabled`, val)}></Switch>
+                                                {
+                                                    fileLogEnabled ? (
+                                                        <div className='logPanel'>
+                                                            <Input
+                                                                form={form}
+                                                                value={fileLogConfig.path}
+                                                                name={`containerLogs${index}FileLogConfigPath`}
+                                                                label='日志路径'
+                                                                onChange={(val) => this.handleFormDataOnChange(`${index}.fileLogConfig.path`, val)}
+                                                                isRequired
+                                                                className='w50'
+                                                            />
+                                                            <Panel
+                                                                form={form}
+                                                                value={fileLogConfig.maxSize}
+                                                                name={`containerLogs${index}FileLogConfigMaxSize`}
+                                                                label='容量上限'
+                                                                isRequired
+                                                                className='w25'
+                                                            >
+                                                                <InputNumber
+                                                                    form={form}
+                                                                    value={fileLogConfig.maxSize}
+                                                                    min={0}
+                                                                    slot={{
+                                                                        position: 'right',
+                                                                        format: () => 'Gi'
+                                                                    }}
+                                                                    onChange={(val) => this.handleFormDataOnChange(`${index}.fileLogConfig.maxSize`, val)}
+                                                                />
+                                                            </Panel>
+                                                            <Panel
+                                                                form={form}
+                                                                value={stdoutLogConfig.fileLogConfig}
+                                                                name={`containerLogs${index}FileLogConfigExpireTime`}
+                                                                label='保存天数'
+                                                                isRequired
+                                                                className='w25'
+                                                            >
+                                                                <InputNumber
+                                                                    form={form}
+                                                                    value={fileLogConfig.expireTime}
+                                                                    min={0}
+                                                                    slot={{
+                                                                        position: 'right',
+                                                                        format: () => '天'
+                                                                    }}
+                                                                    onChange={(val) => this.handleFormDataOnChange(`${index}.fileLogConfig.expireTime`, val)}
                                                                 />
                                                             </Panel>
                                                         </div>

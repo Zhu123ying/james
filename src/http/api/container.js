@@ -18,6 +18,9 @@ const api = {
     updateAlert: `updateAlert`, // 容器告警修改
     listAlertAlarmDetails: `listAlertAlarmDetails`, // 获取告警记录详情
     getPlatformContainerMonitoring: `getPlatformContainerMonitoring`, // 容器组资源统计
+    getContainerLogs : `getContainerLogs`, // 容器持久日志查询
+    getContainerLogsOptions : `getContainerLogsOptions`, // 添加容器日志采集配置
+    downloadContainerLogs: `downloadContainerLogs`, // 容器持久日志下载
 }
 
 export default api

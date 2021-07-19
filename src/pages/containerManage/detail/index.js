@@ -13,6 +13,7 @@ import Detail from './detail'
 import Information from './information'
 import Event from './event'
 import Alarm from './alarm'
+import Log from './log'
 
 const notification = Notification.newInstance()
 const { TabPane } = Tabs
@@ -213,7 +214,7 @@ class ContainerDetail extends React.Component {
                                                     <Information {...this.props} detail={detail} />
                                                 </TabPane>
                                                 <TabPane tab={intl.formatMessage({ id: 'PersistenceLog' })} key="PersistenceLog">
-                                                    {/* <Log {...this.props}></Log> */}
+                                                    <Log {...this.props} detail={detail} />
                                                 </TabPane>
                                                 <TabPane tab={intl.formatMessage({ id: 'Alarm' })} key="Alarm">
                                                     <Alarm {...this.props} detail={detail} getDetail={this.getDetail} />

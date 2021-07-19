@@ -634,6 +634,7 @@ const zh_CN = {
     ApplicationStatusError: '应用状态异常！',
     ApplicationAlarmConfigError: '设置告警配置出错！',
     ApplicationIllegalDataErrror: '非法数据',
-
+    ApplicationPackageStartTimeIllegalError: '应用包查询失败，开始时间格式非法',
+    ApplicationPackageEndTimeIllegalError: '应用包搜索失败，结束时间格式非法',
 }
 export default zh_CN
