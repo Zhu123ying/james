@@ -193,7 +193,7 @@ class TaskDetail extends React.Component {
             }
         })
     }
-    renderTaskNodeSatePopover = (result) => {
+    renderTaskNodeStatePopover = (result) => {
         const { intl } = this.props
         let resultObject = JSON.parse(result) || {}
         const tableData = Object.keys(resultObject).map(key => {
@@ -210,10 +210,14 @@ class TaskDetail extends React.Component {
             }, {
                 title: intl.formatMessage({ id: 'ExcuteResult' }),
                 dataIndex: 'code',
-                render(code) {
-                    const dotClass = code === 200 ? 'text-success' : 'text-error'
+                render(code, row) {
+                    const dotClass = code === 200 ? 'bg-success' : 'bg-danger'
                     const text = intl.formatMessage({ id: code === 200 ? 'Success' : 'Fail' })
-                    return renderStateWithDot(dotClass, text)
+                    return (
+                        <Popover content={row.message} type='text'>
+                            {renderStateWithDot(dotClass, text)}
+                        </Popover>
+                    )
                 }
             }
         ]
@@ -253,7 +257,8 @@ class TaskDetail extends React.Component {
             title: intl.formatMessage({ id: 'Status' }),
             value: (
                 <Popover
-                    title={this.renderTaskNodeSatePopover(item.result)}
+                    title={this.renderTaskNodeStatePopover(item.result)}
+                    // trigger='click'
                     getPopupContainer={() => document.querySelector('.taskDetailDrawerContent')}
                 >
                     <span className={taskNodeStateColor[state]}>

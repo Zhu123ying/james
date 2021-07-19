@@ -109,17 +109,26 @@ class Log extends React.Component {
                 dataIndex: 'action',
                 key: 'operate',
                 width: '13%',
-                minCalcuWidth: 76,
+                minCalcuWidth: 130,
                 title: intl.formatMessage({ id: 'Operate' }),
                 render: (value, data) => {
                     return (
-                        <ActionAuth action={actions.AdminApplicationCenterApplicationMaintain}>
-                            <Button
-                                type="link"
-                                name={intl.formatMessage({ id: 'Delete' })}
-                                onClick={() => this.handleDelete(data.id, data.type)}
-                            />
-                        </ActionAuth>
+                        <div className='operaGroup'>
+                            <ActionAuth action={actions.AdminApplicationCenterApplicationMaintain}>
+                                <Button
+                                    className='mr8'
+                                    type="link"
+                                    name={intl.formatMessage({ id: 'Download' })}
+                                    onClick={() => this.handleDownload(data)} />
+                            </ActionAuth>
+                            <ActionAuth action={actions.AdminApplicationCenterApplicationMaintain}>
+                                <Button
+                                    type="link"
+                                    name={intl.formatMessage({ id: 'Delete' })}
+                                    onClick={() => this.handleDelete(data.id, data.type)}
+                                />
+                            </ActionAuth>
+                        </div>
                     )
                 }
             }
@@ -201,8 +210,28 @@ class Log extends React.Component {
             })
         })
     }
-    handleDownload = (tableData) => {
-
+    handleDownload = ({ id, type }) => {
+        const params = {
+            id, type
+        }
+        let url = '/api/application/v1/downloadContainerLog'
+        fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(params),
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        }).then(res => res.blob().then(blob => {
+            var a = document.createElement('a');
+            var url = window.URL.createObjectURL(blob);   // 获取 blob 本地文件连接 (blob 为纯二进制对象，不能够直接保存到磁盘上)
+            var filename = res.headers.get('Content-Disposition').split('filename=')[1];
+            a.href = url;
+            a.download = filename;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }))
     }
     render() {
         const { intl } = this.props
@@ -242,16 +271,6 @@ class Log extends React.Component {
                                     name='新增日志'
                                     icon={<Icon type="add" />}
                                     onClick={() => this.handleChange('isAddLogModalVisible', true)} />
-                            </Tooltip>
-                        </ActionAuth>,
-                        <ActionAuth action={actions.AdminApplicationCenterApplicationPackageOperate}>
-                            <Tooltip title='下载'>
-                                <Button
-                                    className='mr8'
-                                    size="middle-s"
-                                    type='operate'
-                                    icon={<Icon type="download" />}
-                                    onClick={() => this.handleDownload(tableData)} />
                             </Tooltip>
                         </ActionAuth>
                     ]}

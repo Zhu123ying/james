@@ -117,7 +117,7 @@ export default (intl, data, this_, key, zIndex = 1) => {
                 {...otherTableProps}
                 dataSource={dataSource}
                 pagination={false}
-                scroll={{ x: '100%' }}
+                // scroll={{ x: '100%' }}
             />)
         },
         data

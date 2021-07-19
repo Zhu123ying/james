@@ -60,6 +60,7 @@ const zh_CN = {
     Save: '保存',
     All: '全部',
     Abort: '终止',
+    Download: '下载',
 
     // 业务字段
     StorageResource: '存储资源',
