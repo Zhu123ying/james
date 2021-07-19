@@ -131,6 +131,22 @@ export const networkInitData = { // 容器网络
     ], // 节点网络
 }
 
+// 持久化日志
+export const containerLogItem = {
+    containerName: '',
+    stdoutLogEnabled: true,
+    stdoutLogConfig: {
+        expireTime: 0,
+        maxSize: 0
+    },
+    fileLogEnabled: true,
+    fileLogConfig: {
+        expireTime: 0,
+        maxSize: 0,
+        path: ''
+    }
+}
+
 // 创建容器所有标签的key的正则
 export const LabelKeyRegex = /^([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9]$/
 

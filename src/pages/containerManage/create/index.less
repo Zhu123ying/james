@@ -453,6 +453,38 @@
                         }
                     }
                 }
+                // 日志持久化
+                .containerLogs{
+                    .switchPanel{
+                        margin-top: -8px;
+                        .ult-rcform-panel{
+                            display: flex;
+                            flex-wrap: wrap;
+                            .logPanel{
+                                padding-top: 8px;
+                                width: 100%;
+                                display: flex;
+                                flex-wrap: wrap;
+                                justify-content: space-between;
+                                .inputNumberPanel{
+                                    width: calc(50% - 4px);
+                                    display: flex;
+                                    flex-direction: column;
+                                    .ult-label{
+                                        text-align: left;
+                                    }
+                                    .ult-rcform-panel{
+                                        padding-top: 0;
+                                        width: 100%;
+                                        .ult-input-number{
+                                            width: 100%;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
             .btnGroup{
                 margin: 20px 0;

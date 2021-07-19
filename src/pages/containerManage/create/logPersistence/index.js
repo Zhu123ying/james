@@ -5,6 +5,7 @@ import { RcForm, Loading, Notification, Button, KeyValue, Dialog, TagItem, Input
 import { Collapse, Button as HuayunButton, Modal } from 'huayunui'
 import Regex from '~/utils/regex'
 import '../index.less'
+import { containerLogItem } from '../constant'
 
 const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select, Panel } = RcForm
 const _ = window._
@@ -24,31 +25,21 @@ class LogPersistence extends React.Component {
         return (
             <div className='panelHeader'>
                 <div className='panelTitle'>{`${intl.formatMessage({ id: 'Log' })}${index + 1}`}</div>
-                <Button type='text' onClick={() => this.handleRemoveFormDataItem('containers', index)}>
+                <Button type='text' onClick={() => this.handleRemoveFormDataItem('containerLogs', index)}>
                     <Icon type="empty" />&nbsp;{intl.formatMessage({ id: 'Delete' })}
                 </Button>
             </div>
         )
     }
-    handleAddPanel = () => {
-        const { handleFormChange, formData: { containers } } = this.props
-        const item = {
-
-        }
-        handleFormChange('containers', [...containers, item])
+    handleAddContainerLog = () => {
+        const { handleFormChange, formData: { containerLogs } } = this.props
+        handleFormChange('containerLogs', [...containerLogs, _.cloneDeep(containerLogItem)])
     }
     handleFormDataOnChange = (key, val) => {
-        let { handleFormChange, formData: { containers } } = this.props
+        let { handleFormChange, formData: { containerLogs } } = this.props
         const value = _.get(val, 'target.value', val)
-        _.set(containers, key, value)
-        handleFormChange('containers', [...containers])
-    }
-    handleStateOnChange = (key, index, val) => {
-        const value = _.get(val, 'target.value', val)
-        this.state[key][index] = value
-        this.setState({
-            [key]: this.state[key]
-        })
+        _.set(containerLogs, key, value)
+        handleFormChange('containerLogs', [...containerLogs])
     }
     // 删除是通用的，因为知道key了就能删
     handleRemoveFormDataItem = (key, index) => {
@@ -59,25 +50,22 @@ class LogPersistence extends React.Component {
     }
     render() {
         const { form, intl, formData, handleFormChange } = this.props
-        const { containers } = formData
-        const { currentArgs, currentCommand, modalParams } = this.state
+        const { containerLogs, containers } = formData
         return (
-            <div className='ContainerConfig'>
+            <div className='containerLogs'>
                 {
-                    containers.length ? (
+                    containerLogs.length ? (
                         <Collapse defaultActiveKey={[0]}>
                             {
-                                containers.map((item, index) => {
-                                    const { name, type, image, runVar, mounts, envs, probe, ports } = item
-                                    const { project, repo, tag, pullStrategy } = image
-                                    const { workDir, command, privileged, args } = runVar
+                                containerLogs.map((item, index) => {
+                                    const { containerName, stdoutLogEnabled, stdoutLogConfig, fileLogEnabled, fileLogConfig } = item
                                     return (
                                         <Collapse.Panel header={this.renderPanelHeader(index)} key={index}>
                                             <Select
                                                 form={form}
-                                                name={`containers${index}Type`}
-                                                value={type}
-                                                onChange={(val) => this.handleFormDataOnChange(`${index}.type`, val)}
+                                                name={`containerLogs${index}ContainerName`}
+                                                value={containerName}
+                                                onChange={(val) => this.handleFormDataOnChange(`${index}.containerName`, val)}
                                                 placeholder={intl.formatMessage({ id: 'SelectPlaceHolder' }, { name: intl.formatMessage({ id: 'Container' }) })}
                                                 label={intl.formatMessage({ id: 'Container' })}
                                                 options={
@@ -92,6 +80,60 @@ class LogPersistence extends React.Component {
                                                 optionLabelProp='children'
                                                 isRequired
                                             />
+                                            <Panel
+                                                form={form}
+                                                value={stdoutLogEnabled}
+                                                name={`containerLogs${index}StdoutLogEnabled`}
+                                                label='容器标准输出'
+                                                inline
+                                                className='switchPanel'
+                                            >
+                                                <Switch checked={stdoutLogEnabled} onChange={(val) => this.handleFormDataOnChange(`${index}.stdoutLogEnabled`, val)}></Switch>
+                                                {
+                                                    stdoutLogEnabled ? (
+                                                        <div className='logPanel'>
+                                                            <Panel
+                                                                form={form}
+                                                                value={stdoutLogConfig.maxSize}
+                                                                name={`containerLogs${index}StandardLogConfigMaxSize`}
+                                                                label='容量上限'
+                                                                isRequired
+                                                                className='inputNumberPanel'
+                                                            >
+                                                                <InputNumber
+                                                                    form={form}
+                                                                    value={stdoutLogConfig.maxSize}
+                                                                    min={0}
+                                                                    slot={{
+                                                                        position: 'right',
+                                                                        format: () => 'Gi'
+                                                                    }}
+                                                                    onChange={(val) => this.handleFormDataOnChange(`${index}.stdoutLogConfig.maxSize`, val)}
+                                                                />
+                                                            </Panel>
+                                                            <Panel
+                                                                form={form}
+                                                                value={stdoutLogConfig.expireTime}
+                                                                name={`containerLogs${index}StandardLogConfigExpireTime`}
+                                                                label='保存天数'
+                                                                isRequired
+                                                                className='inputNumberPanel'
+                                                            >
+                                                                <InputNumber
+                                                                    form={form}
+                                                                    value={stdoutLogConfig.expireTime}
+                                                                    min={0}
+                                                                    slot={{
+                                                                        position: 'right',
+                                                                        format: () => '天'
+                                                                    }}
+                                                                    onChange={(val) => this.handleFormDataOnChange(`${index}.stdoutLogConfig.expireTime`, val)}
+                                                                />
+                                                            </Panel>
+                                                        </div>
+                                                    ) : null
+                                                }
+                                            </Panel>
                                         </Collapse.Panel>
                                     )
                                 })
@@ -102,7 +144,7 @@ class LogPersistence extends React.Component {
                 <HuayunButton
                     type="operate"
                     icon={<Icon type="add" />}
-                    onClick={this.handleAddContainer}
+                    onClick={this.handleAddContainerLog}
                     name="添加日志"
                     className='addBoxItemBtn'
                 />

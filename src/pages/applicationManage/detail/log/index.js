@@ -11,6 +11,11 @@ import actions from '~/constants/authAction'
 import DetailIcon from '~/components/DetailIcon'
 import AddLog from './addLog'
 import Detail from './detail'
+import { DEFAULT_EMPTY_LABEL } from '~/constants'
+const logTypeObj = {
+    standardLog: '标准日志',
+    serviceLog: '服务日志'
+}
 
 const notification = Notification.newInstance()
 class Log extends React.Component {
@@ -65,9 +70,29 @@ class Log extends React.Component {
                     return (
                         <>
                             <DetailIcon iconType="done" className="m-r-sm" />
-                            <a onClick={() => this.handleSeeDetail(row)}>{val}</a>
+                            <a onClick={() => this.handleSeeDetail(row)}>{val}</a>&nbsp;
+                            {
+                                row.isValid ? (
+                                    <Popover content='有效' type="text">
+                                        <i className='iconfont icon-correct-o text-success' />
+                                    </Popover>
+                                ) : (
+                                    <Popover content='无效' type="text">
+                                        <i className='iconfont icon-warning-o text-danger' />
+                                    </Popover>
+                                )
+                            }
                         </>
                     )
+                },
+                width: '40%'
+            },
+            {
+                dataIndex: 'type',
+                key: 'type',
+                title: intl.formatMessage({ id: 'Type' }),
+                render(type) {
+                    return logTypeObj[type] || DEFAULT_EMPTY_LABEL
                 }
             },
             {
@@ -176,6 +201,9 @@ class Log extends React.Component {
             })
         })
     }
+    handleDownload = (tableData) => {
+
+    }
     render() {
         const { intl } = this.props
         const { name, pageNumber, pageSize, totalData, isFetching, currentDataItem, isDetailModalVisible, isAddLogModalVisible } = this.state
@@ -183,6 +211,7 @@ class Log extends React.Component {
         return (
             <div className='applicationDetail_log'>
                 <TableCommon
+                    className='logTable'
                     searchOption={{
                         key: 'name',
                         title: intl.formatMessage({ id: 'Name' })
@@ -213,6 +242,16 @@ class Log extends React.Component {
                                     name='新增日志'
                                     icon={<Icon type="add" />}
                                     onClick={() => this.handleChange('isAddLogModalVisible', true)} />
+                            </Tooltip>
+                        </ActionAuth>,
+                        <ActionAuth action={actions.AdminApplicationCenterApplicationPackageOperate}>
+                            <Tooltip title='下载'>
+                                <Button
+                                    className='mr8'
+                                    size="middle-s"
+                                    type='operate'
+                                    icon={<Icon type="download" />}
+                                    onClick={() => this.handleDownload(tableData)} />
                             </Tooltip>
                         </ActionAuth>
                     ]}

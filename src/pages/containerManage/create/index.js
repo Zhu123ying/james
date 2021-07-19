@@ -16,7 +16,7 @@ import PersistentStorageManage from './persistentStorageManage' // 持久存储�
 import LogPersistence from './logPersistence' // 持久存储管理
 import AffinityConfig from './affinityConfig'
 import AlarmConfig from './AlarmConfig'
-import { containerConfig_containerItem, affinityConfigInitData, networkInitData } from './constant'
+import { containerConfig_containerItem, affinityConfigInitData, networkInitData, containerLogItem } from './constant'
 const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select } = RcForm
 const notification = Notification.newInstance()
 const _ = window._
@@ -63,6 +63,7 @@ class ManageContainerItem extends React.Component {
                 //     enabled: true,
                 //     users: []
                 // },
+                containerLogs: [_.cloneDeep(containerLogItem)], // 日志持久化
                 configurations: [], // 配置文件
                 storages: [], // 持久存储
             },
@@ -265,14 +266,14 @@ class ManageContainerItem extends React.Component {
                                             handleFormChange={this.handleFormChange}
                                             ref={node => this.$NetworkConfig = node} />
                                     </div>
-                                    {/* <div style={{ display: currentBarType === 'LogPersistence' ? 'block' : 'none' }}>
+                                    <div style={{ display: currentBarType === 'LogPersistence' ? 'block' : 'none' }}>
                                         <LogPersistence
                                             intl={intl}
                                             form={form}
                                             formData={formData}
                                             handleFormChange={this.handleFormChange}
                                             ref={node => this.$LogPersistence = node} />
-                                    </div> */}
+                                    </div>
                                     <div style={{ display: currentBarType === 'AffinityConfig' ? 'block' : 'none' }}>
                                         <AffinityConfig
                                             intl={intl}

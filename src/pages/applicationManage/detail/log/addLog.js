@@ -41,8 +41,7 @@ class CreateLog extends React.Component {
         HuayunRequest(api.queryApplicationContainers, { id }, {
             success: (res) => {
                 this.setState({
-                    cascaderSelectData: res.data,
-                    kind: res.data.kind,
+                    cascaderSelectData: res.data
                 })
             }
         })
@@ -52,6 +51,13 @@ class CreateLog extends React.Component {
         const value = _.get(val, 'target.value', val)
         this.setState({
             [key]: value
+        })
+    }
+
+    handleCascaderChange = (val, options) => {
+        this.setState({
+            cascaderValue: val,
+            kind: options[0].kind
         })
     }
 
@@ -72,7 +78,7 @@ class CreateLog extends React.Component {
                     <Cascader
                         allowClear={false}
                         options={cascaderSelectData}
-                        onChange={(val) => this.handleChange('cascaderValue', val)}
+                        onChange={this.handleCascaderChange}
                         placeholder={intl.formatMessage({ id: 'SelectPlaceHolder' }, { name: intl.formatMessage({ id: 'Container' }) })}
                     />
                 </Panel>
