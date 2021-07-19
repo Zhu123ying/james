@@ -14,6 +14,7 @@ import echarts from 'echarts'
 import moment from 'moment'
 import QuotaManage from './quotaManage'
 import ClusterResources from './clusterResources'
+import EditApplication from '../EditApplication'
 
 const notification = Notification.newInstance()
 const _ = window._
@@ -31,7 +32,7 @@ class Preview extends React.Component {
             isQuotaManageModalVisible: false, // 配额管理模态框是否显示
             isClusterResourcesDrawerVisible: false, // 集群资源是否显示
             availableQuotaData: {}, // 剩余可用配额
-
+            isApplicationEditModalVisible: false, // 编辑应用
         }
     }
     componentDidMount() {
@@ -268,9 +269,6 @@ class Preview extends React.Component {
         }
         return option
     }
-    handleUpdateApplication = () => {
-        this.props.history.push(`${this.props.match.path}/edit/${this.props.detail.id}`)
-    }
     handleSetState = (key, value) => {
         this.setState({
             [key]: value
@@ -310,9 +308,38 @@ class Preview extends React.Component {
             }
         </div>
     }
+    handleConfirmEditApplication = () => {
+        const { intl, detail: { id }, getDetail } = this.props
+        this.$EditApplication.props.form.validateFields(['name', 'description', 'tags'], (errs, values) => {
+            if (!errs) {
+                const { name, description, tags } = this.$EditApplication.state
+                let data = {
+                    id, name, description, tags
+                }
+                let content = `${intl.formatMessage({ id: 'Update' })}${intl.formatMessage({ id: 'Application' })}`
+                HuayunRequest(api.update, data, {
+                    success: (res) => {
+                        notification.notice({
+                            id: new Date(),
+                            type: 'success',
+                            title: intl.formatMessage({ id: 'Success' }),
+                            content: `${content}'${intl.formatMessage({ id: 'Success' })}`,
+                            iconNode: 'icon-success-o',
+                            duration: 5,
+                            closable: true
+                        })
+                        this.setState({
+                            isApplicationEditModalVisible: false
+                        })
+                        getDetail(id)
+                    }
+                })
+            }
+        })
+    }
     render() {
         const { intl, detail } = this.props
-        const { isAllowVisit, currentSlide, resourceInfor, isQuotaManageModalVisible, isClusterResourcesDrawerVisible, availableQuotaData } = this.state
+        const { isAllowVisit, currentSlide, resourceInfor, isQuotaManageModalVisible, isClusterResourcesDrawerVisible, availableQuotaData, isApplicationEditModalVisible } = this.state
         const {
             id, name, createrName, createTime, description, tags, resourceObjectDtos, state, secondState, resourceObjectStatistics, projectId,
             commandExecuteLogs, applicationType, reversionNum, projectName, updateTime, historyResourceObjectDtos, quota, usedCpu, usedMemory
@@ -392,7 +419,7 @@ class Preview extends React.Component {
                                     <Tag color={secondState === 'NORMAL' ? 'green' : 'red'} className='appSecondState'>{ApplicationSecondStatuList[secondState] || '未知'}</Tag>
                                 </div>
                                 <ActionAuth action={actions.AdminApplicationCenterApplicationOperate}>
-                                    <UltrauiButton type='text' className='p7-0' onClick={this.handleUpdateApplication}><Icon type='edit-o' />&nbsp;{intl.formatMessage({ id: 'Edit' })}</UltrauiButton>
+                                    <UltrauiButton type='text' className='p7-0' onClick={() => this.handleSetState('isApplicationEditModalVisible', true)}><Icon type='edit-o' />&nbsp;{intl.formatMessage({ id: 'Edit' })}</UltrauiButton>
                                 </ActionAuth>
                             </div>
                             <div className='boxContent'>
@@ -505,6 +532,19 @@ class Preview extends React.Component {
                     visible={isClusterResourcesDrawerVisible}
                     onClose={() => this.handleSetState('isClusterResourcesDrawerVisible', false)}
                 ></ClusterResources>
+                <Modal
+                    title={`${intl.formatMessage({ id: 'Edit' })}${intl.formatMessage({ id: 'Application' })}`}
+                    visible={isApplicationEditModalVisible}
+                    onOk={this.handleConfirmEditApplication}
+                    onCancel={() => this.handleSetState('isApplicationEditModalVisible', false)}
+                    className='applicationEditModalVisible'
+                    destroyOnClose={true}
+                >
+                    <EditApplication
+                        intl={intl}
+                        detail={detail}
+                        wrappedComponentRef={node => this.$EditApplication = node} />
+                </Modal>
             </div >
         )
     }

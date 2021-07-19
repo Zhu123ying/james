@@ -716,7 +716,7 @@ class VersionManage extends React.Component {
                 {intl.formatMessage({ id: 'ManageStatement' })}
                 <Popover
                     placement="right"
-                    content={<div>平台会自动为每个使用镜像的应用创建一个名为 secret_image 的 Secret 作为容器获取镜像的凭证</div>}
+                    content={<div>平台会自动为每个使用镜像的应用创建一个名为 secret-image 的 Secret 作为容器获取镜像的凭证</div>}
                     trigger="hover"
                     type="text"
                 >

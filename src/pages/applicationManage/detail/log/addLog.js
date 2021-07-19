@@ -17,6 +17,7 @@ class CreateLog extends React.Component {
         this.state = {
             cascaderSelectData: [], // cascader的下拉数据
             cascaderValue: [],
+            kind: '',
             isStandardLogConfig: 1, // 是否配置标准日志输出
             standardLogConfig: {  // 标注日志配置
                 expireTime: 0,  // 采集日志保存天数
@@ -40,7 +41,8 @@ class CreateLog extends React.Component {
         HuayunRequest(api.queryApplicationContainers, { id }, {
             success: (res) => {
                 this.setState({
-                    cascaderSelectData: res.data
+                    cascaderSelectData: res.data,
+                    kind: res.data.kind,
                 })
             }
         })

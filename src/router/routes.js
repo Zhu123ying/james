@@ -45,15 +45,6 @@ const routers = [
         descLangCode: 'DesCreateApplication',
       },
       {
-        path: "/applicationCenter/applicationManage/edit/:id",
-        component: CreateApplication,
-        name: 'EditApplication',
-        key: 'EditApplication',
-        exact: true,
-        langCode: 'EditApplication',
-        descLangCode: 'DesEditApplication',
-      },
-      {
         path: "/applicationCenter/applicationPackageManage",
         component: ApplicationPackageManage,
         name: 'ApplicationPackageManage',

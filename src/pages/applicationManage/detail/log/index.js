@@ -143,7 +143,7 @@ class Log extends React.Component {
     }
     handleAddLogModalConfirm = () => {
         const { intl, detail: { id: namespace } } = this.props
-        let { cascaderValue, isStandardLogConfig, standardLogConfig, isServiceLogConfig, serviceLogConfig } = this.$AddLog.state
+        let { cascaderValue, kind, isStandardLogConfig, standardLogConfig, isServiceLogConfig, serviceLogConfig } = this.$AddLog.state
         if (!cascaderValue.length) {
             this.$AddLog.handleChange('cascaderPanelErrorMessage', '请选择容器！')
         }
@@ -154,7 +154,7 @@ class Log extends React.Component {
             let containerName = cascaderValue.pop()
             let podName = cascaderValue.pop()
             let params = {
-                podName, namespace, containerName, isStandardLogConfig, standardLogConfig, isServiceLogConfig, serviceLogConfig
+                kind, podName, namespace, containerName, isStandardLogConfig, standardLogConfig, isServiceLogConfig, serviceLogConfig
             }
             let content = `${intl.formatMessage({ id: 'Add' })}${intl.formatMessage({ id: 'Container' })}${intl.formatMessage({ id: 'Log' })}`
             HuayunRequest(api.confirmContainerLogConfig, params, {

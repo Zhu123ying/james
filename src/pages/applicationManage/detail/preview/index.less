@@ -301,3 +301,63 @@
         }
     }
 }
+
+.applicationEditModalVisible{
+    .ult-rcform{
+        .ult-rcform-group{
+            .validation-error{
+                margin-left: 15px;            
+            }
+        }
+    }
+    // 标签公用样式
+    .labelPanel{
+        margin-bottom: 0!important;
+        .ult-rcform-panel{
+            width: 100%;
+            flex-direction: column;
+            .labelLine{
+                display: flex;
+                align-items: center;
+                width: 100%;
+                border: 1px solid #CBD6E2;
+                border-radius: 3px;
+                padding: 0 2px;
+                .splitLine{
+                    color: #CBD6E2;
+                }
+                .ult-rcform-group{
+                    width: 100%;
+                    margin-bottom: 0;
+                    .ult-label{
+                        width: 0;
+                        min-width: 0;
+                        padding-right: 0;
+                    }
+                    .ult-rcform-group-input-wrapper{
+                        width: 100%;
+                        .ult-input{
+                            border: none;
+                        }
+                    }
+                    .validation-error{
+                        padding-left: 0;
+                        margin-left: 0;
+                        i{
+                            font-size: 12px;
+                        }
+                    }
+                }
+            }
+            .labelList{
+                margin: 10px 0 15px 0;
+                display: flex;
+                flex-wrap: wrap;
+            }
+        }
+        .custom-error{
+            padding-left: 0;
+            margin-top: -11px;
+        }
+    }
+}
