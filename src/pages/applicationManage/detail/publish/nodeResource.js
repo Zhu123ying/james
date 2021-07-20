@@ -32,12 +32,11 @@ class NodeResource extends React.Component {
                 width: '25%'
             },
             {
-                key: 'num',
-                dataIndex: 'num',
+                key: 'replicas',
+                dataIndex: 'replicas',
                 title: intl.formatMessage({ id: 'NumberOfCopies' }),
                 render: (val) => val || DEFAULT_EMPTY_LABEL,
                 width: '80px',
-                width: '30%'
             }
         ]
     }

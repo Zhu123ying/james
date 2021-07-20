@@ -61,6 +61,7 @@ const zh_CN = {
     All: '全部',
     Abort: '终止',
     Download: '下载',
+    LoadBalance: '外部网络',
 
     // 业务字段
     StorageResource: '存储资源',
@@ -637,5 +638,13 @@ const zh_CN = {
     ApplicationIllegalDataErrror: '非法数据',
     ApplicationPackageStartTimeIllegalError: '应用包查询失败，开始时间格式非法',
     ApplicationPackageEndTimeIllegalError: '应用包搜索失败，结束时间格式非法',
+    ApplicationNameIllegalErrror: '2~20个字符，支持英文大小写、数字、中文、中划线以及下划线',
+    ApplicationDescriptionIllegalErrror: '请填写0~200个字符',
+    ApplicationNotOperateError: '应用不可操作',
+    ApplicationQuotaLackError: '配额不足',
+    ApplicationReleaseTaskVersionError: '起始版本不一致，不能发布此任务!',
+    ApplicationResourceObjectNotFoundError: '应用资源服务不存在',
+    ApplicationNotDeployedError: '应用处于未部署状态！',
+
 }
 export default zh_CN

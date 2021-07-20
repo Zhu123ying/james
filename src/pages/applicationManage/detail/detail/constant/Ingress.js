@@ -44,6 +44,15 @@ export default (intl, data, this_) => {
                 }
             },
             {
+                title: intl.formatMessage({ id: 'LoadBalance' }),
+                dataIndex: 'runInfo',
+                key: 'loadBalance',
+                render(runInfo, row) {
+                    const ips =  _.get(row, `${getDataKey(row)}loadBalancerIngress`, []) || []
+                    return ips.map(item => item.ip).join('、')
+                }
+            },
+            {
                 title: intl.formatMessage({ id: 'Operate' }),
                 key: 'Operate',
                 width: '64px',
