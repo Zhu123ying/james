@@ -37,10 +37,11 @@ class Detail extends React.Component {
         HuayunRequest(api.detail, { id }, {
             success: (res) => {
                 const { applicationPackageVersionStoreList } = res.data
+                const initVersionId = _.get(applicationPackageVersionStoreList, '0.id', '')
                 this.setState({
-                    detail: res.data,
-                    currentVersion: applicationPackageVersionStoreList && applicationPackageVersionStoreList.length ? applicationPackageVersionStoreList[0] : {}
+                    detail: res.data
                 })
+                this.handleSelectVersion(initVersionId)
             },
             complete: () => {
                 this.setState({
@@ -49,10 +50,13 @@ class Detail extends React.Component {
             }
         })
     }
-    handleChange = (key, val) => {
-        const value = _.get(val, 'target.value', val)
-        this.setState({
-            [key]: value
+    handleSelectVersion = (id) => {
+        HuayunRequest(api.getApplicationPackageVersionStoreInfo, { id }, {
+            success: (res) => {
+                this.setState({
+                    currentVersion: res.data
+                })
+            }
         })
     }
     handleManage = (id) => {
@@ -204,7 +208,7 @@ class Detail extends React.Component {
                                                             (applicationPackageVersionStoreList || []).map((item) => {
                                                                 const { id, name, createTime } = item
                                                                 return (
-                                                                    <div className='versionItem' key={id} onClick={() => this.handleChange('currentVersion', item)}>
+                                                                    <div className='versionItem' key={id} onClick={() => this.handleSelectVersion(id)}>
                                                                         <span className={`versionName ${currentVersion.id === id ? 'activeBefore' : ''}`}>{name}</span>
                                                                         <span className='createTime'>{createTime}</span>
                                                                     </div>

@@ -1,36 +1,35 @@
 /* eslint-disable */
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
 import React from 'react'
-
 class ActionAuth extends React.Component {
     constructor(props) {
         super(props)
         this.state = {}
     }
-    checkAuth = (action, permission) => {
+    checkAuth = (action) => {
         if (!action) return true // 如果不需要action，则直接过
         const type = Object.prototype.toString.call(action)
+        const { userPermission } = this.props
         let f = false
         switch (type) {
             case '[object String]':
-                f = Boolean(permission[action])
+                f = Boolean(userPermission[action])
                 break
             case '[object Array]':
                 action.forEach(item => {
-                    f = f || permission[item]
+                    f = f || userPermission[item]
                 })
                 break
         }
         return f
     }
     render() {
-        const { userPermission, action, children } = this.props
+        const { action, children } = this.props
         return (
             <React.Fragment>
                 {
                     // 先写死肯定通过
-                    this.checkAuth(action, userPermission) ? children : children
+                    this.checkAuth(action) ? children : children
                 }
             </React.Fragment>
         )

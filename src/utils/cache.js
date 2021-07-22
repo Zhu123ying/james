@@ -3,6 +3,7 @@ import { PORTAL, SCOPE_TYPE, ENV_LOCALSTORAGE_KEY, ENV_TO_LICENSE, ROOT_VDC_ID }
 import { LICENSE_STATUS } from '~/constants/enterprise'
 import * as cookie from './cookie'
 import * as url from './url'
+import store from '~/store'
 const _ = window._
 
 /**
@@ -377,7 +378,7 @@ export const getUserVDCId = () => {
 }
 
 export const checkUserAuth = (action) => {
-    const userPermission = getPermissions()
+    const { applicationCenter: { userPermission } } = store.getState()
     if (!action) return true // 如果不需要action，则直接过
     const type = Object.prototype.toString.call(action)
     let f = false

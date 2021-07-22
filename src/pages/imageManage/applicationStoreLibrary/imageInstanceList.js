@@ -69,10 +69,10 @@ class ImageInstanceList extends React.Component {
                 title: 'ID',
                 render: (value, row) => {
                     return (
-                        <>
+                        <div className='imageInstanceName'>
                             <DetailIcon iconType="log-1" className="m-r-sm" />
                             <a onClick={() => this.seeImageInstanceDetail(row)}>{value}</a>
-                        </>
+                        </div>
                     )
                 }
             },

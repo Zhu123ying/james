@@ -12,15 +12,15 @@ import actions from '~/constants/authAction'
 import Dropdown from '~/components/Dropdown'
 import DetailIcon from '~/components/DetailIcon'
 import Detail from './detail'
-
+const { RangePicker } = DatePicker
 const notification = Notification.newInstance()
-
 class ApplicationPackageList extends React.Component {
     constructor(props) {
         super(props)
         const { intl } = props
         this.state = {
             name: '',
+            updateTime: null,
             pageNumber: 1,
             pageSize: 10,
             total: 0,
@@ -51,13 +51,15 @@ class ApplicationPackageList extends React.Component {
         }
     }
     handleSearch = (projectId = this.props.projectId) => {
-        const { name, pageNumber, pageSize } = this.state
+        const { name, pageNumber, pageSize, updateTime } = this.state
         const params = {
             pageNumber,
             pageSize,
             conditions: {
                 name,
-                projectId
+                projectId,
+                startTime: updateTime && updateTime[0],
+                endTime: updateTime && updateTime[1],
             }
         }
         this.setState({
@@ -79,6 +81,7 @@ class ApplicationPackageList extends React.Component {
     }
     getColums = () => {
         const { intl } = this.props
+        const { updateTime } = this.state
         return [
             {
                 dataIndex: 'name',
@@ -119,7 +122,14 @@ class ApplicationPackageList extends React.Component {
             {
                 dataIndex: 'updateTime',
                 key: 'updateTime',
-                title: intl.formatMessage({ id: 'UpdateTime' })
+                title: intl.formatMessage({ id: 'UpdateTime' }),
+                filter: {
+                    type: 'DatePicker',
+                    props: {
+                        format: 'YYYY-MM-DD'
+                    },
+                    value: updateTime
+                },
             },
             {
                 dataIndex: 'action',
@@ -174,9 +184,9 @@ class ApplicationPackageList extends React.Component {
             }
         })
     }
-    handleTableChange = ({ pageNumber, pageSize, name }) => {
+    handleTableChange = ({ pageNumber, pageSize, name, updateTime }) => {
         this.setState({
-            pageNumber, pageSize, name
+            pageNumber, pageSize, name, updateTime
         }, () => {
             this.handleSearch()
         })
@@ -202,13 +212,13 @@ class ApplicationPackageList extends React.Component {
     }
     handleSeeDetail = (item) => {
         this.setState({
-          currentDataItem: item,
-          isDetailModalVisible: true
+            currentDataItem: item,
+            isDetailModalVisible: true
         })
-      }
+    }
     render() {
         const { intl, projectInitState, projectId } = this.props
-        const { name, pageNumber, pageSize, total, tableData, isFetching, currentDataItem, isDetailModalVisible } = this.state
+        const { name, updateTime, pageNumber, pageSize, total, tableData, isFetching, currentDataItem, isDetailModalVisible } = this.state
         const noDataProps = projectInitState ? {} : {
             emptyText: (
                 <NoData
@@ -235,12 +245,7 @@ class ApplicationPackageList extends React.Component {
                         title: intl.formatMessage({ id: 'Name' })
                     }}
                     params={{
-                        pageNumber, pageSize, name
-                    }}
-                    paramsAlias={{
-                        name: {
-                            title: '名称'
-                        }
+                        pageNumber, pageSize, name, updateTime
                     }}
                     uniqueId='ApplicationCenter_Image_ApplicationPackageList'
                     onRefresh={this.handleSearch}
@@ -273,7 +278,7 @@ class ApplicationPackageList extends React.Component {
                     currentDataItem={currentDataItem}
                     visible={isDetailModalVisible}
                     onClose={() => this.handleChange('isDetailModalVisible', false)}
-                    // handleDelete={() => this.handleDelete([currentDataItem.id], true)}
+                // handleDelete={() => this.handleDelete([currentDataItem.id], true)}
                 ></Detail>
             </div>
         )

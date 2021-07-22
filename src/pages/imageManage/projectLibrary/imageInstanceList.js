@@ -71,10 +71,10 @@ class ImageInstanceList extends React.Component {
                 title: 'ID',
                 render: (value, row) => {
                     return (
-                        <>
+                        <div className='imageInstanceName'>
                             <DetailIcon iconType="log-1" className="m-r-sm" />
                             <a onClick={() => this.seeImageInstanceDetail(row)}>{value}</a>
-                        </>
+                        </div>
                     )
                 }
             },
@@ -101,7 +101,7 @@ class ImageInstanceList extends React.Component {
                 title: intl.formatMessage({ id: 'Operate' }),
                 render: (value, data) => {
                     return (
-                        <ActionAuth action={actions.AdminApplicationCenterApplicationOperate}>
+                        <ActionAuth action={actions.AdminApplicationCenterImagePrivateImageOperate}>
                             <Button
                                 type="link"
                                 name={intl.formatMessage({ id: 'Delete' })}

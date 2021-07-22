@@ -90,8 +90,23 @@ class PullRecord extends React.Component {
                 dataIndex: 'pullStatus',
                 key: 'pullStatus',
                 title: '拉取状态',
-                render(status) {
-                    return pullStatusObj[status] || DEFAULT_EMPTY_LABEL
+                render(status, row) {
+                    return (
+                        <>
+                            {pullStatusObj[status]}&nbsp;
+                            {
+                                status === 1 || status === 3 ? (
+                                    <Popover
+                                        type='text'
+                                        content={row.pullErrorInfo}
+                                        getPopupContainer={() => document.querySelector('.pullRecordList')}
+                                    >
+                                        <i className='iconfont icon-warning-o text-danger' ></i>
+                                    </Popover>
+                                ) : null
+                            }
+                        </>
+                    )
                 }
             },
             {
@@ -112,7 +127,7 @@ class PullRecord extends React.Component {
         const { intl } = this.props
         const { pageNumber, pageSize, total, tableData, isFetching } = this.state
         return (
-            <div className='pullList'>
+            <div className='pullRecordList'>
                 <TableCommon
                     params={{
                         pageNumber, pageSize

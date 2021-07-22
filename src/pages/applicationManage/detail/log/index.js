@@ -226,7 +226,7 @@ class Log extends React.Component {
         }).then(res => res.blob().then(blob => {
             var a = document.createElement('a');
             var url = window.URL.createObjectURL(blob);   // 获取 blob 本地文件连接 (blob 为纯二进制对象，不能够直接保存到磁盘上)
-            var filename = res.headers.get('Content-Disposition').split('filename=')[1];
+            var filename = res.headers.get('Content-Disposition').split(';')[0].split('"')[1]
             a.href = url;
             a.download = filename;
             a.click();

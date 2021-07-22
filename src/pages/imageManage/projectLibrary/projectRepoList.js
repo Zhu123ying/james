@@ -34,7 +34,7 @@ class ProjectRepoList extends React.Component {
         }
         this.operationTarget = intl.formatMessage({ id: 'ProjectLibrary' })
     }
-    componentDidMount(){
+    componentDidMount() {
         const { projectInitState, projectId } = this.props
         this.handleProjectChange(projectInitState, projectId)
     }
@@ -52,6 +52,10 @@ class ProjectRepoList extends React.Component {
                 total: 0
             })
         }
+        // 切换了项目还要把tableType重置为0
+        this.setState({
+            tableType: 0
+        })
     }
     handleSearch = (projectId = this.props.projectId) => {
         const { name: imageRepoName, pageNumber, pageSize } = this.state
@@ -224,7 +228,7 @@ class ProjectRepoList extends React.Component {
     render() {
         const { intl, projectInitState, projectId } = this.props
         const { name, pageNumber, pageSize, total, tableData, isFetching, tableType, currentTableItem, isAddPullModalVisible, isPullRecordModalVisible } = this.state
-        const noDataProps = projectInitState ? {} : {
+        const noDataProps = projectId && !projectInitState ? {
             emptyText: (
                 <ActionAuth action={actions.AdminApplicationCenterImagePrivateRepoOperate}>
                     <NoData
@@ -243,7 +247,7 @@ class ProjectRepoList extends React.Component {
                     />
                 </ActionAuth>
             )
-        }
+        } : {}
         return (
             <div className='ProjectRepoList'>
                 {

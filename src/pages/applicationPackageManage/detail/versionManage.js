@@ -415,7 +415,7 @@ class VersionManage extends React.Component {
                         onClick={() => this.handleChange('isPortManageModalVisible', true)}
                         name="新增入口"
                         className='addBtn'
-                        disabled={currentVersion.isCommit}
+                        disabled={!currentVersion.id || currentVersion.isCommit}
                     />
                 </ActionAuth>
                 <div className='portList'>
@@ -737,6 +737,7 @@ class VersionManage extends React.Component {
                     <UltrauiButton
                         type="text"
                         onClick={() => this.handleChange('isStateManageModalVisible', true)}
+                        disabled={!currentVersion.id}
                     >
                         <Icon type="listing" />&nbsp;{intl.formatMessage({ id: 'ManageStatement' })}
                     </UltrauiButton>

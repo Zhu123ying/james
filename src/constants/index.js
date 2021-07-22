@@ -39,7 +39,8 @@ export const ApplicationPublishTaskStatuList = {
     fail: '发布失败',
     rollbacked: '回滚完成',
     rollbackfail: '回滚失败',
-    cancel: '取消'
+    cancel: '取消',
+    success: '成功'
 }
 // 容器组一级状态
 export const ContainerGroupStateList = {

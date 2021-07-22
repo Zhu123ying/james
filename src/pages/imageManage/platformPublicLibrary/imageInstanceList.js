@@ -11,9 +11,9 @@ import DetailIcon from '~/components/DetailIcon'
 import ActionAuth from '~/components/ActionAuth'
 import actions from '~/constants/authAction'
 import ImageInstanceDetail from '../imageInstanceDetail'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 const notification = Notification.newInstance()
-
 class ImageInstanceList extends React.Component {
     constructor(props) {
         super(props)
@@ -71,17 +71,15 @@ class ImageInstanceList extends React.Component {
                 title: 'ID',
                 render: (value, row) => {
                     return (
-                        <div className='popoverLine'>
+                        <div className='imageInstanceName'>
                             <DetailIcon iconType="log-1" className="m-r-sm" />
-                            <a onClick={() => this.seeImageInstanceDetail(row)} id={value}>{value}</a>
-                            <Popover
-                                placement="top"
-                                content={<div>{intl.formatMessage({ id: 'Copy' })}</div>}
-                                trigger="hover"
-                                type="text"
+                            <a onClick={() => this.seeImageInstanceDetail(row)} >{value}&nbsp;</a>
+                            <CopyToClipboard
+                                text={row.artifactDigestPath}	//点击复制时的内容,可自行设置或传入
+                                onCopy={() => message.success('复制成功!')}		//点击之后的回调
                             >
-                                <i className='iconfont icon-copy' onClick={() => this.handleCopy(value)}></i>
-                            </Popover>
+                                <i className='iconfont icon-copy' key="copy"></i>
+                            </CopyToClipboard>
                         </div>
                     )
                 }
@@ -90,19 +88,17 @@ class ImageInstanceList extends React.Component {
                 dataIndex: 'artifactTagName',
                 key: 'artifactTagName',
                 title: 'Tag',
-                render: (value) => {
+                render: (value, row) => {
                     return (
-                        <div className='popoverLine'>
-                            <span id={value}>{value}</span>
-                            <Popover
-                                placement="top"
-                                content={<div>{intl.formatMessage({ id: 'Copy' })}</div>}
-                                trigger="hover"
-                                type="text"
+                        <>
+                            <span>{value}&nbsp;</span>
+                            <CopyToClipboard
+                                text={row.artifactTagPath}	//点击复制时的内容,可自行设置或传入
+                                onCopy={() => message.success('复制成功!')}		//点击之后的回调
                             >
-                                <i className='iconfont icon-copy' onClick={() => this.handleCopy(value)}></i>
-                            </Popover>
-                        </div>
+                                <i className='iconfont icon-copy' key="copy"></i>
+                            </CopyToClipboard>
+                        </>
                     )
                 }
             },
@@ -183,15 +179,6 @@ class ImageInstanceList extends React.Component {
         this.setState({
             [key]: value
         })
-    }
-    handleCopy = (id) => {
-        const range = document.createRange()
-        range.selectNode(document.getElementById(id))
-        const selection = window.getSelection();
-        if (selection.rangeCount > 0) selection.removeAllRanges()
-        selection.addRange(range)
-        document.execCommand('copy')
-        message.success('复制成功！')
     }
     render() {
         const { intl, handleChangeTableType } = this.props

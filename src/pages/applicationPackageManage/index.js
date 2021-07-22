@@ -16,7 +16,6 @@ class ProjectLibrary extends React.Component {
         super(props)
         this.state = {
             name: '',
-            createTime: [],
             dataList: [], // 列表数据
             total: 0,
             currentTableItem: {}, // 当前的应用
@@ -38,14 +37,12 @@ class ProjectLibrary extends React.Component {
         })
     }
     handleSearch = (isResetCurrentTableItem = false) => {
-        let { name, createTime, pageNumber, pageSize, currentTableItem } = this.state
+        let { name, pageNumber, pageSize, currentTableItem } = this.state
         const params = {
             pageNumber,
             pageSize,
             conditions: {
-                nameLike: name,
-                startTime: createTime[0],
-                endTime: createTime[1]
+                nameLike: name
             }
         }
         this.setState({
@@ -89,20 +86,9 @@ class ProjectLibrary extends React.Component {
     }
     render() {
         const { intl } = this.props
-        const { name, createTime, dataList, currentTableItem, isFetching } = this.state
-        const searchItems = [
-            <RangePicker
-                onChange={(val) => this.handleSearchParamChange('createTime', val)}
-                themeType="huayun"
-                selectType="dropDown"
-                customerPlaceholder={intl.formatMessage({ id: 'CreateTime' })}
-                value={createTime}
-                key='RangePicker'
-            />
-        ]
+        const { name, dataList, currentTableItem, isFetching } = this.state
         return (
             <div id='applicationCenter_layout' className='applicationPackageManage'>
-                <div className='layoutSearchBar'>{searchItems}</div>
                 {
                     isFetching ? <Loading /> : (
                         <div className='layoutContent'>
