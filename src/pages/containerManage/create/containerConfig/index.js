@@ -221,7 +221,7 @@ class ContainerConfig extends React.Component {
                                         <Collapse.Panel header={this.renderPanelHeader(index)} key={index}>
                                             <Input
                                                 form={form}
-                                                name={`containers${index}Name`}
+                                                name={`ContainerConfig${index}Name`}
                                                 value={name}
                                                 onChange={(val) => this.handleFormDataOnChange(`${index}.name`, val)}
                                                 label={intl.formatMessage({ id: 'ContainerName' })}
@@ -231,7 +231,7 @@ class ContainerConfig extends React.Component {
                                             />
                                             <Select
                                                 form={form}
-                                                name={`containers${index}Type`}
+                                                name={`ContainerConfig${index}Type`}
                                                 value={type}
                                                 onChange={(val) => this.handleFormDataOnChange(`${index}.type`, val)}
                                                 placeholder={intl.formatMessage({ id: 'SelectPlaceHolder' }, { name: intl.formatMessage({ id: 'Type' }) })}
@@ -244,7 +244,7 @@ class ContainerConfig extends React.Component {
                                             <Panel
                                                 form={form}
                                                 value={image}
-                                                name={`containers${index}Image`}
+                                                name={`ContainerConfig${index}Image`}
                                                 label={intl.formatMessage({ id: 'ContainerImage' })}
                                                 inline
                                                 isRequired
@@ -260,7 +260,7 @@ class ContainerConfig extends React.Component {
                                             </Panel>
                                             <Select
                                                 form={form}
-                                                name={`containers${index}ImagePullStrategy`}
+                                                name={`ContainerConfig${index}ImagePullStrategy`}
                                                 value={pullStrategy}
                                                 onChange={(val) => this.handleFormDataOnChange(`${index}.image.pullStrategy`, val)}
                                                 placeholder={intl.formatMessage({ id: 'SelectPlaceHolder' }, { name: intl.formatMessage({ id: 'PullStrategy' }) })}
@@ -272,7 +272,7 @@ class ContainerConfig extends React.Component {
                                             />
                                             <Input
                                                 form={form}
-                                                name={`containers${index}RunVarWorkDir`}
+                                                name={`ContainerConfig${index}RunVarWorkDir`}
                                                 value={workDir}
                                                 onChange={(val) => this.handleFormDataOnChange(`${index}.runVar.workDir`, val)}
                                                 label={intl.formatMessage({ id: 'WorkingDirectory' })}
@@ -282,7 +282,7 @@ class ContainerConfig extends React.Component {
                                             <Panel
                                                 form={form}
                                                 value={args}
-                                                name={`containers${index}RunVarArgs`}
+                                                name={`ContainerConfig${index}RunVarArgs`}
                                                 label={intl.formatMessage({ id: 'StartParameter' })}
                                                 inline
                                                 className='labelPanel'
@@ -290,7 +290,7 @@ class ContainerConfig extends React.Component {
                                                 <div className='inputWithAddBtn'>
                                                     <Input
                                                         form={form}
-                                                        name={`containers${index}RunVarCurrentArgs`}
+                                                        name={`ContainerConfig${index}RunVarCurrentArgs`}
                                                         value={currentArgs[index]}
                                                         onChange={(val) => this.handleStateOnChange('currentArgs', index, val)}
                                                         placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'StartParameter' }) })}
@@ -323,7 +323,7 @@ class ContainerConfig extends React.Component {
                                             <Panel
                                                 form={form}
                                                 value={command}
-                                                name={`containers${index}RunVarCommand`}
+                                                name={`ContainerConfig${index}RunVarCommand`}
                                                 label={intl.formatMessage({ id: 'StartCommand' })}
                                                 inline
                                                 className='labelPanel'
@@ -331,7 +331,7 @@ class ContainerConfig extends React.Component {
                                                 <div className='inputWithAddBtn'>
                                                     <Input
                                                         form={form}
-                                                        name={`containers${index}RunVarCurrentCommand`}
+                                                        name={`ContainerConfig${index}RunVarCurrentCommand`}
                                                         value={currentCommand[index]}
                                                         onChange={(val) => this.handleStateOnChange('currentCommand', index, val)}
                                                         placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'StartCommand' }) })}
@@ -364,7 +364,7 @@ class ContainerConfig extends React.Component {
                                             <Panel
                                                 form={form}
                                                 value={mounts}
-                                                name={`containers${index}Mounts`}
+                                                name={`ContainerConfig${index}Mounts`}
                                                 label={intl.formatMessage({ id: 'MountConfig' })}
                                                 inline
                                                 className='mountsPanel'
@@ -417,7 +417,7 @@ class ContainerConfig extends React.Component {
                                             <Panel
                                                 form={form}
                                                 value={envs}
-                                                name={`containers${index}Envs`}
+                                                name={`ContainerConfig${index}Envs`}
                                                 label={intl.formatMessage({ id: 'EnvironmentVariable' })}
                                                 inline
                                                 className='mountsPanel'
@@ -467,14 +467,14 @@ class ContainerConfig extends React.Component {
                                             <Panel
                                                 form={form}
                                                 value={probe}
-                                                name={`containers${index}Probe`}
+                                                name={`ContainerConfig${index}Probe`}
                                                 label='健康检测'
                                                 inline
                                                 className='commonPanel healthyTest'
                                             >
                                                 <Select
                                                     form={form}
-                                                    name={`containers${index}ProbeType`}
+                                                    name={`ContainerConfig${index}ProbeType`}
                                                     value={probe.type}
                                                     onChange={(val) => this.handleFormDataOnChange(`${index}.probe.type`, val)}
                                                     placeholder={intl.formatMessage({ id: 'SelectPlaceHolder' }, { name: '检测类型' })}
@@ -501,7 +501,7 @@ class ContainerConfig extends React.Component {
                                                 />
                                                 <Select
                                                     form={form}
-                                                    name={`containers${index}Manner`}
+                                                    name={`ContainerConfig${index}Manner`}
                                                     value={probe.manner}
                                                     onChange={(val) => this.handleFormDataOnChange(`${index}.probe.manner`, val)}
                                                     placeholder={intl.formatMessage({ id: 'SelectPlaceHolder' }, { name: '检测方式' })}
@@ -528,7 +528,7 @@ class ContainerConfig extends React.Component {
                                                 />
                                                 <Input
                                                     form={form}
-                                                    name={`containers${index}Command`}
+                                                    name={`ContainerConfig${index}Command`}
                                                     value={probe.command}
                                                     onChange={(val) => this.handleFormDataOnChange(`${index}.probe.command`, val)}
                                                     placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'Command' }) })}
@@ -553,7 +553,7 @@ class ContainerConfig extends React.Component {
                                                         <Panel
                                                             form={form}
                                                             value={probe.initialDelaySeconds}
-                                                            name={`containers${index}ProbeInitialDelaySeconds`}
+                                                            name={`ContainerConfig${index}ProbeInitialDelaySeconds`}
                                                             label='初始化等待'
                                                             inline
                                                             className='w50'
@@ -573,7 +573,7 @@ class ContainerConfig extends React.Component {
                                                         <Panel
                                                             form={form}
                                                             value={probe.periodSeconds}
-                                                            name={`containers${index}ProbePeriodSeconds`}
+                                                            name={`ContainerConfig${index}ProbePeriodSeconds`}
                                                             label='检测间隔'
                                                             inline
                                                             className='w50'
@@ -593,7 +593,7 @@ class ContainerConfig extends React.Component {
                                                         <Panel
                                                             form={form}
                                                             value={probe.timeoutSeconds}
-                                                            name={`containers${index}ProbeTimeoutSeconds`}
+                                                            name={`ContainerConfig${index}ProbeTimeoutSeconds`}
                                                             label='检测超时'
                                                             inline
                                                             className='w50'
@@ -613,7 +613,7 @@ class ContainerConfig extends React.Component {
                                                         <Panel
                                                             form={form}
                                                             value={probe.failureThreshold}
-                                                            name={`containers${index}ProbeFailureThreshold`}
+                                                            name={`ContainerConfig${index}ProbeFailureThreshold`}
                                                             label='失败时重复'
                                                             inline
                                                             className='w50'
@@ -637,7 +637,7 @@ class ContainerConfig extends React.Component {
                                             <Panel
                                                 form={form}
                                                 value={ports}
-                                                name={`containers${index}Ports`}
+                                                name={`ContainerConfig${index}Ports`}
                                                 label={intl.formatMessage({ id: 'Port' })}
                                                 inline
                                                 className='mountsPanel'
@@ -682,7 +682,7 @@ class ContainerConfig extends React.Component {
                                             <Panel
                                                 form={form}
                                                 value={privileged}
-                                                name={`containers${index}Privileged`}
+                                                name={`ContainerConfig${index}Privileged`}
                                                 label={intl.formatMessage({ id: 'PrivilegedMode' })}
                                                 inline
                                                 className='switchPanel'

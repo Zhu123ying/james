@@ -63,7 +63,7 @@ class LogPersistence extends React.Component {
                                         <Collapse.Panel header={this.renderPanelHeader(index)} key={index}>
                                             <Select
                                                 form={form}
-                                                name={`containerLogs${index}ContainerName`}
+                                                name={`LogPersistence${index}ContainerName`}
                                                 value={containerName}
                                                 onChange={(val) => this.handleFormDataOnChange(`${index}.containerName`, val)}
                                                 placeholder={intl.formatMessage({ id: 'SelectPlaceHolder' }, { name: intl.formatMessage({ id: 'Container' }) })}
@@ -83,7 +83,7 @@ class LogPersistence extends React.Component {
                                             <Panel
                                                 form={form}
                                                 value={stdoutLogEnabled}
-                                                name={`containerLogs${index}StdoutLogEnabled`}
+                                                name={`LogPersistence${index}StdoutLogEnabled`}
                                                 label='容器标准输出'
                                                 inline
                                                 className='switchPanel'
@@ -95,7 +95,7 @@ class LogPersistence extends React.Component {
                                                             <Panel
                                                                 form={form}
                                                                 value={stdoutLogConfig.maxSize}
-                                                                name={`containerLogs${index}StandardLogConfigMaxSize`}
+                                                                name={`LogPersistence${index}StandardLogConfigMaxSize`}
                                                                 label='容量上限'
                                                                 isRequired
                                                                 className='w50'
@@ -114,7 +114,7 @@ class LogPersistence extends React.Component {
                                                             <Panel
                                                                 form={form}
                                                                 value={stdoutLogConfig.expireTime}
-                                                                name={`containerLogs${index}StandardLogConfigExpireTime`}
+                                                                name={`LogPersistence${index}StandardLogConfigExpireTime`}
                                                                 label='保存天数'
                                                                 isRequired
                                                                 className='w50'
@@ -137,7 +137,7 @@ class LogPersistence extends React.Component {
                                             <Panel
                                                 form={form}
                                                 value={fileLogEnabled}
-                                                name={`containerLogs${index}FileLogEnabled`}
+                                                name={`LogPersistence${index}FileLogEnabled`}
                                                 label='服务日志'
                                                 inline
                                                 className='switchPanel'
@@ -149,7 +149,7 @@ class LogPersistence extends React.Component {
                                                             <Input
                                                                 form={form}
                                                                 value={fileLogConfig.path}
-                                                                name={`containerLogs${index}FileLogConfigPath`}
+                                                                name={`LogPersistence${index}FileLogConfigPath`}
                                                                 label='日志路径'
                                                                 onChange={(val) => this.handleFormDataOnChange(`${index}.fileLogConfig.path`, val)}
                                                                 isRequired
@@ -158,7 +158,7 @@ class LogPersistence extends React.Component {
                                                             <Panel
                                                                 form={form}
                                                                 value={fileLogConfig.maxSize}
-                                                                name={`containerLogs${index}FileLogConfigMaxSize`}
+                                                                name={`LogPersistence${index}FileLogConfigMaxSize`}
                                                                 label='容量上限'
                                                                 isRequired
                                                                 className='w25'
@@ -177,7 +177,7 @@ class LogPersistence extends React.Component {
                                                             <Panel
                                                                 form={form}
                                                                 value={stdoutLogConfig.fileLogConfig}
-                                                                name={`containerLogs${index}FileLogConfigExpireTime`}
+                                                                name={`LogPersistence${index}FileLogConfigExpireTime`}
                                                                 label='保存天数'
                                                                 isRequired
                                                                 className='w25'

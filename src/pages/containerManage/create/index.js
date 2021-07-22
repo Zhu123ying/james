@@ -49,7 +49,6 @@ class ManageContainerItem extends React.Component {
                     egress: 0,
                     ingress: 0
                 },
-                containers: [],
                 affinity: null,
                 network: null,
                 alert: {
@@ -195,6 +194,7 @@ class ManageContainerItem extends React.Component {
         const { intl } = this.props
         this.props.form.validateFields((error, values) => {
             if (error) {
+                this.handleSwitchBarTypeByError(error)
                 return
             }
             const { formData } = this.state
@@ -214,6 +214,28 @@ class ManageContainerItem extends React.Component {
             })
         })
     }
+    // 跳转到有错误的Collapse.Panel
+    handleSwitchBarTypeByError = (error) => {
+        const { currentBarType } = this.state
+        // 所有错误的key的集合
+        const errorKeys = Object.keys(error)
+        // 先判断当前的Collapse.Panel里有没有错误，如果有就不用跳其他Collapse.Panel
+        const isCurrentPanelHasError = errorKeys.some(key => {
+            return key.indexOf(currentBarType) > -1
+        })
+        if (isCurrentPanelHasError) {
+            return false
+        } else {
+            const firstErrorKey = errorKeys.shift()
+            navigationBarItems.forEach((item, index) => {
+                if (firstErrorKey.indexOf(item) > -1) {
+                    this.setState({
+                        currentBarType: navigationBarItems[index]
+                    })
+                }
+            })
+        }
+    }
     render() {
         const { form, intl } = this.props
         const { isFetching, currentBarType, projectList, formData, containerImageList, alertTemplateList, alertUserList, storageClassList } = this.state
@@ -232,15 +254,14 @@ class ManageContainerItem extends React.Component {
                                 {
                                     navigationBarItems.map(item => {
                                         return (
-                                            <div className={`barItem ${currentBarType === item ? 'activeType activeBefore' : ''}`} key={item} onClick={() => this.handleChange('currentBarType', item)}>{intl.formatMessage({ id: item })}</div>
+                                            <div className={`barItem ${currentBarType === item ? 'activeType activeBefore' : ''}`} key={item}>{intl.formatMessage({ id: item })}</div>
                                         )
                                     })
                                 }
                             </div>
                             <div className='middle'>
-                                <div className='title'>{intl.formatMessage({ id: currentBarType })}</div>
-                                <div className='body'>
-                                    <div style={{ display: currentBarType === 'ContainerGroupConfig' ? 'block' : 'none' }}>
+                                <Collapse activeKey={currentBarType} onChange={arr => this.handleChange('currentBarType', (arr.pop() || currentBarType))}>
+                                    <Collapse.Panel header={intl.formatMessage({ id: navigationBarItems[0] })} key={navigationBarItems[0]} className='barCollapsePanelItem' forceRender={true}>
                                         <ContainerGroupConfig
                                             intl={intl}
                                             form={form}
@@ -248,8 +269,8 @@ class ManageContainerItem extends React.Component {
                                             handleFormChange={this.handleFormChange}
                                             projectList={projectList}
                                             ref={node => this.$ContainerGroupConfig = node} />
-                                    </div>
-                                    <div style={{ display: currentBarType === 'ContainerConfig' ? 'block' : 'none' }}>
+                                    </Collapse.Panel>
+                                    <Collapse.Panel header={intl.formatMessage({ id: navigationBarItems[1] })} key={navigationBarItems[1]} className='barCollapsePanelItem' forceRender={true}>
                                         <ContainerConfig
                                             intl={intl}
                                             form={form}
@@ -257,32 +278,32 @@ class ManageContainerItem extends React.Component {
                                             handleFormChange={this.handleFormChange}
                                             ref={node => this.$ContainerConfig = node}
                                             containerImageList={containerImageList} />
-                                    </div>
-                                    <div style={{ display: currentBarType === 'NetworkConfig' ? 'block' : 'none' }}>
-                                        <NetworkConfig
-                                            intl={intl}
-                                            form={form}
-                                            formData={formData}
-                                            handleFormChange={this.handleFormChange}
-                                            ref={node => this.$NetworkConfig = node} />
-                                    </div>
-                                    <div style={{ display: currentBarType === 'LogPersistence' ? 'block' : 'none' }}>
-                                        <LogPersistence
-                                            intl={intl}
-                                            form={form}
-                                            formData={formData}
-                                            handleFormChange={this.handleFormChange}
-                                            ref={node => this.$LogPersistence = node} />
-                                    </div>
-                                    <div style={{ display: currentBarType === 'AffinityConfig' ? 'block' : 'none' }}>
+                                    </Collapse.Panel>
+                                    <Collapse.Panel header={intl.formatMessage({ id: navigationBarItems[2] })} key={navigationBarItems[2]} className='barCollapsePanelItem' forceRender={true}>
                                         <AffinityConfig
                                             intl={intl}
                                             form={form}
                                             formData={formData}
                                             handleFormChange={this.handleFormChange}
                                             ref={node => this.$AffinityConfig = node} />
-                                    </div>
-                                    <div style={{ display: currentBarType === 'AlarmConfig' ? 'block' : 'none' }}>
+                                    </Collapse.Panel>
+                                    <Collapse.Panel header={intl.formatMessage({ id: navigationBarItems[3] })} key={navigationBarItems[3]} className='barCollapsePanelItem' forceRender={true}>
+                                        <NetworkConfig
+                                            intl={intl}
+                                            form={form}
+                                            formData={formData}
+                                            handleFormChange={this.handleFormChange}
+                                            ref={node => this.$NetworkConfig = node} />
+                                    </Collapse.Panel>
+                                    <Collapse.Panel header={intl.formatMessage({ id: navigationBarItems[4] })} key={navigationBarItems[4]} className='barCollapsePanelItem' forceRender={true}>
+                                        <LogPersistence
+                                            intl={intl}
+                                            form={form}
+                                            formData={formData}
+                                            handleFormChange={this.handleFormChange}
+                                            ref={node => this.$LogPersistence = node} />
+                                    </Collapse.Panel>
+                                    <Collapse.Panel header={intl.formatMessage({ id: navigationBarItems[5] })} key={navigationBarItems[5]} className='barCollapsePanelItem' forceRender={true}>
                                         <AlarmConfig
                                             intl={intl}
                                             form={form}
@@ -291,8 +312,8 @@ class ManageContainerItem extends React.Component {
                                             alertTemplateList={alertTemplateList}
                                             alertUserList={alertUserList}
                                             ref={node => this.$AlarmConfig = node} />
-                                    </div>
-                                </div>
+                                    </Collapse.Panel>
+                                </Collapse>
                                 <div className='btnGroup'>
                                     <Button type="default" name="取消" onClick={this.handleCanelSubmit} />&nbsp;&nbsp;
                                     <Button type="primary" name="确定" onClick={this.handleConfirmSubmit} />

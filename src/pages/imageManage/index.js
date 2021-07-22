@@ -33,7 +33,7 @@ class ImageManage extends React.Component {
                         <PlatformPublicLibrary {...this.props} />
                     </TabPane>
                     {
-                        1 ? (
+                        isAdmin() ? (
                             <TabPane tab={intl.formatMessage({ id: 'AppStoreLibrary' })} key="2">
                                 <ApplicationStoreLibrary {...this.props} />
                             </TabPane>

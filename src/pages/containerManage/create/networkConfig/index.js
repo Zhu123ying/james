@@ -72,7 +72,7 @@ class NetworkConfig extends React.Component {
     // 容器端口表单元素
     renderContainerPortFormItem = (key) => {
         const { intl, form, formData: { network, containers } } = this.props
-        const name = `${key}PortSelect`
+        const name = `NetworkConfig${key}PortSelect`
         const value = _.get(network, `${key}.containerPort`, '')
         const options = []
         containers && containers.forEach(container => {
@@ -105,7 +105,7 @@ class NetworkConfig extends React.Component {
     // 集群网络端口和负载均衡器端口都是普通input，所以合在一块
     renderPanelInputFormItem = (key, portType) => {
         const { intl, form, formData: { network } } = this.props
-        const name = `${key}PortInput`
+        const name = `NetworkConfig${key}PortInput`
         const value = _.get(network, `${key}.port`, '')
         return (
             <Input
@@ -129,7 +129,7 @@ class NetworkConfig extends React.Component {
             <div className='nodePortInputLine w50 pl'>
                 <Select
                     form={form}
-                    name={`${key}NodePortSelect`}
+                    name={`NetworkConfig${key}NodePortSelect`}
                     value={manner}
                     onChange={(val) => this.handleNodeNetworkTypeChange(key, val)}
                     label={intl.formatMessage({ id: 'NodePort' })}
@@ -145,7 +145,7 @@ class NetworkConfig extends React.Component {
                 <Input
                     form={form}
                     value={port || ''}
-                    name={`${key}NodePortInput`}
+                    name={`NetworkConfig${key}NodePortInput`}
                     placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'Port' }) })}
                     onChange={(val) => this.handleOnChange(`${key}.port`, parseInt(_.get(val, 'target.value', val)))}
                     // label={intl.formatMessage({ id: portType })}
@@ -192,7 +192,7 @@ class NetworkConfig extends React.Component {
             <Panel
                 form={form}
                 value={lineList}
-                name={`${key}Port`}
+                name={`NetworkConfig${key}Port`}
                 label={intl.formatMessage({ id: 'Port' })}
                 isRequired
                 className='portPanel'
@@ -235,7 +235,7 @@ class NetworkConfig extends React.Component {
             <Collapse.Panel header={this.renderCollapsePanelHeader('containerNetworks', title, index)} key={index}>
                 <Input
                     form={form}
-                    name={`containerNetworks${index}Name`}
+                    name={`NetworkConfigContainerNetworks${index}Name`}
                     value={name}
                     onChange={(val) => this.handleOnChange(`containerNetworks.${index}.name`, val)}
                     label={intl.formatMessage({ id: 'Name' })}
@@ -256,7 +256,7 @@ class NetworkConfig extends React.Component {
             <Collapse.Panel header={this.renderCollapsePanelHeader('nodeNetworks', title, index)} key={index}>
                 <Input
                     form={form}
-                    name={`nodeNetworks${index}Name`}
+                    name={`NetworkConfigNodeNetworks${index}Name`}
                     value={name}
                     onChange={(val) => this.handleOnChange(`nodeNetworks.${index}.name`, val)}
                     label={intl.formatMessage({ id: 'Name' })}
@@ -386,7 +386,7 @@ class NetworkConfig extends React.Component {
                             <Collapse.Panel header={this.renderCollapsePanelHeader('loadBalanceNetwork', '外部网络', -1)}>
                                 <Input
                                     form={form}
-                                    name='loadBalanceNetworkName'
+                                    name='NetworkConfigLoadBalanceNetworkName'
                                     value={name}
                                     onChange={(val) => this.handleOnChange('loadBalanceNetwork.name', val)}
                                     label={intl.formatMessage({ id: 'Name' })}
@@ -396,7 +396,7 @@ class NetworkConfig extends React.Component {
                                 />
                                 <Select
                                     form={form}
-                                    name="loadBalanceNetworkNetId"
+                                    name="NetworkConfigLoadBalanceNetworkNetId"
                                     value={netId}
                                     placeholder={intl.formatMessage({ id: 'SelectProjectPlaceHolder' })}
                                     onChange={(val) => this.handleOnChange('loadBalanceNetwork.netId', val)}

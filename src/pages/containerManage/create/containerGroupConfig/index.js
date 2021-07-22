@@ -53,7 +53,7 @@ class ContainerGroupConfig extends React.Component {
             <div className='ContainerGroupConfig'>
                 <Input
                     form={form}
-                    name='ContainerGroupName'
+                    name='ContainerGroupConfigName'
                     value={name}
                     onChange={(val) => handleFormChange('name', val)}
                     label={intl.formatMessage({ id: 'ContainerGroupName' })}
@@ -65,7 +65,7 @@ class ContainerGroupConfig extends React.Component {
                 <Textarea
                     form={form}
                     value={description}
-                    name='ContainerGroupDescription'
+                    name='ContainerGroupConfigDescription'
                     onChange={(val) => handleFormChange('description', val)}
                     label={intl.formatMessage({ id: 'ContainerGroupDescription' })}
                     placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'ContainerGroupDescription' }) })}
@@ -75,7 +75,7 @@ class ContainerGroupConfig extends React.Component {
                 <Panel
                     form={form}
                     value={currentLabel}
-                    name="ContainerGroupCurrentLabel"
+                    name="ContainerGroupConfigCurrentLabel"
                     label={intl.formatMessage({ id: 'ContainerGroupTag' })}
                     inline
                     className='labelPanel'
@@ -83,7 +83,7 @@ class ContainerGroupConfig extends React.Component {
                     <div className='labelLine'>
                         <Input
                             form={form}
-                            name='ContainerGroupCurrentLabelName'
+                            name='ContainerGroupConfigCurrentLabelName'
                             value={currentLabel.key}
                             onChange={(val) => this.handleSetCurrentLabel('key', val)}
                             label=''
@@ -93,7 +93,7 @@ class ContainerGroupConfig extends React.Component {
                         <span className='splitLine'>&nbsp;|&nbsp;</span>
                         <Input
                             form={form}
-                            name='ContainerGroupCurrentLabelValue'
+                            name='ContainerGroupConfigCurrentLabelValue'
                             value={currentLabel.value}
                             onChange={(val) => this.handleSetCurrentLabel('value', val)}
                             label=''
@@ -131,7 +131,7 @@ class ContainerGroupConfig extends React.Component {
                 </Panel>
                 <Select
                     form={form}
-                    name="ContainerGroupProjectId"
+                    name="ContainerGroupConfigProjectId"
                     value={projectId}
                     placeholder={intl.formatMessage({ id: 'SelectProjectPlaceHolder' })}
                     onChange={(val) => handleFormChange('projectId', val)}
@@ -150,7 +150,7 @@ class ContainerGroupConfig extends React.Component {
                 />
                 <Select
                     form={form}
-                    name="ContainerGroupRestartPolicy"
+                    name="ContainerGroupConfigRestartPolicy"
                     value={restartPolicy}
                     placeholder={intl.formatMessage({ id: 'SelectPlaceHolder' }, { name: intl.formatMessage({ id: 'RestartPolicy' }) })}
                     onChange={(val) => handleFormChange('restartPolicy', val)}
@@ -170,7 +170,7 @@ class ContainerGroupConfig extends React.Component {
                 <Panel
                     form={form}
                     value={resource}
-                    name="ContainerGroupResource"
+                    name="ContainerGroupConfigResource"
                     label={intl.formatMessage({ id: 'ContainerGroupQuota' })}
                     isRequired
                     className='resourcePanel'
@@ -178,7 +178,7 @@ class ContainerGroupConfig extends React.Component {
                     <Panel
                         form={form}
                         value={cpu}
-                        name="ContainerGroupResource_cpu"
+                        name="ContainerGroupConfigResource_cpu"
                         label='CPU'
                         isRequired
                         className='resourceItem'
@@ -201,7 +201,7 @@ class ContainerGroupConfig extends React.Component {
                     <Panel
                         form={form}
                         value={memory}
-                        name="ContainerGroupResource_memory"
+                        name="ContainerGroupConfigResource_memory"
                         label={intl.formatMessage({ id: 'Memory' })}
                         isRequired
                         className='resourceItem'
@@ -224,7 +224,7 @@ class ContainerGroupConfig extends React.Component {
                     <Panel
                         form={form}
                         value={ephemeralStorage}
-                        name="ContainerGroupResource_ephemeralStorage"
+                        name="ContainerGroupConfigResource_ephemeralStorage"
                         label={intl.formatMessage({ id: 'LocalDisk' })}
                         isRequired
                         className='resourceItem'

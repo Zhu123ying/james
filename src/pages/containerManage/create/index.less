@@ -24,7 +24,6 @@
             .barItem{
                 color: #99ACC2;
                 padding: 0 15px;
-                cursor: pointer;
                 position: relative;
             }
             .activeType{
@@ -34,13 +33,20 @@
         .middle{
             width: 480px;
             padding: 0 24px;
-            .title{
-                color: #33475B;
-                border-bottom: 1px solid #DFE3EB;
-                padding-bottom: 5px;
-            }
-            .body{
-                padding-top: 24px;
+            .archer-collapse{
+                .barCollapsePanelItem{
+                    border: none;
+                    background-color: inherit;
+                    .archer-collapse-header {
+                        border-bottom: 1px solid #dfe3eb;
+                    }
+                    .archer-collapse-content {
+                        border-top: none;
+                        .archer-collapse-content-box{
+                            padding: 16px 0 0 0;
+                        }
+                    }
+                }
                 .ult-rcform-group{
                     .ult-label{
                         font-size: 12px;
@@ -49,6 +55,9 @@
                 }
                 // 容器组配置
                 .ContainerGroupConfig{
+                    .archer-collapse-content-box{
+                        padding: 16px!important;
+                    }
                     .resourcePanel{
                         .resourceItem{
                             display: flex;
@@ -86,6 +95,9 @@
                 }
                 // 容器配置
                 .ContainerConfig{
+                    .archer-collapse-content-box{
+                        padding: 16px!important;
+                    }
                     .labelPanel{
                         .inputWithAddBtn{
                             display: flex;
@@ -193,6 +205,10 @@
                 }
                 // 网络配置
                 .NetworkConfig{
+                    padding-left: 16px;
+                    .archer-collapse-content-box{
+                        padding: 16px!important;
+                    }
                     .lineItem {
                         display: flex;
                         align-items: center;
@@ -293,6 +309,7 @@
                     }
                 }
                 .Affinity{
+                    padding-left: 16px;
                     .lineItem{
                         display: flex;
                         align-items: center;
@@ -307,6 +324,7 @@
                         margin-bottom: 15px;
                     }
                     .commonPanel{
+                        margin-bottom: 0;
                         .ult-rcform-panel{
                             display: flex;
                             flex-direction: column;
@@ -427,7 +445,7 @@
                         margin-left: 96px;
                     }
                     .archer-collapse-content-box{
-                        padding-left: 0;
+                        padding: 16px!important;
                         .card{
                             width: 100%;
                             .matchExpressionsBox, .matchFields{
@@ -442,6 +460,9 @@
                 }
                 // 告警配置
                 .AlarmConfig{
+                    .archer-collapse-content-box{
+                        padding: 16px!important;
+                    }
                     .contactorPanel{
                         margin-bottom: 0;
                         .ult-rcform-panel{
@@ -455,6 +476,9 @@
                 }
                 // 日志持久化
                 .containerLogs{
+                    .archer-collapse-content-box{
+                        padding: 16px!important;
+                    }
                     .switchPanel{
                         margin-top: -8px;
                         .ult-rcform-panel{
@@ -477,6 +501,10 @@
                                         .ult-input-number{
                                             width: 100%;
                                         }
+                                    }
+                                    .validation-error{
+                                        margin-left: 0;
+                                        padding-left: 0;
                                     }
                                 }
                                 .ult-rcform-group-input-wrapper{
