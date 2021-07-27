@@ -339,8 +339,8 @@ class VersionManage extends React.Component {
     }
     handleLogManageModalConfirm = () => {
         const { intl } = this.props
-        const { currentLog: { kind, configId }, currentVersionId } = this.state
-        let { cascaderValue, isStandardLogConfig, standardLogConfig, isServiceLogConfig, serviceLogConfig } = this.$LogManage.state
+        const { currentLog: { configId }, currentVersionId } = this.state
+        let { cascaderSelectData, cascaderValue, isStandardLogConfig, standardLogConfig, isServiceLogConfig, serviceLogConfig } = this.$LogManage.state
         if (!cascaderValue.length) {
             this.$LogManage.handleChange('cascaderPanelErrorMessage', '请选择容器！')
         }
@@ -348,10 +348,17 @@ class VersionManage extends React.Component {
             if (errs || !cascaderValue) {
                 return
             }
+            let kind = cascaderSelectData.find(item => item.value === cascaderValue[0]).kind
             let containerName = [...cascaderValue].pop()
             let podName = [...cascaderValue].pop()
             let params = {
-                podName, kind, containerName, isStandardLogConfig, standardLogConfig, isServiceLogConfig, serviceLogConfig,
+                podName, 
+                kind, 
+                containerName, 
+                isStandardLogConfig, 
+                standardLogConfig, 
+                isServiceLogConfig, 
+                serviceLogConfig,
                 packageVersionId: currentVersionId,
                 logResource: cascaderValue,
                 configId
@@ -574,16 +581,29 @@ class VersionManage extends React.Component {
             onOk: () => {
                 HuayunRequest(api.updateApplicationPackageVersionChartCommit, { id }, {
                     success: (res) => {
-                        getDetailData()
-                        notification.notice({
-                            id: new Date(),
-                            type: 'success',
-                            title: intl.formatMessage({ id: 'Success' }),
-                            content: `${intl.formatMessage({ id: 'Submit' })}${intl.formatMessage({ id: 'AppPackageVersion' })}${intl.formatMessage({ id: 'Success' })}`,
-                            iconNode: 'icon-success-o',
-                            duration: 5,
-                            closable: true
-                        })
+                        const { retCode, retInfo } = res.data
+                        if (retCode) {
+                            notification.notice({
+                                id: new Date(),
+                                type: 'danger',
+                                title: intl.formatMessage({ id: 'Error' }),
+                                content: retInfo,
+                                iconNode: 'icon-error-o',
+                                duration: 5,
+                                closable: true
+                            })
+                        } else {
+                            notification.notice({
+                                id: new Date(),
+                                type: 'success',
+                                title: intl.formatMessage({ id: 'Success' }),
+                                content: `${intl.formatMessage({ id: 'Submit' })}${intl.formatMessage({ id: 'AppPackageVersion' })}${intl.formatMessage({ id: 'Success' })}`,
+                                iconNode: 'icon-success-o',
+                                duration: 5,
+                                closable: true
+                            })
+                            getDetailData()
+                        }
                     }
                 })
             }
@@ -599,16 +619,22 @@ class VersionManage extends React.Component {
         }
         HuayunRequest(api.verifyChartContent, params, {
             success: (res) => {
-                this.getApplicationPackageVersionInfo(currentVersionId)
-                notification.notice({
-                    id: new Date(),
-                    type: 'success',
-                    title: intl.formatMessage({ id: 'Success' }),
-                    content: `${intl.formatMessage({ id: 'Validate' })}${intl.formatMessage({ id: 'AppPackageVersion' })}${intl.formatMessage({ id: 'Success' })}`,
-                    iconNode: 'icon-success-o',
-                    duration: 5,
-                    closable: true
-                })
+                const { retCode, retInfo } = res.data
+                if (retCode) {
+                    this.$FileEdit.setState({
+                        validErrorMessage: retInfo
+                    })
+                } else {
+                    notification.notice({
+                        id: new Date(),
+                        type: 'success',
+                        title: intl.formatMessage({ id: 'Success' }),
+                        content: `${intl.formatMessage({ id: 'Validate' })}${intl.formatMessage({ id: 'AppPackageVersion' })}${intl.formatMessage({ id: 'Success' })}`,
+                        iconNode: 'icon-success-o',
+                        duration: 5,
+                        closable: true
+                    })
+                }
             }
         })
     }
@@ -672,6 +698,7 @@ class VersionManage extends React.Component {
             this.getAppPackagePortData(id)
             this.getApplicationPackageVersionInfo(id)
             this.getApplicationPackageVersionLogConfigs(id)
+            this.getAlarmConfigData(id)
         })
     }
     handleAlarmConfigModalConfirm = () => {

@@ -47,6 +47,7 @@ class FileEdit extends React.Component {
             selectedKeys: ['0'], // 被选中的节点key
             showSearchInput: false,
             searchInputValue: '', // 搜索框的值
+            validErrorMessage: '', // 校验的错误信息
         }
     }
     componentDidMount() {
@@ -95,17 +96,13 @@ class FileEdit extends React.Component {
                             // 暂定根目录不能编辑和删除
                             item.rootPath ? null : (
                                 <div className='operaGroup'>
-                                    <Button type='link' name='' icon={<Icon type='edit' />} onClick={() => this.handleEditTreeNodeItem(item)} />
+                                    <Button type='link' name='' icon={<Icon type='edit' />} onClick={() => this.handleEditTreeNodeItem(item)} disabled={item.type === 'bytefile'} />
                                     <Button type='link' name='' icon={<Icon type='delete' />} onClick={(e) => this.handleDeleteTreeNodeItem(e, item.key)} />
                                 </div>
                             )
                         }
                     </div>
                 )
-                // 对于类型是bytefile的文件不能编辑
-                if (item.type === 'bytefile') {
-                    item.disabled = true
-                }
                 // 循环遍历
                 if (item.children) {
                     loop(item.key, item.children)
@@ -277,110 +274,118 @@ class FileEdit extends React.Component {
         this.setState({
             selectedKeys: keys
         }, () => {
+            let content = ''
             if (node.type === 'file') {
-                let content = _.get(node, 'fcontent', '')
-                this.$editorInstance.doc.setValue(content)
+                content = _.get(node, 'fcontent', '')
             }
+            this.$editorInstance.doc.setValue(content)
         })
     }
     render() {
-        const { treeData, isFetching, expandedKeys, selectedKeys, showSearchInput, searchInputValue } = this.state
+        const { treeData, isFetching, expandedKeys, selectedKeys, showSearchInput, searchInputValue, validErrorMessage } = this.state
         return (
-            <div id='yamlFileEdit'>
-                <div className='treeBox'>
-                    <div className='searchBar'>
-                        <div className='operaGroup'>
-                            <Popover
-                                placement="top"
-                                content={<div>收起</div>}
-                                trigger="hover"
-                                type="text"
-                            >
-                                <i className='iconfont icon-object br' onClick={() => this.handleChange('expandedKeys', [])} />
-                            </Popover>
-                            <Popover
-                                placement="top"
-                                content={<div>创建文件夹</div>}
-                                trigger="hover"
-                                type="text"
-                            >
-                                <i className='iconfont icon-folde' onClick={() => this.handleAddTreeNodeItem('dir')} />
-                            </Popover>
-                            <Popover
-                                placement="top"
-                                content={<div>创建文件</div>}
-                                trigger="hover"
-                                type="text"
-                            >
-                                <i className='iconfont icon-file' onClick={() => this.handleAddTreeNodeItem('file')} />
-                            </Popover>
+            <div className='fileEditModalContent'>
+                <div className='body'>
+                    <div className='treeBox'>
+                        <div className='searchBar'>
+                            <div className='operaGroup'>
+                                <Popover
+                                    placement="top"
+                                    content={<div>收起</div>}
+                                    trigger="hover"
+                                    type="text"
+                                >
+                                    <i className='iconfont icon-object br' onClick={() => this.handleChange('expandedKeys', [])} />
+                                </Popover>
+                                <Popover
+                                    placement="top"
+                                    content={<div>创建文件夹</div>}
+                                    trigger="hover"
+                                    type="text"
+                                >
+                                    <i className='iconfont icon-folde' onClick={() => this.handleAddTreeNodeItem('dir')} />
+                                </Popover>
+                                <Popover
+                                    placement="top"
+                                    content={<div>创建文件</div>}
+                                    trigger="hover"
+                                    type="text"
+                                >
+                                    <i className='iconfont icon-file' onClick={() => this.handleAddTreeNodeItem('file')} />
+                                </Popover>
+                            </div>
+                            <Button
+                                className='searchBtn'
+                                type="operate"
+                                name=""
+                                icon={<Icon type='search' />}
+                                onClick={() => this.handleChange('showSearchInput', !showSearchInput)}
+                            />
                         </div>
-                        <Button
-                            className='searchBtn'
-                            type="operate"
-                            name=""
-                            icon={<Icon type='search' />}
-                            onClick={() => this.handleChange('showSearchInput', !showSearchInput)}
+                        <div className='treeContent'>
+                            {
+                                showSearchInput ? (
+                                    <div className='searchInput'>
+                                        <HuayunuiInput
+                                            suffix={
+                                                <div className='searchSuffix'>
+                                                    {/* <Icon type='error' onClick={() => this.handleChange('searchInputValue', '')} /> */}
+                                                    &nbsp; <a onClick={this.handleSearch}>搜索</a>
+                                                </div>
+                                            }
+                                            value={searchInputValue}
+                                            onChange={val => this.handleChange('searchInputValue', val)} />
+                                    </div>
+                                ) : null
+                            }
+                            {
+                                isFetching ? <Loading /> : (
+                                    <DirectoryTree
+                                        defaultExpandedKeys={['0']}
+                                        selectedKeys={selectedKeys}
+                                        onSelect={(keys, { node }) => this.handleSelectTreeNode(keys, node)}
+                                        treeData={treeData}
+                                        expandAction={false}
+                                        expandedKeys={expandedKeys}
+                                        onExpand={(keys) => this.handleChange('expandedKeys', keys)}
+                                    />
+                                )
+                            }
+                        </div>
+                    </div>
+                    <div className='codemirrorBox'>
+                        <CodeMirror
+                            editorDidMount={editor => { this.$editorInstance = editor }}
+                            onChange={(instance, changeObj) => this.handleCodeMirrorChange(instance, changeObj)}
+                            // value=''
+                            options={{
+                                mode: { name: 'text/css' },
+                                // theme: 'solarized dark',
+                                autofocus: false,//自动获取焦点
+                                styleActiveLine: true,//光标代码高亮
+                                lineNumbers: true, //显示行号
+                                smartIndent: true,  //自动缩进
+                                //start-设置支持代码折叠
+                                lineWrapping: true,
+                                foldGutter: true,
+                                gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],//end
+                                extraKeys: {
+                                    "Ctrl": "autocomplete",
+                                    "Ctrl-Z": function (editor) {
+                                        editor.undo();
+                                    },//undo
+                                },
+                                matchBrackets: true,  //括号匹配，光标旁边的括号都高亮显示
+                                autoCloseBrackets: true, //键入时将自动关闭()[]{ }''""
+                            }}
                         />
                     </div>
-                    <div className='treeContent'>
-                        {
-                            showSearchInput ? (
-                                <div className='searchInput'>
-                                    <HuayunuiInput
-                                        suffix={
-                                            <div className='searchSuffix'>
-                                                {/* <Icon type='error' onClick={() => this.handleChange('searchInputValue', '')} /> */}
-                                                &nbsp; <a onClick={this.handleSearch}>搜索</a>
-                                            </div>
-                                        }
-                                        value={searchInputValue}
-                                        onChange={val => this.handleChange('searchInputValue', val)} />
-                                </div>
-                            ) : null
-                        }
-                        {
-                            isFetching ? <Loading /> : (
-                                <DirectoryTree
-                                    defaultExpandedKeys={['0']}
-                                    selectedKeys={selectedKeys}
-                                    onSelect={(keys, { node }) => this.handleSelectTreeNode(keys, node)}
-                                    treeData={treeData}
-                                    expandAction={false}
-                                    expandedKeys={expandedKeys}
-                                    onExpand={(keys) => this.handleChange('expandedKeys', keys)}
-                                />
-                            )
-                        }
-                    </div>
                 </div>
-                <div className='codemirrorBox'>
-                    <CodeMirror
-                        editorDidMount={editor => { this.$editorInstance = editor }}
-                        onChange={(instance, changeObj) => this.handleCodeMirrorChange(instance, changeObj)}
-                        // value=''
-                        options={{
-                            mode: { name: 'text/css' },
-                            // theme: 'solarized dark',
-                            autofocus: false,//自动获取焦点
-                            styleActiveLine: true,//光标代码高亮
-                            lineNumbers: true, //显示行号
-                            smartIndent: true,  //自动缩进
-                            //start-设置支持代码折叠
-                            lineWrapping: true,
-                            foldGutter: true,
-                            gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],//end
-                            extraKeys: {
-                                "Ctrl": "autocomplete",
-                                "Ctrl-Z": function (editor) {
-                                    editor.undo();
-                                },//undo
-                            },
-                            matchBrackets: true,  //括号匹配，光标旁边的括号都高亮显示
-                            autoCloseBrackets: true, //键入时将自动关闭()[]{ }''""
-                        }}
-                    />
-                </div>
+                {
+                    validErrorMessage ? (
+                        <div className='validErrorMessage'>{validErrorMessage}</div>
+                    ) : null
+                }
             </div>
         )
     }
