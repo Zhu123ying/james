@@ -1,10 +1,6 @@
 const CracoLessPlugin = require('craco-less')
 const path = require('path')
-const ROOT_PATH = path.resolve(__dirname, '../')
-const DIST_PATH = ROOT_PATH + '/dist'
-const { whenDev } = require("@craco/craco")
 const packageName = require('./package.json').name
-const publicPath = whenDev ? '/' : '/childapp/front/static/'
 const SRC_PATH = path.resolve(__dirname, 'src')
 module.exports = {
   devServer: {
@@ -35,9 +31,8 @@ module.exports = {
     },
     configure: {
       output: {
-        // path: DIST_PATH + publicPath,
         filename: '[name].[hash].js',
-        publicPath: publicPath,
+        publicPath: '/application/',
         libraryTarget: 'umd',
         library: `${packageName}-[name]`,
         jsonpFunction: `webpackJsonp_${packageName}`
