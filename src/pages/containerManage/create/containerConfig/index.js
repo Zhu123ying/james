@@ -709,7 +709,7 @@ class ContainerConfig extends React.Component {
                     visible={mountsParams.visible}
                     onOk={this.handleConfirmManageMountConfig}
                     onCancel={() => this.handleCancelModal('mounts')}
-                    getContainer={document.getElementById('ManageContainerItem')}
+                    className='ManageContainerModalItem'
                     destroyOnClose={true}
                 >
                     <OperateMountConfig
@@ -725,7 +725,7 @@ class ContainerConfig extends React.Component {
                     visible={envsParams.visible}
                     onOk={this.handleConfirmManageEnvs}
                     onCancel={() => this.handleCancelModal('envs')}
-                    getContainer={document.getElementById('ManageContainerItem')}
+                    className='ManageContainerModalItem'
                     destroyOnClose={true}
                 >
                     <OperateEnvs
@@ -741,7 +741,7 @@ class ContainerConfig extends React.Component {
                     visible={portsParams.visible}
                     onOk={this.handleConfirmManagePorts}
                     onCancel={() => this.handleCancelModal('ports')}
-                    getContainer={document.getElementById('ManageContainerItem')}
+                    className='ManageContainerModalItem'
                     destroyOnClose={true}
                 >
                     <OperatePorts

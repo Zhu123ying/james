@@ -127,7 +127,7 @@ class ManageConfigFile extends React.Component {
                     value={currentLabel}
                     name="currentLabel"
                     label={intl.formatMessage({ id: 'Tag' })}
-                    className='labelPanel'
+                    className='commonlabelFormPanel'
                     isRequired
                     errorMsg={Object.keys(labels).length ? '' : LabelPanelErrorMessage}
                 >
@@ -219,7 +219,7 @@ class ManageConfigFile extends React.Component {
                     value={currentData}
                     name="currentData"
                     label={intl.formatMessage({ id: 'Data' })}
-                    className='labelPanel'
+                    className='commonlabelFormPanel'
                     isRequired
                     errorMsg={Object.keys(data).length ? '' : DataPanelErrorMessage}
                 >

@@ -309,9 +309,8 @@ class ProjectRepoList extends React.Component {
                                 visible={isAddPullModalVisible}
                                 onOk={this.handleConfirmManage}
                                 onCancel={() => this.handleChange('isAddPullModalVisible', false)}
-                                getContainer={document.getElementById('ImageManage')}
                                 destroyOnClose={true}
-                                className='addPullModal'
+                                className='ImageManage_addPullModal'
                             >
                                 <AddPullModal
                                     intl={intl}
@@ -321,9 +320,8 @@ class ProjectRepoList extends React.Component {
                                 title='拉取记录'
                                 visible={isPullRecordModalVisible}
                                 onCancel={() => this.handleChange('isPullRecordModalVisible', false)}
-                                getContainer={document.getElementById('ImageManage')}
                                 destroyOnClose={true}
-                                className='pullRecordModal'
+                                className='ImageManage_pullRecordModal'
                                 width={800}
                                 footer={null}
                             >

@@ -160,7 +160,7 @@ class PersistentStorageManage extends React.Component {
                             visible={isManageModalVisible}
                             onOk={this.handleConfirmManage}
                             onCancel={() => this.handleChange('isManageModalVisible', false)}
-                            getContainer={document.getElementById('ManageContainerItem')}
+                            className='ManageContainerModalItem'
                             destroyOnClose={true}
                         >
                             <ManagePersistentStorage

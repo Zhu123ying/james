@@ -186,7 +186,7 @@ class ConfigFileManage extends React.Component {
                             visible={isManageConfigFileModalVisible}
                             onOk={this.handleConfirmManage}
                             onCancel={() => this.handleChange('isManageConfigFileModalVisible', false)}
-                            getContainer={document.getElementById('ManageContainerItem')}
+                            className='ManageContainerModalItem'
                             destroyOnClose={true}
                         >
                             <ManageConfigFile

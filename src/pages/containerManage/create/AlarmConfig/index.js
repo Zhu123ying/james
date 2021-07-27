@@ -152,7 +152,6 @@ class AlarmConfig extends React.Component {
                     onOk={this.handleModalConfirm}
                     onCancel={() => this.handleStateOnChange('isModalVisible', false)}
                     className='addAlarmContactorModal'
-                    getContainer={document.getElementById('ManageContainerItem')}
                     destroyOnClose={true}
                     width={680}
                 >

@@ -96,7 +96,7 @@ class ManagePersistentStorage extends React.Component {
                     value={currentLabel}
                     name="currentLabel"
                     label={intl.formatMessage({ id: 'Tag' })}
-                    className='labelPanel'
+                    className='commonlabelFormPanel'
                     isRequired
                     errorMsg={Object.keys(labels).length ? '' : LabelPanelErrorMessage}
                 >

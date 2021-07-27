@@ -78,7 +78,7 @@ class ContainerGroupConfig extends React.Component {
                     name="ContainerGroupConfigCurrentLabel"
                     label={intl.formatMessage({ id: 'ContainerGroupTag' })}
                     inline
-                    className='labelPanel'
+                    className='commonlabelFormPanel'
                 >
                     <div className='labelLine'>
                         <Input

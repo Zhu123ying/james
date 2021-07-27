@@ -409,9 +409,8 @@ class Detail extends React.Component {
                     title='维护记录'
                     visible={isMaintenanceRecordModalVisible}
                     onCancel={() => this.handleChange('isMaintenanceRecordModalVisible', false)}
-                    getContainer={document.getElementById('ImageManage')}
                     destroyOnClose={true}
-                    className='pullRecordModal'
+                    className='ImageManage_pullRecordModal'
                     width={800}
                     footer={null}
                     zIndex={9999}
@@ -426,9 +425,8 @@ class Detail extends React.Component {
                     visible={isPushImageModalVisible}
                     onOk={this.handleConfirmPushImage}
                     onCancel={() => this.handleChange('isPushImageModalVisible', false)}
-                    getContainer={document.getElementById('ImageManage')}
                     destroyOnClose={true}
-                    className='addPullModal'
+                    className='ImageManage_addPullModal'
                     zIndex={9999}
                 >
                     <PushImage

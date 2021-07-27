@@ -280,10 +280,9 @@ class Log extends React.Component {
                     visible={isAddLogModalVisible}
                     onOk={this.handleAddLogModalConfirm}
                     onCancel={() => this.handleChange('isAddLogModalVisible', false)}
-                    className='addLogModal'
+                    className='ApplicationDetail_addLogModal'
                     destroyOnClose={true}
                     width={440}
-                    getContainer={() => document.querySelector('.applicationDetail_log')}
                 >
                     <AddLog
                         {...this.props}

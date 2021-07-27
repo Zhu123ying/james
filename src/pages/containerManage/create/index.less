@@ -262,9 +262,6 @@
                                                 .ult-label{
                                                     min-width: 80px;
                                                 }
-                                                .ult-rcform-group-input-wrapper{
-
-                                                }
                                             }
                                             .inputPart{
                                                 width: calc(100% - 60px);
@@ -398,9 +395,6 @@
                                     margin-bottom: 0;
                                 }
                             }
-                        }
-                        .labelLine{
-                            
                         }
                     }
                     .basicInfor{
@@ -565,148 +559,6 @@
             }
         }
     }
-    // 标签公用样式
-    .labelPanel{
-        margin-bottom: 0!important;
-        .ult-rcform-panel{
-            width: 100%;
-            flex-direction: column;
-            .labelLine{
-                display: flex;
-                align-items: center;
-                width: 100%;
-                border: 1px solid #CBD6E2;
-                border-radius: 3px;
-                padding: 0 2px;
-                .splitLine{
-                    color: #CBD6E2;
-                }
-                .ult-rcform-group{
-                    width: 50%;
-                    margin-bottom: 0;
-                    .ult-label{
-                        width: 0;
-                        min-width: 0;
-                        padding-right: 0;
-                    }
-                    .ult-rcform-group-input-wrapper{
-                        width: 100%;
-                        .ult-input{
-                            border: none;
-                        }
-                    }
-                    .validation-error{
-                        padding-left: 0;
-                        margin-left: 0;
-                        i{
-                            font-size: 12px;
-                        }
-                    }
-                }
-            }
-            .labelList{
-                margin: 10px 0 15px 0;
-                display: flex;
-                flex-wrap: wrap;
-            }
-        }
-        .custom-error{
-            padding-left: 0;
-            margin-top: -11px;
-        }
-    }
-    // 创建、编辑modal公用样式
-    .operateModalForm{
-        display: flex;
-        flex-direction: column;
-        .ult-rcform-group{
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 10px;
-            .ult-label{
-                width: auto;
-                min-width: 0;
-                margin-bottom: 5px;
-            }
-            .ult-rcform-group-input-wrapper{
-                width: 100%;
-            }
-            .validation-error{
-                margin-left: 0;
-                padding-left: 0;
-            }
-        }
-        .labelPanel{
-            .labelLine{
-                .ult-rcform-group{
-                    width: 50%;
-                    .ult-label{
-                        display: none;
-                    }
-                }
-            }
-            .labelList{
-                margin: 24px 0 0 0!important;
-            }
-        }
-        .InputNumberPanel{
-            .ult-rcform-panel{
-                width: 100%;
-                .ult-input-number{
-                    width: 100%;
-                    .slot{
-                        width: auto;
-                    }
-                }
-            }
-        }
-    }
-    .operateMountConfig{
-        .ult-rcform-group{
-            margin-bottom: 10px;
-        }
-        .inlinePanel{   
-            .ult-rcform-panel{
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                width: 100%;
-                .ult-rcform-group{
-                    width: calc(50% - 5px);
-                    margin-bottom: 0;
-                    .ult-label{
-                        display: none;
-                    }
-                }
-            }
-        }
-        .switchPanel{
-            display: flex;
-            flex-direction: initial;
-            .ult-rcform-panel{
-                padding-top: 10px;
-            }
-        }
-        .ult-input-group{
-            width: 100%;
-            .rc-select{
-                min-width: auto;
-                .rc-select-selector{
-                    width: 120px;
-                }
-            }
-        }
-    }
-    .operateEnvs{
-        .inline{
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            .ult-rcform-group{
-                width: calc(50% - 5px);
-            }
-        }
-    }
     // 折叠公用样式
     .archer-collapse{
         border: none;
@@ -802,4 +654,98 @@
     }
 }
 
+.ManageContainerModalItem{
+    // 创建、编辑modal公用样式
+    .operateModalForm{
+        display: flex;
+        flex-direction: column;
+        .ult-rcform-group{
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+            .ult-label{
+                width: auto;
+                min-width: 0;
+                margin-bottom: 5px;
+            }
+            .ult-rcform-group-input-wrapper{
+                width: 100%;
+            }
+            .validation-error{
+                margin-left: 0;
+                padding-left: 0;
+            }
+        }
+        .commonlabelFormPanel{
+            .labelLine{
+                .ult-rcform-group{
+                    width: 50%;
+                    .ult-label{
+                        display: none;
+                    }
+                }
+            }
+            // .labelList{
+            //     margin: 24px 0 0 0!important;
+            // }
+        }
+        .InputNumberPanel{
+            .ult-rcform-panel{
+                width: 100%;
+                .ult-input-number{
+                    width: 100%;
+                    .slot{
+                        width: auto;
+                    }
+                }
+            }
+        }
+    }
+    .operateMountConfig{
+        .ult-rcform-group{
+            margin-bottom: 10px;
+        }
+        .inlinePanel{   
+            .ult-rcform-panel{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+                .ult-rcform-group{
+                    width: calc(50% - 5px);
+                    margin-bottom: 0;
+                    .ult-label{
+                        display: none;
+                    }
+                }
+            }
+        }
+        .switchPanel{
+            display: flex;
+            flex-direction: initial;
+            .ult-rcform-panel{
+                padding-top: 10px;
+            }
+        }
+        .ult-input-group{
+            width: 100%;
+            .rc-select{
+                min-width: auto;
+                .rc-select-selector{
+                    width: 120px;
+                }
+            }
+        }
+    }
+    .operateEnvs{
+        .inline{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .ult-rcform-group{
+                width: calc(50% - 5px);
+            }
+        }
+    }
+}
 

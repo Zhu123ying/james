@@ -3,72 +3,6 @@
         display: flex;
         align-items: center;
     }
-    .addLogModal{
-        .archer-modal-content{
-            .archer-modal-body{
-                padding: 16px;
-                .ult-rcform-group{
-                    margin-bottom: 15px;
-                }
-                .panel{
-                    .ult-label{
-                        text-align: left;
-                    }
-                    .validation-error{
-                        bottom: 0;
-                        margin-bottom: -15px;
-                    }
-                }
-                .columnPanel{
-                    display: flex;
-                    flex-direction: column;
-                    .ult-rcform-panel{
-                        width: 100%;
-                    }
-                    .ult-rcform-group-input-wrapper{
-                        width: 100%;
-                    }
-                }
-                .inlinePanel{
-                    display: flex;
-                    align-items: center;
-                }
-                .cascaderPanel{
-                    .archer-cascader-picker{
-                        width: 100%;
-                    }
-                }
-                .switchPanel{
-                    .ult-rcform-panel{
-                        padding-top: 8px;
-                    }
-                }
-                .panelGroup{
-                    background: #F5F8FA;
-                    border-radius: 3px;
-                    padding: 0 10px;
-                    display: flex;
-                    align-items: center;
-                    .ult-rcform-group{
-                        margin-right: 16px;
-                        .ult-label{
-                            font-size: 12px;
-                        }
-                        .ult-input-number .slot{
-                            width: auto;
-                        }
-                    }
-                }
-            }
-            .custom-error{
-                color: #eb5f5c;
-                font-size: 12px;
-            }
-        }
-        .ult-input-number{
-            max-width: 100px;
-        }
-    }
 }
 .applicationLogDetailDrawer{
     .archer-collapse-content-active{
@@ -95,5 +29,71 @@
         .archer-picker{
             padding: 0;
         }
+    }
+}
+.ApplicationDetail_addLogModal{
+    .archer-modal-content{
+        .archer-modal-body{
+            padding: 16px;
+            .ult-rcform-group{
+                margin-bottom: 15px;
+            }
+            .panel{
+                .ult-label{
+                    text-align: left;
+                }
+                .validation-error{
+                    bottom: 0;
+                    margin-bottom: -15px;
+                }
+            }
+            .columnPanel{
+                display: flex;
+                flex-direction: column;
+                .ult-rcform-panel{
+                    width: 100%;
+                }
+                .ult-rcform-group-input-wrapper{
+                    width: 100%;
+                }
+            }
+            .inlinePanel{
+                display: flex;
+                align-items: center;
+            }
+            .cascaderPanel{
+                .archer-cascader-picker{
+                    width: 100%;
+                }
+            }
+            .switchPanel{
+                .ult-rcform-panel{
+                    padding-top: 8px;
+                }
+            }
+            .panelGroup{
+                background: #F5F8FA;
+                border-radius: 3px;
+                padding: 0 10px;
+                display: flex;
+                align-items: center;
+                .ult-rcform-group{
+                    margin-right: 16px;
+                    .ult-label{
+                        font-size: 12px;
+                    }
+                    .ult-input-number .slot{
+                        width: auto;
+                    }
+                }
+            }
+        }
+        .custom-error{
+            color: #eb5f5c;
+            font-size: 12px;
+        }
+    }
+    .ult-input-number{
+        max-width: 100px;
     }
 }
