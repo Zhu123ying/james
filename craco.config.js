@@ -33,7 +33,7 @@ module.exports = {
     configure: {
       output: {
         filename: '[name].[hash].js',
-        publicPath: whenDev ? '/' : '/application/',
+        publicPath: '/application/',
         libraryTarget: 'umd',
         library: `${packageName}-[name]`,
         jsonpFunction: `webpackJsonp_${packageName}`
