@@ -687,7 +687,7 @@ class ContainerConfig extends React.Component {
                                                 inline
                                                 className='switchPanel'
                                             >
-                                                <Switch onChange={() => this.handleFormDataOnChange(`${index}.runVar.privileged`, !privileged)}></Switch>
+                                                <Switch checked={privileged} onChange={() => this.handleFormDataOnChange(`${index}.runVar.privileged`, !privileged)}></Switch>
                                             </Panel>
                                         </Collapse.Panel>
                                     )

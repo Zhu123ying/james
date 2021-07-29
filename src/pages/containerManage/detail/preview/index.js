@@ -29,36 +29,30 @@ class Preview extends React.Component {
         }
     }
     componentDidMount() {
+        this.renderCpuLineChart()
+        this.renderMemoryLineChart()
+    }
+    renderCpuLineChart = () => {
         const { monitorData } = this.props
-        const cpu_usage_rate = _.get(monitorData, 'cpu_usage_rate', [])
-        const memory_usage_rate = _.get(monitorData, 'memory_usage_rate', [])
-        this.initLineChart('cpu_line', cpu_usage_rate)
-        this.initLineChart('memory_line', memory_usage_rate)
-    }
-    initLineChart = (id, data) => {
-        if (!this[`$${id}`]) {
-            this[`$${id}`] = echarts.init(document.getElementById(id))// 初始化echarts
+        const cpu_usage_rate = _.get(monitorData, 'cpu_usage_rate') || []
+        if (!this.$cpu_line) {
+            this.$cpu_line = echarts.init(document.getElementById('cpu_line'))// 初始化echarts
         }
-        // 设置options
-        this[`$${id}`].setOption(this.getLineOption(id, data))
-    }
-    getLineOption = (id, data) => {
-        const type = id.replace('_line', '')
-        const { intl } = this.props
         let xAxisData = []
         let seriesData = []
-        Array.isArray(data) && data.forEach(item => {
+        cpu_usage_rate.forEach(item => {
             xAxisData.push(moment(item[0] * 1000).format('HH:mm:ss'))
-            seriesData.push(parseFloat(item[1]))
+            const yData = (parseFloat(item[1]) * 100).toFixed(2)
+            seriesData.push(parseFloat(yData))
         })
-        const color = type === 'cpu' ? '#0091AE' : '#5E6AB8 '
-        let option = {
-            color: [color],
+        // 设置options
+        this.$cpu_line.setOption({
+            color: ['#0091AE'],
             grid: {
-                left: 15,
+                left: 25,
                 top: 10,
                 right: 15,
-                bottom: 20
+                bottom: 35
             },
             xAxis: {
                 type: 'category',
@@ -71,8 +65,42 @@ class Preview extends React.Component {
                 data: seriesData,
                 type: 'line'
             }]
+        })
+    }
+    renderMemoryLineChart = () => {
+        const { monitorData } = this.props
+        const memory_usage_rate = _.get(monitorData, 'memory_usage_rate') || []
+        if (!this.$memory_line) {
+            this.$memory_line = echarts.init(document.getElementById('memory_line'))// 初始化echarts
         }
-        return option
+        let xAxisData = []
+        let seriesData = []
+        memory_usage_rate.forEach(item => {
+            xAxisData.push(moment(item[0] * 1000).format('HH:mm:ss'))
+            const yData = parseFloat(item[1]).toFixed(2)
+            seriesData.push(parseFloat(yData))
+        })
+        // 设置options
+        this.$memory_line.setOption({
+            color: ['#5E6AB8'],
+            grid: {
+                left: 30,
+                top: 10,
+                right: 15,
+                bottom: 35
+            },
+            xAxis: {
+                type: 'category',
+                data: xAxisData,
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                data: seriesData,
+                type: 'line'
+            }]
+        })
     }
     getAffinityConfigTableColumns() {
         const { intl } = this.props
@@ -151,7 +179,7 @@ class Preview extends React.Component {
                 width: '20%'
             },
             {
-                dataIndex: 'protocal',
+                dataIndex: 'protocol',
                 title: intl.formatMessage({ id: 'ProtocolType' }),
                 width: '15%'
             },
@@ -164,7 +192,7 @@ class Preview extends React.Component {
                 dataIndex: 'externalPort',
                 title: intl.formatMessage({ id: 'ExternalPort' }),
                 width: '15%',
-                render(val){
+                render(val) {
                     return val || DEFAULT_EMPTY_LABEL
                 }
             }
@@ -351,7 +379,7 @@ class Preview extends React.Component {
                                     />
                                 </div>
                                 <div className='infoItem'>
-                                    <div className='itemTitle'>{intl.formatMessage({ id: 'PortConfig' })}</div>
+                                    <div className='itemTitle'>{intl.formatMessage({ id: 'NetworkConfig' })}</div>
                                     <Table
                                         columns={this.getNetworkTableColumns()}
                                         dataSource={networkDetails}

@@ -15,8 +15,8 @@ class ManagePersistentStorage extends React.Component {
             labels: {}, // key:value形式
             type: 'Dynamic',
             typeClass: '',
-            accessMode: '', // 容量
-            capacity: 0, // 访问类型
+            accessMode: '', // 访问类型
+            capacity: 1, // 容量
             currentLabel: {}, // 标签
             LabelPanelErrorMessage: '', // 标签panel的错误提示
         }
@@ -176,11 +176,12 @@ class ManagePersistentStorage extends React.Component {
                     <InputNumber
                         form={form}
                         value={capacity}
-                        min={0}
+                        min={1}
                         slot={{
                             position: 'right',
                             format: () => 'Gi'
                         }}
+                        parser={input => input.replace(/\D/g,'')}
                         onChange={(val) => this.handleChange('capacity', val)}
                     />
                 </Panel>

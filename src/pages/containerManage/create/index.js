@@ -39,7 +39,7 @@ class ManageContainerItem extends React.Component {
                 description: '',
                 labels: {},
                 projectId: '',
-                restartPolicy: '', // 重启策略
+                restartPolicy: 'Always', // 重启策略
                 resource: {    // 资源组配额
                     cpu: 1000,
                     memory: 1024,
@@ -182,6 +182,25 @@ class ManageContainerItem extends React.Component {
             formData: { ...formData }
         }, () => {
             if (key === 'projectId') {
+                // 项目改变，要把容器镜像的值重置
+                const containers =
+                this.setState({
+                    formData: {
+                        ...formData,
+                        containers: formData.containers.map(item => {
+                            const { image: { pullStrategy } } = item
+                            return {
+                                ...item,
+                                image: {
+                                    project: '',
+                                    repo: '',
+                                    tag: '',
+                                    pullStrategy
+                                }
+                            }
+                        })
+                    }
+                })
                 this.getImageData(value)
             }
             console.log(this.state.formData)
@@ -254,13 +273,13 @@ class ManageContainerItem extends React.Component {
                                 {
                                     navigationBarItems.map(item => {
                                         return (
-                                            <div className={`barItem ${currentBarType === item ? 'activeType activeBefore' : ''}`} key={item}>{intl.formatMessage({ id: item })}</div>
+                                            <div className={`barItem ${currentBarType === item ? 'activeType activeBefore' : ''}`} key={item} onClick={() => this.handleChange('currentBarType', item)}>{intl.formatMessage({ id: item })}</div>
                                         )
                                     })
                                 }
                             </div>
                             <div className='middle'>
-                                <Collapse activeKey={currentBarType} onChange={arr => this.handleChange('currentBarType', (arr.pop() || currentBarType))}>
+                                <Collapse activeKey={currentBarType} onChange={arr => this.handleChange('currentBarType', arr.pop())}>
                                     <Collapse.Panel header={intl.formatMessage({ id: navigationBarItems[0] })} key={navigationBarItems[0]} className='barCollapsePanelItem' forceRender={true}>
                                         <ContainerGroupConfig
                                             intl={intl}

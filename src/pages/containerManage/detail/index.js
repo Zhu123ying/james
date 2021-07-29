@@ -59,7 +59,7 @@ class ContainerDetail extends React.Component {
                 this.setState({
                     detail: res.data,
                 }, () => {
-                    const { state } = res.data
+                    const { id, state } = res.data
                     // 状态不等于config开启定时器
                     if (state !== 'config') {
                         setTimeout(() => {

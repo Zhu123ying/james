@@ -78,6 +78,8 @@ class ManagePorts extends React.Component {
                     placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'ContainerPort' }) })}
                     isRequired
                     type='number'
+                    min={1}
+                    max={65535}
                 />
             </Form >
 

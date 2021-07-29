@@ -27,6 +27,12 @@ const ContainerStorageStateObject = {
     error: '异常',
     unknown: '未知'
 }
+
+// 容器类型
+const ContainerTypeObj = {
+    ApplictionContainer: '应用容器',
+    InitContainer: '初始化容器'
+}
 class Detail extends React.Component {
     constructor(props) {
         super(props)
@@ -131,8 +137,8 @@ class Detail extends React.Component {
             {
                 dataIndex: 'type',
                 title: `${intl.formatMessage({ id: 'Container' })}${intl.formatMessage({ id: 'Type' })}`,
-                render(val) {
-                    return val || DEFAULT_EMPTY_LABEL
+                render(type) {
+                    return ContainerTypeObj[type] || DEFAULT_EMPTY_LABEL
                 }
             },
             {

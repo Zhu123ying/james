@@ -12,7 +12,6 @@ import actions from '~/constants/authAction'
 import Dropdown from '~/components/Dropdown'
 import DetailIcon from '~/components/DetailIcon'
 import Detail from './detail'
-const { RangePicker } = DatePicker
 const notification = Notification.newInstance()
 class ApplicationPackageList extends React.Component {
     constructor(props) {

@@ -5,10 +5,11 @@ import HuayunRequest from '~/http/request'
 import { DatePicker, Select, Input, message, Button } from 'huayunui';
 import ContainerDetail from './detail'
 import './index.less'
-import { Notification, Loading, Icon } from 'ultraui'
+import { Notification, Loading, Icon, NoData } from 'ultraui'
 import ActionAuth from '~/components/ActionAuth'
 import actions from '~/constants/authAction'
 import { ContainerGroupStateDomList, ContainerGroupSecondStateColorList } from '~/constants'
+import moment from 'moment'
 
 const notification = Notification.newInstance()
 const { RangePicker } = DatePicker
@@ -88,8 +89,8 @@ class ContainerManage extends React.Component {
             pageSize,
             nameLike,
             projectId,
-            createTimeStart: createTime[0],
-            createTimeEnd: createTime[1]
+            createTimeStart: createTime[0] ? moment(createTime[0]).format('YYYY-MM-DD') : undefined,
+            createTimeEnd: createTime[1] ? moment(createTime[1]).format('YYYY-MM-DD') : undefined
         }
         isResetCurrentTableItem && this.setState({
             isFetching: true
@@ -139,8 +140,6 @@ class ContainerManage extends React.Component {
                 selectType="dropDown"
                 customerPlaceholder={intl.formatMessage({ id: 'CreateTime' })}
                 value={createTime}
-                key='RangePicker'
-                showTime={true}
             />,
             <Select
                 placeholder={intl.formatMessage({ id: 'Project' })}
@@ -199,7 +198,7 @@ class ContainerManage extends React.Component {
                                             refreshTableList={this.handleSearch}
                                             currentTableItem={currentTableItem}
                                             {...this.props} />
-                                    ) : null
+                                    ) : <NoData />
                                 }
                             </div>
                         </div>

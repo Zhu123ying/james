@@ -97,8 +97,12 @@ class Detail extends React.Component {
         const { type, command: probeCommand, periodSeconds, failureThreshold, initialDeploy, timeoutSeconds, manner } = probe || {}
         const basicKeyValue = [
             {
+                label: intl.formatMessage({ id: 'StartCommand' }),
+                value: (command || []).join(' ') || DEFAULT_EMPTY_LABEL
+            },
+            {
                 label: intl.formatMessage({ id: 'StartParameter' }),
-                value: (args || []).join('、') || DEFAULT_EMPTY_LABEL
+                value: (args || []).join(' ') || DEFAULT_EMPTY_LABEL
             },
             {
                 label: intl.formatMessage({ id: 'WorkingDirectory' }),
@@ -107,9 +111,9 @@ class Detail extends React.Component {
             {
                 label: intl.formatMessage({ id: 'EnvironmentVariable' }),
                 value: (envs || []).map(({ envKey, envValue, type, selectFile, selectKey }) => {
-                    const value = type === 'manual' ? envValue : `(${selectKey} -> ${selectFile})`
+                    const value = type === 'manual' ? envValue : `(${selectFile} -> ${selectKey})`
                     return `${envKey}: ${value}`
-                }).join('、')
+                }).join('、') || DEFAULT_EMPTY_LABEL
             },
             {
                 label: `${intl.formatMessage({ id: 'Image' })}${intl.formatMessage({ id: 'PullStrategy' })}`,

@@ -45,7 +45,7 @@ class ContainerGroupConfig extends React.Component {
     }
     render() {
         const { form, intl, projectList, formData, handleFormChange } = this.props
-        const { name, description, projectId, labels, restartPolicy, resource, qos } = formData
+        const { name, description, projectId, labels, restartPolicy, resource, qos, id } = formData
         const { cpu, memory, ephemeralStorage } = resource
         const { egress, ingress } = qos
         const { currentLabel } = this.state
@@ -147,6 +147,7 @@ class ContainerGroupConfig extends React.Component {
                     }
                     optionFilterProp='children'
                     optionLabelProp='children'
+                    disabled={id}
                 />
                 <Select
                     form={form}

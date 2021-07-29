@@ -179,24 +179,20 @@ class ConfigFileManage extends React.Component {
                         })
                     }
                 </div>
-                {
-                    configurations ? (
-                        <Modal
-                            title={currentConfigFileIndex > -1 ? '编辑配置文件' : '添加配置文件'}
-                            visible={isManageConfigFileModalVisible}
-                            onOk={this.handleConfirmManage}
-                            onCancel={() => this.handleChange('isManageConfigFileModalVisible', false)}
-                            className='ManageContainerModalItem'
-                            destroyOnClose={true}
-                        >
-                            <ManageConfigFile
-                                intl={intl}
-                                handleFormChange={handleFormChange}
-                                currentConfigFile={configurations[currentConfigFileIndex]}
-                                wrappedComponentRef={node => this.$ManageConfigFile = node} />
-                        </Modal>
-                    ) : null
-                }
+                <Modal
+                    title={currentConfigFileIndex > -1 ? '编辑配置文件' : '添加配置文件'}
+                    visible={isManageConfigFileModalVisible}
+                    onOk={this.handleConfirmManage}
+                    onCancel={() => this.handleChange('isManageConfigFileModalVisible', false)}
+                    className='ManageContainerModalItem'
+                    destroyOnClose={true}
+                >
+                    <ManageConfigFile
+                        intl={intl}
+                        handleFormChange={handleFormChange}
+                        currentConfigFile={configurations[currentConfigFileIndex]}
+                        wrappedComponentRef={node => this.$ManageConfigFile = node} />
+                </Modal>
             </div>
         )
     }

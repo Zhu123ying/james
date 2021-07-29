@@ -10,7 +10,6 @@ import actions from '~/constants/authAction'
 import ApplicationPackageList from './applicationPackageList'
 
 const notification = Notification.newInstance()
-const { RangePicker } = DatePicker
 class ProjectLibrary extends React.Component {
     constructor(props) {
         super(props)
