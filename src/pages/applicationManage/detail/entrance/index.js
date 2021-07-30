@@ -2,7 +2,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { RcForm, Button, Icon, Loading, SortTable, Dialog, confirmForm, Notification, TagItem, NoData } from 'ultraui'
-import { Modal } from 'huayunui'
+import { Modal, Popover } from 'huayunui'
 import './index.less'
 import CreateAppPort from './createAppPort'
 import HuayunRequest from '~/http/request'
@@ -137,13 +137,22 @@ class AppPortalManage extends React.Component {
                 </div>
                 <div className='content'>
                     {
-                        dataList.length ? dataList.map(({ id, name, description, resourceObjectName, addressList }) => {
+                        dataList.length ? dataList.map(({ id, name, description, resourceObjectName, addressList, valid }) => {
                             return (
                                 <div className='dataItem' key={id}>
                                     <Icon type='error' className='closeIcon' onClick={() => this.handleDelete(id, name)}></Icon>
                                     <div className='header'>
                                         <div className='name_des'>
-                                            <span className='name'>{name}</span>
+                                            <span className='name'>
+                                                {name}&nbsp;
+                                                {
+                                                    !valid ? (
+                                                        <Popover content='无效' type='text'>
+                                                            <i className='iconfont icon-warning-o text-danger'></i>
+                                                        </Popover>
+                                                    ) : null
+                                                }
+                                            </span>
                                             <span className='des'>{description}</span>
                                         </div>
                                         <ActionAuth action={actions.AdminApplicationCenterApplicationMaintain}>

@@ -158,7 +158,7 @@ class PvList extends React.Component {
         const { pageNumber, pageSize, name, totalData, isFetching } = this.state
         // 要先搜索然后分页
         const tableData = totalData.filter(item => {
-            return item.name.indexOf(name) > -1
+            return item.name.indexOf(name || '') > -1
         }).splice((pageNumber - 1) * pageSize, pageSize)
 
         return (

@@ -94,7 +94,7 @@ class Detail extends React.Component {
         const { name, runVar, envs, image, probe } = currentContainer
         const { args, workDir, command } = runVar || {}
         const { project, repo, tag, pullStrategy } = image || {}
-        const { type, command: probeCommand, periodSeconds, failureThreshold, initialDeploy, timeoutSeconds, manner } = probe || {}
+        const { type, command: probeCommand, periodSeconds, failureThreshold, initialDelaySeconds, timeoutSeconds, manner } = probe || {}
         const basicKeyValue = [
             {
                 label: intl.formatMessage({ id: 'StartCommand' }),
@@ -165,7 +165,7 @@ class Detail extends React.Component {
             },
             {
                 label: '初始化等待(秒)',
-                value: initialDeploy
+                value: initialDelaySeconds
             }
         ]
         const cpu_usage_current = _.get(monitorData, 'cpu_usage_current', '0')

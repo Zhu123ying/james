@@ -60,10 +60,10 @@ class PodMonitorDetail extends React.Component {
         let option = {
             color: [color],
             grid: {
-                left: 10,
+                left: 30,
                 top: 10,
                 right: 10,
-                bottom: 10
+                bottom: 20
             },
             xAxis: {
                 name: intl.formatMessage({ id: 'Time' }),

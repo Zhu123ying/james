@@ -7,6 +7,8 @@ import { versionDetailKeyObject } from '~/pages/utils'
 import { application, applicationPackage } from '~/http/api'
 import HuayunRequest from '~/http/request'
 import './index.less'
+import Regex from '~/utils/regex'
+
 const applicationPackageVersionKey = {
     COMMON: 'applicationPackageId', // 普通的，正常流程创建的
     APPSTORE: 'applicationPackageStoreId' // 应用商城创建的
@@ -85,6 +87,8 @@ class ManageTask extends React.Component {
                     name='name'
                     onChange={this.handleOnChange.bind(this, 'name')}
                     label={intl.formatMessage({ id: 'TaskName' })}
+                    validRegex={Regex.isName}
+                    invalidMessage={intl.formatMessage({ id: 'NameErrorMsg' })}
                     isRequired
                 />
                 <RcForm.Textarea
@@ -93,7 +97,7 @@ class ManageTask extends React.Component {
                     name='description'
                     onChange={this.handleOnChange.bind(this, 'description')}
                     label={intl.formatMessage({ id: 'TaskDescription' })}
-                    maxLength={NaN}
+                    maxLength={250}
                 />
                 {
                     id ? null : (

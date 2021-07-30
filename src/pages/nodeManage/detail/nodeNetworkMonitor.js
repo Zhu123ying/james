@@ -103,7 +103,7 @@ class NodeNetworkMonitor extends React.Component {
                                 type: 'value',
                                 axisLabel: {
                                     formatter: function (value, index) {
-                                        return value + 'Byte';
+                                        return value ? value + 'M' : 0
                                     }
                                 }
                             }

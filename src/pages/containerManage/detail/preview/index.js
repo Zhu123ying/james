@@ -42,7 +42,7 @@ class Preview extends React.Component {
         let seriesData = []
         cpu_usage_rate.forEach(item => {
             xAxisData.push(moment(item[0] * 1000).format('HH:mm:ss'))
-            const yData = (parseFloat(item[1]) * 100).toFixed(2)
+            const yData = parseFloat(item[1]).toFixed(2)
             seriesData.push(parseFloat(yData))
         })
         // 设置options

@@ -72,9 +72,9 @@ class AlarmConfig extends React.Component {
                     mode="multiple"
                     allowClear
                     value={users}
-                    placeholder={intl.formatMessage({ id: 'SelectProjectPlaceHolder' })}
+                    placeholder={intl.formatMessage({ id: 'SelectPlaceHolder' }, { name: intl.formatMessage({ id: 'AlarmContact' }) })}
                     onChange={(val) => this.handleChange('users', val)}
-                    label='告警联系人'
+                    label={intl.formatMessage({ id: 'AlarmContact' })}
                     isRequired
                     options={
                         userList.map(item => {

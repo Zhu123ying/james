@@ -92,7 +92,7 @@ class AlarmConfig extends React.Component {
                     form={form}
                     value={enabled}
                     name='AlarmConfigEnabled'
-                    label='默认启用'
+                    label='启用'
                     inline
                     isRequired
                     className='switchPanel'
