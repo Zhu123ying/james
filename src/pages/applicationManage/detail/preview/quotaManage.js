@@ -8,7 +8,10 @@ import HuayunRequest from '~/http/request'
 
 const _ = window._
 const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select, Panel } = RcForm
-
+const staticStorageObj = {
+    cEphemeralStorage: '容器宿主机存储(Gi)',
+    cStorage: '容器持久存储(Gi)'
+}
 class QuotaManage extends React.Component {
     static propTypes = {
         intl: PropTypes.object.isRequired,
@@ -93,7 +96,7 @@ class QuotaManage extends React.Component {
                     form={form}
                     value={storageInfo}
                     name="storageInfo"
-                    label={intl.formatMessage({ id: 'Static Storage' })}
+                    // label={intl.formatMessage({ id: 'Static Storage' })}
                     inline
                     className='storageInfoPanel'
                 >
@@ -106,7 +109,7 @@ class QuotaManage extends React.Component {
                                     value={storageInfo[key].total || ''}
                                     type='number'
                                     onChange={val => this.handleStorageChange(key, val)}
-                                    label={key}
+                                    label={staticStorageObj[key]}
                                     validRegex={Regex.isPositive}
                                     inline
                                     key={key}

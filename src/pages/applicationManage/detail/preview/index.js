@@ -250,9 +250,9 @@ class Preview extends React.Component {
         let option = {
             color: [color],
             grid: {
-                left: 20,
+                left: 35,
                 top: 10,
-                right: 15,
+                right: 10,
                 bottom: 20
             },
             xAxis: {
@@ -392,13 +392,13 @@ class Preview extends React.Component {
         }
         const progressGroup = [
             {
-                name: `cCPU(m)`,
+                name: `容器内存CPU`,
                 percentText: `${usedCpu}/${quotaCpu}`,
                 percentValue: Math.round(usedCpu) / Math.round(quotaCpu) * 100,
                 strokeColor: { '0%': '#61AAF0', '100%': '#4C8CCA' }
             },
             {
-                name: `cMemory(Mi)`,
+                name: `容器内存`,
                 percentText: `${usedMemory}/${quotaMemory}`,
                 percentValue: Math.round(usedMemory) / Math.round(quotaMemory) * 100,
                 strokeColor: { '0%': '#F8C640', '100%': '#F0A332' }
@@ -495,7 +495,7 @@ class Preview extends React.Component {
                                 <div className='monitorItem'>
                                     <div className='summary'>
                                         <span className='name'>CPU(%)</span>
-                                        <span className='value'>{currentCpu ? currentCpu + '%' : 0}</span>
+                                        <span className='value'>{parseFloat(currentCpu) ? parseFloat(currentCpu).toFixed(2) + '%' : 0}</span>
                                     </div>
                                     <div id="cpu_line" className="lineItem" />
                                 </div>

@@ -2,6 +2,7 @@
 import PageNotFound from '~/container/error'
 import ApplicationCenter from '~/container/content'
 import ApplicationManage from '~/pages/applicationManage'
+import ApplicationAlarmDetail from '~/pages/applicationManage/detail/alarm/detail'
 import CreateApplication from '~/pages/applicationManage/create'
 import ApplicationPackageManage from '~/pages/applicationPackageManage'
 import CreateApplicationPackage from '~/pages/applicationPackageManage/create'
@@ -43,6 +44,15 @@ const routers = [
         exact: true,
         langCode: 'CreateApplication',
         descLangCode: 'DesCreateApplication',
+      },
+      {
+        path: "/applicationCenter/applicationManage/alarmRecordDetail/:id",  // 容器管理-告警详情
+        component: ApplicationAlarmDetail,
+        name: 'ApplicationAlarmDetail',
+        key: 'ApplicationAlarmDetail',
+        exact: true,
+        langCode: 'ApplicationAlarmDetail',
+        descLangCode: 'ApplicationAlarmDetail',
       },
       {
         path: "/applicationCenter/applicationPackageManage",
@@ -110,11 +120,11 @@ const routers = [
       {
         path: "/applicationCenter/containerManage/alarmRecordDetail/:id",  // 容器管理-告警详情
         component: ContainerAlarmDetail,
-        name: 'AlarmDetail',
-        key: 'AlarmDetail',
+        name: 'ContainerAlarmDetail',
+        key: 'ContainerAlarmDetail',
         exact: true,
-        langCode: 'AlarmDetail',
-        descLangCode: 'DesAlarmDetail',
+        langCode: 'ContainerAlarmDetail',
+        descLangCode: 'DesContainerAlarmDetail',
       },
       {
         path: "/applicationCenter/imageManage",

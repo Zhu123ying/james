@@ -5,7 +5,7 @@ import TableCommon from '~/components/TableCommon'
 import { Static } from 'ultraui'
 import { useIntl } from 'react-intl'
 import { DEFAULT_EMPTY_LABEL } from 'Cnst/config'
-import { container as api } from '~/http/api'
+import { application as api } from '~/http/api'
 import HuayunRequest from '~/http/request'
 import moment from 'moment'
 
@@ -15,8 +15,8 @@ const customerRoutes = [
         breadcrumbName: '应用中心'
     },
     {
-        path: '/applicationCenter/containerManage',
-        breadcrumbName: '容器管理'
+        path: '/applicationCenter/applicationManage',
+        breadcrumbName: '应用管理'
     },
     {
         path: '',
@@ -33,7 +33,7 @@ const AlarmRecordDetail = ({
     }, [])
     /* 定义该组件使用的常量 */
     const intl = useIntl()
-    const uniquePageKey = 'applicationCenter_container_alarmDetail'
+    const uniquePageKey = 'applicationCenter_application_alarmDetail'
     const alarmLevel = [
         {
             name: intl.formatMessage({ id: 'All' }),
@@ -83,14 +83,18 @@ const AlarmRecordDetail = ({
     /* table相关操作 */
     // 请求table数据
     const handleQuery = () => {
-        let queryParamsObj = { ...queryParams }
-        queryParamsObj.alarmId = history.location.pathname.split('alarmRecordDetail/')[1]
+        let queryParamsObj = {
+            ...queryParams,
+            conditions: {
+                id: history.location.pathname.split('alarmRecordDetail/')[1]
+            }
+        }
         setLoading(true)
-        HuayunRequest(api.listAlertAlarmDetails, queryParamsObj, {
+        HuayunRequest(api.queryApplicationAlarmDetail, queryParamsObj, {
             success: (res) => {
-                const { alarmDetails, totalRecord } = res.data
-                setTableData(alarmDetails)
-                setTotal(totalRecord)
+                const { data, totalCount } = res
+                setTableData(data)
+                setTotal(totalCount)
             },
             complete: () => {
                 setLoading(false)

@@ -11,6 +11,7 @@ import { DEFAULT_EMPTY_LABEL } from '~/constants'
 import TableCommon from '~/components/TableCommon'
 import { renderStateWithDot } from '~/pages/utils'
 import AlarmConfig from './alarmConfig'
+import moment from 'moment'
 
 const notification = Notification.newInstance()
 const resolveStateObj = {
@@ -102,8 +103,8 @@ class Alarm extends React.Component {
         const { intl } = this.props
         return [
             {
-                dataIndex: 'name',
-                key: 'name',
+                dataIndex: 'priority',
+                key: 'priority',
                 title: '告警等级',
                 render(priority) {
                     const text = priority === 1 ? '严重' : '一般'
@@ -134,8 +135,32 @@ class Alarm extends React.Component {
                 dataIndex: 'timestamp',
                 key: 'timestamp',
                 title: '告警时间',
+                render(val) {
+                    return val ? moment(val).format('YYYY-MM-DD HH:mm:ss') : DEFAULT_EMPTY_LABEL
+                }
+            },
+            {
+                dataIndex: 'action',
+                key: 'operate',
+                width: '13%',
+                minCalcuWidth: 76,
+                title: intl.formatMessage({ id: 'Operate' }),
+                render: (value, data) => {
+                    return (
+                        <ActionAuth action={actions.AdminApplicationCenterApplicationMaintain}>
+                            <HuayunButton
+                                type="link"
+                                name={intl.formatMessage({ id: 'Detail' })}
+                                onClick={() => this.handleSeeAlarmDetail([data.id])}
+                            />
+                        </ActionAuth>
+                    )
+                }
             }
         ]
+    }
+    handleSeeAlarmDetail = (id) => {
+        this.props.history.push(`/applicationCenter/applicationManage/alarmRecordDetail/${id}`)
     }
     handleTableChange = ({ pageNumber, pageSize }) => {
         this.setState({
@@ -193,7 +218,6 @@ class Alarm extends React.Component {
         const allContacts = _.get(alarmDetail, 'applicationAlarmConfig.notifyUsers', []).map(item => item.name)
         const priority_1 = _.get(alarmDetail, 'priority_1', 0) // 严重
         const priority_5 = _.get(alarmDetail, 'priority_5', 0) // 一般
-
         return (
             <div className='applicationDetail_alarm'>
                 {

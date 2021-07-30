@@ -70,9 +70,7 @@ class AffinityConfig extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            nodeAffinitySwitch: false,
-            platformContainerAffinitySwitch: false,
-            platformContainerAntiAffinitySwitch: false,
+
         }
     }
     componentWillReceiveProps(nextProps) {
@@ -240,8 +238,8 @@ class AffinityConfig extends React.Component {
     // 渲染节点亲和
     renderNodeAffinity = () => {
         const { intl, form, formData: { affinity } } = this.props
-        const { nodeAffinitySwitch } = this.state
-        const { prefers, require } = _.get(affinity, 'nodeAffinity', {}) || {}
+        const nodeAffinitySwitch = _.get(affinity, 'nodeAffinity')
+        const { prefers, require } = nodeAffinitySwitch || {}
         return (
             <div className='nodeAffinity'>
                 <div className='lineItem'>
@@ -445,7 +443,7 @@ class AffinityConfig extends React.Component {
     renderContainerGroupAffinity = (key) => {
         const { intl, form, formData: { affinity } } = this.props
         const { prefers, requires } = _.get(affinity, key, {}) || {}
-        const switchBtn = this.state[`${key}Switch`]
+        const switchBtn = _.get(affinity, key)
         return (
             <div className='nodeAffinity'>
                 <div className='lineItem'>

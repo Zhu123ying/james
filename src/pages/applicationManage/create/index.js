@@ -153,20 +153,26 @@ class CreateApplication extends React.Component {
         })
     }
     handleChange = (key, val, item) => {
+        const { id } = queryParamsToObject(this.props.location.search)
         const value = _.get(val, 'target.value', val)
         this.setState({
             [key]: value
         }, () => {
             if (key === 'projectId') {
-                this.getAppPackageList(value)
                 this.getAvailableQuota(value)
                 this.setState({
-                    applicationPackageId: '',
-                    applicationVersionId: '',
-                    appPackageVersionList: [],
-                    currentConfigInfo: '',
                     recommandQuota: {}
                 })
+                // 如果是应用商店过来的，那项目可以变，应用包和版本不能变
+                if (!id) {
+                    this.getAppPackageList(value)
+                    this.setState({
+                        applicationPackageId: '',
+                        applicationVersionId: '',
+                        appPackageVersionList: [],
+                        currentConfigInfo: '',
+                    })
+                }
             }
             if (key === 'applicationPackageId') {
                 this.setState({
@@ -473,7 +479,7 @@ class CreateApplication extends React.Component {
                                                 optionFilterProp='children'
                                                 optionLabelProp='children'
                                                 showSearch
-                                                disabled={!appPackageList.length}
+                                                disabled={searchParams.id}  // 从应用商店过来的应用包不能改
                                             />
                                             <Select
                                                 form={form}
@@ -499,7 +505,7 @@ class CreateApplication extends React.Component {
                                                 optionFilterProp='children'
                                                 optionLabelProp='children'
                                                 showSearch
-                                                disabled={!appPackageVersionList.length}
+                                                disabled={searchParams.id}  // 从应用商店过来的版本不能改
                                             />
                                             {
                                                 applicationVersionId ? (
