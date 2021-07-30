@@ -6,7 +6,7 @@ const _ = window._
 
 // 集群资源相关常量start
 // 集群资源类型列表
-const clusterResourceTypeList = ['ClusterRole', 'Namespace', 'Node', 'PersistentVolume', 'StorageClass']
+const clusterResourceTypeList = ['Namespace', 'Node', 'PersistentVolume', 'StorageClass']
 
 // 以下是通用的cloumn，列出了复用
 // 名称
