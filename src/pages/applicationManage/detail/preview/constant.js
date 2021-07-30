@@ -73,7 +73,6 @@ const createTime = (intl) => {
 const clusterResourceTypeColumns = (this_) => {
     const { intl } = this_.props
     return {
-        'ClusterRole': [clusterResourceName(intl), createTime(intl)],
         'Namespace': [
             clusterResourceName(intl),
             clusterResourceLabels(intl),

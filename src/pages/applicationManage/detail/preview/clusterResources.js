@@ -35,10 +35,9 @@ class ClusterResources extends React.Component {
         })
         HuayunRequest(api.clusterResourceInfor, { id }, {
             success: (res) => {
-                const { clusterRoleList, namespaceList, nodeList, persistentVolumeList, storageClassList } = res.data
+                const { namespaceList, nodeList, persistentVolumeList, storageClassList } = res.data
                 this.setState({
                     tableDataObj: {
-                        'ClusterRole': clusterRoleList,
                         Namespace: namespaceList,
                         Node: nodeList,
                         'PersistentVolume': persistentVolumeList,
