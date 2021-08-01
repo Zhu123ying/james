@@ -298,7 +298,7 @@ class Preview extends React.Component {
             <div className='title'>{intl.formatMessage({ id: 'RemainingAvailableQuota' })}</div>
             <div className='lineItem'>cCPU(m)<div className='dottedLine'></div>{availableQuotaData.cCPU}</div>
             <div className='lineItem'>cMemory(Mi)<div className='dottedLine'></div>{availableQuotaData.cMemory}</div>
-            <div className='title'>{intl.formatMessage({ id: 'Static Storage' })}</div>
+            {/* <div className='title'>{intl.formatMessage({ id: 'Static Storage' })}</div> */}
             {
                 Object.keys((availableQuotaData.availableStorageQuota || {})).map(key => {
                     return (

@@ -44,24 +44,28 @@ class ApplicationDetail extends React.Component {
     }
     // 获取应用以及资源的详情信息
     getDetail = (id, isInterval) => {
-        const { intl, refreshTableList } = this.props
+        const { intl, refreshTableList, currentApplication } = this.props
         const { detail } = this.state
-        if (id !== detail.id) {
-            if (isInterval) {
-                // 如果是轮询的请求并且容器已经改变了，则不请求了
-                return false
-            } else {
-                this.setState({
-                    isLoading: true
-                })
-            }
+        // 如果发送请求的时候，请求的id不是当前应用了，那不需要发了，轮询请求的时候发现应用已经切换了
+        if (currentApplication.id !== detail.id && isInterval) {
+            return false
+        }
+        // 轮询请求的时候不需要loading
+        if (!isInterval) {
+            this.setState({
+                isLoading: true
+            })
         }
         HuayunRequest(api.detail, { id }, {
             success: (res) => {
+                const { state, id } = res.data
+                // 如果切换应用过快，则详情页会按照请求顺序依次渲染。我们只要渲染当前的应用就行了
+                if (this.props.currentApplication.id !== id) {
+                    return false
+                }
                 this.setState({
-                    detail: res.data,
+                    detail: res.data
                 }, () => {
-                    const { state } = res.data
                     // 状态不等于config开启定时器
                     if (state !== 'config' && state !== 'failed') {
                         setTimeout(() => {
@@ -163,7 +167,7 @@ class ApplicationDetail extends React.Component {
                         id: 'updateSuccess',
                         type: 'success',
                         title: intl.formatMessage({ id: 'Success' }),
-                        content: `${action}${this.operationTarget}'${name}'${intl.formatMessage({ id: 'Success' })}`,
+                        content: `${action}${this.operationTarget}${name}'${intl.formatMessage({ id: 'Success' })}`,
                         iconNode: 'icon-success-o',
                         duration: 5,
                         closable: true
