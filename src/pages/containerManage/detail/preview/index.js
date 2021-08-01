@@ -21,6 +21,11 @@ const exposureModeObject = {
     Container: '容器网络',
     LoadBalance: '外部网络'
 }
+const MatchTypeObj = {
+    MatchFields: '匹配字段',
+    MatchExpressions: '匹配表达式',
+    MatchLabels: '匹配标签'
+}
 class Preview extends React.Component {
     constructor(props) {
         super(props)
@@ -137,7 +142,10 @@ class Preview extends React.Component {
             {
                 dataIndex: 'matchManner',
                 title: intl.formatMessage({ id: 'MatchType' }),
-                width: '10%'
+                width: '10%',
+                render(type) {
+                    return MatchTypeObj[type]
+                }
             },
             {
                 dataIndex: 'labelsOrExpressions',
@@ -282,7 +290,7 @@ class Preview extends React.Component {
                                     <TagItem
                                         size='medium'
                                         key={key}
-                                        name={labels[key]}
+                                        name={`${key} : ${labels[key]}`}
                                     />
                                 )
                             })

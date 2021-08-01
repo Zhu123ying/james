@@ -116,6 +116,20 @@ class NetworkConfig extends React.Component {
                 onChange={(val) => this.handleOnChange(`${key}.port`, parseInt(_.get(val, 'target.value', val)))}
                 label={intl.formatMessage({ id: portType })}
                 isRequired
+                validate={[{
+                    trigger: 'onBlur',
+                    rules: [
+                        (rule, value, callback) => {
+                            if (!value) {
+                                callback('集群网络端口 不能为空')
+                            } else if ((value < 1) || (value > 65535)) {
+                                callback('端口范围1~65535')
+                            } else {
+                                callback()
+                            }
+                        }
+                    ]
+                }]}
                 type='number'
                 className='w50 pl'
             />
@@ -148,11 +162,21 @@ class NetworkConfig extends React.Component {
                     name={`NetworkConfig${key}NodePortInput`}
                     placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: intl.formatMessage({ id: 'Port' }) })}
                     onChange={(val) => this.handleOnChange(`${key}.port`, parseInt(_.get(val, 'target.value', val)))}
-                    // label={intl.formatMessage({ id: portType })}
-                    // isRequired={manner === 'manual'}
                     disabled={manner === 'random'}
                     type='number'
                     className='inputPart'
+                    validate={[{
+                        trigger: 'onBlur',
+                        rules: [
+                            (rule, value, callback) => {
+                                if (value && ((value < 1) || (value > 65535))) {
+                                    callback('端口范围1~65535')
+                                } else {
+                                    callback()
+                                }
+                            }
+                        ]
+                    }]}
                 />
             </div>
         )

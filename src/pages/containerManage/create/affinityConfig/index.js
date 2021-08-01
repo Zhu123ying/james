@@ -9,8 +9,8 @@ import Card from '~/components/Card'
 const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select, Panel } = RcForm
 const _ = window._
 const operatorList = ['In', 'NotIn', 'Exists', 'DoesNotExist', 'Gt', 'Lt']
-const preferTitle = 'preferredDuringSchedulingIgnoredDuringExecution'
-const requireTitle = 'requiredDuringSchedulingIgnoredDuringExecution'
+const preferTitle = '优先'
+const requireTitle = '必须'
 // 添加匹配字段、匹配表达式插入的数据结构（因为是对象，需要解构后再插入）
 const matchLineItem = {
     key: '',
@@ -521,10 +521,10 @@ class AffinityConfig extends React.Component {
                     <Input
                         form={form}
                         value={namespaces.join(',')}
-                        name={`AffinityConfig${key}Prefers${index}NameSpaces`}
-                        placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: 'NameSpaces' })}
+                        name={`AffinityConfig${key}Prefers${index}Namespaces`}
+                        placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: 'Namespaces' })}
                         onChange={(val) => this.handleOnChange(`${key}.prefers.${index}.namespaces`, val.target.value.split(','))}
-                        label='NameSpaces'
+                        label='Namespaces'
                         isRequired
                         className='w100'
                     />
@@ -615,10 +615,10 @@ class AffinityConfig extends React.Component {
                     <Input
                         form={form}
                         value={namespaces.join(',')}
-                        name={`AffinityConfig${key}Requires${index}NameSpaces`}
-                        placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: 'NameSpaces' })}
+                        name={`AffinityConfig${key}Requires${index}Namespaces`}
+                        placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: 'Namespaces' })}
                         onChange={(val) => this.handleOnChange(`${key}.requires.${index}.namespaces`, val.target.value.split(','))}
-                        label='NameSpaces'
+                        label='Namespaces'
                         isRequired
                         className='w50'
                     />

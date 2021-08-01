@@ -62,7 +62,8 @@ class ManageContainerItem extends React.Component {
                 //     enabled: true,
                 //     users: []
                 // },
-                containerLogs: [_.cloneDeep(containerLogItem)], // 日志持久化
+                containerLogs: [],
+                // containerLogs: [_.cloneDeep(containerLogItem)], // 日志持久化
                 configurations: [], // 配置文件
                 storages: [], // 持久存储
             },

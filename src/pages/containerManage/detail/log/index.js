@@ -123,7 +123,7 @@ class Event extends React.Component {
                             <Menu.Item
                                 key={item}
                                 onClick={() => this.handleChange('tail', item)}>
-                                {`每页${item}条`}
+                                {`${item}条`}
                             </Menu.Item>
                         )
                     })
@@ -153,6 +153,7 @@ class Event extends React.Component {
                             value={logType}
                             onChange={item => this.handleChange('logType', item[0])}
                             placeholder='请选择'
+                            disabled={!containerName}
                         >
                             {
                                 (containersObj[containerName] || []).map(item => {

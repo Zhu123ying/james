@@ -124,7 +124,7 @@ class ManageMountConfig extends React.Component {
                         form={form}
                         name="subType"
                         value={subTypeObj.value}
-                        placeholder={intl.formatMessage({ id: 'SelectPlaceHolder' }, { name: intl.formatMessage({ id: 'Type' }) })}
+                        placeholder={intl.formatMessage({ id: 'SelectPlaceHolder' }, { name: '对象' })}
                         onChange={(val, option) => this.handleChange('subTypeObj', option)}
                         label={intl.formatMessage({ id: 'Type' })}
                         isRequired

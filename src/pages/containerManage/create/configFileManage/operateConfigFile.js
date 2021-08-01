@@ -127,9 +127,7 @@ class ManageConfigFile extends React.Component {
                     value={currentLabel}
                     name="currentLabel"
                     label={intl.formatMessage({ id: 'Tag' })}
-                    className='commonlabelFormPanel'
-                    isRequired
-                    errorMsg={Object.keys(labels).length ? '' : LabelPanelErrorMessage}
+                    className='commonlabelFormPanel mb0'
                 >
                     <div className='labelLine'>
                         <Input

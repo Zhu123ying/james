@@ -26,15 +26,6 @@ class PersistentStorageManage extends React.Component {
         const { currentItemIndex } = this.state
         this.$ManagePersistentStorage.props.form.validateFields((error, values) => {
             // 验证标签和数据
-            const LabelPanelErrorMessage = Object.keys(labels).length === 0 ? intl.formatMessage({ id: 'LabelPanelIsRequired' }) : ''
-            if (LabelPanelErrorMessage) {
-                this.$ManagePersistentStorage.setState({
-                    LabelPanelErrorMessage
-                })
-            }
-            if (error || LabelPanelErrorMessage) {
-                return
-            }
             this.setState({
                 isManageModalVisible: false,
                 currentItemIndex: -1
@@ -99,7 +90,7 @@ class PersistentStorageManage extends React.Component {
             },
             {
                 label: intl.formatMessage({ id: 'StorageType' }),
-                value: type
+                value: typeClass
             },
             {
                 label: intl.formatMessage({ id: 'Capacity' }),

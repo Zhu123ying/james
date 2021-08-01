@@ -54,11 +54,14 @@ class LogPersistence extends React.Component {
         return (
             <div className='containerLogs'>
                 {
-                    containerLogs.length ? (
+                    containerLogs && containerLogs.length ? (
                         <Collapse defaultActiveKey={[0]}>
                             {
                                 containerLogs.map((item, index) => {
-                                    const { containerName, stdoutLogEnabled, stdoutLogConfig, fileLogEnabled, fileLogConfig } = item
+                                    let { containerName, stdoutLogEnabled, stdoutLogConfig, fileLogEnabled, fileLogConfig } = item
+                                    // 编辑的时候获取到的值需要||个默认值
+                                    stdoutLogConfig = stdoutLogConfig || {}
+                                    fileLogConfig = fileLogConfig || {}
                                     return (
                                         <Collapse.Panel header={this.renderPanelHeader(index)} key={index}>
                                             <Select
@@ -72,7 +75,8 @@ class LogPersistence extends React.Component {
                                                     containers.map(({ name }) => {
                                                         return {
                                                             value: name,
-                                                            text: name,
+                                                            text: name || '',
+                                                            disabled: !name
                                                         }
                                                     })
                                                 }
@@ -153,6 +157,8 @@ class LogPersistence extends React.Component {
                                                                 label='日志路径'
                                                                 onChange={(val) => this.handleFormDataOnChange(`${index}.fileLogConfig.path`, val)}
                                                                 isRequired
+                                                                validRegex={/^\/$/}
+                                                                invalidMessage='日志路径必须以 / 开头'
                                                                 className='w50'
                                                             />
                                                             <Panel

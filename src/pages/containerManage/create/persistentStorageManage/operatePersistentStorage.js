@@ -18,7 +18,6 @@ class ManagePersistentStorage extends React.Component {
             accessMode: '', // 访问类型
             capacity: 1, // 容量
             currentLabel: {}, // 标签
-            LabelPanelErrorMessage: '', // 标签panel的错误提示
         }
     }
     componentDidMount() {
@@ -71,7 +70,7 @@ class ManagePersistentStorage extends React.Component {
     }
     render() {
         const { form, intl, storageClassList } = this.props
-        const { currentLabel, name, labels, type, typeClass, accessMode, capacity, LabelPanelErrorMessage } = this.state
+        const { currentLabel, name, labels, type, typeClass, accessMode, capacity } = this.state
         const currentStorageClass = storageClassList.find(item => item.name === typeClass)
         const accessModeOptions = _.get(currentStorageClass, 'accessModes', [])
         return (
@@ -96,9 +95,7 @@ class ManagePersistentStorage extends React.Component {
                     value={currentLabel}
                     name="currentLabel"
                     label={intl.formatMessage({ id: 'Tag' })}
-                    className='commonlabelFormPanel'
-                    isRequired
-                    errorMsg={Object.keys(labels).length ? '' : LabelPanelErrorMessage}
+                    className='commonlabelFormPanel mb0'
                 >
                     <div className='labelLine'>
                         <Input

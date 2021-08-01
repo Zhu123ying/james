@@ -31,14 +31,13 @@ class ConfigFileManage extends React.Component {
         const { currentConfigFileIndex } = this.state
         this.$ManageConfigFile.props.form.validateFields((error, values) => {
             // 验证标签和数据
-            const LabelPanelErrorMessage = Object.keys(labels).length === 0 ? intl.formatMessage({ id: 'LabelPanelIsRequired' }) : ''
             const DataPanelErrorMessage = Object.keys(data).length === 0 ? intl.formatMessage({ id: 'DataPanelIsRequired' }) : ''
-            if (LabelPanelErrorMessage || DataPanelErrorMessage) {
+            if (DataPanelErrorMessage) {
                 this.$ManageConfigFile.setState({
-                    LabelPanelErrorMessage, DataPanelErrorMessage
+                    DataPanelErrorMessage
                 })
             }
-            if (error || LabelPanelErrorMessage || DataPanelErrorMessage) {
+            if (error || DataPanelErrorMessage) {
                 return
             }
             this.setState({
