@@ -90,7 +90,7 @@ class ImageInstanceList extends React.Component {
                 title: 'Tag',
                 render: (value, row) => {
                     return (
-                        <>
+                        <div className='imageInstanceTag'>
                             <span>{value}&nbsp;</span>
                             <CopyToClipboard
                                 text={row.artifactTagPath}	//点击复制时的内容,可自行设置或传入
@@ -98,7 +98,7 @@ class ImageInstanceList extends React.Component {
                             >
                                 <i className='iconfont icon-copy' key="copy"></i>
                             </CopyToClipboard>
-                        </>
+                        </div>
                     )
                 }
             },

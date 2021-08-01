@@ -102,6 +102,10 @@ class ApplicationStoreLibrary extends React.Component {
         this.setState({
             tableType: type,
             currentTableItem: row
+        }, () => {
+            if (type == 0) {
+                this.handleSearch()
+            }
         })
     }
     handleChange = (key, value) => {

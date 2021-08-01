@@ -31,10 +31,25 @@
             padding: 0;
         }
         .imageInstanceName{
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            a{
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                width: calc(100% - 42px);
+            }
         }
+        // .imageInstanceTag{
+        //     display: flex;
+        //     align-items: center;
+        //     span{
+        //         overflow: hidden;
+        //         text-overflow: ellipsis;
+        //         white-space: nowrap;
+        //         width: calc(100% - 12px);
+        //     }
+        // }
     }
 }
 .ImageManage_addPullModal{

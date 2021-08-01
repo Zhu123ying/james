@@ -33,7 +33,6 @@ class Detail extends React.Component {
     getDetailData = (id = this.props.currentDataItem.id) => {
         HuayunRequest(api.getApplicationPackage, { id }, {
             success: (res) => {
-                const { applicationPackageVersionList } = res.data
                 this.setState({
                     detail: res.data
                 })
@@ -70,18 +69,31 @@ class Detail extends React.Component {
                 }
                 HuayunRequest(api.createApplicationPackageAndVersionByShare, params, {
                     success: (res) => {
-                        notification.notice({
-                            id: new Date(),
-                            type: 'success',
-                            title: intl.formatMessage({ id: 'Success' }),
-                            content: `${intl.formatMessage({ id: 'ShareApplicationPackage' })}${intl.formatMessage({ id: 'Success' })}`,
-                            iconNode: 'icon-success-o',
-                            duration: 5,
-                            closable: true
-                        })
-                        this.setState({
-                            isShareAppPackageModalVisible: false
-                        })
+                        const { retCode, retInfo } = res.data
+                        if (retCode) {
+                            notification.notice({
+                                id: new Date(),
+                                type: 'danger',
+                                title: intl.formatMessage({ id: 'Error' }),
+                                content: retInfo,
+                                iconNode: 'icon-error-o',
+                                duration: 5,
+                                closable: true
+                            })
+                        } else {
+                            notification.notice({
+                                id: new Date(),
+                                type: 'success',
+                                title: intl.formatMessage({ id: 'Success' }),
+                                content: `${intl.formatMessage({ id: 'ShareApplicationPackage' })}${intl.formatMessage({ id: 'Success' })}`,
+                                iconNode: 'icon-success-o',
+                                duration: 5,
+                                closable: true
+                            })
+                            this.setState({
+                                isShareAppPackageModalVisible: false
+                            })
+                        }
                     }
                 })
             }

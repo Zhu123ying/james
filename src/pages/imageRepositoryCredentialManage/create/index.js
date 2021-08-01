@@ -28,13 +28,10 @@ class Create extends React.Component {
 
     componentDidMount() {
         const { currentTableItem } = this.props
-        const { id, repoName, credentialType, projectId, protocol, host, port, userName, password, certName } = currentTableItem
+        const { id, repoName, credentialType, projectId, protocol, host, port, userName, password } = currentTableItem
         if (id) {
             this.setState({
-                repoName, credentialType, projectId, protocol, host, port, userName, password,
-                caCert: {
-                    name: certName
-                }
+                repoName, credentialType, projectId, protocol, host, port, userName, password
             })
         }
     }
@@ -178,7 +175,7 @@ class Create extends React.Component {
                             beforeUpload={this.handleChoseFile}
                         >
                             <RcForm.Button type="primary" name={intl.formatMessage({ id: 'selectFile' })} />
-                            <span className="fileName">&nbsp;&nbsp;{caCert && caCert.name}</span>
+                            <span className="fileName">&nbsp;&nbsp;{(caCert && caCert.name) || currentTableItem.certName}</span>
                         </Upload>
                     </Panel>
                 </Form>

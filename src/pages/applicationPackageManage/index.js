@@ -19,7 +19,7 @@ class ProjectLibrary extends React.Component {
             total: 0,
             currentTableItem: {}, // 当前的应用
             pageNumber: 1,
-            pageSize: 30,
+            pageSize: 99999,
             isFetching: false
         }
     }

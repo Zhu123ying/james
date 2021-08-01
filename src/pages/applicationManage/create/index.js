@@ -348,8 +348,8 @@ class CreateApplication extends React.Component {
         const quotaPanelData = [
             { title: 'CPU', recommand: cpu_min, available: cpuAvailable, key: 'cCPU', value: cCPU, uni: 'm' },
             { title: '内存', recommand: memory_min, available: memoryAvailable, key: 'cMemory', value: cMemory, uni: 'Mi' },
-            { title: '临时存储', recommand: cEphemeralStorage_min, available: cEphemeralStorageAvailable, key: 'cEphemeralStorage', value: cEphemeralStorage, uni: 'Gi' },
-            { title: '持久存储', recommand: cStorage_min, available: cStorageAvailable, key: 'cStorage', value: cStorage, uni: 'Gi' }
+            { title: '容器宿主机存储(Gi)', recommand: cEphemeralStorage_min, available: cEphemeralStorageAvailable, key: 'cEphemeralStorage', value: cEphemeralStorage, uni: 'Gi' },
+            { title: '容器持久存储(Gi)', recommand: cStorage_min, available: cStorageAvailable, key: 'cStorage', value: cStorage, uni: 'Gi' }
         ]
         return (
             <div id="ManageApplication">

@@ -15,6 +15,7 @@ import CreateAppPort from './createAppPort'
 import FileEdit from './fileEdit'
 import AlarmConfig from './alarmConfig'
 import LogManage from './createLog'
+import { formatChartValues } from '~/pages/utils'
 
 const _ = window._
 const { Panel } = Collapse
@@ -80,7 +81,7 @@ class VersionManage extends React.Component {
         HuayunRequest(api.getApplicationPackageVersionLogConfigs, { packageVersionId }, {
             success: (res) => {
                 this.setState({
-                    logList: res.data
+                    logList: res.data || []
                 })
             }
         })
@@ -193,10 +194,10 @@ class VersionManage extends React.Component {
                 </div>
                 <Tabs defaultActiveKey="1" className='versionChart'>
                     <TabPane tab='VALUES' key="1">
-                        {chartValues}
+                        <div className='chartValueContent' dangerouslySetInnerHTML={{ __html: formatChartValues(currentVersion.chartValues) }}></div>
                     </TabPane>
                     <TabPane tab='TEMPLATE' key="2">
-                        {chartTemplate}
+                        <div className='chartValueContent' dangerouslySetInnerHTML={{ __html: formatChartValues(currentVersion.chartTemplate) }}></div>
                     </TabPane>
                 </Tabs>
             </>
@@ -352,12 +353,12 @@ class VersionManage extends React.Component {
             let containerName = [...cascaderValue].pop()
             let podName = [...cascaderValue].pop()
             let params = {
-                podName, 
-                kind, 
-                containerName, 
-                isStandardLogConfig, 
-                standardLogConfig, 
-                isServiceLogConfig, 
+                podName,
+                kind,
+                containerName,
+                isStandardLogConfig,
+                standardLogConfig,
+                isServiceLogConfig,
                 serviceLogConfig,
                 packageVersionId: currentVersionId,
                 logResource: cascaderValue,
@@ -573,7 +574,7 @@ class VersionManage extends React.Component {
         })
     }
     handleSubmitVersion = () => {
-        const { intl, getDetailData } = this.props
+        const { intl } = this.props
         const { currentVersion: { id } } = this.state
         Modal.confirm({
             title: intl.formatMessage({ id: 'SubmitAppPackageVersion' }),
@@ -602,7 +603,7 @@ class VersionManage extends React.Component {
                                 duration: 5,
                                 closable: true
                             })
-                            getDetailData()
+                            this.getApplicationPackageVersionInfo(id)
                         }
                     }
                 })

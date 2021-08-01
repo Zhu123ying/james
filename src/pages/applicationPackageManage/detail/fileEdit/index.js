@@ -73,6 +73,7 @@ class FileEdit extends React.Component {
     }
     // 将数据进行格式化，方便后面的添加，查询操作等
     formatTreeData = (data) => {
+        const { currentVersion } = this.props
         // key例如0-0-0，0-0-1，0-1-1这种
         const loop = (key, arr) => {
             arr.forEach((item, index) => {
@@ -86,6 +87,7 @@ class FileEdit extends React.Component {
                                 <Input
                                     defaultValue={item.name}
                                     autoFocus
+                                    // onInput={e => e.currentTarget.value = 12345}
                                     onBlur={(e) => this.handleRenameInputSubmit(e, item)}
                                 />
                             ) : (
@@ -94,7 +96,7 @@ class FileEdit extends React.Component {
                         }
                         {
                             // 暂定根目录不能编辑和删除
-                            item.rootPath ? null : (
+                            (item.rootPath || currentVersion.isCommit) ? null : (
                                 <div className='operaGroup'>
                                     <Button type='link' name='' icon={<Icon type='edit' />} onClick={() => this.handleEditTreeNodeItem(item)} disabled={item.type === 'bytefile'} />
                                     <Button type='link' name='' icon={<Icon type='delete' />} onClick={(e) => this.handleDeleteTreeNodeItem(e, item.key)} />
@@ -282,6 +284,7 @@ class FileEdit extends React.Component {
         })
     }
     render() {
+        const { currentVersion } = this.props
         const { treeData, isFetching, expandedKeys, selectedKeys, showSearchInput, searchInputValue, validErrorMessage } = this.state
         return (
             <div className='fileEditModalContent'>
@@ -303,7 +306,14 @@ class FileEdit extends React.Component {
                                     trigger="hover"
                                     type="text"
                                 >
-                                    <i className='iconfont icon-folde' onClick={() => this.handleAddTreeNodeItem('dir')} />
+                                    <div>
+                                        <UltrauiButton
+                                            type='default'
+                                            icon='folde'
+                                            disabled={currentVersion.isCommit}
+                                            onClick={() => this.handleAddTreeNodeItem('dir')}
+                                        />
+                                    </div>
                                 </Popover>
                                 <Popover
                                     placement="top"
@@ -311,7 +321,12 @@ class FileEdit extends React.Component {
                                     trigger="hover"
                                     type="text"
                                 >
-                                    <i className='iconfont icon-file' onClick={() => this.handleAddTreeNodeItem('file')} />
+                                    <UltrauiButton
+                                        type='default'
+                                        icon='file'
+                                        disabled={currentVersion.isCommit}
+                                        onClick={() => this.handleAddTreeNodeItem('file')}
+                                    />
                                 </Popover>
                             </div>
                             <Button

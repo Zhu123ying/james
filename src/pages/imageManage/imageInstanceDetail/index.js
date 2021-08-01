@@ -298,7 +298,7 @@ class Detail extends React.Component {
         // repoType为applicationStore的时候，是没有推送，删除，tag的增删操作的
         const { intl, onClose, visible, currentImageInstance, handleDelete, repoType } = this.props
         const { basicInfo, buildHistory, isMaintenanceRecordModalVisible, isPushImageModalVisible, tableData, scanState } = this.state
-        const { artifactTagName, tags, digest, os, architecture, imageSize, createTime, createBy, imageSource } = basicInfo
+        const { artifactTagName, tags, digest, os, architecture, imageSize, createTime, createByName, imageSource } = basicInfo
         const basicKeyValue = [
             {
                 label: 'Repo',
@@ -326,7 +326,7 @@ class Detail extends React.Component {
             },
             {
                 label: '创建人',
-                value: createBy
+                value: createByName
             },
             {
                 label: '来源',
