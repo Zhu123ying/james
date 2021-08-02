@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from 'react'
-import { getDataKey, compositeStateColor } from './index'
+import { getDataKey, compositeStateColor, compositeStateText } from './index'
 import { Tooltip, Dropdown } from 'ultraui'
 
 const _ = window._
@@ -16,7 +16,12 @@ export default (intl, data, this_) => {
                 width: '90px',
                 render(runInfo, row) {
                     let state = _.get(modelDetail, 'data.data.state', '')
-                    return <div className="compositeStateDot" style={{ backgroundColor: state !== 'config' ? compositeStateColor['NORMAL'] : '' }} />
+                    return (
+                        <div className='stateLineWithDot'>
+                            <div className='stateDot' style={{ backgroundColor: state !== 'config' ? compositeStateColor['NORMAL'] : '' }}></div>
+                            {state !== 'config' ? '正常' : '异常'}
+                        </div>
+                    )
                 }
             },
             {

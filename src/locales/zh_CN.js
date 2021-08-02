@@ -647,6 +647,10 @@ const zh_CN = {
     ApplicationReleaseTaskVersionError: '起始版本不一致，不能发布此任务!',
     ApplicationResourceObjectNotFoundError: '应用资源服务不存在',
     ApplicationNotDeployedError: '应用处于未部署状态！',
+    ImageArtifactTargetImageIllegalError: '镜像拉取失败，目标镜像参数非法(repo:tag)',
+    ImageArtifactPushTargetImageIllegalError: '镜像推送失败，目标镜像参数非法(repo:tag)',
+    ApplicationPackageChartNotSupportNsError: '资源的metadata不支持namespace定义',
+    ApplicationPackageChartTemplateNotSupportNsError: '资源的spec.template.metadata不支持namespace定义',
 
 }
 export default zh_CN

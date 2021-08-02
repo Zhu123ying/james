@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { getDataKey, compositeStateColor } from './index'
+import { getDataKey, compositeStateColor, compositeStateText } from './index'
 import { Tooltip, Dropdown } from 'ultraui'
 
 const _ = window._
@@ -14,7 +14,12 @@ export default (intl, data, this_) => {
                 width: '90px',
                 render(runInfo, row) {
                     const state = _.get(row, `data.runInfo.compositeState`, '')
-                    return <div className="compositeStateDot" style={{ backgroundColor: compositeStateColor[state] }} />
+                    return (
+                        <div className='stateLineWithDot'>
+                            <div className='stateDot' style={{ backgroundColor: compositeStateColor[state] }}></div>
+                            {compositeStateText[state]}
+                        </div>
+                    )
                 }
             },
             {

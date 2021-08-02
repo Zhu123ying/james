@@ -76,7 +76,7 @@ class QuotaManage extends React.Component {
                     value={cCPU || ''}
                     type='number'
                     onChange={val => this.handleChange('cCPU', val)}
-                    label='cCPU(m)'
+                    label='容器内存CPU(m)'
                     validRegex={Regex.isPositive}
                     isRequired
                     inline
@@ -87,7 +87,7 @@ class QuotaManage extends React.Component {
                     value={cMemory || ''}
                     type='number'
                     onChange={val => this.handleChange('cMemory', val)}
-                    label='cMemory(Mi)'
+                    label='容器内存(Mi)'
                     validRegex={Regex.isPositive}
                     isRequired
                     inline

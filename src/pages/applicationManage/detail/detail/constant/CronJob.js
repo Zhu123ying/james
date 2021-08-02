@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from 'react'
-import { getDataKey, compositeStateColor } from './index'
+import { getDataKey, compositeStateColor, compositeStateText } from './index'
 import { Tooltip, SortTable, Dropdown } from 'ultraui'
 import { Table } from 'huayunui'
 // CronJob下的Job
@@ -18,7 +18,12 @@ export default (intl, data, this_, key) => {
                 width: '90px',
                 render(runInfo, row) {
                     const state = _.get(row, `${getDataKey(row)}compositeState`, '')
-                    return <div className="compositeStateDot" style={{ backgroundColor: compositeStateColor[state] }} />
+                    return (
+                        <div className='stateLineWithDot'>
+                            <div className='stateDot' style={{ backgroundColor: compositeStateColor[state] }}></div>
+                            {compositeStateText[state]}
+                        </div>
+                    )
                 }
             },
             {
@@ -134,7 +139,7 @@ export default (intl, data, this_, key) => {
                 {...otherTableProps}
                 dataSource={dataSource}
                 pagination={false}
-                // scroll={{ x: '100%' }}
+            // scroll={{ x: '100%' }}
             />)
         },
         data

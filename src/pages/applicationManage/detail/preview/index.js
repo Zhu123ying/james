@@ -282,7 +282,6 @@ class Preview extends React.Component {
                 <Popover
                     placement="top"
                     content={this.renderQuotaAvailablePopover()}
-                    trigger="hover"
                     type="text"
                     getPopupContainer={() => document.querySelector('.quotaManageModalTitle')}
                 >
@@ -294,19 +293,15 @@ class Preview extends React.Component {
     renderQuotaAvailablePopover = () => {
         const { intl } = this.props
         const { availableQuotaData } = this.state
+        const avail_cEphemeralStorage = _.get(availableQuotaData, 'availableStorageQuota.cEphemeralStorage', 0)
+        const avail_cStorage = _.get(availableQuotaData, 'availableStorageQuota.cStorage', 0)
         return <div className='quotaAvailablePopoverContent'>
             <div className='title'>{intl.formatMessage({ id: 'RemainingAvailableQuota' })}</div>
-            <div className='lineItem'>cCPU(m)<div className='dottedLine'></div>{availableQuotaData.cCPU}</div>
-            <div className='lineItem'>cMemory(Mi)<div className='dottedLine'></div>{availableQuotaData.cMemory}</div>
-            {/* <div className='title'>{intl.formatMessage({ id: 'Static Storage' })}</div> */}
-            {
-                Object.keys((availableQuotaData.availableStorageQuota || {})).map(key => {
-                    return (
-                        <div className='lineItem' key={key}>{key}<div className='dottedLine'></div>{availableQuotaData.availableStorageQuota[key]}</div>
-                    )
-                })
-            }
-        </div>
+            <div className='lineItem'><span>容器内存CPU(m)</span><div className='dottedLine'></div>{availableQuotaData.cCPU}</div>
+            <div className='lineItem'><span>容器内存(Mi)</span><div className='dottedLine'></div>{availableQuotaData.cMemory}</div>
+            <div className='lineItem'><span>容器宿主机存储(Gi)</span><div className='dottedLine'></div>{ avail_cEphemeralStorage }</div >
+            <div className='lineItem'><span>容器持久存储(Gi)</span><div className='dottedLine'></div>{avail_cStorage}</div>
+        </div >
     }
     handleConfirmEditApplication = () => {
         const { intl, detail: { id }, getDetail } = this.props
@@ -344,6 +339,7 @@ class Preview extends React.Component {
             id, name, createrName, createTime, description, tags, resourceObjectDtos, state, secondState, resourceObjectStatistics, projectId,
             commandExecuteLogs, applicationType, reversionNum, projectName, updateTime, historyResourceObjectDtos, quota, usedCpu, usedMemory
         } = detail
+        const { cEphemeralStorageAllocated, cEphemeralStorageTotal, cStorageAllocated, cStorageTotal } = resourceInfor
         const KeyValueData = [
             {
                 label: intl.formatMessage({ id: 'Tag' }),
@@ -377,19 +373,6 @@ class Preview extends React.Component {
         const carouselPages = resourceObjectStatistics ? Math.floor(Object.keys(resourceObjectStatistics).length / 4) : 0
         const quotaCpu = _.get(quota, 'cCPU', 0)
         const quotaMemory = _.get(quota, 'cMemory', 0)
-        // const quotaStorageInfo = _.get(quota, 'storageInfo', {}) // 暂时没用到
-        const cCpuProgressData = {
-            name: `cCPU(m)`,
-            percentText: `${usedCpu}/${quotaCpu}`,
-            percentValue: Math.round(usedCpu) / Math.round(quotaCpu) * 100,
-            strokeColor: { '0%': '#61AAF0', '100%': '#4C8CCA' }
-        }
-        const cMemoryProgressData = {
-            name: `cMemory(Mi)`,
-            percentText: `${usedMemory}/${quotaMemory}`,
-            percentValue: Math.round(usedMemory) / Math.round(quotaMemory) * 100,
-            strokeColor: { '0%': '#F8C640', '100%': '#F0A332' }
-        }
         const progressGroup = [
             {
                 name: `容器内存CPU`,
@@ -402,14 +385,26 @@ class Preview extends React.Component {
                 percentText: `${usedMemory}/${quotaMemory}`,
                 percentValue: Math.round(usedMemory) / Math.round(quotaMemory) * 100,
                 strokeColor: { '0%': '#F8C640', '100%': '#F0A332' }
-            }
+            },
+            {
+                name: `容器宿主机存储(Gi)`,
+                percentText: `${cEphemeralStorageAllocated}/${cEphemeralStorageTotal}`,
+                percentValue: Math.round(cEphemeralStorageAllocated) / Math.round(cEphemeralStorageTotal) * 100,
+                strokeColor: { '0%': '#F0A332 ', '100%': '#F8C640' }
+            },
+            {
+                name: `容器持久存储(Gi)`,
+                percentText: `${cStorageAllocated}/${cStorageTotal}`,
+                percentValue: Math.round(cStorageAllocated) / Math.round(cStorageTotal) * 100,
+                strokeColor: { '0%': '#5AB55E', '100%': '#5AB55E' }
+            },
         ]
         const currentCpu = _.get(resourceInfor.cpu_usage_rate.pop(), '1', 0)
         const currentMemory = _.get(resourceInfor.memory_usage_rate.pop(), '1', 0)
 
         return (
             <div className='commonDetail_preview applicationDetail_preview'>
-                <Row gutter={10}>
+                <Row gutter={10} className='topRow'>
                     <Col span={8}>
                         <div className='boxContainer'>
                             <div className='boxTitle activeBefore'>
@@ -444,7 +439,7 @@ class Preview extends React.Component {
                         </div>
                     </Col>
                 </Row>
-                <Row gutter={10}>
+                <Row gutter={10} className='bottomRow'>
                     <Col span={8}>
                         <div className='boxContainer'>
                             <div className='boxTitle activeBefore'>

@@ -1,7 +1,7 @@
 /* eslint-disable */
 // 资源对象下产生的最底层的pod
 import React from 'react'
-import { getDataKey, compositeStateColor } from './index'
+import { getDataKey, compositeStateColor, compositeStateText } from './index'
 import { Tooltip, SortTable, Dropdown } from 'ultraui'
 
 const _ = window._
@@ -15,7 +15,12 @@ export default (intl, data, this_) => {
                 key: 'compositeState',
                 width: '90px',
                 render(state, row) {
-                    return <div className="compositeStateDot" style={{ backgroundColor: compositeStateColor[state] }} />
+                    return (
+                        <div className='stateLineWithDot'>
+                            <div className='stateDot' style={{ backgroundColor: compositeStateColor[state] }}></div>
+                            {compositeStateText[state]}
+                        </div>
+                    )
                 }
             },
             {

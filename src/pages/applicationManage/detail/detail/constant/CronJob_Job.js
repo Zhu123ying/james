@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from 'react'
-import { getDataKey, compositeStateColor } from './index'
+import { getDataKey, compositeStateColor, compositeStateText } from './index'
 import { Tooltip, SortTable } from 'ultraui'
 import { Table } from 'huayunui'
 import ResourceType_Pod from './ResourceType_Pod'
@@ -16,7 +16,12 @@ export default (intl, data, this_, key) => {
                 key: 'compositeState',
                 width: '90px',
                 render(state, row) {
-                    return <div className="compositeStateDot" style={{ backgroundColor: compositeStateColor[state] }} />
+                    return (
+                        <div className='stateLineWithDot'>
+                            <div className='stateDot' style={{ backgroundColor: compositeStateColor[state] }}></div>
+                            {compositeStateText[state]}
+                        </div>
+                    )
                 }
             },
             {
@@ -82,7 +87,7 @@ export default (intl, data, this_, key) => {
                 {...otherTableProps}
                 dataSource={dataSource}
                 pagination={false}
-                // scroll={{ x: '100%' }}
+            // scroll={{ x: '100%' }}
             />)
         },
         data

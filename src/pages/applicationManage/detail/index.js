@@ -42,19 +42,20 @@ class ApplicationDetail extends React.Component {
             this.getDetail(nextId)
         }
     }
+    shouldComponentUpdate(nextProps, nextState) {
+        if (this.props.currentApplication.id !== nextState.detail.id) {
+            return false
+        } else {
+            return true
+        }
+    }
     // 获取应用以及资源的详情信息
     getDetail = (id, isInterval) => {
         const { intl, refreshTableList, currentApplication } = this.props
-        const { detail } = this.state
+        const { detail, isLoading } = this.state
         // 如果发送请求的时候，请求的id不是当前应用了，那不需要发了，轮询请求的时候发现应用已经切换了
-        if (currentApplication.id !== detail.id && isInterval) {
+        if ((currentApplication.id !== detail.id) && isInterval) {
             return false
-        }
-        // 轮询请求的时候不需要loading
-        if (!isInterval) {
-            this.setState({
-                isLoading: true
-            })
         }
         HuayunRequest(api.detail, { id }, {
             success: (res) => {
@@ -67,8 +68,9 @@ class ApplicationDetail extends React.Component {
                     detail: res.data
                 }, () => {
                     // 状态不等于config开启定时器
-                    if (state !== 'config' && state !== 'failed') {
-                        setTimeout(() => {
+                    // 定义ApplicationDetailIntervalRequest为查询应用详情的轮询
+                    if (state !== 'config' && state !== 'failed' && !window.ApplicationDetailIntervalRequest) {
+                        window.ApplicationDetailIntervalRequest = setInterval(() => {
                             this.getDetail(id, true)
                         }, 10000)
                     }

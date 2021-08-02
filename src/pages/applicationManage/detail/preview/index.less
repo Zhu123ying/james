@@ -6,21 +6,28 @@
         width: 100%;
         height: calc(50% - 10px);      
         margin: 0!important;
-        min-height: 220px;
-        max-height: 260px;  
         .archer-col-8{
             padding-left: 0!important;
             padding-right: 10px!important;
+            height: 100%;
         }
         .archer-col-16{
             padding-left: 10px!important;
             padding-right: 0!important;
+            height: 100%;
         }
+    }
+    .topRow{
+        height: 234px;
+    }
+    .bottomRow{
+        height: 320px;
     }
     .archer-row:first-child{
         margin-bottom: 20px!important;
     }
     .boxContainer{
+        overflow-y: scroll;
         .boxTitle{
             .name_state{
                 display: flex;
@@ -169,7 +176,10 @@
             color: #4C8CCA; 
         }
         .archer-popover{
-            width: 195px;
+            min-width: 220px;
+            .archer-popover-inner-content{
+                max-width: initial!important;
+            }
             .quotaAvailablePopoverContent{
                 .title{
                     font-size: 12px;
@@ -179,11 +189,16 @@
                 .lineItem{
                     display: flex;
                     align-items: flex-end;
-                    margin: 4px 0;
+                    margin: 8px 0;
+                    span{
+                        width: 105px;
+                        display: inline-block;
+                    }
                     .dottedLine{
-                        width: 100%;
+                        width: 115px;
                         border-top: 1px solid #7C98B6;
                         padding: 1px 2px;
+                        margin-right: 5px;
                     }
                 }
             }

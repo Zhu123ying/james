@@ -25,11 +25,13 @@ export const ApplicationStatuDomList = {
 // 应用二级状态（健康状态）
 export const ApplicationSecondStatuList = {
     NORMAL: '健康',
-    ABNORMAL: '异常'
+    ABNORMAL: '异常',
+    executing: '执行中'
 }
 export const ApplicationSecondStatuColorList = {
     NORMAL: 'bg-success',
-    ABNORMAL: 'bg-danger'
+    ABNORMAL: 'bg-danger',
+    executing: 'bg-primary'
 }
 // 应用发布任务状态
 export const ApplicationPublishTaskStatuList = {

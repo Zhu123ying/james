@@ -20,8 +20,18 @@ const compositeStateColor = {
     Bound: '#67C23A',
 }
 
+const compositeStateText = {
+    UNDEPLOYED: '未部署状态',
+    NORMAL: '正常',
+    END: '结束',
+    PENDING: '等待',
+    FAILEDORUNKNOW: '失败或未知',
+    Bound: '正常',
+}
+
 module.exports = {
     getDataKey,
     resourceTypeList,
-    compositeStateColor
+    compositeStateColor,
+    compositeStateText
 }

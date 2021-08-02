@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { getDataKey, compositeStateColor } from './index'
+import { getDataKey, compositeStateColor, compositeStateText } from './index'
 import { Tooltip, Dropdown } from 'ultraui'
 
 const _ = window._
@@ -14,7 +14,12 @@ export default (intl, data, this_) => {
                 width: '90px',
                 render(runInfo, row) {
                     const state = _.get(row, `${getDataKey(row)}compositeState`, '')
-                    return <div className="compositeStateDot" style={{ backgroundColor: compositeStateColor[state] }} />
+                    return (
+                        <div className='stateLineWithDot'>
+                            <div className='stateDot' style={{ backgroundColor: compositeStateColor[state] }}></div>
+                            {compositeStateText[state]}
+                        </div>
+                    )
                 }
             },
             {
@@ -30,10 +35,10 @@ export default (intl, data, this_) => {
                 dataIndex: 'runInfo',
                 key: 'Request',
                 render(runInfo, row) {
-                    const cpu_hard =  _.get(row, `${getDataKey(row)}status.hard.cpu`, '-')
-                    const cpu_used =  _.get(row, `${getDataKey(row)}status.used.cpu`, '-')
-                    const memory_hard =  _.get(row, `${getDataKey(row)}status.hard.memory`, '-')
-                    const memory_used =  _.get(row, `${getDataKey(row)}status.hard.memory`, '-')
+                    const cpu_hard = _.get(row, `${getDataKey(row)}status.hard.cpu`, '-')
+                    const cpu_used = _.get(row, `${getDataKey(row)}status.used.cpu`, '-')
+                    const memory_hard = _.get(row, `${getDataKey(row)}status.hard.memory`, '-')
+                    const memory_used = _.get(row, `${getDataKey(row)}status.hard.memory`, '-')
                     return `cpu: ${cpu_used}/${cpu_hard}, memory: ${memory_used}/${memory_hard}`
 
                 }
@@ -41,7 +46,7 @@ export default (intl, data, this_) => {
             {
                 title: intl.formatMessage({ id: 'Operate' }),
                 key: 'Operate',
-                // width: '64px',
+                width: '64px',
                 render: (id, row) => {
                     const options = [
                         {

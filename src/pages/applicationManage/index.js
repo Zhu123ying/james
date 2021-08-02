@@ -116,6 +116,9 @@ class ApplicationManage extends React.Component {
         })
     }
     handleChangeTableItem = (item) => {
+        // 切换应用先删掉定时器
+        clearInterval(window.ApplicationDetailIntervalRequest)
+        window.ApplicationDetailIntervalRequest = null
         this.setState({
             currentApplication: item
         })
@@ -151,7 +154,7 @@ class ApplicationManage extends React.Component {
                 style={{ width: 'auto' }}
                 dropdownMatchSelectWidth={false}
                 bordered={false}
-                onChange={(arr) => this.handleSearchParamChange('projectId', arr[0])}>
+                onChange={(val) => this.handleSearchParamChange('projectId', val)}>
                 {
                     projectList.map(({ id, name }) => {
                         return <Select.Option value={id} key={id}>{name}</Select.Option>
