@@ -19,7 +19,7 @@ const matchLineItem = {
 }
 // 节点prefer对象
 const nodePreferItem = {
-    weight: '',
+    weight: 50,
     matchFields: [{ ...matchLineItem }],
     matchExpressions: [{ ...matchLineItem }]
 }
@@ -44,7 +44,7 @@ const matchLabelItem = {
 }
 // 容器的prefree对象
 const containerGroupPreferItem = {
-    weight: 0,
+    weight: 50,
     namespaces: [],
     topologyKey: '',
     matchLabels: [{ ...matchLabelItem }],
@@ -120,6 +120,14 @@ class AffinityConfig extends React.Component {
         let { formData: { affinity }, handleFormChange } = this.props
         _.set(affinity, key, value)
         handleFormChange('affinity', { ...affinity })
+    }
+    // 权重必须传数字
+    handleWeightOnChange = (key, val) => {
+        let value = _.get(val, 'target.value', '')
+        if (value) {
+            value = parseInt(value)
+        }
+        this.handleOnChange(key, value)
     }
     // 通用型删除，只要知道key和index
     handleRemoveFormItem = (key, index) => {
@@ -287,10 +295,10 @@ class AffinityConfig extends React.Component {
             <Collapse.Panel header={this.renderPanelHeader(preferTitle, 'nodeAffinity.prefers', index)} key={index}>
                 <Input
                     form={form}
-                    value={weight||''}
+                    value={weight}
                     name={`AffinityConfigNodeAffinityPrefers${index}Weight`}
                     placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: '权重' })}
-                    onChange={(val) => this.handleOnChange(`nodeAffinity.prefers.${index}.weight`, val)}
+                    onChange={(val) => this.handleWeightOnChange(`nodeAffinity.prefers.${index}.weight`, val)}
                     label='权重'
                     type='number'
                     isRequired
@@ -504,10 +512,12 @@ class AffinityConfig extends React.Component {
                         value={weight}
                         name={`AffinityConfig${key}Prefers${index}Weight`}
                         placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: '权重' })}
-                        onChange={(val) => this.handleOnChange(`${key}.prefers.${index}.weight`, parseInt(_.get(val, 'target.value', val)))}
+                        onChange={(val) => this.handleWeightOnChange(`${key}.prefers.${index}.weight`, val)}
                         label='权重'
                         type='number'
                         isRequired
+                        validRegex={Regex.limit100}
+                        invalidMessage={intl.formatMessage({ id: 'WeightLimitError' })}
                         className='w50'
                     />
                     <Input
