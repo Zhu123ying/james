@@ -205,7 +205,7 @@ class ManageConfigFile extends React.Component {
                             isRequired
                             options={[
                                 { value: 'Opaque', text: 'Opaque' },
-                                { value: 'kubernetes.io/dockerconfigjson', text: 'kubernetes.io/dockerconfigjson' }
+                                // { value: 'kubernetes.io/dockerconfigjson', text: 'kubernetes.io/dockerconfigjson' }
                             ]}
                             optionFilterProp='children'
                             optionLabelProp='children'

@@ -44,7 +44,7 @@ const matchLabelItem = {
 }
 // 容器的prefree对象
 const containerGroupPreferItem = {
-    weight: '',
+    weight: 0,
     namespaces: [],
     topologyKey: '',
     matchLabels: [{ ...matchLabelItem }],
@@ -287,13 +287,15 @@ class AffinityConfig extends React.Component {
             <Collapse.Panel header={this.renderPanelHeader(preferTitle, 'nodeAffinity.prefers', index)} key={index}>
                 <Input
                     form={form}
-                    value={weight}
+                    value={weight||''}
                     name={`AffinityConfigNodeAffinityPrefers${index}Weight`}
                     placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: '权重' })}
-                    onChange={(val) => this.handleOnChange(`nodeAffinity.prefers.${index}.weight`, parseInt(_.get(val, 'target.value', val)))}
+                    onChange={(val) => this.handleOnChange(`nodeAffinity.prefers.${index}.weight`, val)}
                     label='权重'
                     type='number'
                     isRequired
+                    validRegex={Regex.limit100}
+                    invalidMessage={intl.formatMessage({ id: 'WeightLimitError' })}
                 />
                 <Panel
                     form={form}

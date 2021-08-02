@@ -36,6 +36,7 @@ class Preview extends React.Component {
     componentDidMount() {
         this.renderCpuLineChart()
         this.renderMemoryLineChart()
+        this.renderNetworkLineChart()
     }
     renderCpuLineChart = () => {
         const { monitorData } = this.props
@@ -54,7 +55,7 @@ class Preview extends React.Component {
         this.$cpu_line.setOption({
             color: ['#0091AE'],
             grid: {
-                left: 25,
+                left: 35,
                 top: 10,
                 right: 15,
                 bottom: 35
@@ -89,7 +90,7 @@ class Preview extends React.Component {
         this.$memory_line.setOption({
             color: ['#5E6AB8'],
             grid: {
-                left: 30,
+                left: 40,
                 top: 10,
                 right: 15,
                 bottom: 35
@@ -105,6 +106,57 @@ class Preview extends React.Component {
                 data: seriesData,
                 type: 'line'
             }]
+        })
+    }
+    renderNetworkLineChart = () => {
+        const { monitorData } = this.props
+        let network_Ingress_usage_rate = _.get(monitorData, 'network_Ingress_usage_rate') || []
+        let network_egress_usage_rate = _.get(monitorData, 'network_egress_usage_rate') || []
+        if (!this.$network_line) {
+            this.$network_line = echarts.init(document.getElementById('network_line'))// 初始化echarts
+        }
+        network_Ingress_usage_rate.forEach((item, index) => {
+            const yData = parseFloat(item[1]).toFixed(2)
+            network_Ingress_usage_rate[index][1] = parseFloat(yData)
+        })
+        network_egress_usage_rate.forEach((item, index) => {
+            const yData = parseFloat(item[1]).toFixed(2)
+            network_egress_usage_rate[index][1] = parseFloat(yData)
+        })
+        // 设置options
+        this.$network_line.setOption({
+            color: ['#80fdff', '#95f203'],
+            grid: {
+                left: 40,
+                top: 10,
+                right: 15,
+                bottom: 35
+            },
+            xAxis: {
+                type: 'time',
+                axisLabel: {
+                    formatter: function (value, index) {
+                        return moment(value * 1000).format('HH:mm:ss')
+                    }
+                }
+            },
+            yAxis: [
+                {
+                    type: 'value'
+                }
+            ],
+            series: [
+                {
+                    type: 'line',
+                    stack: '入',
+                    data: network_Ingress_usage_rate
+                },
+                {
+                    type: 'line',
+                    stack: '出',
+                    data: network_egress_usage_rate
+                }
+            ]
         })
     }
     getAffinityConfigTableColumns() {
@@ -313,6 +365,8 @@ class Preview extends React.Component {
         ]
         const cpu_usage_current = _.get(monitorData, 'cpu_usage_current', '0')
         const memory_usage_current = _.get(monitorData, 'memory_usage_current', '0')
+        const network_Ingress_usage_current = _.get(monitorData, 'network_Ingress_usage_current', '')
+        const network_egress_usage_current = _.get(monitorData, 'network_egress_usage_current', '')
         return (
             <div className='commonDetail_preview containerDetail_preview'>
                 <Row gutter={10}>
@@ -364,6 +418,13 @@ class Preview extends React.Component {
                                         <span className='value'>{memory_usage_current}</span>
                                     </div>
                                     <div id="memory_line" className="lineItem" />
+                                </div>
+                                <div className='monitorItem'>
+                                    <div className='summary'>
+                                        <span className='name'>{intl.formatMessage({ id: 'Network' })}</span>
+                                        <span className='value'>{`${network_Ingress_usage_current || 0} / ${network_egress_usage_current || 0}`}</span>
+                                    </div>
+                                    <div id="network_line" className="lineItem" />
                                 </div>
                             </div>
                         </div>
