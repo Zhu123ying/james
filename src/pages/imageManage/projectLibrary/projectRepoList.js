@@ -318,6 +318,7 @@ class ProjectRepoList extends React.Component {
                             >
                                 <AddPullModal
                                     intl={intl}
+                                    projectId={projectId}
                                     wrappedComponentRef={node => this.$AddPullModal = node} />
                             </Modal>
                             <Modal

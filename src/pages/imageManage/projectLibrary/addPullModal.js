@@ -22,7 +22,7 @@ class AddPullModal extends React.Component {
             repositoryCredentialId: '', // 凭证ID(项目库从外部仓库拉取镜像)
             sourceImage: '', // 镜像来源(项目库从外部仓库拉取镜像)
             // 公用参数
-            projectId: '', // 归属项目ID
+            projectId: props.projectId, // 归属项目ID
             targetImage: '', // 目标镜像Repo:tag
             targetRepo: '', // 目标镜像仓库地址
             projectList: [], // 项目列表
@@ -32,6 +32,8 @@ class AddPullModal extends React.Component {
     }
     componentDidMount() {
         this.getProjectList()
+        this.getCredentialList()
+        this.getImageRepositoryPath()
     }
     getImageRepositoryPath = () => {
         const { projectId } = this.state
@@ -238,6 +240,7 @@ class AddPullModal extends React.Component {
                             onChange={this.handleChange.bind(this, 'sourceImage')}
                             label='源镜像'
                             isRequired
+                            maxLength={200}
                         />
                     ) : (
                         <Select

@@ -40,16 +40,24 @@
                 width: calc(100% - 42px);
             }
         }
-        // .imageInstanceTag{
-        //     display: flex;
-        //     align-items: center;
-        //     span{
-        //         overflow: hidden;
-        //         text-overflow: ellipsis;
-        //         white-space: nowrap;
-        //         width: calc(100% - 12px);
-        //     }
-        // }
+        .imageInstanceTag{
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            .tagItem{
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+                .icon-copy{
+                    display: none;
+                }
+            }
+            .tagItem:hover{
+                .icon-copy{
+                    display: block;
+                }
+            }
+        }
     }
 }
 .ImageManage_addPullModal{

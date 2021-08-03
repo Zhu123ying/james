@@ -10,4 +10,22 @@
     .mr8{
         margin-right: 8px!important;
     }
+    .imageInstanceTag{
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        .tagItem{
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            .icon-copy{
+                display: none;
+            }
+        }
+        .tagItem:hover{
+            .icon-copy{
+                display: block;
+            }
+        }
+    }
 }

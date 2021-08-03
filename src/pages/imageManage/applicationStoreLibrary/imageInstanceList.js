@@ -3,15 +3,15 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { image as api } from '~/http/api'
 import HuayunRequest from '~/http/request'
-import { DatePicker, Select, Input, SearchBar, Button, Table, Modal, Space, Checkbox, Popover, Tooltip } from 'huayunui';
+import { DatePicker, Select, Input, SearchBar, Button, Table, Modal, Space, Checkbox, Popover, Tooltip, message } from 'huayunui';
 import { Icon, NoData, Notification } from 'ultraui'
 import './index.less'
 import TableCommon from '~/components/TableCommon'
 import DetailIcon from '~/components/DetailIcon'
 import ImageInstanceDetail from '../imageInstanceDetail'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 const notification = Notification.newInstance()
-
 class ImageInstanceList extends React.Component {
     constructor(props) {
         super(props)
@@ -71,15 +71,46 @@ class ImageInstanceList extends React.Component {
                     return (
                         <div className='imageInstanceName'>
                             <DetailIcon iconType="log-1" className="m-r-sm" />
-                            <a onClick={() => this.seeImageInstanceDetail(row)}>{value}</a>
+                            <a onClick={() => this.seeImageInstanceDetail(row)} >{value}&nbsp;</a>
+                            <CopyToClipboard
+                                text={row.artifactDigestPath}	//点击复制时的内容,可自行设置或传入
+                                onCopy={() => message.success('复制成功!')}		//点击之后的回调
+                            >
+                                <i className='iconfont icon-copy' key="copy"></i>
+                            </CopyToClipboard>
                         </div>
                     )
                 }
             },
             {
-                dataIndex: 'artifactTagName',
-                key: 'artifactTagName',
-                title: 'Tag'
+                dataIndex: 'tags',
+                key: 'tags',
+                title: 'Tag',
+                render: (tags, row) => {
+                    const { artifactTagPath } = row
+                    return (
+                        <div className='imageInstanceTag'>
+                            {
+                                tags ? (
+                                    tags.map((tag, index) => {
+                                        return (
+                                            <div className='tagItem'>
+                                                <span>{tag.name}&nbsp;</span>
+                                                <CopyToClipboard
+                                                    text={`${artifactTagPath}${tag.name}`}	//点击复制时的内容,可自行设置或传入
+                                                    onCopy={() => message.success('复制成功!')}		//点击之后的回调
+                                                >
+                                                    <i className='iconfont icon-copy' key="copy"></i>
+                                                </CopyToClipboard>
+                                                {index === (tags.length - 1) ? '' : ` 、 `}
+                                            </div>
+                                        )
+                                    })
+                                ) : DEFAULT_EMPTY_LABEL
+                            }
+                        </div>
+                    )
+                }
             },
             {
                 dataIndex: 'summary',

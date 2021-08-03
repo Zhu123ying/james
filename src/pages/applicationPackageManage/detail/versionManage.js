@@ -39,14 +39,13 @@ class VersionManage extends React.Component {
             alarmDetail: {}, // 告警详情
             alarmTemplates: [], // 告警模板
             alarmContacts: [], // 告警联系人
+            tabActiveKey: '1', // 当前激活的tab
         }
     }
     componentDidMount() {
         const { currentVersionId } = this.state
         // 获取版本的日志数据
         currentVersionId && this.getApplicationPackageVersionLogConfigs(currentVersionId)
-        // 版本的入口数据
-        currentVersionId && this.getAppPackagePortData(currentVersionId)
         // 版本的详情
         currentVersionId && this.getApplicationPackageVersionInfo(currentVersionId)
         // 获取告警数据
@@ -71,7 +70,6 @@ class VersionManage extends React.Component {
                 logList: []
             })
             currentVersionId_ && this.getApplicationPackageVersionLogConfigs(currentVersionId_)
-            currentVersionId_ && this.getAppPackagePortData(currentVersionId_)
             currentVersionId_ && this.getApplicationPackageVersionInfo(currentVersionId_)
             currentVersionId_ && this.getAlarmConfigData(currentVersionId_)
         }
@@ -350,8 +348,8 @@ class VersionManage extends React.Component {
                 return
             }
             let kind = cascaderSelectData.find(item => item.value === cascaderValue[0]).kind
-            let containerName = [...cascaderValue].pop()
-            let podName = [...cascaderValue].pop()
+            let containerName = cascaderValue[2]
+            let podName = cascaderValue[1]
             let params = {
                 podName,
                 kind,
@@ -694,9 +692,9 @@ class VersionManage extends React.Component {
     handleSelectVersion = (id) => {
         if (id === this.state.currentVersionId) return
         this.setState({
-            currentVersionId: id
+            currentVersionId: id,
+            tabActiveKey: '1'
         }, () => {
-            this.getAppPackagePortData(id)
             this.getApplicationPackageVersionInfo(id)
             this.getApplicationPackageVersionLogConfigs(id)
             this.getAlarmConfigData(id)
@@ -753,11 +751,18 @@ class VersionManage extends React.Component {
             </div>
         )
     }
+    // 针对入口管理，要切换到该tab下，再去掉入口的列表数据
+    handleTabChange = (key) => {
+        this.setState({
+            tabActiveKey: key
+        })
+        key === '3' && this.getAppPackagePortData()
+    }
     render() {
         const { intl, currentDataItem, applicationPackageVersionList } = this.props
         const {
             currentVersionId, currentVersion, isVersionModalVisible, isPortManageModalVisible, isStateManageModalVisible, currentPort,
-            isAlarmConfigModalVisible, alarmDetail, alarmTemplates, alarmContacts, isLogManageModalVisible, currentLog
+            isAlarmConfigModalVisible, alarmDetail, alarmTemplates, alarmContacts, isLogManageModalVisible, currentLog, tabActiveKey
         } = this.state
         const tabOperation = {
             right: [
@@ -792,7 +797,7 @@ class VersionManage extends React.Component {
         }
         return (
             <div className='versionManage'>
-                <Tabs defaultActiveKey="1" className='versionOperateBar' tabBarExtraContent={tabOperation}>
+                <Tabs activeKey={tabActiveKey} className='versionOperateBar' tabBarExtraContent={tabOperation} onChange={this.handleTabChange}>
                     <TabPane tab={intl.formatMessage({ id: 'BasicInfo' })} key="1">
                         {this.renderVersionInfoPanel()}
                     </TabPane>

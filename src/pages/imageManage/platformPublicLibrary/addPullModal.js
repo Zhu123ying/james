@@ -158,6 +158,7 @@ class AddPullModal extends React.Component {
                                 label='源镜像'
                                 placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: '源镜像' })}
                                 isRequired
+                                maxLength={200}
                             />
                         </React.Fragment>
                     ) : (

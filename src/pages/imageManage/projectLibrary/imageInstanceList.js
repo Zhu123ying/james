@@ -12,9 +12,9 @@ import ActionAuth from '~/components/ActionAuth'
 import actions from '~/constants/authAction'
 import ImageInstanceDetail from '../imageInstanceDetail'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
+import { DEFAULT_EMPTY_LABEL } from '~/constants'
 
 const notification = Notification.newInstance()
-
 class ImageInstanceList extends React.Component {
     constructor(props) {
         super(props)
@@ -86,19 +86,31 @@ class ImageInstanceList extends React.Component {
                 }
             },
             {
-                dataIndex: 'artifactTagName',
-                key: 'artifactTagName',
+                dataIndex: 'tags',
+                key: 'tags',
                 title: 'Tag',
-                render: (value, row) => {
+                render: (tags, row) => {
+                    const { artifactTagPath } = row
                     return (
                         <div className='imageInstanceTag'>
-                            <span>{value}&nbsp;</span>
-                            <CopyToClipboard
-                                text={row.artifactTagPath}	//点击复制时的内容,可自行设置或传入
-                                onCopy={() => message.success('复制成功!')}		//点击之后的回调
-                            >
-                                <i className='iconfont icon-copy' key="copy"></i>
-                            </CopyToClipboard>
+                            {
+                                tags ? (
+                                    tags.map((tag, index) => {
+                                        return (
+                                            <div className='tagItem'>
+                                                <span>{tag.name}&nbsp;</span>
+                                                <CopyToClipboard
+                                                    text={`${artifactTagPath}${tag.name}`}	//点击复制时的内容,可自行设置或传入
+                                                    onCopy={() => message.success('复制成功!')}		//点击之后的回调
+                                                >
+                                                    <i className='iconfont icon-copy' key="copy"></i>
+                                                </CopyToClipboard>
+                                                {index === (tags.length -1) ? '' : ` 、 `} 
+                                            </div>
+                                        )
+                                    })
+                                ) : DEFAULT_EMPTY_LABEL
+                            }
                         </div>
                     )
                 }
