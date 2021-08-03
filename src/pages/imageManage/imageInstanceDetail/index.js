@@ -29,6 +29,10 @@ const severityObj = {
     Low: '较低',
     Critical: '危急'
 }
+const actionObj = {
+    platformPublic: actions.AdminApplicationCenterImagePublicImageOperate,
+    project: actions.AdminApplicationCenterImagePrivateImageOperate
+}
 class Detail extends React.Component {
     constructor(props) {
         super(props)
@@ -138,7 +142,7 @@ class Detail extends React.Component {
     renderTagLine = (tags) => {
         const { tagSubmitting } = this.state
         const { intl, repoType } = this.props
-        const isChecked = checkUserAuth(actions.AdminApplicationCenterImagePublicImageOperate)
+        const isChecked = checkUserAuth(actionObj[repoType])
         return (
             <div className='tagLine'>
                 <div className='opera'>
@@ -198,7 +202,7 @@ class Detail extends React.Component {
                         )
                     }
                 </div>
-                <ActionAuth action={actions.AdminApplicationCenterImagePublicImageOperate}>
+                <ActionAuth action={actionObj[repoType]}>
                     <UltrauiButton
                         type="text"
                         onClick={() => this.handleChange('isMaintenanceRecordModalVisible', true)}
@@ -344,7 +348,7 @@ class Detail extends React.Component {
             >
                 {
                     repoType === 'applicationStore' ? null : (
-                        <ActionAuth action={actions.AdminApplicationCenterImagePublicImageOperate}>
+                        <ActionAuth action={actionObj[repoType]}>
                             <div className='operaBar'>
                                 <UltrauiButton
                                     type="text"
@@ -388,7 +392,7 @@ class Detail extends React.Component {
                         </Collapse>
                     </TabPane>
                     <TabPane tab={intl.formatMessage({ id: 'VulnerabilityInformation' })} key="3" className='vulnerabilityInfoPanel'>
-                        <ActionAuth action={actions.AdminApplicationCenterImagePublicImageOperate}>
+                        <ActionAuth action={actionObj[repoType]}>
                             <Button
                                 type={scanState ? 'default' : 'operate'}
                                 icon={<Icon type={scanState ? 'loading' : 'xunjian'} />}

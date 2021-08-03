@@ -42,8 +42,9 @@ class ApplicationDetail extends React.Component {
             this.getDetail(nextId)
         }
     }
-    shouldComponentUpdate(nextProps, nextState) {
-        if (this.props.currentApplication.id !== nextState.detail.id) {
+    shouldComponentUpdate(nextProps, { detail, isLoading }) {
+        // 接口已经返回，但是当前的应用和接口的应用不一致，则不更新
+        if ((this.props.currentApplication.id !== detail.id) && !isLoading) {
             return false
         } else {
             return true
@@ -52,7 +53,12 @@ class ApplicationDetail extends React.Component {
     // 获取应用以及资源的详情信息
     getDetail = (id, isInterval) => {
         const { intl, refreshTableList, currentApplication } = this.props
-        const { detail, isLoading } = this.state
+        const { detail } = this.state
+        if (!isInterval) {
+            this.setState({
+                isLoading: true
+            })
+        }
         // 如果发送请求的时候，请求的id不是当前应用了，那不需要发了，轮询请求的时候发现应用已经切换了
         if ((currentApplication.id !== detail.id) && isInterval) {
             return false
@@ -272,7 +278,6 @@ class ApplicationDetail extends React.Component {
         return (
             <div className='applicationDetail'>
                 {
-                    // 第一次请求才loading
                     isLoading ? <Loading /> : (
                         <React.Fragment>
                             {

@@ -206,6 +206,7 @@ class ImageInstanceList extends React.Component {
                 />
                 <ImageInstanceDetail
                     intl={intl}
+                    repoType='project'
                     currentImageInstance={currentImageInstance}
                     visible={isDetailModalVisible}
                     onClose={() => this.handleChange('isDetailModalVisible', false)}

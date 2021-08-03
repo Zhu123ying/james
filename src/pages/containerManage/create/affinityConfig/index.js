@@ -6,7 +6,7 @@ import { Collapse, Button as HuayunButton, Switch } from 'huayunui'
 import Regex from '~/utils/regex'
 import '../index.less'
 import Card from '~/components/Card'
-import { ValidLabelKeyProps } from '../constant'
+import { ValidLabelKeyProps, ValidLabelValueProps } from '../constant'
 const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select, Panel } = RcForm
 const _ = window._
 const operatorList = ['In', 'NotIn', 'Exists', 'DoesNotExist', 'Gt', 'Lt']
@@ -176,6 +176,7 @@ class AffinityConfig extends React.Component {
                     label='Key'
                     isRequired
                     className='w50 pr5'
+                    {...ValidLabelKeyProps}
                 />
                 <Input
                     form={form}
@@ -186,6 +187,7 @@ class AffinityConfig extends React.Component {
                     label='Value'
                     isRequired
                     className='w50 pl5'
+                    {...ValidLabelValueProps}
                 />
                 <Button
                     type='text'

@@ -74,16 +74,6 @@ export default (intl, data, this_) => {
                 }
             },
             {
-                title: 'data',
-                dataIndex: 'runInfo',
-                key: 'data',
-                render(runInfo, row) {
-                    let data = _.get(row, `${getDataKey(row)}data`, 0)
-                    let stringdata = _.get(row, `${getDataKey(row)}stringdata`, 0)
-                    return [data, stringdata].sort().pop()
-                }
-            },
-            {
                 title: intl.formatMessage({ id: 'Operate' }),
                 key: 'Operate',
                 width: '64px',

@@ -95,6 +95,7 @@ class CreateApplication extends React.Component {
                     applicationPackageId,
                     applicationVersionId,
                 })
+                this.getAvailableQuota(projectId)
             }
         })
     }
