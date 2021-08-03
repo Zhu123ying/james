@@ -266,6 +266,7 @@ class Detail extends React.Component {
                 </div>
                 <ContainerDetail
                     intl={intl}
+                    platformContainerId={id}
                     currentContainer={currentContainer}
                     visible={isContainerDetailModalVisible}
                     getDetail={getDetail}

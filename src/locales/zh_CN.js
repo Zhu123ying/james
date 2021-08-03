@@ -664,6 +664,18 @@ const zh_CN = {
     ImageArtifactPushTargetImageIllegalError: '镜像推送失败，目标镜像参数非法(repo:tag)',
     ApplicationPackageChartNotSupportNsError: '资源的metadata不支持namespace定义',
     ApplicationPackageChartTemplateNotSupportNsError: '资源的spec.template.metadata不支持namespace定义',
+    ApplicationChartLRPodDefaultEStorageError: 'LimitRange内，Pod的default内ephemeral-storage值非法，请检查ephemeral-storage的数值和单位',
+    ApplicationChartLRContainerDefaultEStorageError: 'LimitRange内，Container的default内ephemeral-storage值非法，请检查ephemeral-storage的数值和单位',
+    ApplicationChartPodLimitEStorageError: 'Pod资源对象的limit ephemeral-storage值非法，请检查ephemeral-storage的数值和单位',
+    ApplicationChartDeploymentPodLimitEStorageError: 'Deployment资源对象中Pod的limit ephemeral-storage值非法，请检查ephemeral-storage的数值和单位',
+    ApplicationChartCronJobPodLimitEStorageError: 'CronJob资源对象中Pod的limit ephemeral-storage值非法，请检查ephemeral-storage的数值和单位',
+    ApplicationChartJobPodLimitEStorageError: 'Job资源对象中Pod的limit ephemeral-storage值非法，请检查ephemeral-storage的数值和单位',
+    ApplicationChartDaemonSetPodLimitEStorageError: 'DaemonSet资源对象中Pod的limit ephemeral-storage值非法，请检查ephemeral-storage的数值和单位',
+    ApplicationChartRSPodLimitEStorageError: 'ReplicaSet资源对象中Pod的limit ephemeral-storage值非法，请检查ephemeral-storage的数值和单位',
+    ApplicationChartRCPodLimitEStorageError: 'ReplicationController资源对象中Pod的limit ephemeral-storage值非法，请检查ephemeral-storage的数值和单位',
+    ApplicationChartStatefulSetPodLimitEStorageError: 'StatefulSet资源对象中Pod的limit ephemeral-storage值非法，请检查ephemeral-storage的数值和单位',
+    ApplicationChartStatefulSetPVCRequestsStorageError: 'StatefulSet资源对象中volumeClaimTemplates的requests storage值非法，请检查storage的数值和单位',
+    ApplicationChartPVCRequestsStorageError: 'PersistentVolumeClaim资源对象的requests storage值非法，请检查storage的数值和单位',
 
 }
 export default zh_CN

@@ -7,17 +7,19 @@ import moment from 'moment'
 import HuayunRequest from '~/http/request'
 import { container as api } from '~/http/api'
 import DetailDrawer from '~/components/DetailDrawer'
-import { Collapse, Select, Button } from 'huayunui'
+import { Collapse, Select, Button, Modal } from 'huayunui'
 import { Row, Col } from 'antd'
 import { KeyValue } from '@huayun/ultraui'
 import { DEFAULT_EMPTY_LABEL } from '~/constants'
+import Webssh from '~/components/Webssh'
+
 const _ = window._
 const { Panel } = Collapse;
 class Detail extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-
+            isWebsshModalVisible: false
         }
     }
     componentWillReceiveProps({ visible, monitorData }) {
@@ -75,9 +77,6 @@ class Detail extends React.Component {
             [key]: value
         })
     }
-    handleRemoteAccess = () => {
-
-    }
     handleReadLog = () => {
 
     }
@@ -90,7 +89,8 @@ class Detail extends React.Component {
         )
     }
     render() {
-        const { intl, onClose, visible, currentContainer, monitorData } = this.props
+        const { isWebsshModalVisible } = this.state
+        const { intl, onClose, visible, currentContainer, monitorData, platformContainerId } = this.props
         const { name, runVar, envs, image, probe } = currentContainer
         const { args, workDir, command } = runVar || {}
         const { project, repo, tag, pullStrategy } = image || {}
@@ -171,48 +171,60 @@ class Detail extends React.Component {
         const cpu_usage_current = _.get(monitorData, 'cpu_usage_current', '0')
         const memory_usage_current = _.get(monitorData, 'memory_usage_current', '0')
         return (
-            <DetailDrawer
-                name={name}
-                // onRefresh={this.getDetail}
-                onClose={onClose}
-                visible={visible}
-                className='containerDetailDrawer'
-            >
-                <div className='operaBar'>
-                    <UltrauiButton
-                        type="text"
-                        onClick={this.handleRemoteAccess}
-                        className='br'
-                    >
-                        <Icon type="telecontrol" />&nbsp;{intl.formatMessage({ id: 'RemoteAccess' })}
-                    </UltrauiButton>
-                    <UltrauiButton
-                        type="text"
-                        onClick={this.handleReadLog}
-                    >
-                        <Icon type="xunjian" />&nbsp;{intl.formatMessage({ id: 'ReadStaticLog' })}
-                    </UltrauiButton>
-                </div>
-                <Collapse defaultActiveKey={['1', '2', '3']}>
-                    <Panel header="基础配置" key='1'>
-                        <KeyValue values={basicKeyValue} className='basicKeyValue' />
-                    </Panel>
-                    {/* <Panel header="挂载点配置" key='2'>
+            <>
+                <DetailDrawer
+                    name={name}
+                    // onRefresh={this.getDetail}
+                    onClose={onClose}
+                    visible={visible}
+                    className='containerDetailDrawer'
+                >
+                    <div className='operaBar'>
+                        <UltrauiButton
+                            type="text"
+                            onClick={() => this.handleChange('isWebsshModalVisible', true)}
+                            className='br'
+                        >
+                            <Icon type="telecontrol" />&nbsp;{intl.formatMessage({ id: 'RemoteAccess' })}
+                        </UltrauiButton>
+                        <UltrauiButton
+                            type="text"
+                            onClick={this.handleReadLog}
+                        >
+                            <Icon type="xunjian" />&nbsp;{intl.formatMessage({ id: 'ReadStaticLog' })}
+                        </UltrauiButton>
+                    </div>
+                    <Collapse defaultActiveKey={['1', '2', '3']}>
+                        <Panel header="基础配置" key='1'>
+                            <KeyValue values={basicKeyValue} className='basicKeyValue' />
+                        </Panel>
+                        {/* <Panel header="挂载点配置" key='2'>
                         <KeyValue values={mountPointConfigKeyValue} className='mountPointConfigKeyValue' />
                     </Panel> */}
-                    <Panel header="健康检测" key='3'>
-                        <KeyValue values={healthyTestKeyValue} className='healthyTestKeyValue' />
-                    </Panel>
-                </Collapse>
-                <Collapse defaultActiveKey={['cpu', 'memory']} className='cpu_memory'>
-                    <Panel header={this.renderChartPanelTitle('CPU(m)', `${cpu_usage_current}m`)} forceRender={true} key='cpu' className='w50'>
-                        <div id='cpu' className='chartItem'></div>
-                    </Panel>
-                    <Panel header={this.renderChartPanelTitle('Memory(Mi)', `${memory_usage_current}Mi`)} forceRender={true} key='memory' className='w50'>
-                        <div id='memory' className='chartItem'></div>
-                    </Panel>
-                </Collapse>
-            </DetailDrawer >
+                        <Panel header="健康检测" key='3'>
+                            <KeyValue values={healthyTestKeyValue} className='healthyTestKeyValue' />
+                        </Panel>
+                    </Collapse>
+                    <Collapse defaultActiveKey={['cpu', 'memory']} className='cpu_memory'>
+                        <Panel header={this.renderChartPanelTitle('CPU(m)', `${cpu_usage_current}m`)} forceRender={true} key='cpu' className='w50'>
+                            <div id='cpu' className='chartItem'></div>
+                        </Panel>
+                        <Panel header={this.renderChartPanelTitle('Memory(Mi)', `${memory_usage_current}Mi`)} forceRender={true} key='memory' className='w50'>
+                            <div id='memory' className='chartItem'></div>
+                        </Panel>
+                    </Collapse>
+                </DetailDrawer >
+                <Modal
+                    title={intl.formatMessage({ id: 'RemoteAccess' })}
+                    visible={isWebsshModalVisible}
+                    onCancel={() => this.handleChange('isWebsshModalVisible', false)}
+                    footer={null}
+                    destroyOnClose={true}
+                    className='websshModal'
+                >
+                    <Webssh platformContainerId={platformContainerId} containerName={name} />
+                </Modal>
+            </>
         )
     }
 }
