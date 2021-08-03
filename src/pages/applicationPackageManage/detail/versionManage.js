@@ -44,8 +44,6 @@ class VersionManage extends React.Component {
     }
     componentDidMount() {
         const { currentVersionId } = this.state
-        // 获取版本的日志数据
-        currentVersionId && this.getApplicationPackageVersionLogConfigs(currentVersionId)
         // 版本的详情
         currentVersionId && this.getApplicationPackageVersionInfo(currentVersionId)
         // 获取告警数据
@@ -67,9 +65,9 @@ class VersionManage extends React.Component {
                 currentVersion: {},
                 portList: [],
                 alarmDetail: {},
-                logList: []
+                logList: [],
+                tabActiveKey: '1'
             })
-            currentVersionId_ && this.getApplicationPackageVersionLogConfigs(currentVersionId_)
             currentVersionId_ && this.getApplicationPackageVersionInfo(currentVersionId_)
             currentVersionId_ && this.getAlarmConfigData(currentVersionId_)
         }
@@ -281,7 +279,7 @@ class VersionManage extends React.Component {
                         onClick={() => this.handleManageLog()}
                         name="新增日志"
                         className='addBtn'
-                        disabled={!currentVersion.isCommit}
+                        disabled={currentVersion.isCommit}
                     />
                 </ActionAuth>
                 <div className='logList'>
@@ -696,7 +694,6 @@ class VersionManage extends React.Component {
             tabActiveKey: '1'
         }, () => {
             this.getApplicationPackageVersionInfo(id)
-            this.getApplicationPackageVersionLogConfigs(id)
             this.getAlarmConfigData(id)
         })
     }
@@ -751,12 +748,20 @@ class VersionManage extends React.Component {
             </div>
         )
     }
-    // 针对入口管理，要切换到该tab下，再去掉入口的列表数据
+    // 针对入口管理，要切换到该tab下，再去调用入口的列表数据
+    // 针对日志管理，要切换到该tab下，再去调用日志的列表数据
     handleTabChange = (key) => {
         this.setState({
             tabActiveKey: key
         })
-        key === '3' && this.getAppPackagePortData()
+        switch (key) {
+            case '2':
+                this.getApplicationPackageVersionLogConfigs()
+                break
+            case '3':
+                this.getAppPackagePortData()
+                break
+        }
     }
     render() {
         const { intl, currentDataItem, applicationPackageVersionList } = this.props
