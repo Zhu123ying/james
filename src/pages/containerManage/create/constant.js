@@ -148,7 +148,7 @@ export const containerLogItem = {
 }
 
 // 创建容器所有标签的key的正则
-export const LabelKeyRegex = /^([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9]$/
+export const LabelKeyRegex = / ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/
 
 export const ValidLabelKeyProps = {
     validRegex: LabelKeyRegex,
