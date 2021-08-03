@@ -6,26 +6,39 @@ import { Collapse, Button as HuayunButton, Switch } from 'huayunui'
 import Regex from '~/utils/regex'
 import '../index.less'
 import Card from '~/components/Card'
+import { ValidLabelKeyProps } from '../constant'
 const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select, Panel } = RcForm
 const _ = window._
 const operatorList = ['In', 'NotIn', 'Exists', 'DoesNotExist', 'Gt', 'Lt']
 const preferTitle = '优先'
 const requireTitle = '必须'
-// 添加匹配字段、匹配表达式插入的数据结构（因为是对象，需要解构后再插入）
+// 匹配表达式插入的数据结构（因为是对象，需要解构后再插入）
 const matchLineItem = {
     key: '',
-    operator: '',
+    operator: operatorList[0],
     values: []
 }
 // 节点prefer对象
 const nodePreferItem = {
     weight: 50,
-    matchFields: [{ ...matchLineItem }],
+    matchFields: [
+        {
+            key: 'metadata.name',
+            operator: operatorList[0],
+            values: []
+        }
+    ],
     matchExpressions: [{ ...matchLineItem }]
 }
 // 节点require的matchTerm对象
 const nodeRequireMatchTermItem = {
-    matchFields: [{ ...matchLineItem }],
+    matchFields: [
+        {
+            key: 'metadata.name',
+            operator: operatorList[0],
+            values: []
+        }
+    ],
     matchExpressions: [{ ...matchLineItem }]
 }
 // 节点require对象
@@ -69,9 +82,7 @@ class AffinityConfig extends React.Component {
     }
     constructor(props) {
         super(props)
-        this.state = {
-
-        }
+        this.state = {}
     }
     componentWillReceiveProps(nextProps) {
         const { formData: { affinity } } = this.props
@@ -184,8 +195,9 @@ class AffinityConfig extends React.Component {
             </div>
         )
     }
-    // 匹配字段和匹配表达式的行
-    renderExpressionLine = (path, index) => {
+    // 渲染匹配字段行-注：匹配字段和匹配表达式样式一样，但是逻辑不一样，比如key的值，正则，以及操作符的选项不一样，因此分开写
+    // 该方法只有节点亲和的优化和必须才用到
+    renderMatchFieldLine = (path, index) => {
         // key为这一行的指针索引
         const { intl, form, formData: { affinity } } = this.props
         const { key, operator, values } = _.get(affinity, `${path}.${index}`, {})
@@ -200,6 +212,66 @@ class AffinityConfig extends React.Component {
                     label='Key'
                     isRequired
                     className='portInput'
+                    disabled
+                />
+                <Panel
+                    form={form}
+                    value={values}
+                    name={`AffinityConfig${path}${index}Panel`}
+                    label='操作符/Value'
+                    isRequired
+                    className='selectInput'>
+                    <Select
+                        form={form}
+                        name={`AffinityConfig${path}${index}Operator`}
+                        value={operator}
+                        onChange={(val) => this.handleOnChange(`${path}.${index}.operator`, val)}
+                        label='操作符'
+                        isRequired
+                        options={[
+                            { text: 'In', value: 'In' },
+                            { text: 'NotIn', value: 'NotIn' }
+                        ]}
+                        optionFilterProp='children'
+                        optionLabelProp='children'
+                        className='selectItem'
+                    />
+                    <Input
+                        form={form}
+                        value={values.join(',')}
+                        name={`AffinityConfig${path}${index}Value`}
+                        placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: 'Value' })}
+                        onChange={(val) => this.handleOnChange(`${path}.${index}.values`, val.target.value.split(','))}
+                        label='Value'
+                        isRequired
+                        className='inputItem'
+                    />
+                </Panel>
+                {/* <Button
+                    type='text'
+                    onClick={() => this.handleRemoveFormItem(path, index)}>
+                    <Icon type="minus-o" />
+                </Button> */}
+            </div>
+        )
+    }
+    // 渲染匹配表达式行-注：匹配字段和匹配表达式样式一样，但是逻辑不一样，比如key的值，正则，以及操作符的选项不一样，因此分开写
+    renderMatchExpressionLine = (path, index) => {
+        // key为这一行的指针索引
+        const { intl, form, formData: { affinity } } = this.props
+        const { key, operator, values } = _.get(affinity, `${path}.${index}`, {})
+        return (
+            <div className={`expressionLine lineNum${index}`}>
+                <Input
+                    form={form}
+                    value={key}
+                    name={`AffinityConfig${path}${index}Key`}
+                    placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: 'Key' })}
+                    onChange={(val) => this.handleOnChange(`${path}.${index}.key`, val)}
+                    label='Key'
+                    isRequired
+                    className='portInput'
+                    {...ValidLabelKeyProps}
                 />
                 <Panel
                     form={form}
@@ -229,10 +301,15 @@ class AffinityConfig extends React.Component {
                         value={values.join(',')}
                         name={`AffinityConfig${path}${index}Value`}
                         placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: 'Value' })}
-                        onChange={(val) => this.handleOnChange(`${path}.${index}.values`, val.target.value.split(','))}
+                        onChange={(val) => {
+                            // 匹配表达式这边要额外处理下逻辑
+                            const value = (operator === 'Exists' || operator === 'DoesNotExist') ? [] : val.target.value.split(',')
+                            return this.handleOnChange(`${path}.${index}.values`, value)
+                        }}
                         label='Value'
                         isRequired
                         className='inputItem'
+                        disabled={operator === 'Exists' || operator === 'DoesNotExist'}
                     />
                 </Panel>
                 <Button
@@ -319,16 +396,16 @@ class AffinityConfig extends React.Component {
                             <React.Fragment>
                                 {
                                     matchFields && matchFields.map((item_, index_) => {
-                                        return this.renderExpressionLine(`nodeAffinity.prefers.${index}.matchFields`, index_)
+                                        return this.renderMatchFieldLine(`nodeAffinity.prefers.${index}.matchFields`, index_)
                                     })
                                 }
-                                <HuayunButton
+                                {/* <HuayunButton
                                     type="operate"
                                     icon={<Icon type="add" />}
                                     onClick={() => this.handleAddFormItem(`nodeAffinity.prefers.${index}.matchFields`, { ...matchLineItem })}
                                     name="添加匹配字段"
                                     className='addBoxItemBtn'
-                                />
+                                /> */}
                             </React.Fragment>
                         ) : null
                     }
@@ -347,7 +424,7 @@ class AffinityConfig extends React.Component {
                             <React.Fragment>
                                 {
                                     matchExpressions && matchExpressions.map((item_, index_) => {
-                                        return this.renderExpressionLine(`nodeAffinity.prefers.${index}.matchExpressions`, index_)
+                                        return this.renderMatchExpressionLine(`nodeAffinity.prefers.${index}.matchExpressions`, index_)
                                     })
                                 }
                                 <HuayunButton
@@ -395,16 +472,16 @@ class AffinityConfig extends React.Component {
                                                     <React.Fragment>
                                                         {
                                                             matchFields && matchFields.map((item_, index_) => {
-                                                                return this.renderExpressionLine(`nodeAffinity.require.matchTerms.${index}.matchFields`, index_)
+                                                                return this.renderMatchFieldLine(`nodeAffinity.require.matchTerms.${index}.matchFields`, index_)
                                                             })
                                                         }
-                                                        <HuayunButton
+                                                        {/* <HuayunButton
                                                             type="operate"
                                                             icon={<Icon type="add" />}
                                                             onClick={() => this.handleAddFormItem(`nodeAffinity.require.matchTerms.${index}.matchFields`, { ...matchLineItem })}
                                                             name="添加匹配字段"
                                                             className='addBoxItemBtn'
-                                                        />
+                                                        /> */}
                                                     </React.Fragment>
                                                 ) : null
                                             }
@@ -419,7 +496,7 @@ class AffinityConfig extends React.Component {
                                                     <React.Fragment>
                                                         {
                                                             matchExpressions && matchExpressions.map((item_, index_) => {
-                                                                return this.renderExpressionLine(`nodeAffinity.require.matchTerms.${index}.matchExpressions`, index_)
+                                                                return this.renderMatchExpressionLine(`nodeAffinity.require.matchTerms.${index}.matchExpressions`, index_)
                                                             })
                                                         }
                                                         <HuayunButton
@@ -529,6 +606,7 @@ class AffinityConfig extends React.Component {
                         label='拓扑域'
                         isRequired
                         className='w50'
+                        {...ValidLabelKeyProps}
                     />
                     <Input
                         form={form}
@@ -537,7 +615,6 @@ class AffinityConfig extends React.Component {
                         placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: 'Namespaces' })}
                         onChange={(val) => this.handleOnChange(`${key}.prefers.${index}.namespaces`, val.target.value.split(','))}
                         label='Namespaces'
-                        isRequired
                         className='w100'
                     />
                 </Panel>
@@ -583,7 +660,7 @@ class AffinityConfig extends React.Component {
                             <React.Fragment>
                                 {
                                     matchExpressions && matchExpressions.map((item_, index_) => {
-                                        return this.renderExpressionLine(`${key}.prefers.${index}.matchExpressions`, index_)
+                                        return this.renderMatchExpressionLine(`${key}.prefers.${index}.matchExpressions`, index_)
                                     })
                                 }
                                 <HuayunButton
@@ -623,6 +700,7 @@ class AffinityConfig extends React.Component {
                         label='拓扑域'
                         isRequired
                         className='w50'
+                        {...ValidLabelKeyProps}
                     />
                     <Input
                         form={form}
@@ -631,7 +709,6 @@ class AffinityConfig extends React.Component {
                         placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: 'Namespaces' })}
                         onChange={(val) => this.handleOnChange(`${key}.requires.${index}.namespaces`, val.target.value.split(','))}
                         label='Namespaces'
-                        isRequired
                         className='w50'
                     />
                 </Panel>
@@ -677,7 +754,7 @@ class AffinityConfig extends React.Component {
                             <React.Fragment>
                                 {
                                     matchExpressions && matchExpressions.map((item_, index_) => {
-                                        return this.renderExpressionLine(`${key}.requires.${index}.matchExpressions`, index_)
+                                        return this.renderMatchExpressionLine(`${key}.requires.${index}.matchExpressions`, index_)
                                     })
                                 }
                                 <HuayunButton

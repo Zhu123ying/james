@@ -153,8 +153,8 @@ export const LabelKeyRegex = /^([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9]$/
 export const ValidLabelKeyProps = {
     validRegex: LabelKeyRegex,
     invalidMessage: (
-        <div>
-            不符合规范&nbsp;
+        <div style={{ display: 'flex' }}>
+            不符合规范
             <Popover
                 placement="top"
                 content={<div>{`正则：${LabelKeyRegex}`}</div>}
@@ -173,8 +173,8 @@ export const LabelValueRegex = /^(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$/
 export const ValidLabelValueProps = {
     validRegex: LabelValueRegex,
     invalidMessage: (
-        <div>
-            不符合规范&nbsp;
+        <div style={{ display: 'flex' }}>
+            不符合规范
             <Popover
                 placement="top"
                 content={<div>{`正则：${LabelKeyRegex}`}</div>}

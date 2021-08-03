@@ -299,7 +299,7 @@ class Preview extends React.Component {
             <div className='title'>{intl.formatMessage({ id: 'RemainingAvailableQuota' })}</div>
             <div className='lineItem'><span>容器内存CPU(m)</span><div className='dottedLine'></div>{availableQuotaData.cCPU}</div>
             <div className='lineItem'><span>容器内存(Mi)</span><div className='dottedLine'></div>{availableQuotaData.cMemory}</div>
-            <div className='lineItem'><span>容器宿主机存储(Gi)</span><div className='dottedLine'></div>{ avail_cEphemeralStorage }</div >
+            <div className='lineItem'><span>容器宿主机存储(Gi)</span><div className='dottedLine'></div>{avail_cEphemeralStorage}</div >
             <div className='lineItem'><span>容器持久存储(Gi)</span><div className='dottedLine'></div>{avail_cStorage}</div>
         </div >
     }
@@ -411,7 +411,9 @@ class Preview extends React.Component {
                                 <div className='name_state'>
                                     <div className='appName'>{name}</div>
                                     <Tag color="geekblue" className='appState'>{ApplicationStatuList[state]}</Tag>
-                                    <Tag color={secondState === 'NORMAL' ? 'green' : 'red'} className='appSecondState'>{ApplicationSecondStatuList[secondState] || '未知'}</Tag>
+                                    <Tag color={secondState === 'NORMAL' ? 'green' : 'red'} className='appSecondState'>
+                                        {ApplicationSecondStatuList[secondState] || (state === 'config' ? '配置中' : '未知')}
+                                    </Tag>
                                 </div>
                                 <ActionAuth action={actions.AdminApplicationCenterApplicationOperate}>
                                     <UltrauiButton type='text' className='p7-0' onClick={() => this.handleSetState('isApplicationEditModalVisible', true)}><Icon type='edit-o' />&nbsp;{intl.formatMessage({ id: 'Edit' })}</UltrauiButton>
