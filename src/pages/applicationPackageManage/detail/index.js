@@ -24,6 +24,7 @@ class Detail extends React.Component {
         this.state = {
             detail: {},
             isShareAppPackageModalVisible: false,
+            isShareAppPackageSubmitting: false, // 分享提交状态，防止重复点击
         }
     }
     componentWillReceiveProps({ currentDataItem }) {
@@ -67,6 +68,9 @@ class Detail extends React.Component {
                     ids,
                     projectId
                 }
+                this.setState({
+                    isShareAppPackageSubmitting: true
+                })
                 HuayunRequest(api.createApplicationPackageAndVersionByShare, params, {
                     success: (res) => {
                         const { retCode, retInfo } = res.data
@@ -94,6 +98,11 @@ class Detail extends React.Component {
                                 isShareAppPackageModalVisible: false
                             })
                         }
+                    },
+                    complete: () => {
+                        this.setState({
+                            isShareAppPackageSubmitting: false
+                        })
                     }
                 })
             }
@@ -101,7 +110,7 @@ class Detail extends React.Component {
     }
     render() {
         const { intl, onClose, visible, currentDataItem, handleDelete } = this.props
-        const { detail, isShareAppPackageModalVisible } = this.state
+        const { detail, isShareAppPackageModalVisible, isShareAppPackageSubmitting } = this.state
         const { id, name, projectName, tags, versionCount, updateTime, createTime, createByName, description, applicationPackageVersionList } = detail || {}
         const basicKeyValue = [
             {
@@ -206,6 +215,9 @@ class Detail extends React.Component {
                     className='shareAppPackageModal'
                     destroyOnClose={true}
                     width={440}
+                    okButtonProps={{
+                        disabled: isShareAppPackageSubmitting
+                    }}
                 >
                     <ShareAppPackage
                         {...this.props}

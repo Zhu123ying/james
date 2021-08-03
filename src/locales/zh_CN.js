@@ -676,6 +676,7 @@ const zh_CN = {
     ApplicationChartStatefulSetPodLimitEStorageError: 'StatefulSet资源对象中Pod的limit ephemeral-storage值非法，请检查ephemeral-storage的数值和单位',
     ApplicationChartStatefulSetPVCRequestsStorageError: 'StatefulSet资源对象中volumeClaimTemplates的requests storage值非法，请检查storage的数值和单位',
     ApplicationChartPVCRequestsStorageError: 'PersistentVolumeClaim资源对象的requests storage值非法，请检查storage的数值和单位',
+    ApplicationPackageVersionLogConfigResourceError: '应用包版本提交失败，日志配置与资源对象不匹配'
 
 }
 export default zh_CN
