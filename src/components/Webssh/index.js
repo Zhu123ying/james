@@ -15,7 +15,7 @@ class Webssh extends React.Component {
             rendererType: "canvas", // 渲染类型
             convertEol: true, // 启用时，光标将设置为下一行的开头
             scrollback: 2000, // 终端中的回滚量
-            disableStdin: false, // 是否应禁用输入。
+            disableStdin: true, // 是否应禁用输入。
             cursorStyle: 'underline', // 光标样式
             cursorBlink: true, // 光标闪烁
             theme: {
@@ -38,32 +38,37 @@ class Webssh extends React.Component {
         this.$websocket = new WebSocket(url)
         this.$websocket.onopen = () => {
             term.onKey(e => {
-                const ev = e.domEvent
-                const printable = !ev.altKey && !ev.altGraphKey && !ev.ctrlKey && !ev.metaKey
-                if (ev.keyCode === 13) {
-                    term.prompt()
-                    const data = {
-                        operation: "stdin",
-                        data: this.lineInputValue + '\n'
-                    }
-                    this.$websocket.send(JSON.stringify(data))
-                    // 如果打了退出命令，则直接关闭
-                    if (this.lineInputValue === 'exit') {
-                        term.dispose()
-                        this.$websocket.close()
-                        handleClose && handleClose()
-                    }
-                    this.lineInputValue = ''
-                } else if (ev.keyCode === 8) {
-                    // Do not delete the prompt
-                    if (term._core.buffer.x > 2) {
-                        term.write('\b \b')
-                    }
-                    this.lineInputValue = this.lineInputValue.substr(0, this.lineInputValue.length - 1)
-                } else if (printable) {
-                    term.write(e.key)
-                    this.lineInputValue += e.key
+                const data = {
+                    operation: "stdin",
+                    data: e.key
                 }
+                this.$websocket.send(JSON.stringify(data))
+                // const ev = e.domEvent
+                // const printable = !ev.altKey && !ev.altGraphKey && !ev.ctrlKey && !ev.metaKey
+                // if (ev.keyCode === 13) {
+                //     term.prompt()
+                //     const data = {
+                //         operation: "stdin",
+                //         data: this.lineInputValue + '\n'
+                //     }
+                //     this.$websocket.send(JSON.stringify(data))
+                //     // 如果打了退出命令，则直接关闭
+                //     if (this.lineInputValue === 'exit') {
+                //         term.dispose()
+                //         this.$websocket.close()
+                //         handleClose && handleClose()
+                //     }
+                //     this.lineInputValue = ''
+                // } else if (ev.keyCode === 8) {
+                //     // Do not delete the prompt
+                //     if (term._core.buffer.x > 2) {
+                //         term.write('\b \b')
+                //     }
+                //     this.lineInputValue = this.lineInputValue.substr(0, this.lineInputValue.length - 1)
+                // } else if (printable) {
+                //     term.write(e.key)
+                //     this.lineInputValue += e.key
+                // }
             })
         }
         this.$websocket.onmessage = (data) => {

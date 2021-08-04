@@ -109,7 +109,7 @@ class Preview extends React.Component {
                 dots={false}
                 className='pieCarousel' >
                 {carouselDom}
-                <div></div>
+                {pieKeys.length > pageNum ? <div></div> : null}
             </Carousel >
         )
     }
@@ -337,9 +337,9 @@ class Preview extends React.Component {
         const { isAllowVisit, currentSlide, resourceInfor, isQuotaManageModalVisible, isClusterResourcesDrawerVisible, availableQuotaData, isApplicationEditModalVisible } = this.state
         const {
             id, name, createrName, createTime, description, tags, resourceObjectDtos, state, secondState, resourceObjectStatistics, projectId,
-            commandExecuteLogs, applicationType, reversionNum, projectName, updateTime, historyResourceObjectDtos, quota, usedCpu, usedMemory
+            commandExecuteLogs, applicationType, reversionNum, projectName, updateTime, historyResourceObjectDtos, quota
         } = detail
-        const { cEphemeralStorageAllocated, cEphemeralStorageTotal, cStorageAllocated, cStorageTotal } = resourceInfor
+        const { cEphemeralStorageAllocated, cEphemeralStorageTotal, cStorageAllocated, cStorageTotal, cpuAllocated, memoryAllocated } = resourceInfor
         const KeyValueData = [
             {
                 label: intl.formatMessage({ id: 'Tag' }),
@@ -376,14 +376,14 @@ class Preview extends React.Component {
         const progressGroup = [
             {
                 name: `容器CPU`,
-                percentText: `${usedCpu}/${quotaCpu}`,
-                percentValue: Math.round(usedCpu) / Math.round(quotaCpu) * 100,
+                percentText: `${cpuAllocated}/${quotaCpu}`,
+                percentValue: Math.round(cpuAllocated) / Math.round(quotaCpu) * 100,
                 strokeColor: { '0%': '#61AAF0', '100%': '#4C8CCA' }
             },
             {
                 name: `容器内存`,
-                percentText: `${usedMemory}/${quotaMemory}`,
-                percentValue: Math.round(usedMemory) / Math.round(quotaMemory) * 100,
+                percentText: `${memoryAllocated}/${quotaMemory}`,
+                percentValue: Math.round(memoryAllocated) / Math.round(quotaMemory) * 100,
                 strokeColor: { '0%': '#F8C640', '100%': '#F0A332' }
             },
             {
