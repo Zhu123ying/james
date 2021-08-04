@@ -76,7 +76,7 @@ class QuotaManage extends React.Component {
                     value={cCPU || ''}
                     type='number'
                     onChange={val => this.handleChange('cCPU', val)}
-                    label='容器内存CPU(m)'
+                    label='容器CPU(m)'
                     validRegex={Regex.isPositive}
                     isRequired
                     inline

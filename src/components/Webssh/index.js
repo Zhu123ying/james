@@ -2,9 +2,12 @@
 import React from 'react'
 import { Terminal } from 'xterm'
 import 'xterm/css/xterm.css'
+import { message } from 'huayunui'
 class Webssh extends React.Component {
     constructor(props) {
         super(props)
+        this.state = {}
+        this.lineInputValue = '' // 每一行的文本值
     }
     componentDidMount() {
         let term = new Terminal({
@@ -21,23 +24,49 @@ class Webssh extends React.Component {
             }
         })
         term.open(document.getElementById('Webssh'))
-        term.onData((data) => {
-            ws.send(`{"operate":"command","command":${JSON.stringify(data)}}`)
-        })
+        if (term._initialized) {
+            return
+        }
+        term._initialized = true
+        term.prompt = () => {
+            term.write('\r\n$ ')
+        }
+        term.writeln('Welcome')
+        term.prompt()
+        // 建立websocket链接
         const { platformContainerId, containerName } = this.props
         const url = `wss://172.118.59.90/websocket/execContainer?platformContainerId=${platformContainerId}&containerName=${containerName}`
         const ws = new WebSocket(url)
         ws.onopen = () => {
-            ws.send(`{"operate":"connect","namespace":"kube-system","podName":"calico-node-2rs6f","username":"root","password":""}`)
+            term.onKey(e => {
+                const ev = e.domEvent
+                const printable = !ev.altKey && !ev.altGraphKey && !ev.ctrlKey && !ev.metaKey
+                if (ev.keyCode === 13) {
+                    term.prompt()
+                    const data = {
+                        operation: "stdin",
+                        data: this.lineInputValue + '\n'
+                    }
+                    ws.send(JSON.stringify(data))
+                    this.lineInputValue = ''
+                } else if (ev.keyCode === 8) {
+                    // Do not delete the prompt
+                    if (term._core.buffer.x > 2) {
+                        term.write('\b \b')
+                    }
+                    this.lineInputValue = this.lineInputValue.substr(0, this.lineInputValue.length - 1)
+                } else if (printable) {
+                    term.write(e.key)
+                    this.lineInputValue += e.key
+                }
+            })
         }
         ws.onmessage = (data) => {
-            term.writeln(data.data)
-        }
-        ws.onclose = (ev) => {
-            console.log('close')
+            let response = JSON.parse(data.data)
+            term.writeln(response.data)
         }
         ws.onerror = (ev) => {
-            console.log('error')
+            message.error(ev)
         }
     }
     render() {

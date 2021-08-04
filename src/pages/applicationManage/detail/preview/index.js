@@ -297,7 +297,7 @@ class Preview extends React.Component {
         const avail_cStorage = _.get(availableQuotaData, 'availableStorageQuota.cStorage', 0)
         return <div className='quotaAvailablePopoverContent'>
             <div className='title'>{intl.formatMessage({ id: 'RemainingAvailableQuota' })}</div>
-            <div className='lineItem'><span>容器内存CPU(m)</span><div className='dottedLine'></div>{availableQuotaData.cCPU}</div>
+            <div className='lineItem'><span>容器CPU(m)</span><div className='dottedLine'></div>{availableQuotaData.cCPU}</div>
             <div className='lineItem'><span>容器内存(Mi)</span><div className='dottedLine'></div>{availableQuotaData.cMemory}</div>
             <div className='lineItem'><span>容器宿主机存储(Gi)</span><div className='dottedLine'></div>{avail_cEphemeralStorage}</div >
             <div className='lineItem'><span>容器持久存储(Gi)</span><div className='dottedLine'></div>{avail_cStorage}</div>
@@ -375,7 +375,7 @@ class Preview extends React.Component {
         const quotaMemory = _.get(quota, 'cMemory', 0)
         const progressGroup = [
             {
-                name: `容器内存CPU`,
+                name: `容器CPU`,
                 percentText: `${usedCpu}/${quotaCpu}`,
                 percentValue: Math.round(usedCpu) / Math.round(quotaCpu) * 100,
                 strokeColor: { '0%': '#61AAF0', '100%': '#4C8CCA' }

@@ -87,8 +87,12 @@ class FileEdit extends React.Component {
                                 <Input
                                     defaultValue={item.name}
                                     autoFocus
-                                    // onInput={e => e.currentTarget.value = 12345}
                                     onBlur={(e) => this.handleRenameInputSubmit(e, item)}
+                                    ref={node => this[`node${item.key}`] = node}
+                                    onChange={e => {
+                                        const value = e.target.value.replace(/([^\u0000-\u00FF])/g, '').replace(/[\/\\^$*+?()|[\]{},:'";=]/g, '')
+                                        this[`node${item.key}`].setValue(value)
+                                    }}
                                 />
                             ) : (
                                 <span className='titleContent'>{item.name}</span>
@@ -212,14 +216,14 @@ class FileEdit extends React.Component {
         // 如果是在文件夹上点的创建，则直接在文件夹目录下创建，如果点的是文件，则平级创建
         let targetNode = currentNode.type === 'file' ? parentNode : currentNode
         const fileNodeInitData = {
-            name: '新建文件',
+            name: '',
             type: 'file',
             filepath: targetNode.filepath,
             fcontent: '',
             isEdit: true
         }
         const folderNodeInitData = {
-            name: '新建文件夹',
+            name: '',
             type: 'dir',
             filepath: targetNode.filepath,
             children: [],
