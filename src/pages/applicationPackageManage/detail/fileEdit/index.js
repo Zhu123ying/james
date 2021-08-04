@@ -167,18 +167,21 @@ class FileEdit extends React.Component {
         })
     }
     handleRenameInputSubmit = (e, item) => {
+        // 有值就替换，无值要删除
         let { treeData } = this.state
         let val = e.currentTarget.value.trim()
-        let parentNode = this.getParentNodeByNodeKey(item.key)
         if (val) {
+            let parentNode = this.getParentNodeByNodeKey(item.key)
             item.name = val
             item.filepath = `${parentNode.filepath}/${val}`
+            item.isEdit = false
+            let newTreeData = _.cloneDeep(treeData)
+            this.setState({
+                treeData: this.formatTreeData(newTreeData)
+            })
+        } else {
+            this.handleDeleteTreeNodeItem(e, item.key)
         }
-        item.isEdit = false
-        let newTreeData = _.cloneDeep(treeData)
-        this.setState({
-            treeData: this.formatTreeData(newTreeData)
-        })
     }
     handleDeleteTreeNodeItem = (e, key) => {
         // 这边得禁止冒泡，不然会触发handleSelectTreeNode方法
@@ -196,14 +199,14 @@ class FileEdit extends React.Component {
         let newTreeData = _.cloneDeep(treeData)
         this.setState({
             treeData: this.formatTreeData(newTreeData),
-            selectedKeys: [], // 删除要将选中的key删掉，这边可以直接将selectedKeys置空
+            selectedKeys: ['0'], // 删除后将selectedKeys重置，不然没有selectedKeys点击创建会报错
         }, () => {
             this.$editorInstance.doc.setValue('')
         })
     }
     // 创建文件、文件夹
     handleAddTreeNodeItem = (type) => {
-        let { selectedKeys, treeData } = this.state
+        let { selectedKeys, treeData, expandedKeys } = this.state
         let currentNode = this.getNodeByNodeKey(selectedKeys[0])
         let parentNode = this.getParentNodeByNodeKey(selectedKeys[0])
         // 如果是在文件夹上点的创建，则直接在文件夹目录下创建，如果点的是文件，则平级创建
@@ -226,7 +229,8 @@ class FileEdit extends React.Component {
         targetNode.children.push(initNode)
         let newTreeData = _.cloneDeep(treeData)
         this.setState({
-            treeData: this.formatTreeData(newTreeData)
+            treeData: this.formatTreeData(newTreeData),
+            expandedKeys: [...expandedKeys, selectedKeys[0]] // 展开父节点
         })
     }
     // 搜索文件
