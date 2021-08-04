@@ -161,7 +161,7 @@ export const ValidLabelKeyProps = {
                 trigger="hover"
                 type="text"
             >
-                <i className='iconfont icon-info-o'></i>
+                <i className='iconfont icon-info-o' style={{ fontSize: '12px' }}></i>
             </Popover>
         </div>
     )
@@ -181,7 +181,7 @@ export const ValidLabelValueProps = {
                 trigger="hover"
                 type="text"
             >
-                <i className='iconfont icon-info-o'></i>
+                <i className='iconfont icon-info-o' style={{ fontSize: '12px' }}></i>
             </Popover>
         </div>
     )
@@ -193,7 +193,7 @@ export const CommonNameRegex = /^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0
 export const ValidCommonNameProps = {
     validRegex: CommonNameRegex,
     invalidMessage: (
-        <div>
+        <div style={{ display: 'flex' }}>
             不符合规范&nbsp;
             <Popover
                 placement="top"
@@ -201,7 +201,7 @@ export const ValidCommonNameProps = {
                 trigger="hover"
                 type="text"
             >
-                <i className='iconfont icon-info-o'></i>
+                <i className='iconfont icon-info-o' style={{ fontSize: '12px' }}></i>
             </Popover>
         </div>
     )

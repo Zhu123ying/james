@@ -71,19 +71,18 @@ class Detail extends React.Component {
             </Menu>
         )
         const searchItems = [
-            <RangePicker
-                onChange={(val) => this.handleChange('time', val)}
-                themeType="huayun"
-                selectType="dropDown"
-                customerPlaceholder='时间'
-                value={time}
-            />,
             <Dropdown overlay={dropdownMenu} trigger={['click']} arrow={true}>
                 <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
                     <span>条数{size}</span>
                     <Icon type="down_t" />
                 </a>
-            </Dropdown>
+            </Dropdown>,
+            <RangePicker
+                onChange={(val) => this.handleChange('time', val)}
+                themeType="huayun"
+                selectType="dropDown"
+                showData={true}
+            />
         ]
         return (
             <div className='searchBtn' onClick={e => e.stopPropagation()}>{searchItems}</div>

@@ -14,7 +14,7 @@ class Webssh extends React.Component {
         let term = new Terminal({
             rendererType: "canvas", // 渲染类型
             convertEol: true, // 启用时，光标将设置为下一行的开头
-            scrollback: 10, // 终端中的回滚量
+            scrollback: 2000, // 终端中的回滚量
             disableStdin: false, // 是否应禁用输入。
             cursorStyle: 'underline', // 光标样式
             cursorBlink: true, // 光标闪烁
@@ -30,10 +30,8 @@ class Webssh extends React.Component {
         }
         term._initialized = true
         term.prompt = () => {
-            term.write('\r\n$ ')
+            term.write('\r\n ')
         }
-        term.writeln('Welcome')
-        term.prompt()
         // 建立websocket链接
         const { platformContainerId, containerName, handleClose } = this.props
         const url = `wss://172.118.59.90/websocket/execContainer?platformContainerId=${platformContainerId}&containerName=${containerName}`

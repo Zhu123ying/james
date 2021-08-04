@@ -4,9 +4,10 @@ import { RcForm, Notification, Button, TagItem, Switch, Input as UltrauiInput, S
 import { Collapse, Button as HuayunButton } from 'huayunui'
 import Regex from '~/utils/regex'
 import './index.less'
+import { ValidLabelKeyProps, ValidLabelValueProps } from '~/pages/containerManage/create/constant'
+
 const { FormGroup, Form, Input, RadioGroup, Textarea, FormRow, Select, Panel } = RcForm
 const _ = window._
-
 class AddLabel extends React.Component {
     constructor(props) {
         super(props)
@@ -40,6 +41,7 @@ class AddLabel extends React.Component {
                     label='Key'
                     placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: 'Key' })}
                     isRequired
+                    {...ValidLabelKeyProps}
                 />
                 {
                     type === 'annotations' ? (
@@ -51,6 +53,7 @@ class AddLabel extends React.Component {
                             placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: 'Value' })}
                             isRequired
                             onChange={(val) => this.handleChange('value', val)}
+                            {...ValidLabelValueProps}
                         />
                     ) : (
                         <Input
@@ -61,6 +64,7 @@ class AddLabel extends React.Component {
                             label='Value'
                             placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: 'Value' })}
                             isRequired
+                            {...ValidLabelValueProps}
                         />
                     )
                 }

@@ -1,12 +1,13 @@
 /* eslint-disable */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { RcForm, Button, Icon, Loading, SortTable, Dialog, Input } from 'ultraui'
+import { RcForm, Button, Icon, Loading, SortTable, Dialog } from 'ultraui'
 import './index.less'
 import Regex from '~/utils/regex'
+import { ValidLabelKeyProps, ValidLabelValueProps } from '~/pages/containerManage/create/constant'
 
 const _ = window._
-const { Form, FormRow, Select } = RcForm
+const { Form, FormRow, Select, Input } = RcForm
 
 class ManageNameSpaceLabel extends React.Component {
     static propTypes = {
@@ -64,31 +65,50 @@ class ManageNameSpaceLabel extends React.Component {
     }
 
     render() {
-        const { intl } = this.props
+        const { intl, form } = this.props
         const { labelList } = this.state
-
         return (
             <div className='labelLineList'>
-                {
-                    labelList.map((item, index) => {
-                        return (
-                            <div className='labelLine' key={index}>
-                                <Input onChange={(val) => this.handleChange('key', val, index)} value={item.key} />&nbsp;&nbsp;:&nbsp;&nbsp;
-                                <Input onChange={(val) => this.handleChange('value', val, index)} value={item.value} />&nbsp;&nbsp;
-                                {
-                                    index === 0 ? (
-                                        <i className='iconfont icon-add' onClick={this.handleAddLine} />
-                                    ) : (
+                <Form
+                    ref={(node) => { this.form = node }}
+                    form={form}
+                    style={{ paddingRight: '0' }}
+                    className="m-b-lg create_step"
+                    subMessage
+                >
+                    {
+                        labelList.map((item, index) => {
+                            return (
+                                <div className='labelLine' key={index}>
+                                    <Input
+                                        form={form}
+                                        name={`key${index}`}
+                                        onChange={(val) => this.handleChange('key', val, index)}
+                                        value={item.key}
+                                        {...ValidLabelKeyProps}
+                                    />&nbsp;&nbsp;:&nbsp;&nbsp;
+                                    <Input
+                                        form={form}
+                                        name={`value${index}`}
+                                        onChange={(val) => this.handleChange('value', val, index)}
+                                        value={item.value}
+                                        {...ValidLabelValueProps}
+                                    />&nbsp;&nbsp;
+                                    {
+                                        index === 0 ? (
+                                            <i className='iconfont icon-add' onClick={this.handleAddLine} />
+                                        ) : (
                                             <i className='iconfont icon-minus' onClick={() => this.handleDeleteLine(index)} />
                                         )
-                                }
-                            </div>
-                        )
-                    })
-                }
+                                    }
+                                </div>
+                            )
+                        })
+                    }
+                </Form>
             </div>
         )
     }
 }
 
-export default ManageNameSpaceLabel
+export default RcForm.create()(ManageNameSpaceLabel)

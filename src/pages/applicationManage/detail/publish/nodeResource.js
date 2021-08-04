@@ -60,7 +60,7 @@ class NodeResource extends React.Component {
                         }
                     }}
                 />
-                <div className='configInfo'>{currentConfig}</div>
+                <div className='configInfo' dangerouslySetInnerHTML={{ __html: formatChartValues(currentConfig) }}></div>
             </div>
         )
     }

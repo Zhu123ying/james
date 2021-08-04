@@ -21,19 +21,14 @@ class ManageTaskNode extends React.Component {
         super(props)
         const { taskNodeList, currentTaskNode } = props
         this.state = {
-            taskNodeList, // 左侧的节点集合
-            currentTaskNode, // 右侧的节点对象
+            taskNodeList: _.cloneDeep(taskNodeList), // 左侧的节点集合
+            currentTaskNode: _.cloneDeep(currentTaskNode), // 右侧的节点对象
             leftPartSelectedRowObject: {}, // 左侧选中的Keys,根据表格分类
             rightPartSelectedRow: [], // 右侧选中的资源对象集合
-            currentResource: {}, // 右侧当前选中的资源对象
+            currentResourceIndex: 0, // 右侧当前选中的资源对象的索引
             isAddResourceManuallyModalShow: false, // 手动添加资源的modal
             isRightBatchSelectChecked: false, // 右侧的批量选中checkbox
         }
-    }
-    componentDidMount() {
-        // 如果是编辑，则设置初始化选中的资源
-        const { currentTaskNode: { id, resourceInfo } } = this.props
-        id && this.handleSelectRightResourceItem(resourceInfo[0])
     }
     renderPanelTitle = (index) => {
         const { intl } = this.props
@@ -135,17 +130,18 @@ class ManageTaskNode extends React.Component {
                 resourceInfo: [...currentTaskNode.resourceInfo, ...itemsToPush]
             }
         }, () => {
-            this.handleSelectRightResourceItem(this.state.currentTaskNode.resourceInfo[0])
+            this.handleSetState('currentResourceIndex', 0)
         })
     }
     // 删除右侧当前资源里的资源
     handleDeleteResource = () => {
-        let { rightPartSelectedRow, currentTaskNode, currentResource } = this.state
+        let { rightPartSelectedRow, currentTaskNode, currentResourceIndex } = this.state
+        let current_Resource = currentTaskNode.resourceInfo[currentResourceIndex]
         let isDeletedCurrentResource = false
         rightPartSelectedRow.forEach(item => {
             let index = currentTaskNode.resourceInfo.findIndex(item_ => item.id === item_.id)
             currentTaskNode.resourceInfo.splice(index, 1)
-            if (currentResource.id === item.id) {
+            if (current_Resource.id === item.id) {
                 isDeletedCurrentResource = true
             }
         })
@@ -154,8 +150,8 @@ class ManageTaskNode extends React.Component {
             currentTaskNode: { ...currentTaskNode },
             isRightBatchSelectChecked: false,
         }, () => {
-            // 如果被删除的资源包含当前激活的资源，则要重置当前的currentResource
-            isDeletedCurrentResource && this.handleSelectRightResourceItem(this.state.currentTaskNode.resourceInfo[0])
+            // 如果被删除的资源包含当前激活的资源，则要重置当前的currentResourceIndex
+            isDeletedCurrentResource && this.handleSetState('currentResourceIndex', 0)
         })
     }
     getTableColumns = () => {
@@ -192,12 +188,6 @@ class ManageTaskNode extends React.Component {
             leftPartSelectedRowObject: { ...leftPartSelectedRowObject }
         })
     }
-    // 右侧资源对象被选中
-    handleSelectRightResourceItem = (item) => {
-        this.setState({
-            currentResource: item || {}
-        })
-    }
     // 右侧checkout的选中状态
     getRightBoxCheckProp = (row) => {
         const { rightPartSelectedRow } = this.state
@@ -223,6 +213,8 @@ class ManageTaskNode extends React.Component {
     handleSetState = (key, value) => {
         this.setState({
             [key]: value
+        }, () => {
+            console.log(this.state.currentTaskNode)
         })
     }
     // 手动添加资源对象
@@ -242,8 +234,9 @@ class ManageTaskNode extends React.Component {
     }
     render() {
         const { intl } = this.props
-        const { taskNodeList, currentTaskNode, leftPartSelectedRowObject, rightPartSelectedRow, currentResource, isAddResourceManuallyModalShow } = this.state
+        const { taskNodeList, currentTaskNode, leftPartSelectedRowObject, rightPartSelectedRow, currentResourceIndex, isAddResourceManuallyModalShow } = this.state
         const resourceInfo = _.get(currentTaskNode, 'resourceInfo', [])
+        const currentConfigData = _.get(resourceInfo, `${currentResourceIndex}.config`, '')
         return (
             <React.Fragment>
                 <div className='header'>
@@ -288,9 +281,10 @@ class ManageTaskNode extends React.Component {
                         <div className='content'>
                             <div className='currentNodeResourceList'>
                                 {
-                                    resourceInfo.map(item => {
+                                    resourceInfo.map((item, index) => {
                                         return (
-                                            <div className={`resourceItem ${currentResource.id === item.id ? 'activeBefore' : ''}`} onClick={() => this.handleSelectRightResourceItem(item)}>
+                                            <div className={`resourceItem ${currentResourceIndex === index ? 'activeBefore' : ''}`} onClick={() => this.handleSetState('currentResourceIndex', index)
+                                            }>
                                                 <Checkbox onChange={() => this.handleRightBoxSelectChange(item)} checked={this.getRightBoxCheckProp(item)} />
                                                 &nbsp;{item.name}
                                             </div>
@@ -300,12 +294,19 @@ class ManageTaskNode extends React.Component {
                             </div>
                             <div className='yamlValue'>
                                 <div className='title'>详细声明</div>
-                                <TextArea className="yamlContent" value={currentResource.config}></TextArea>
-                                {/* <div className="yamlContent" dangerouslySetInnerHTML={{ __html: formatChartValues(currentResource.config) }}></div> */}
+                                <TextArea
+                                    className="yamlContent"
+                                    value={currentConfigData}
+                                    onChange={val => {
+                                        this.handleSetState('currentTaskNode', _.set(currentTaskNode, `resourceInfo.${currentResourceIndex}.config`, val.target.value))
+                                    }}
+                                    disabled={!resourceInfo[currentResourceIndex]}
+                                    max={99999}
+                                />
                                 <Button
                                     type='operate'
                                     name={intl.formatMessage({ id: 'Validate' })}
-                                    onClick={() => this.handleValidYaml(currentResource.config)} />
+                                    onClick={() => this.handleValidYaml(currentConfigData)} />
                             </div>
                         </div>
                     </div>
