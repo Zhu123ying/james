@@ -8,6 +8,7 @@ class Webssh extends React.Component {
         super(props)
         this.state = {}
         this.lineInputValue = '' // 每一行的文本值
+        this.$websocket = null
     }
     componentDidMount() {
         let term = new Terminal({
@@ -23,7 +24,7 @@ class Webssh extends React.Component {
                 cursor: 'help'// 设置光标
             }
         })
-        term.open(document.getElementById('Webssh'))
+        term.open(document.querySelector('.terminalContainer'))
         if (term._initialized) {
             return
         }
@@ -34,10 +35,10 @@ class Webssh extends React.Component {
         term.writeln('Welcome')
         term.prompt()
         // 建立websocket链接
-        const { platformContainerId, containerName } = this.props
+        const { platformContainerId, containerName, handleClose } = this.props
         const url = `wss://172.118.59.90/websocket/execContainer?platformContainerId=${platformContainerId}&containerName=${containerName}`
-        const ws = new WebSocket(url)
-        ws.onopen = () => {
+        this.$websocket = new WebSocket(url)
+        this.$websocket.onopen = () => {
             term.onKey(e => {
                 const ev = e.domEvent
                 const printable = !ev.altKey && !ev.altGraphKey && !ev.ctrlKey && !ev.metaKey
@@ -47,7 +48,13 @@ class Webssh extends React.Component {
                         operation: "stdin",
                         data: this.lineInputValue + '\n'
                     }
-                    ws.send(JSON.stringify(data))
+                    this.$websocket.send(JSON.stringify(data))
+                    // 如果打了退出命令，则直接关闭
+                    if (this.lineInputValue === 'exit') {
+                        term.dispose()
+                        this.$websocket.close()
+                        handleClose && handleClose()
+                    }
                     this.lineInputValue = ''
                 } else if (ev.keyCode === 8) {
                     // Do not delete the prompt
@@ -61,17 +68,20 @@ class Webssh extends React.Component {
                 }
             })
         }
-        ws.onmessage = (data) => {
+        this.$websocket.onmessage = (data) => {
             let response = JSON.parse(data.data)
-            term.writeln(response.data)
+            term.write(response.data)
         }
-        ws.onerror = (ev) => {
+        this.$websocket.onerror = (ev) => {
             message.error(ev)
         }
     }
+    componentWillUnmount(){
+        this.$websocket.close()
+    }
     render() {
         return (
-            <div id='Webssh' />
+            <div className='terminalContainer' />
         )
     }
 }

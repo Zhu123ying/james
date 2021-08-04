@@ -25,7 +25,7 @@ const compositeStateText = {
     NORMAL: '正常',
     END: '结束',
     PENDING: '等待',
-    FAILEDORUNKNOW: '失败或未知',
+    FAILEDORUNKNOW: '未知',
     Bound: '正常',
 }
 

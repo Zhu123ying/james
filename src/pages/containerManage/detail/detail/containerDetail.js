@@ -12,6 +12,7 @@ import { Row, Col } from 'antd'
 import { KeyValue } from '@huayun/ultraui'
 import { DEFAULT_EMPTY_LABEL } from '~/constants'
 import Webssh from '~/components/Webssh'
+import WebLog from '~/components/WebLog'
 
 const _ = window._
 const { Panel } = Collapse;
@@ -19,7 +20,8 @@ class Detail extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            isWebsshModalVisible: false
+            isWebsshModalVisible: false,
+            isWebLogModalVisible: false
         }
     }
     componentWillReceiveProps({ visible, monitorData }) {
@@ -77,9 +79,6 @@ class Detail extends React.Component {
             [key]: value
         })
     }
-    handleReadLog = () => {
-
-    }
     renderChartPanelTitle = (left, right) => {
         return (
             <div className='chartPanelTitle'>
@@ -89,7 +88,7 @@ class Detail extends React.Component {
         )
     }
     render() {
-        const { isWebsshModalVisible } = this.state
+        const { isWebsshModalVisible, isWebLogModalVisible } = this.state
         const { intl, onClose, visible, currentContainer, monitorData, platformContainerId } = this.props
         const { name, runVar, envs, image, probe } = currentContainer
         const { args, workDir, command } = runVar || {}
@@ -189,7 +188,7 @@ class Detail extends React.Component {
                         </UltrauiButton>
                         <UltrauiButton
                             type="text"
-                            onClick={this.handleReadLog}
+                            onClick={() => this.handleChange('isWebLogModalVisible', true)}
                         >
                             <Icon type="xunjian" />&nbsp;{intl.formatMessage({ id: 'ReadStaticLog' })}
                         </UltrauiButton>
@@ -222,7 +221,24 @@ class Detail extends React.Component {
                     destroyOnClose={true}
                     className='websshModal'
                 >
-                    <Webssh platformContainerId={platformContainerId} containerName={name} />
+                    <Webssh
+                        platformContainerId={platformContainerId}
+                        containerName={name}
+                        handleClose={() => this.handleChange('isWebsshModalVisible', false)}
+                    />
+                </Modal>
+                <Modal
+                    title={intl.formatMessage({ id: 'ReadStaticLog' })}
+                    visible={isWebLogModalVisible}
+                    onCancel={() => this.handleChange('isWebLogModalVisible', false)}
+                    footer={null}
+                    destroyOnClose={true}
+                    className='websshModal'
+                >
+                    <WebLog
+                        platformContainerId={platformContainerId}
+                        containerName={name}
+                    />
                 </Modal>
             </>
         )
