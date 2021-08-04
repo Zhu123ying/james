@@ -208,7 +208,7 @@ class LogPersistence extends React.Component {
                                                                 onChange={(val) => this.handleFormDataOnChange(`${index}.fileLogConfig.path`, val)}
                                                                 isRequired
                                                                 validRegex={/^\/.*$/}
-                                                                invalidMessage='日志路径必须以 / 开头'
+                                                                invalidMessage={intl.formatMessage({ id: 'LogNameStartWith/' })}
                                                                 className='w50'
                                                             />
                                                             <Panel

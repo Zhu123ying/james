@@ -216,7 +216,8 @@ class Detail extends React.Component {
                     destroyOnClose={true}
                     width={440}
                     okButtonProps={{
-                        disabled: isShareAppPackageSubmitting
+                        disabled: isShareAppPackageSubmitting,
+                        loading: isShareAppPackageSubmitting
                     }}
                 >
                     <ShareAppPackage

@@ -19,13 +19,13 @@ class CreateLog extends React.Component {
             cascaderValue: [],
             isStandardLogConfig: 1, // 是否配置标准日志输出
             standardLogConfig: {  // 标注日志配置
-                expireTime: 0,  // 采集日志保存天数
-                maxSize: 0,  // 采集日志容量单位GI
+                expireTime: 7,  // 采集日志保存天数
+                maxSize: 10,  // 采集日志容量单位GI
             },
             isServiceLogConfig: 1, // 是否配置服务日志配置输出
             serviceLogConfig: { // 服务日志配置
-                expireTime: 0, // 采集日志保存天数
-                maxSize: 0, // 采集日志容量单位GI
+                expireTime: 7, // 采集日志保存天数
+                maxSize: 10, // 采集日志容量单位GI
                 path: '', // 自定义路径(/开头)
             },
             cascaderPanelErrorMessage: '', // cascaderPanel的错误提示
@@ -61,7 +61,6 @@ class CreateLog extends React.Component {
     }
 
     handleChange = (key, val) => {
-        console.log(key)
         const value = _.get(val, 'target.value', val)
         this.setState({
             [key]: value
@@ -112,7 +111,8 @@ class CreateLog extends React.Component {
                         <InputNumber
                             form={form}
                             value={standardLogConfig.maxSize}
-                            min={0}
+                            min={1}
+                            max={100}
                             slot={{
                                 position: 'right',
                                 format: () => 'Gi'
@@ -134,7 +134,8 @@ class CreateLog extends React.Component {
                         <InputNumber
                             form={form}
                             value={standardLogConfig.expireTime}
-                            min={0}
+                            min={1}
+                            max={7}
                             slot={{
                                 position: 'right',
                                 format: () => '天'
@@ -168,7 +169,8 @@ class CreateLog extends React.Component {
                         <InputNumber
                             form={form}
                             value={serviceLogConfig.maxSize}
-                            min={0}
+                            min={1}
+                            max={100}
                             slot={{
                                 position: 'right',
                                 format: () => 'Gi'
@@ -191,7 +193,8 @@ class CreateLog extends React.Component {
                         <InputNumber
                             form={form}
                             value={serviceLogConfig.expireTime}
-                            min={0}
+                            min={1}
+                            max={7}
                             slot={{
                                 position: 'right',
                                 format: () => '天'
@@ -214,6 +217,8 @@ class CreateLog extends React.Component {
                             path: _.get(val, 'target.value', val)
                         })}
                         isRequired
+                        validRegex={/^\/.*$/}
+                        invalidMessage={intl.formatMessage({ id: 'LogNameStartWith/' })}
                         className='columnPanel panel'
                     />
                 </div>

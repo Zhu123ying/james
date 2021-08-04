@@ -409,6 +409,7 @@ const zh_CN = {
     RecommandQuota: '建议配额',
     QuotaParams: '配额参数',
     WeightLimitError: '权重范围1~100',
+    'LogNameStartWith/': '日志路径必须以 / 开头',
 
     // 接口返回提示
     ImageArtifactDeleteFailContainerError: '镜像实例删除失败，镜像正在被容器使用中',

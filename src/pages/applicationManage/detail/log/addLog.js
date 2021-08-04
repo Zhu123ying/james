@@ -104,7 +104,8 @@ class CreateLog extends React.Component {
                         <InputNumber
                             form={form}
                             value={standardLogConfig.maxSize}
-                            min={0}
+                            min={1}
+                            max={100}
                             slot={{
                                 position: 'right',
                                 format: () => 'Gi'
@@ -126,7 +127,8 @@ class CreateLog extends React.Component {
                         <InputNumber
                             form={form}
                             value={standardLogConfig.expireTime}
-                            min={0}
+                            min={1}
+                            max={7}
                             slot={{
                                 position: 'right',
                                 format: () => '天'
@@ -160,7 +162,8 @@ class CreateLog extends React.Component {
                         <InputNumber
                             form={form}
                             value={serviceLogConfig.maxSize}
-                            min={0}
+                            min={1}
+                            max={100}
                             slot={{
                                 position: 'right',
                                 format: () => 'Gi'
@@ -183,7 +186,8 @@ class CreateLog extends React.Component {
                         <InputNumber
                             form={form}
                             value={serviceLogConfig.expireTime}
-                            min={0}
+                            min={1}
+                            max={7}
                             slot={{
                                 position: 'right',
                                 format: () => '天'
@@ -206,6 +210,8 @@ class CreateLog extends React.Component {
                             path: _.get(val, 'target.value', val)
                         })}
                         isRequired
+                        validRegex={/^\/.*$/}
+                        invalidMessage={intl.formatMessage({ id: 'LogNameStartWith/' })}
                         className='columnPanel panel'
                     />
                 </div>

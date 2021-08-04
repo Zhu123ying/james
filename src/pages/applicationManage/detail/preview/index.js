@@ -29,6 +29,10 @@ class Preview extends React.Component {
                 cpu_usage_rate: [],
                 memory_usage_rate: []
             },
+            netWorkMonitorData: {
+                network_out_rate: [],
+                network_in_rate: []
+            },
             isQuotaManageModalVisible: false, // 配额管理模态框是否显示
             isClusterResourcesDrawerVisible: false, // 集群资源是否显示
             availableQuotaData: {}, // 剩余可用配额
@@ -36,6 +40,7 @@ class Preview extends React.Component {
         }
     }
     componentDidMount() {
+        this.getNetworkMonitorData() // 网络监控数据
         this.getResourceInfor() // 资源使用监控数据
         this.getIsolationState()
         this.renderPieChart() // 应用状态拼图
@@ -43,6 +48,7 @@ class Preview extends React.Component {
     }
     componentWillReceiveProps({ detail }) {
         if (detail !== this.props.detail) {
+            this.getNetworkMonitorData() // 网络监控数据
             this.getResourceInfor()
             this.renderPieChart()
         }
@@ -54,6 +60,20 @@ class Preview extends React.Component {
                 this.setState({
                     availableQuotaData: res.data
                 })
+            }
+        })
+    }
+    // 网络监控数据
+    getNetworkMonitorData = () => {
+        HuayunRequest(api.queryApplicationNetMonitorData, { id: this.props.detail.id }, {
+            success: (res) => {
+                this.setState({
+                    netWorkMonitorData: res.data || {
+                        network_out_rate: [],
+                        network_in_rate: []
+                    }
+                })
+                this.renderNetworkLineChart() // cpu折线图
             }
         })
     }
@@ -234,7 +254,7 @@ class Preview extends React.Component {
         // 设置options
         this[`$${id}`].setOption(this.getLineOption(id, detail))
     }
-
+    // cpu和memory的线图
     getLineOption = (id, detail) => {
         const type = id.replace('_line', '')
         const { intl } = this.props
@@ -252,7 +272,7 @@ class Preview extends React.Component {
             grid: {
                 left: 35,
                 top: 10,
-                right: 10,
+                right: 5,
                 bottom: 20
             },
             xAxis: {
@@ -268,6 +288,61 @@ class Preview extends React.Component {
             }]
         }
         return option
+    }
+    // 网络的线图
+    renderNetworkLineChart = () => {
+        const { netWorkMonitorData } = this.state
+        let network_in_rate = _.get(netWorkMonitorData, 'network_in_rate') || []
+        let network_out_rate = _.get(netWorkMonitorData, 'network_out_rate') || []
+        if (!this.$network_line) {
+            this.$network_line = echarts.init(document.getElementById('network_line'))// 初始化echarts
+        }
+        network_in_rate.forEach((item, index) => {
+            const yData = parseFloat(item[1]).toFixed(2)
+            network_in_rate[index][1] = parseFloat(yData)
+        })
+        network_out_rate.forEach((item, index) => {
+            const yData = parseFloat(item[1]).toFixed(2)
+            network_out_rate[index][1] = parseFloat(yData)
+        })
+        // 设置options
+        this.$network_line.setOption({
+            color: ['#80fdff', '#95f203'],
+            grid: {
+                left: 30,
+                top: 10,
+                right: 5,
+                bottom: 20
+            },
+            xAxis: {
+                type: 'time',
+                axisLabel: {
+                    formatter: function (value, index) {
+                        return moment(value * 1000).format('HH:mm:ss')
+                    }
+                },
+                axisLabel:{
+                    interval: 50
+                }
+            },
+            yAxis: [
+                {
+                    type: 'value'
+                }
+            ],
+            series: [
+                {
+                    type: 'line',
+                    stack: '入',
+                    data: network_in_rate
+                },
+                {
+                    type: 'line',
+                    stack: '出',
+                    data: network_out_rate
+                }
+            ]
+        })
     }
     handleSetState = (key, value) => {
         this.setState({
@@ -334,7 +409,7 @@ class Preview extends React.Component {
     }
     render() {
         const { intl, detail } = this.props
-        const { isAllowVisit, currentSlide, resourceInfor, isQuotaManageModalVisible, isClusterResourcesDrawerVisible, availableQuotaData, isApplicationEditModalVisible } = this.state
+        const { isAllowVisit, currentSlide, resourceInfor, isQuotaManageModalVisible, isClusterResourcesDrawerVisible, availableQuotaData, isApplicationEditModalVisible, netWorkMonitorData } = this.state
         const {
             id, name, createrName, createTime, description, tags, resourceObjectDtos, state, secondState, resourceObjectStatistics, projectId,
             commandExecuteLogs, applicationType, reversionNum, projectName, updateTime, historyResourceObjectDtos, quota
@@ -401,7 +476,8 @@ class Preview extends React.Component {
         ]
         const currentCpu = _.get(resourceInfor.cpu_usage_rate.pop(), '1', 0)
         const currentMemory = _.get(resourceInfor.memory_usage_rate.pop(), '1', 0)
-
+        const current_network_in_rate = _.get(netWorkMonitorData.network_in_rate.pop(), '1', 0)
+        const current_network_out_rate = _.get(netWorkMonitorData.network_out_rate.pop(), '1', 0)
         return (
             <div className='commonDetail_preview applicationDetail_preview'>
                 <Row gutter={10} className='topRow'>
@@ -502,6 +578,13 @@ class Preview extends React.Component {
                                         <span className='value'>{currentMemory ? currentMemory + 'Mi' : 0}</span>
                                     </div>
                                     <div id="memory_line" className="lineItem" />
+                                </div>
+                                <div className='monitorItem'>
+                                    <div className='summary'>
+                                        <span className='name'>{intl.formatMessage({ id: 'Network' })}</span>
+                                        <span className='value'>{`${parseFloat(current_network_in_rate).toFixed(2)} / ${parseFloat(current_network_out_rate).toFixed(2)}`}</span>
+                                    </div>
+                                    <div id="network_line" className="lineItem" />
                                 </div>
                             </div>
                         </div>

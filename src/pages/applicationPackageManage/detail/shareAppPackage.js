@@ -129,6 +129,7 @@ class ShareAppPackage extends React.Component {
                         pagination={false}
                         rowSelection={{
                             selectedRowKeys: applicationPackageVersionIds,
+                            type: 'radio',
                             onChange: (keys, items) => this.handleChange('applicationPackageVersionIds', keys),
                         }}
                         rowKey='id'

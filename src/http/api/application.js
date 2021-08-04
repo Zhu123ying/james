@@ -60,7 +60,7 @@ const api = {
     queryContainerLog: `${prefix}queryContainerLog`, // 查询应用日志
     deleteContainerLogConfig: `${prefix}deleteContainerLogConfig`, // 删除应用日志配置
     queryApplicationNeedQuato: `${prefix}queryApplicationNeedQuato`, // 获取创建应用时的推荐配额
-
+    queryApplicationNetMonitorData: `${prefix}queryApplicationNetMonitorData`, // 应用的网络监控
 }
 
 export default api
