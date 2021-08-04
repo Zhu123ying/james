@@ -309,7 +309,7 @@ class AffinityConfig extends React.Component {
                             return this.handleOnChange(`${path}.${index}.values`, value)
                         }}
                         label='Value'
-                        isRequired
+                        // isRequired
                         className='inputItem'
                         disabled={operator === 'Exists' || operator === 'DoesNotExist'}
                     />

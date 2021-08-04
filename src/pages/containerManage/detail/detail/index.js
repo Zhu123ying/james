@@ -30,7 +30,7 @@ const ContainerStorageStateObject = {
 
 // 容器类型
 const ContainerTypeObj = {
-    ApplictionContainer: '应用容器',
+    ApplicationContainer: '应用容器',
     InitContainer: '初始化容器'
 }
 class Detail extends React.Component {

@@ -48,6 +48,48 @@ class LogPersistence extends React.Component {
         array.splice(index, 1)
         handleFormChange('formData', { ...formData })
     }
+    // 容器标准输出switch改变
+    handleStdoutLogEnabledSwitchChange = (index, val) => {
+        let { handleFormChange, formData: { containerLogs } } = this.props
+        if (val) {
+            containerLogs[index] = {
+                ...containerLogs[index],
+                stdoutLogEnabled: true,
+                stdoutLogConfig: {
+                    expireTime: 7,
+                    maxSize: 10
+                },
+            }
+        } else {
+            containerLogs[index] = {
+                ...containerLogs[index],
+                stdoutLogEnabled: false,
+                stdoutLogConfig: null
+            }
+        }
+        handleFormChange('containerLogs', [...containerLogs])
+    }
+    handleFileLogEnabledSwitchChange = (index, val) => {
+        let { handleFormChange, formData: { containerLogs } } = this.props
+        if (val) {
+            containerLogs[index] = {
+                ...containerLogs[index],
+                fileLogEnabled: true,
+                fileLogConfig: {
+                    expireTime: 7,
+                    maxSize: 10,
+                    path: ''
+                }
+            }
+        } else {
+            containerLogs[index] = {
+                ...containerLogs[index],
+                fileLogEnabled: false,
+                fileLogConfig: null
+            }
+        }
+        handleFormChange('containerLogs', [...containerLogs])
+    }
     render() {
         const { form, intl, formData, handleFormChange } = this.props
         const { containerLogs, containers } = formData
@@ -92,7 +134,10 @@ class LogPersistence extends React.Component {
                                                 inline
                                                 className='switchPanel'
                                             >
-                                                <Switch checked={stdoutLogEnabled} onChange={(val) => this.handleFormDataOnChange(`${index}.stdoutLogEnabled`, val)}></Switch>
+                                                <Switch
+                                                    checked={stdoutLogEnabled}
+                                                    onChange={(val) => this.handleStdoutLogEnabledSwitchChange(index, val)}
+                                                />
                                                 {
                                                     stdoutLogEnabled ? (
                                                         <div className='logPanel'>
@@ -107,7 +152,8 @@ class LogPersistence extends React.Component {
                                                                 <InputNumber
                                                                     form={form}
                                                                     value={stdoutLogConfig.maxSize}
-                                                                    min={0}
+                                                                    min={1}
+                                                                    max={100}
                                                                     slot={{
                                                                         position: 'right',
                                                                         format: () => 'Gi'
@@ -126,7 +172,8 @@ class LogPersistence extends React.Component {
                                                                 <InputNumber
                                                                     form={form}
                                                                     value={stdoutLogConfig.expireTime}
-                                                                    min={0}
+                                                                    min={1}
+                                                                    max={7}
                                                                     slot={{
                                                                         position: 'right',
                                                                         format: () => '天'
@@ -146,7 +193,10 @@ class LogPersistence extends React.Component {
                                                 inline
                                                 className='switchPanel'
                                             >
-                                                <Switch checked={fileLogEnabled} onChange={(val) => this.handleFormDataOnChange(`${index}.fileLogEnabled`, val)}></Switch>
+                                                <Switch
+                                                    checked={fileLogEnabled}
+                                                    onChange={(val) => this.handleFileLogEnabledSwitchChange(index, val)}
+                                                />
                                                 {
                                                     fileLogEnabled ? (
                                                         <div className='logPanel'>
@@ -172,7 +222,8 @@ class LogPersistence extends React.Component {
                                                                 <InputNumber
                                                                     form={form}
                                                                     value={fileLogConfig.maxSize}
-                                                                    min={0}
+                                                                    min={1}
+                                                                    max={100}
                                                                     slot={{
                                                                         position: 'right',
                                                                         format: () => 'Gi'
@@ -191,7 +242,8 @@ class LogPersistence extends React.Component {
                                                                 <InputNumber
                                                                     form={form}
                                                                     value={fileLogConfig.expireTime}
-                                                                    min={0}
+                                                                    min={1}
+                                                                    max={7}
                                                                     slot={{
                                                                         position: 'right',
                                                                         format: () => '天'

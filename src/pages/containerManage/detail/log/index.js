@@ -49,8 +49,8 @@ class Event extends React.Component {
                 containerName,
                 logType,
                 tail,
-                startTime: moment(time[0]).format('YYYY-MM-DD'),
-                endTime: moment(time[1]).format('YYYY-MM-DD'),
+                startTime: time[0] ? moment(time[0]).format('YYYY-MM-DD') : undefined,
+                endTime: time[1] ? moment(time[1]).format('YYYY-MM-DD') : undefined,
             }
             this.setState({
                 isFetching: true

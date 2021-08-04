@@ -128,7 +128,7 @@ class ApplicationDetail extends React.Component {
             content: `${intl.formatMessage({ id: 'IsSureToDelete' }, { name: `${this.operationTarget}-${name}` })}`,
             onOk: () => {
                 HuayunRequest(api.delete, { ids: [id] }, {
-                    success(res) {
+                    success: (res) => {
                         refreshTableList(true) // 更新应用列表
                         notification.notice({
                             id: 'deleteApp',

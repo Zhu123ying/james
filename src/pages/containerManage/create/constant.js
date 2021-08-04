@@ -136,13 +136,13 @@ export const containerLogItem = {
     containerName: '',
     stdoutLogEnabled: true,
     stdoutLogConfig: {
-        expireTime: 0,
-        maxSize: 0
+        expireTime: 7,
+        maxSize: 10,
     },
     fileLogEnabled: true,
     fileLogConfig: {
-        expireTime: 0,
-        maxSize: 0,
+        expireTime: 7,
+        maxSize: 10,
         path: ''
     }
 }
