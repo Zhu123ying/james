@@ -585,7 +585,7 @@ class VersionManage extends React.Component {
                                 type: 'danger',
                                 title: intl.formatMessage({ id: 'Error' }),
                                 content: retInfo,
-                                iconNode: 'icon-error-o',
+                                iconNode: 'icon-error-s',
                                 duration: 5,
                                 closable: true
                             })
@@ -802,20 +802,24 @@ class VersionManage extends React.Component {
         }
         return (
             <div className='versionManage'>
-                <Tabs activeKey={tabActiveKey} className='versionOperateBar' tabBarExtraContent={tabOperation} onChange={this.handleTabChange}>
-                    <TabPane tab={intl.formatMessage({ id: 'BasicInfo' })} key="1">
-                        {this.renderVersionInfoPanel()}
-                    </TabPane>
-                    <TabPane tab={intl.formatMessage({ id: 'Log' })} key="2">
-                        {this.renderLogPanel()}
-                    </TabPane>
-                    <TabPane tab={`${intl.formatMessage({ id: 'Manage' })}${intl.formatMessage({ id: 'Entrance' })}`} key="3">
-                        {this.renderPortPanel()}
-                    </TabPane>
-                    <TabPane tab={intl.formatMessage({ id: 'Alarm' })} key="4">
-                        {this.renderAlarmPanel()}
-                    </TabPane>
-                </Tabs>
+                {
+                    currentVersionId ? (
+                        <Tabs activeKey={tabActiveKey} className='versionOperateBar' tabBarExtraContent={tabOperation} onChange={this.handleTabChange}>
+                            <TabPane tab={intl.formatMessage({ id: 'BasicInfo' })} key="1">
+                                {this.renderVersionInfoPanel()}
+                            </TabPane>
+                            <TabPane tab={intl.formatMessage({ id: 'Log' })} key="2">
+                                {this.renderLogPanel()}
+                            </TabPane>
+                            <TabPane tab={`${intl.formatMessage({ id: 'Manage' })}${intl.formatMessage({ id: 'Entrance' })}`} key="3">
+                                {this.renderPortPanel()}
+                            </TabPane>
+                            <TabPane tab={intl.formatMessage({ id: 'Alarm' })} key="4">
+                                {this.renderAlarmPanel()}
+                            </TabPane>
+                        </Tabs>
+                    ) : <NoData />
+                }
                 <div className='versionList'>
                     <div className='title'>
                         版本列表

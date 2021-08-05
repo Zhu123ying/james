@@ -79,6 +79,10 @@ class ApplicationDetail extends React.Component {
                         window.ApplicationDetailIntervalRequest = setInterval(() => {
                             this.getDetail(id, true)
                         }, 10000)
+                    } 
+                    if ((state === 'config' || state === 'failed') && window.ApplicationDetailIntervalRequest) {
+                        clearInterval(window.ApplicationDetailIntervalRequest)
+                        window.ApplicationDetailIntervalRequest = null
                     }
                     if (state !== detail.state) {
                         // 状态改变更新列表页

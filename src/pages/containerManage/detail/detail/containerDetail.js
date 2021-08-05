@@ -36,8 +36,10 @@ class Detail extends React.Component {
         })
     }
     initLineChart = (id, data) => {
+        let dom = document.getElementById(id)
+        if (!dom) return
         if (!this[`$${id}`]) {
-            this[`$${id}`] = echarts.init(document.getElementById(id))// 初始化echarts
+            this[`$${id}`] = echarts.init(dom)// 初始化echarts
         }
         // 设置options
         this[`$${id}`].setOption(this.getLineOption(id, data))

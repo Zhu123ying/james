@@ -64,6 +64,7 @@ class ContainerDetail extends React.Component {
                     if (state !== 'config') {
                         setTimeout(() => {
                             this.getDetail(id, true)
+                            this.getPlatformContainerMonitoring(id)
                         }, 10000)
                     }
                     if (state !== detail.state) {

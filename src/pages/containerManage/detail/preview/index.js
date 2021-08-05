@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { container as api } from '~/http/api'
 import HuayunRequest from '~/http/request'
 import { DatePicker, Select, Input, Switch, Button, ButtonGroup, Progress, Modal, Drawer, Table } from 'huayunui';
-import { Icon, KeyValue, Notification, TagItem } from 'ultraui'
+import { Icon, KeyValue, Notification, TagItem, NoData } from 'ultraui'
 import { Row, Col, Tag, Carousel } from 'antd'
 import './index.less'
 import ActionAuth from '~/components/ActionAuth'
@@ -29,20 +29,27 @@ const MatchTypeObj = {
 class Preview extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {
-
-        }
+        this.state = {}
     }
     componentDidMount() {
         this.renderCpuLineChart()
         this.renderMemoryLineChart()
         this.renderNetworkLineChart()
     }
-    renderCpuLineChart = () => {
-        const { monitorData } = this.props
+    // componentDidUpdate() {
+    //     const { detail: { state }, monitorData } = this.props
+    //     if (state !== 'config') {
+    //         this.renderCpuLineChart(monitorData)
+    //         this.renderMemoryLineChart(monitorData)
+    //         this.renderNetworkLineChart(monitorData)
+    //     }
+    // }
+    renderCpuLineChart = (monitorData = this.props.monitorData) => {
         const cpu_usage_rate = _.get(monitorData, 'cpu_usage_rate') || []
+        let dom = document.getElementById('cpu_line')
+        if (!dom) return
         if (!this.$cpu_line) {
-            this.$cpu_line = echarts.init(document.getElementById('cpu_line'))// 初始化echarts
+            this.$cpu_line = echarts.init(dom)// 初始化echarts
         }
         let xAxisData = []
         let seriesData = []
@@ -76,11 +83,12 @@ class Preview extends React.Component {
             }]
         })
     }
-    renderMemoryLineChart = () => {
-        const { monitorData } = this.props
+    renderMemoryLineChart = (monitorData = this.props.monitorData) => {
         const memory_usage_rate = _.get(monitorData, 'memory_usage_rate') || []
+        let dom = document.getElementById('memory_line')
+        if (!dom) return
         if (!this.$memory_line) {
-            this.$memory_line = echarts.init(document.getElementById('memory_line'))// 初始化echarts
+            this.$memory_line = echarts.init(dom)// 初始化echarts
         }
         let xAxisData = []
         let seriesData = []
@@ -114,12 +122,13 @@ class Preview extends React.Component {
             }]
         })
     }
-    renderNetworkLineChart = () => {
-        const { monitorData } = this.props
+    renderNetworkLineChart = (monitorData = this.props.monitorData) => {
         let network_Ingress_usage_rate = _.get(monitorData, 'network_Ingress_usage_rate') || []
         let network_egress_usage_rate = _.get(monitorData, 'network_egress_usage_rate') || []
+        let dom = document.getElementById('network_line')
+        if (!dom) return
         if (!this.$network_line) {
-            this.$network_line = echarts.init(document.getElementById('network_line'))// 初始化echarts
+            this.$network_line = echarts.init(dom)// 初始化echarts
         }
         network_Ingress_usage_rate.forEach((item, index) => {
             const yData = parseFloat(item[1]).toFixed(2)
@@ -315,20 +324,6 @@ class Preview extends React.Component {
                 label: intl.formatMessage({ id: 'CreaterName' }),
                 value: createdByName || DEFAULT_EMPTY_LABEL
             }
-            // {
-            //     label: intl.formatMessage({ id: 'Image' }),
-            //     value: (
-            //         <div>
-            //             {
-            //                 imageList.map(image => {
-            //                     const { project, repo, tag } = image
-            //                     const arr = [project, repo, tag].filter(item => !!item)
-            //                     return <div>{arr.join('/')}</div>
-            //                 })
-            //             }
-            //         </div>
-            //     )
-            // }
         ]
         const KeyValueData2 = [
             {
@@ -415,25 +410,43 @@ class Preview extends React.Component {
                             <div className='boxTitle activeBefore'>{intl.formatMessage({ id: 'ResourceUsageMonitor' })}</div>
                             <div className='boxContent cpu_memory_monitor'>
                                 <div className='monitorItem'>
-                                    <div className='summary'>
-                                        <span className='name'>CPU(%)</span>
-                                        <span className='value'>{cpu_usage_current}</span>
-                                    </div>
-                                    <div id="cpu_line" className="lineItem" />
+                                    {
+                                        state !== 'config' ? (
+                                            <>
+                                                <div className='summary'>
+                                                    <span className='name'>CPU(%)</span>
+                                                    <span className='value'>{cpu_usage_current}</span>
+                                                </div>
+                                                <div id="cpu_line" className="lineItem" />
+                                            </>
+                                        ) : <NoData />
+                                    }
                                 </div>
                                 <div className='monitorItem'>
-                                    <div className='summary'>
-                                        <span className='name'>Memory(Mi)</span>
-                                        <span className='value'>{memory_usage_current}</span>
-                                    </div>
-                                    <div id="memory_line" className="lineItem" />
+                                    {
+                                        state !== 'config' ? (
+                                            <>
+                                                <div className='summary'>
+                                                    <span className='name'>Memory(Mi)</span>
+                                                    <span className='value'>{memory_usage_current}</span>
+                                                </div>
+                                                <div id="memory_line" className="lineItem" />
+                                            </>
+                                        ) : <NoData />
+                                    }
                                 </div>
                                 <div className='monitorItem'>
-                                    <div className='summary'>
-                                        <span className='name'>{intl.formatMessage({ id: 'Network' })}</span>
-                                        <span className='value'>{`${network_Ingress_usage_current || 0} / ${network_egress_usage_current || 0}`}</span>
-                                    </div>
-                                    <div id="network_line" className="lineItem" />
+                                    {
+                                        state !== 'config' ? (
+                                            <>
+                                                <div className='summary'>
+                                                    <span className='name'>{intl.formatMessage({ id: 'Network' })}</span>
+                                                    <span className='value'>{`${network_Ingress_usage_current || 0} / ${network_egress_usage_current || 0}`}</span>
+                                                </div>
+                                                <div id="network_line" className="lineItem" />
+                                            </>
+                                        ) : <NoData />
+                                    }
                                 </div>
                             </div>
                         </div>

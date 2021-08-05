@@ -98,7 +98,7 @@ class AppStoreManageApp extends React.Component {
             applicationPackageVersionIds: [...onShelfVersionIds, ...unShelfVersionIds]
         }
         const url = id ? 'update' : 'create'
-        const content = intl.formatMessage({ id: id ? 'Update' : 'Create' }) + intl.formatMessage({ id: 'AppStore' })
+        const content = intl.formatMessage({ id: id ? 'Update' : 'Create' }) + intl.formatMessage({ id: 'ApplicationStoreManage' })
         this.setState({
             isSubmitting: true
         })
@@ -111,7 +111,7 @@ class AppStoreManageApp extends React.Component {
                         type: 'danger',
                         title: intl.formatMessage({ id: 'Error' }),
                         content: retInfo,
-                        iconNode: 'icon-error-o',
+                        iconNode: 'icon-error-s',
                         duration: 5,
                         closable: true
                     })
@@ -217,7 +217,7 @@ class AppStoreManageApp extends React.Component {
                         <div>
                             <div className="instance-create-heading">
                                 <h4 className="instance-div-title">
-                                    {intl.formatMessage({ id: id ? 'AppStoreUpdateAppTitle' : 'AppStoreCreateAppTitle' })}
+                                    {intl.formatMessage({ id: id ? 'EditApplication' : 'CreateApplication' })}
                                 </h4>
                             </div>
                             <div className="details">

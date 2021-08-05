@@ -97,10 +97,10 @@ export const REDIS_DETAIL_URL = '/platformservice/redis_cluster/{id}/'
 // 右上角通知类型
 // 默认通知类型：成功|信息|警告|错误
 export const NotifyTypes = {
-  SUCC: { type: 'success', iconNode: 'icon-correct-o', duration: 4 },
-  INFO: { type: 'infor', iconNode: 'icon-info-o', duration: 4 },
-  WARN: { type: 'warning', iconNode: 'icon-warning-o', duration: 4, closable: true },
-  DANGER: { type: 'danger', iconNode: 'icon-error-o', duration: -1, closable: true } // -1表示不会自动关闭
+  SUCC: { type: 'success', iconNode: 'icon-correct-s', duration: 4 },
+  INFO: { type: 'infor', iconNode: 'icon-info-s', duration: 4 },
+  WARN: { type: 'warning', iconNode: 'icon-warning-s', duration: 4, closable: true },
+  DANGER: { type: 'danger', iconNode: 'icon-error-s', duration: -1, closable: true } // -1表示不会自动关闭
 }
 export const PATH_ALLOW = ['/', '/login', '/logout', '/errors/403', '/errors/404', '/errors/500', '/errors/10001']
 // websocket

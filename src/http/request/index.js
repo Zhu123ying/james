@@ -49,6 +49,7 @@ const HuayunRequest = (api, param, callback = {}) => http
         callback.success && callback.success(response)
         callback.complete && callback.complete(response)
     }).catch(function (response) {
+        console.log(response)
         if (callback.fail) {
             callback.fail(response)
         } else {
@@ -59,7 +60,7 @@ const HuayunRequest = (api, param, callback = {}) => http
                 type: 'danger',
                 title: '错误提示',
                 content: errorCode && language[errorCode] ? language[errorCode] : errorMessage,
-                iconNode: 'icon-error-o',
+                iconNode: 'icon-error-s',
                 duration: 5,
                 closable: true
             })
@@ -95,7 +96,7 @@ export const HuayunUploadRequest = (api, params, callback = {}) => {
                     type: 'danger',
                     title: '错误提示',
                     content: errorCode && language[errorCode] ? language[errorCode] : errorMessage,
-                    iconNode: 'icon-error-o',
+                    iconNode: 'icon-error-s',
                     duration: 5,
                     closable: true
                 })

@@ -80,7 +80,7 @@ class Detail extends React.Component {
                                 type: 'danger',
                                 title: intl.formatMessage({ id: 'Error' }),
                                 content: retInfo,
-                                iconNode: 'icon-error-o',
+                                iconNode: 'icon-error-s',
                                 duration: 5,
                                 closable: true
                             })

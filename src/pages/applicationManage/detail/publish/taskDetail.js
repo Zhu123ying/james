@@ -383,7 +383,7 @@ class TaskDetail extends React.Component {
     render() {
         const { intl, detail, onClose, visible, currentTask, handleUpdatePublishTask } = this.props
         const { taskNodeList, isFetching, taskDetail, isManageTaskNodeModalVisible, manageTaskNodeType, modal_TaskNodeList, modal_CurrentTaskNode, isSeeCurrentNodeResourceModalVisible, currentTaskNode } = this.state
-        const { id, name, state, startTime, finishTime, createTime, createrName, description, currentNode } = taskDetail
+        const { id, name, state, startTime, finishTime, createTime, createrName, description, currentNode, originalVersion } = taskDetail
         const basicInfor = [
             {
                 label: intl.formatMessage({ id: 'TaskName' }),
@@ -415,7 +415,7 @@ class TaskDetail extends React.Component {
             },
             {
                 label: intl.formatMessage({ id: 'InitialApplicationVersion' }),
-                value: detail.reversionNum
+                value: originalVersion
             },
             {
                 label: intl.formatMessage({ id: 'CurrentNode' }),

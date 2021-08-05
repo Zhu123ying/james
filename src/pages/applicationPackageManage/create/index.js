@@ -136,11 +136,11 @@ class AppPackageCreate extends React.Component {
                         <div>
                             <div className="instance-create-heading">
                                 <h4 className="instance-div-title">
-                                    {intl.formatMessage({ id: 'CreateAppPackageTitle' })}
+                                    {intl.formatMessage({ id: 'CreateApplicationPackage' })}
                                 </h4>
                             </div>
                             <div className="details">
-                                <MultiLineMessage id='CreateAppPackageDes' />
+                                <MultiLineMessage id='DesCreateApplicationPackage' />
                             </div>
                         </div>
                         <div>

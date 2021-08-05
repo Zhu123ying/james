@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { application as api } from '~/http/api'
 import HuayunRequest from '~/http/request'
 import { DatePicker, Select, Input, Switch, Button, ButtonGroup, Progress, Modal, Drawer, Popover } from 'huayunui';
-import { Icon, KeyValue, Notification, Button as UltrauiButton } from 'ultraui'
+import { Icon, KeyValue, Notification, Button as UltrauiButton, NoData } from 'ultraui'
 import { Row, Col, Tag, Carousel } from 'antd'
 import './index.less'
 import ActionAuth from '~/components/ActionAuth'
@@ -19,6 +19,16 @@ import EditApplication from '../EditApplication'
 const notification = Notification.newInstance()
 const _ = window._
 const pageNum = 4 // 暂定每页走马灯显示4张饼图
+const pieChartShortNameObj = {
+    PersistentVolumeClaim: 'pvc',
+    ReplicationController: 'rc',
+    CustomResourceDefinition: 'crd',
+    CertificateSigningRequest: 'csr',
+    ApplicationConfiguration: 'appconfig',
+    NamespaceNetworkPolicy: 'nsnp',
+    ProvisionerCapability: 'pcap',
+    StorageClassCapability: 'sccap'
+}
 class Preview extends React.Component {
     constructor(props) {
         super(props)
@@ -196,7 +206,7 @@ class Preview extends React.Component {
                 left: "center",
                 top: "45%",
                 style: {
-                    text: key,
+                    text: pieChartShortNameObj[key] || key,
                     textAlign: "center",
                     fill: "#333",
                     fontSize: 15,
@@ -248,8 +258,10 @@ class Preview extends React.Component {
         })
     }
     initLineChart = (id, detail) => {
+        let dom = document.getElementById(id)
+        if (!dom) return
         if (!this[`$${id}`]) {
-            this[`$${id}`] = echarts.init(document.getElementById(id))// 初始化echarts
+            this[`$${id}`] = echarts.init(dom)// 初始化echarts
         }
         // 设置options
         this[`$${id}`].setOption(this.getLineOption(id, detail))
@@ -298,8 +310,10 @@ class Preview extends React.Component {
         const { netWorkMonitorData } = this.state
         let network_in_rate = _.get(netWorkMonitorData, 'network_in_rate') || []
         let network_out_rate = _.get(netWorkMonitorData, 'network_out_rate') || []
+        let dom = document.getElementById('network_line')
+        if (!dom) return
         if (!this.$network_line) {
-            this.$network_line = echarts.init(document.getElementById('network_line'))// 初始化echarts
+            this.$network_line = echarts.init(dom)// 初始化echarts
         }
         network_in_rate.forEach((item, index) => {
             const yData = parseFloat(item[1]).toFixed(2)
@@ -573,25 +587,43 @@ class Preview extends React.Component {
                             <div className='boxTitle activeBefore'>{intl.formatMessage({ id: 'ResourceUsageMonitor' })}</div>
                             <div className='boxContent cpu_memory_monitor'>
                                 <div className='monitorItem'>
-                                    <div className='summary'>
-                                        <span className='name'>CPU(%)</span>
-                                        <span className='value'>{parseFloat(currentCpu) ? parseFloat(currentCpu).toFixed(2) + '%' : 0}</span>
-                                    </div>
-                                    <div id="cpu_line" className="lineItem" />
+                                    {
+                                        state !== 'config' ? (
+                                            <>
+                                                <div className='summary'>
+                                                    <span className='name'>CPU(%)</span>
+                                                    <span className='value'>{parseFloat(currentCpu) ? parseFloat(currentCpu).toFixed(2) + '%' : 0}</span>
+                                                </div>
+                                                <div id="cpu_line" className="lineItem" />
+                                            </>
+                                        ) : <NoData />
+                                    }
                                 </div>
                                 <div className='monitorItem'>
-                                    <div className='summary'>
-                                        <span className='name'>Memory(Mi)</span>
-                                        <span className='value'>{currentMemory ? currentMemory + 'Mi' : 0}</span>
-                                    </div>
-                                    <div id="memory_line" className="lineItem" />
+                                    {
+                                        state !== 'config' ? (
+                                            <>
+                                                <div className='summary'>
+                                                    <span className='name'>Memory(Mi)</span>
+                                                    <span className='value'>{currentMemory ? currentMemory + 'Mi' : 0}</span>
+                                                </div>
+                                                <div id="memory_line" className="lineItem" />
+                                            </>
+                                        ) : <NoData />
+                                    }
                                 </div>
                                 <div className='monitorItem'>
-                                    <div className='summary'>
-                                        <span className='name'>{intl.formatMessage({ id: 'Network' })}</span>
-                                        <span className='value'>{`${parseFloat(current_network_in_rate).toFixed(2)} / ${parseFloat(current_network_out_rate).toFixed(2)}`}</span>
-                                    </div>
-                                    <div id="network_line" className="lineItem" />
+                                    {
+                                        state !== 'config' ? (
+                                            <>
+                                                <div className='summary'>
+                                                    <span className='name'>{intl.formatMessage({ id: 'Network' })}</span>
+                                                    <span className='value'>{`${parseFloat(current_network_in_rate).toFixed(2)} / ${parseFloat(current_network_out_rate).toFixed(2)}`}</span>
+                                                </div>
+                                                <div id="network_line" className="lineItem" />
+                                            </>
+                                        ) : <NoData />
+                                    }
                                 </div>
                             </div>
                         </div>

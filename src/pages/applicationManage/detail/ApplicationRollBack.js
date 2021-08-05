@@ -1,7 +1,6 @@
 /* eslint-disable */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import { RcForm, Button, Icon, Loading, SortTable, Dialog } from 'ultraui'
 import { application as api } from '~/http/api'
 import HuayunRequest from '~/http/request'
@@ -38,6 +37,7 @@ class AppRollBack extends React.Component {
                         rollBackVersionlist.push({
                             value: item.id,
                             text: `${data.length - index} ${index === 0 ? `(${intl.formatMessage({ id: 'CurrentVersion' })})` : ''}`,
+                            disabled: Boolean(index === 0)
                         })
                     }
                 })

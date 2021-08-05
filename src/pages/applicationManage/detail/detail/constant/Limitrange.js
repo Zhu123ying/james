@@ -13,7 +13,7 @@ export default (intl, data, this_) => {
                 key: 'compositeState',
                 width: '90px',
                 render(runInfo, row) {
-                    const state = _.get(row, `data.runInfo.compositeState`, '')
+                    const state = _.get(row, `${getDataKey(row)}compositeState`, '')
                     return (
                         <div className='stateLineWithDot'>
                             <div className='stateDot' style={{ backgroundColor: compositeStateColor[state] }}></div>
