@@ -52,15 +52,15 @@ class Preview extends React.Component {
     componentDidMount() {
         this.getNetworkMonitorData() // 网络监控数据
         this.getResourceInfor() // 资源使用监控数据
-        this.getIsolationState()
         this.renderPieChart() // 应用状态拼图
+        this.getIsolationState()
         this.getAvailableQuota()
     }
     componentWillReceiveProps({ detail }) {
         if (detail !== this.props.detail) {
             this.getNetworkMonitorData() // 网络监控数据
-            this.getResourceInfor()
-            this.renderPieChart()
+            this.getResourceInfor() // 资源使用监控数据
+            this.renderPieChart()  // 应用状态拼图
         }
     }
     // 获取剩余可用配额

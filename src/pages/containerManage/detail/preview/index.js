@@ -36,21 +36,20 @@ class Preview extends React.Component {
         this.renderMemoryLineChart()
         this.renderNetworkLineChart()
     }
-    // componentDidUpdate() {
-    //     const { detail: { state }, monitorData } = this.props
-    //     if (state !== 'config') {
-    //         this.renderCpuLineChart(monitorData)
-    //         this.renderMemoryLineChart(monitorData)
-    //         this.renderNetworkLineChart(monitorData)
-    //     }
-    // }
+    componentWillReceiveProps({ detail, monitorData }) {
+        const { state } = detail
+        if (monitorData !== this.props.monitorData) {
+            this.renderCpuLineChart(monitorData)
+            this.renderMemoryLineChart(monitorData)
+            this.renderNetworkLineChart(monitorData)
+        }
+    }
     renderCpuLineChart = (monitorData = this.props.monitorData) => {
         const cpu_usage_rate = _.get(monitorData, 'cpu_usage_rate') || []
         let dom = document.getElementById('cpu_line')
         if (!dom) return
-        if (!this.$cpu_line) {
-            this.$cpu_line = echarts.init(dom)// 初始化echarts
-        }
+        this.$cpu_line && this.$cpu_line.dispose()
+        this.$cpu_line = echarts.init(dom)// 初始化echarts
         let xAxisData = []
         let seriesData = []
         cpu_usage_rate.forEach(item => {
@@ -87,9 +86,8 @@ class Preview extends React.Component {
         const memory_usage_rate = _.get(monitorData, 'memory_usage_rate') || []
         let dom = document.getElementById('memory_line')
         if (!dom) return
-        if (!this.$memory_line) {
-            this.$memory_line = echarts.init(dom)// 初始化echarts
-        }
+        this.$memory_line && this.$memory_line.dispose()
+        this.$memory_line = echarts.init(dom)// 初始化echarts
         let xAxisData = []
         let seriesData = []
         memory_usage_rate.forEach(item => {
@@ -127,9 +125,8 @@ class Preview extends React.Component {
         let network_egress_usage_rate = _.get(monitorData, 'network_egress_usage_rate') || []
         let dom = document.getElementById('network_line')
         if (!dom) return
-        if (!this.$network_line) {
-            this.$network_line = echarts.init(dom)// 初始化echarts
-        }
+        this.$network_line && this.$network_line.dispose()
+        this.$network_line = echarts.init(dom)// 初始化echarts
         network_Ingress_usage_rate.forEach((item, index) => {
             const yData = parseFloat(item[1]).toFixed(2)
             network_Ingress_usage_rate[index][1] = parseFloat(yData)
