@@ -65,6 +65,9 @@ class PodMonitorDetail extends React.Component {
                 right: 10,
                 bottom: 20
             },
+            tooltip: {
+                show: true,
+            },
             xAxis: {
                 name: intl.formatMessage({ id: 'Time' }),
                 type: 'category',

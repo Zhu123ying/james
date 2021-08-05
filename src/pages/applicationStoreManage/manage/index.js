@@ -70,7 +70,7 @@ class AppStoreManageApp extends React.Component {
                     tags: tags || [],
                     id,
                     applicationPackageId,
-                    onShelfVersionIds: applicationPackageVersionIds, // 已上架的版本默认都选中
+                    onShelfVersionIds: applicationPackageVersionIds || [], // 已上架的版本默认都选中
                     packageVersionsAll,
                     projectId
                 }, () => {
@@ -211,7 +211,6 @@ class AppStoreManageApp extends React.Component {
                     form={form}
                     style={{ paddingRight: '0' }}
                     className="m-b-lg create_step"
-                    onSubmit={this.handleSubmit}
                     subMessage
                 >
                     <FormRow mainStyle={{ paddingRight: '10%' }}>
@@ -315,7 +314,7 @@ class AppStoreManageApp extends React.Component {
                                 }
                             </div>
                             {
-                                id ? (
+                                id && onShelfSelectedVersions.length ? (
                                     <Table
                                         columns={this.getTableColumns()}
                                         dataSource={onShelfSelectedVersions}
@@ -351,6 +350,7 @@ class AppStoreManageApp extends React.Component {
                                     htmlType='submit'
                                     disabled={isSubmitting}
                                     loading={isSubmitting}
+                                    onClick={this.handleSubmit}
                                 />
                             </FormGroup>
                         </div>

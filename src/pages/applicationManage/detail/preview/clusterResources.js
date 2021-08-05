@@ -132,6 +132,7 @@ class ClusterResources extends React.Component {
                                                     columns={columns}
                                                     dataSource={tableDataObj[key]}
                                                     pagination={false}
+                                                    scroll={{ x: '100%' }}
                                                 />
                                             </div>
                                         ) : null

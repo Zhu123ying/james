@@ -60,6 +60,9 @@ class Preview extends React.Component {
                 right: 15,
                 bottom: 35
             },
+            tooltip: {
+                show: true,
+            },
             xAxis: {
                 type: 'category',
                 data: xAxisData,
@@ -94,6 +97,9 @@ class Preview extends React.Component {
                 top: 10,
                 right: 15,
                 bottom: 35
+            },
+            tooltip: {
+                show: true,
             },
             xAxis: {
                 type: 'category',
@@ -131,6 +137,9 @@ class Preview extends React.Component {
                 top: 10,
                 right: 15,
                 bottom: 35
+            },
+            tooltip: {
+                show: true,
             },
             xAxis: {
                 type: 'time',

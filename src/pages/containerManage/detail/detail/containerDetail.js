@@ -59,6 +59,9 @@ class Detail extends React.Component {
                 right: 20,
                 bottom: 30
             },
+            tooltip: {
+                show: true,
+            },
             xAxis: {
                 type: 'category',
                 data: xAxisData,

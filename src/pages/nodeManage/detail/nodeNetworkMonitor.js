@@ -92,8 +92,9 @@ class NodeNetworkMonitor extends React.Component {
                             top: 50,
                             bottom: 20,
                         },
-
-                        tooltip: {},
+                        tooltip: {
+                            show: true,
+                        },
                         xAxis: {
                             name: intl.formatMessage({ id: 'Time' }),
                             type: 'time',

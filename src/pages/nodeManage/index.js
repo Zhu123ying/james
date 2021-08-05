@@ -145,6 +145,9 @@ class NodeManage extends React.Component {
                 right: 0,
                 left: 0
             },
+            tooltip: {
+                show: true,
+            },
             xAxis: {
                 show: false,
                 name: intl.formatMessage({ id: 'Time' }),

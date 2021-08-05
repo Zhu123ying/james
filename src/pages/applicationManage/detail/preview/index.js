@@ -264,7 +264,8 @@ class Preview extends React.Component {
         let seriesData = []
         Array.isArray(data) && data.forEach(item => {
             xAxisData.push(moment(item[0] * 1000).format('HH:mm:ss'))
-            seriesData.push(parseFloat(item[1]))
+            const yData = parseFloat(item[1]).toFixed(2)
+            seriesData.push(parseFloat(yData))
         })
         const color = type === 'cpu' ? '#4c8cca' : '#ed6f4d'
         let option = {
@@ -274,6 +275,9 @@ class Preview extends React.Component {
                 top: 10,
                 right: 5,
                 bottom: 20
+            },
+            tooltip: {
+                show: true,
             },
             xAxis: {
                 type: 'category',
@@ -314,6 +318,9 @@ class Preview extends React.Component {
                 right: 5,
                 bottom: 20
             },
+            tooltip: {
+                show: true,
+            },
             xAxis: {
                 type: 'time',
                 axisLabel: {
@@ -321,7 +328,7 @@ class Preview extends React.Component {
                         return moment(value * 1000).format('HH:mm:ss')
                     }
                 },
-                axisLabel:{
+                axisLabel: {
                     interval: 50
                 }
             },

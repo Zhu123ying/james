@@ -262,6 +262,7 @@ class AffinityConfig extends React.Component {
         // key为这一行的指针索引
         const { intl, form, formData: { affinity } } = this.props
         const { key, operator, values } = _.get(affinity, `${path}.${index}`, {})
+        const expressionValue = operator === 'Exists' || operator === 'DoesNotExist' ? ' ' : values.join(',')
         return (
             <div className={`expressionLine lineNum${index}`}>
                 <Input
@@ -286,7 +287,12 @@ class AffinityConfig extends React.Component {
                         form={form}
                         name={`AffinityConfig${path}${index}Operator`}
                         value={operator}
-                        onChange={(val) => this.handleOnChange(`${path}.${index}.operator`, val)}
+                        onChange={(val) => this.handleOnChange(`${path}.${index}`, {
+                            // 匹配表达式这边要额外处理下逻辑
+                            key,
+                            operator: val,
+                            values: val === 'Exists' || val === 'DoesNotExist' ? [] : values
+                        })}
                         label='操作符'
                         isRequired
                         options={
@@ -300,16 +306,12 @@ class AffinityConfig extends React.Component {
                     />
                     <Input
                         form={form}
-                        value={values.join(',')}
+                        value={expressionValue}
                         name={`AffinityConfig${path}${index}Value`}
                         placeholder={intl.formatMessage({ id: 'InputPlaceHolder' }, { name: 'Value' })}
-                        onChange={(val) => {
-                            // 匹配表达式这边要额外处理下逻辑
-                            const value = (operator === 'Exists' || operator === 'DoesNotExist') ? [] : val.target.value.split(',')
-                            return this.handleOnChange(`${path}.${index}.values`, value)
-                        }}
+                        onChange={(val) => this.handleOnChange(`${path}.${index}.values`, val.target.value.trim().split(','))}
                         label='Value'
-                        // isRequired
+                        isRequired
                         className='inputItem'
                         disabled={operator === 'Exists' || operator === 'DoesNotExist'}
                     />

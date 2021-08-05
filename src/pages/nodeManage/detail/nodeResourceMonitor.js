@@ -120,6 +120,9 @@ class ResourceMonitor extends React.Component {
                 bottom: 20,
                 left: 50
             },
+            tooltip: {
+                show: true,
+            },
             xAxis: {
                 type: 'category',
                 data: xAxisData
