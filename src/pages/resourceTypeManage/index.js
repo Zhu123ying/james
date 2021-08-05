@@ -40,7 +40,7 @@ class ResourceTypeManage extends React.Component {
       extraChildren: (
         <ActionAuth action={actions.AdminApplicationCenterResourceObjectTypeOperate}>
           <div className='editResourceTypeButton'>
-            编辑模式&nbsp;
+            <span>编辑模式</span>
             <Switch size="large" checked={isEdit} onChange={this.handleEditSwitchChange} />
           </div>
         </ActionAuth>
@@ -188,7 +188,7 @@ class ResourceTypeManage extends React.Component {
                           />
                         </div>
                       </div>
-                      <Switch size="large" checked={isChecked} disabled={!isGrant || !isEdit} onChange={f => this.handleSwitchChange(f, name)} />
+                      <Switch size="default" checked={isChecked} disabled={!isGrant || !isEdit} onChange={f => this.handleSwitchChange(f, name)} />
                     </div>
                   )
                 })

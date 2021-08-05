@@ -327,7 +327,7 @@ class Preview extends React.Component {
         this.$network_line.setOption({
             color: ['#80fdff', '#95f203'],
             grid: {
-                left: 30,
+                left: 40,
                 top: 10,
                 right: 5,
                 bottom: 20

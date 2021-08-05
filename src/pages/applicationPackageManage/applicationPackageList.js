@@ -89,7 +89,7 @@ class ApplicationPackageList extends React.Component {
                 render: (val, row) => {
                     return (
                         <>
-                            <DetailIcon iconType="done" className="m-r-sm" />
+                            <DetailIcon iconType="resources" className="m-r-sm" />
                             <a onClick={() => this.handleSeeDetail(row)}>{val}</a>
                         </>
                     )
