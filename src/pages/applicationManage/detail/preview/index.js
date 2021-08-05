@@ -175,7 +175,7 @@ class Preview extends React.Component {
         }
         this[pieKey] = echarts.init(dom) // 初始化echarts
         let option = {
-            color: ['#3da4f1', '#f0a332'],
+            color: ['#3da4f1', '#7C98B6'],
             tooltip: {
                 trigger: 'item',
                 formatter: '<span>{b}占比：{d}%</span>'
@@ -472,25 +472,25 @@ class Preview extends React.Component {
         const progressGroup = [
             {
                 name: `容器CPU`,
-                percentText: `${cpuAllocated}/${quotaCpu}`,
+                percentText: `${cpuAllocated || 0}/${quotaCpu || 0}`,
                 percentValue: Math.round(cpuAllocated) / Math.round(quotaCpu) * 100,
                 strokeColor: { '0%': '#61AAF0', '100%': '#4C8CCA' }
             },
             {
                 name: `容器内存`,
-                percentText: `${memoryAllocated}/${quotaMemory}`,
+                percentText: `${memoryAllocated || 0}/${quotaMemory || 0}`,
                 percentValue: Math.round(memoryAllocated) / Math.round(quotaMemory) * 100,
                 strokeColor: { '0%': '#F8C640', '100%': '#F0A332' }
             },
             {
                 name: `容器宿主机存储(Gi)`,
-                percentText: `${cEphemeralStorageAllocated}/${cEphemeralStorageTotal}`,
+                percentText: `${cEphemeralStorageAllocated || 0}/${cEphemeralStorageTotal || 0}`,
                 percentValue: Math.round(cEphemeralStorageAllocated) / Math.round(cEphemeralStorageTotal) * 100,
                 strokeColor: { '0%': '#F0A332 ', '100%': '#F8C640' }
             },
             {
                 name: `容器持久存储(Gi)`,
-                percentText: `${cStorageAllocated}/${cStorageTotal}`,
+                percentText: `${cStorageAllocated || 0}/${cStorageTotal || 0}`,
                 percentValue: Math.round(cStorageAllocated) / Math.round(cStorageTotal) * 100,
                 strokeColor: { '0%': '#5AB55E', '100%': '#5AB55E' }
             },

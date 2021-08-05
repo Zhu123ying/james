@@ -211,7 +211,7 @@ class PodMonitorDetail extends React.Component {
                     </Row>
                     <Collapse defaultActiveKey={['resourceDes']}>
                         <Panel header="资源描述" key='resourceDes'>
-                            <div className="podInfo" dangerouslySetInnerHTML={{ __html: formatChartValues(podInfo) }}></div>
+                            <div className="chartValues" dangerouslySetInnerHTML={{ __html: formatChartValues(podInfo) }}></div>
                         </Panel>
                     </Collapse>
                     <Collapse className='log-collapse'>

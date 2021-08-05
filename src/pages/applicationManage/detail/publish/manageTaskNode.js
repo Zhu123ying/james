@@ -198,23 +198,34 @@ class ManageTaskNode extends React.Component {
         const { intl } = this.props
         HuayunRequest(api.verifyResourceInfo, { yamlinfo }, {
             success: (res) => {
-                notification.notice({
-                    id: new Date(),
-                    type: 'success',
-                    title: intl.formatMessage({ id: 'Success' }),
-                    content: `${intl.formatMessage({ id: 'Validate' })}${intl.formatMessage({ id: 'Success' })}`,
-                    iconNode: 'icon-success-o',
-                    duration: 5,
-                    closable: true
-                })
+                const { verificationResult, errrorInfo } = res.data
+                if (verificationResult) {
+                    notification.notice({
+                        id: new Date(),
+                        type: 'success',
+                        title: intl.formatMessage({ id: 'Success' }),
+                        content: `${intl.formatMessage({ id: 'Validate' })}${intl.formatMessage({ id: 'Success' })}`,
+                        iconNode: 'icon-success-o',
+                        duration: 5,
+                        closable: true
+                    })
+                } else {
+                    notification.notice({
+                        id: new Date(),
+                        type: 'danger',
+                        title: '错误提示',
+                        content: errrorInfo,
+                        iconNode: 'icon-error-s',
+                        duration: 5,
+                        closable: true
+                    })
+                }
             }
         })
     }
     handleSetState = (key, value) => {
         this.setState({
             [key]: value
-        }, () => {
-            console.log(this.state.currentTaskNode)
         })
     }
     // 手动添加资源对象
@@ -223,12 +234,25 @@ class ManageTaskNode extends React.Component {
         const { yamlinfo } = this.$YamlTextArea.state
         HuayunRequest(api.verifyResourceInfo, { yamlinfo }, {
             success: (res) => {
-                let { currentTaskNode } = this.state
-                currentTaskNode.resourceInfo.push(res.data)
-                this.setState({
-                    currentTaskNode: { ...currentTaskNode },
-                    isAddResourceManuallyModalShow: false
-                })
+                const { verificationResult, errrorInfo } = res.data
+                if (verificationResult) {
+                    let { currentTaskNode } = this.state
+                    currentTaskNode.resourceInfo.push(res.data)
+                    this.setState({
+                        currentTaskNode: { ...currentTaskNode },
+                        isAddResourceManuallyModalShow: false
+                    })
+                } else {
+                    notification.notice({
+                        id: new Date(),
+                        type: 'danger',
+                        title: '错误提示',
+                        content: errrorInfo,
+                        iconNode: 'icon-error-s',
+                        duration: 5,
+                        closable: true
+                    })
+                }
             }
         })
     }

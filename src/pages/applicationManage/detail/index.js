@@ -51,7 +51,7 @@ class ApplicationDetail extends React.Component {
         }
     }
     // 获取应用以及资源的详情信息
-    getDetail = (id, isInterval) => {
+    getDetail = (id = this.props.currentApplication.id, isInterval = false) => {
         const { intl, refreshTableList, currentApplication } = this.props
         const { detail } = this.state
         if (!isInterval) {

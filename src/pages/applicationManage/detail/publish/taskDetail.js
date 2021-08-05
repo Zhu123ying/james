@@ -40,6 +40,7 @@ class TaskDetail extends React.Component {
             modal_CurrentTaskNode: {}, // 创建、编辑任务节点的右侧节点详情
             isSeeCurrentNodeResourceModalVisible: false, // 查看当前节点资源
             currentTaskNode: {}, // 当前查看的任务节点，用于查看节点的资源对象
+            isManageTaskNodeSubmitting: false, // 创建或者编辑任务节点的提交
         }
     }
     componentWillReceiveProps({ currentTask, visible }) {
@@ -362,27 +363,48 @@ class TaskDetail extends React.Component {
         const { currentTaskNode } = this.$ManageTaskNode.state
         const content = `${intl.formatMessage({ id: currentTaskNode.id ? 'Update' : 'Create' })}${intl.formatMessage({ id: 'TaskNode' })}`
         const urlType = currentTaskNode.id ? 'updateApplicationReleaseTaskNode' : 'createApplicationReleaseTaskNode'
+        this.setState({
+            isManageTaskNodeSubmitting: true
+        })
         HuayunRequest(api[urlType], currentTaskNode, {
             success: (res) => {
+                const { verificationResult, errrorInfo } = res.data
+                if (verificationResult) {
+                    this.setState({
+                        isManageTaskNodeModalVisible: false
+                    })
+                    this.getDetail(currentTask.id)
+                    notification.notice({
+                        id: new Date(),
+                        type: 'success',
+                        title: intl.formatMessage({ id: 'Success' }),
+                        content: `${content}${intl.formatMessage({ id: 'Success' })}`,
+                        iconNode: 'icon-success-o',
+                        duration: 5,
+                        closable: true
+                    })
+                } else {
+                    notification.notice({
+                        id: new Date(),
+                        type: 'danger',
+                        title: '错误提示',
+                        content: errrorInfo,
+                        iconNode: 'icon-error-s',
+                        duration: 5,
+                        closable: true
+                    })
+                }
+            },
+            complete: () => {
                 this.setState({
-                    isManageTaskNodeModalVisible: false
-                })
-                this.getDetail(currentTask.id)
-                notification.notice({
-                    id: new Date(),
-                    type: 'success',
-                    title: intl.formatMessage({ id: 'Success' }),
-                    content: `${content}${intl.formatMessage({ id: 'Success' })}`,
-                    iconNode: 'icon-success-o',
-                    duration: 5,
-                    closable: true
+                    isManageTaskNodeSubmitting: false
                 })
             }
         })
     }
     render() {
         const { intl, detail, onClose, visible, currentTask, handleUpdatePublishTask } = this.props
-        const { taskNodeList, isFetching, taskDetail, isManageTaskNodeModalVisible, manageTaskNodeType, modal_TaskNodeList, modal_CurrentTaskNode, isSeeCurrentNodeResourceModalVisible, currentTaskNode } = this.state
+        const { taskNodeList, isFetching, taskDetail, isManageTaskNodeModalVisible, manageTaskNodeType, modal_TaskNodeList, modal_CurrentTaskNode, isSeeCurrentNodeResourceModalVisible, currentTaskNode, isManageTaskNodeSubmitting } = this.state
         const { id, name, state, startTime, finishTime, createTime, createrName, description, currentNode, originalVersion } = taskDetail
         const basicInfor = [
             {
@@ -475,6 +497,10 @@ class TaskDetail extends React.Component {
                     visible={isManageTaskNodeModalVisible}
                     title={`${intl.formatMessage({ id: manageTaskNodeType })}${intl.formatMessage({ id: 'Node' })}`}
                     onOk={this.handleConfirmManage}
+                    okButtonProps={{
+                        disabled: isManageTaskNodeSubmitting,
+                        loading: isManageTaskNodeSubmitting
+                    }}
                     onCancel={() => {
                         this.setState({
                             isManageTaskNodeModalVisible: false

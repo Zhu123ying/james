@@ -35,7 +35,12 @@ class ResourceObject extends React.Component {
         const { detail: { resourceObjectDtos, historyResourceObjectDtos } } = this.props
         this.filterData(resourceObjectDtos, 'tableDataObj')
         this.filterData(historyResourceObjectDtos, 'historyTableDataObj')
+    }
 
+    componentWillReceiveProps({ detail }) {
+        const { resourceObjectDtos, historyResourceObjectDtos } = detail
+        this.filterData(resourceObjectDtos, 'tableDataObj')
+        this.filterData(historyResourceObjectDtos, 'historyTableDataObj')
     }
 
     filterData = (dataArray, key) => {
@@ -122,23 +127,28 @@ class ResourceObject extends React.Component {
         })
     }
 
-    handleDeletePvc = (row) => {
-        // const { intl, baseFetch, getDetail } = this.props
-        // confirmForm({
-        //     title: `${intl.formatMessage({ id: 'Delete' })}PVC`,
-        //     content: '',
-        //     label: `是否确认删除?`,
-        //     type: 'warning',
-        //     prefixCls: 'ult',
-        //     confirm: () => {
-        //         const { name, namespace } = row
-        //         baseFetch('appCenter', 'app.deletePvc', 'post', { name, namespace }, {}, {
-        //             callback: () => {
-        //                 getDetail()
-        //             }
-        //         })
-        //     }
-        // })
+    handleDeletePvc = ({ name, namespace }) => {
+        const { intl, getDetail } = this.props
+        const title = `${intl.formatMessage({ id: 'Delete' })}PVC——${name}`
+        Modal.error({
+            content: intl.formatMessage({ id: 'IsSureToDelete' }, { name: `PVC——${name}` }),
+            onOk: () => {
+                HuayunRequest(api.deletePvc, { name, namespace }, {
+                    success: () => {
+                        getDetail()
+                        notification.notice({
+                            id: new Date(),
+                            type: 'success',
+                            title: intl.formatMessage({ id: 'Success' }),
+                            content: `${title}${intl.formatMessage({ id: 'Success' })}`,
+                            iconNode: 'icon-success-o',
+                            duration: 5,
+                            closable: true
+                        })
+                    }
+                })
+            }
+        })
     }
     handleSetState = (key, value) => {
         this.setState({

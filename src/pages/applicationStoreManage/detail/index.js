@@ -195,10 +195,10 @@ class Detail extends React.Component {
                                                     </div>
                                                     <Tabs defaultActiveKey="1" className='versionChart'>
                                                         <TabPane tab='VALUES' key="1">
-                                                            <div className='chartValueContent' dangerouslySetInnerHTML={{ __html: formatChartValues(currentVersion.chartValues) }}></div>
+                                                            <div className='chartValues' dangerouslySetInnerHTML={{ __html: formatChartValues(currentVersion.chartValues) }}></div>
                                                         </TabPane>
                                                         <TabPane tab='TEMPLATE' key="2">
-                                                            <div className='chartValueContent' dangerouslySetInnerHTML={{ __html: formatChartValues(currentVersion.chartTemplate) }}></div>
+                                                            <div className='chartValues' dangerouslySetInnerHTML={{ __html: formatChartValues(currentVersion.chartTemplate) }}></div>
                                                         </TabPane>
                                                     </Tabs>
                                                 </div>

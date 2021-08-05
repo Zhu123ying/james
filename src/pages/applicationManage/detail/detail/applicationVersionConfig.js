@@ -87,7 +87,7 @@ class ApplicationVersionConfig extends React.Component {
                                 <Button type={type === 'VALUES' ? 'primary' : 'default'} onClick={() => this.handleTypeChange('VALUES')}>VALUES</Button>
                                 <Button type={type === 'TEMPLATE' ? 'primary' : 'default'} onClick={() => this.handleTypeChange('TEMPLATE')}>TEMPLATE</Button>
                             </Button.Group>
-                            <div className="statement" dangerouslySetInnerHTML={{ __html: formatChartValues(content) }}></div>
+                            <div className="chartValues" dangerouslySetInnerHTML={{ __html: formatChartValues(content) }}></div>
                         </div>
                     )
                 }

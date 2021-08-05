@@ -285,14 +285,28 @@ class VersionManage extends React.Component {
                 <div className='logList'>
                     {
                         logList.map((item) => {
-                            const { packageVersionId, logResource, isStandardLogConfig, isServiceLogConfig, standardLogConfig, serviceLogConfig, configId } = item
+                            const { packageVersionId, logResource, isStandardLogConfig, isServiceLogConfig, standardLogConfig, serviceLogConfig, configId, resExist } = item
                             return (
                                 <Card
                                     action={actions.AdminApplicationCenterApplicationPackageVersionOperate}
                                     handleDelete={() => this.handleDeleteLog(packageVersionId, configId)}
                                     key={configId}>
                                     <div className='logInfo'>
-                                        <div className='logName'>{logResource.join('/')}</div>
+                                        <div className='logName'>
+                                            {logResource.join('/')}&nbsp;
+                                            {
+                                                resExist ? null : (
+                                                    <Popover
+                                                        placement="top"
+                                                        content={<div>日志配置与资源对象不匹配</div>}
+                                                        trigger="hover"
+                                                        type="text"
+                                                    >
+                                                        <i className='iconfont icon-warning-o text-danger' />
+                                                    </Popover>
+                                                )
+                                            }
+                                        </div>
                                         <div className='btnGroupList'>
                                             {
                                                 isStandardLogConfig ? (
@@ -341,11 +355,14 @@ class VersionManage extends React.Component {
         if (!cascaderValue.length) {
             this.$LogManage.handleChange('cascaderPanelErrorMessage', '请选择容器！')
         }
+        let kind = (cascaderSelectData.find(item => item.value === cascaderValue[0]) || {}).kind
+        if (!kind) {
+            this.$LogManage.handleChange('cascaderPanelErrorMessage', '资源对象不存在，请重新选择！')
+        }
         this.$LogManage.props.form.validateFields((errs, values) => {
-            if (errs || !cascaderValue) {
+            if (errs || !cascaderValue || !kind) {
                 return
             }
-            let kind = cascaderSelectData.find(item => item.value === cascaderValue[0]).kind
             let containerName = cascaderValue[2]
             let podName = cascaderValue[1]
             let params = {
