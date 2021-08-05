@@ -142,7 +142,7 @@ class ImageRepositoryCredentialManage extends React.Component {
                 dataIndex: 'credentialType',
                 key: 'credentialType',
                 title: intl.formatMessage({ id: 'Type' }),
-                render(type){
+                render(type) {
                     return type ? '项目凭证' : '系统凭证'
                 }
             },
@@ -155,7 +155,7 @@ class ImageRepositoryCredentialManage extends React.Component {
                 dataIndex: 'protocol',
                 key: 'protocol',
                 title: intl.formatMessage({ id: 'ProtocolType' }),
-                render(type){
+                render(type) {
                     return type ? 'Https' : 'Http'
                 }
             },
@@ -224,13 +224,13 @@ class ImageRepositoryCredentialManage extends React.Component {
                 return
             }
             const { repoName, credentialType, projectId, protocol, host, port, userName, password, caCert } = this.$ImageVoucher.state
-            const params = {
-                repoName, credentialType, projectId, protocol, host, port, userName, password, caCert, id: currentTableItem.id
+            let params = {
+                repoName, credentialType, projectId, protocol, host, port, userName, password, id: currentTableItem.id
             }
+            caCert instanceof File ? Object.assign(params, { caCert }) : params
             const url = api[currentTableItem.id ? 'updateRepositoryCredential' : 'createRepositoryCredential']
             const action = currentTableItem.id ? intl.formatMessage({ id: 'Update' }) : intl.formatMessage({ id: 'Create' })
-            const requestType = (caCert instanceof File) ? HuayunUploadRequest : HuayunRequest
-            requestType(url, params, {
+            HuayunUploadRequest(url, params, {
                 success: (res) => {
                     this.setState({
                         isModalVisible: false

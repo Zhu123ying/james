@@ -338,8 +338,6 @@ class VersionManage extends React.Component {
         const { intl } = this.props
         const { currentLog: { configId }, currentVersionId } = this.state
         let { cascaderSelectData, cascaderValue, isStandardLogConfig, standardLogConfig, isServiceLogConfig, serviceLogConfig } = this.$LogManage.state
-        console.log(cascaderValue)
-
         if (!cascaderValue.length) {
             this.$LogManage.handleChange('cascaderPanelErrorMessage', '请选择容器！')
         }

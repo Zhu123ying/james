@@ -38,8 +38,13 @@ class CreateLog extends React.Component {
         configId && this.initData()
     }
 
-    getCascaderSelectData = (id = this.props.currentVersionId) => {
-        HuayunRequest(api.getApplicationPackageVersionLogResourceList, { id }, {
+    getCascaderSelectData = () => {
+        const { currentVersionId, currentLog: { configId } } = this.props
+        const params = {
+            packageVersionId: currentVersionId,
+            configId
+        }
+        HuayunRequest(api.getApplicationPackageVersionLogResourceList, params, {
             success: (res) => {
                 this.setState({
                     cascaderSelectData: res.data

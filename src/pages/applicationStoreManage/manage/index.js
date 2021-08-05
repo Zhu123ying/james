@@ -1,12 +1,11 @@
 /* eslint-disable */
 import React from 'react'
 import { RcForm, Loading, Row, Col, Icon, Notification, Dialog, TagItem } from 'ultraui'
-import { Modal } from 'huayunui'
+import { Modal, Table } from 'huayunui'
 import './index.less'
 import Regex from '~/utils/regex'
 import { applicationStore as api, application } from '~/http/api'
 import HuayunRequest from '~/http/request'
-import ManagePackageVersion from './managePackageVersion'
 import MultiLineMessage from '~/components/MultiLineMessage'
 
 const notification = Notification.newInstance()
@@ -16,24 +15,24 @@ class AppStoreManageApp extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            projectId: '',
+            projectList: [], // 项目列表
             applicationPackageId: '', // 选中的应用包
-            tagInput: '', // 标签的输入值
-            packageVersionsAll: [], // 应用包所有的版本信息
-            selectedAppPackageVersions: [], // 选中的应用包的版本列表
-            applicationPackageVersionIds: [],
+            appPackageList: [], // 应用包列表
             name: '', // 名称
             description: '', // 描述
             tags: [], // 标签
-            projectId: '',
-            projectList: [], // 项目列表
-            appPackageList: [], // 应用包列表
-            isShelfManageModalVisible: false, // 管理上家版本modal
+            tagInput: '', // 标签的输入值
+            packageVersionsAll: [], // 应用包所有的版本信息
+            onShelfVersionIds: [], // 以上架的版本id(多选)
+            unShelfVersionIds: [], // 未上架的版本id(单选，也先定义为数组吧)
+            isSubmitting: false, // 是否正在提交
         }
     }
-
     componentDidMount() {
+        const { match: { params: { id } } } = this.props
         this.getProjectList()
-        this.props.match.params.id && this.getDetail()
+        id && this.getDetail()
     }
     // 获取项目列表
     getProjectList = () => {
@@ -64,15 +63,14 @@ class AppStoreManageApp extends React.Component {
         // 获取详情数据
         HuayunRequest(api.manageDetail, { id }, {
             success: (res) => {
-                const { description, name, tags, id, applicationPackageId, applicationPackageVersionIds, packageVersionsSelected: selectedAppPackageVersions, packageVersionsAll, projectId } = res.data
+                const { description, name, tags, id, applicationPackageId, applicationPackageVersionIds, packageVersionsAll, projectId } = res.data
                 this.setState({
                     description,
                     name,
                     tags: tags || [],
                     id,
                     applicationPackageId,
-                    applicationPackageVersionIds: applicationPackageVersionIds || [],
-                    selectedAppPackageVersions: selectedAppPackageVersions || [],
+                    onShelfVersionIds: applicationPackageVersionIds, // 已上架的版本默认都选中
                     packageVersionsAll,
                     projectId
                 }, () => {
@@ -81,15 +79,29 @@ class AppStoreManageApp extends React.Component {
             }
         })
     }
-
+    getAppPackageVersionDetail = () => {
+        // 获取应用包的版本列表信息
+        const { applicationPackageId } = this.state
+        HuayunRequest(api.appPackageVersionDetail, { applicationPackageId }, {
+            success: (res) => {
+                this.setState({
+                    packageVersionsAll: res.data
+                })
+            }
+        })
+    }
     handleSubmit = () => {
         const { match: { params: { id } }, history, intl } = this.props
-        const { applicationPackageId, name, description, tags, applicationPackageVersionIds, projectId } = this.state
+        const { applicationPackageId, name, description, tags, onShelfVersionIds, unShelfVersionIds, projectId } = this.state
         const params = {
-            id, applicationPackageId, name, description, tags, applicationPackageVersionIds, projectId
+            id, applicationPackageId, name, description, tags, projectId,
+            applicationPackageVersionIds: [...onShelfVersionIds, ...unShelfVersionIds]
         }
         const url = id ? 'update' : 'create'
         const content = intl.formatMessage({ id: id ? 'Update' : 'Create' }) + intl.formatMessage({ id: 'AppStore' })
+        this.setState({
+            isSubmitting: true
+        })
         HuayunRequest(api[url], params, {
             success: (res) => {
                 const { retCode, retInfo } = res.data
@@ -115,14 +127,17 @@ class AppStoreManageApp extends React.Component {
                     })
                     this.handleCancel()
                 }
+            },
+            complete: () => {
+                this.setState({
+                    isSubmitting: false
+                })
             }
         })
     }
-
     handleCancel() {
         this.props.history.push('/applicationCenter/applicationStoreManage')
     }
-
     handleChange = (key, val) => {
         const value = _.get(val, 'target.value', val)
         this.setState({
@@ -130,10 +145,23 @@ class AppStoreManageApp extends React.Component {
         }, () => {
             if (key === 'projectId') {
                 this.getAppPackageListByProjectId(value)
+                this.setState({
+                    applicationPackageId: '',
+                    packageVersionsAll: [],
+                    onShelfVersionIds: [],
+                    unShelfVersionIds: []
+                })
+            }
+            if (key === 'applicationPackageId') {
+                this.getAppPackageVersionDetail()
+                this.setState({
+                    packageVersionsAll: [],
+                    onShelfVersionIds: [],
+                    unShelfVersionIds: []
+                })
             }
         })
     }
-
     handleAddTag = () => {
         const { tags, tagInput } = this.state
         this.setState({
@@ -149,21 +177,33 @@ class AppStoreManageApp extends React.Component {
             tags
         })
     }
-    handleShelfManageModalConfirm = () => {
-        const { applicationPackageVersions, applicationPackageVersionIds } = this.$ManagePackageVersion.state
-        const selectedAppPackageVersions = applicationPackageVersions.filter(item => {
-            return applicationPackageVersionIds.indexOf(item.id) !== -1
-        })
-        this.setState({
-            applicationPackageVersionIds,
-            selectedAppPackageVersions, // 渲染被选中的版本需要整个版本数据
-            isShelfManageModalVisible: false
-        })
+    getTableColumns = () => {
+        const { intl } = this.props
+        return [
+            {
+                title: intl.formatMessage({ id: 'Name' }),
+                dataIndex: 'name',
+            },
+            {
+                title: intl.formatMessage({ id: 'Index of versions' }),
+                dataIndex: 'packageVersion'
+            },
+            {
+                title: intl.formatMessage({ id: 'Type' }),
+                dataIndex: 'isSelected',
+                render(isSelected) {
+                    return isSelected ? '已上架' : '未上架'
+                }
+            }
+        ]
     }
     render() {
         const { form, intl, match: { params: { id } } } = this.props
-        const { tagInput, name, description, tags, applicationPackageId, applicationPackageVersionIds, selectedAppPackageVersions, projectId,
-            projectList, appPackageList, isShelfManageModalVisible, packageVersionsAll } = this.state
+        const { tagInput, name, description, tags, applicationPackageId, onShelfVersionIds, unShelfVersionIds, projectId,
+            projectList, appPackageList, packageVersionsAll, isSubmitting } = this.state
+        const onShelfSelectedVersions = packageVersionsAll.filter(item => item.isSelected)
+        const unShelfSelectedVersions = packageVersionsAll.filter(item => !item.isSelected)
+
         return (
             <div id="AppStoreAppManage">
                 <Form
@@ -225,7 +265,7 @@ class AppStoreManageApp extends React.Component {
                                 optionLabelProp='children'
                                 isRequired
                                 showSearch={true}
-                                disabled={!!id}
+                                disabled={id}
                             />
                             <Input
                                 form={form}
@@ -274,39 +314,31 @@ class AppStoreManageApp extends React.Component {
                                     })
                                 }
                             </div>
-                            <Panel
-                                form={form}
-                                name='applicationPackageVersionIds'
-                                value={applicationPackageVersionIds}
-                                label={intl.formatMessage({ id: 'Shelf Version' })}
-                                // errorMsg={errorRoleIdsMsg}
-                                // isRequired
-                                inline
-                            >
-                                <div className="versionTable">
-                                    <div className="tableHeader">
-                                        <div className="versionName">{intl.formatMessage({ id: 'Name' })}</div>
-                                        <div className="versionNum">{intl.formatMessage({ id: 'Index of versions' })}</div>
-                                    </div>
-                                    {
-                                        selectedAppPackageVersions.map(item => {
-                                            return (
-                                                <div className="tableRow" key={item.id}>
-                                                    <div className="versionName">{item.name}</div>
-                                                    <div className="versionNum">{item.packageVersion}</div>
-                                                </div>
-                                            )
-                                        })
-                                    }
-                                    <Button
-                                        type='default'
-                                        name={intl.formatMessage({ id: '::Manage' })}
-                                        onClick={() => this.handleChange('isShelfManageModalVisible', true)}
-                                        className="manageVersionBtn"
-                                        disabled={!applicationPackageId}
+                            {
+                                id ? (
+                                    <Table
+                                        columns={this.getTableColumns()}
+                                        dataSource={onShelfSelectedVersions}
+                                        pagination={false}
+                                        rowSelection={{
+                                            selectedRowKeys: onShelfVersionIds,
+                                            onChange: (keys, items) => this.handleChange('onShelfVersionIds', keys),
+                                        }}
+                                        rowKey='id'
                                     />
-                                </div>
-                            </Panel>
+                                ) : null
+                            }
+                            <Table
+                                columns={this.getTableColumns()}
+                                dataSource={unShelfSelectedVersions}
+                                pagination={false}
+                                rowSelection={{
+                                    selectedRowKeys: unShelfVersionIds,
+                                    type: 'radio',
+                                    onChange: (keys, items) => this.handleChange('unShelfVersionIds', keys),
+                                }}
+                                rowKey='id'
+                            />
                             <FormGroup offset className='m-t-lg'>
                                 <Button
                                     type='default'
@@ -317,27 +349,13 @@ class AppStoreManageApp extends React.Component {
                                     type='primary'
                                     name={intl.formatMessage({ id: 'Submit' })}
                                     htmlType='submit'
+                                    disabled={isSubmitting}
+                                    loading={isSubmitting}
                                 />
                             </FormGroup>
                         </div>
                     </FormRow>
                 </Form>
-                <Modal
-                    title={intl.formatMessage({ id: 'ShelfManagement' })}
-                    visible={isShelfManageModalVisible}
-                    onOk={this.handleShelfManageModalConfirm}
-                    onCancel={() => this.handleChange('isShelfManageModalVisible', false)}
-                    className='version_dialog'
-                    destroyOnClose={true}
-                >
-                    <ManagePackageVersion
-                        intl={intl}
-                        id={id}
-                        applicationPackageId={applicationPackageId}
-                        applicationPackageVersionIds={applicationPackageVersionIds}
-                        packageVersionsAll={packageVersionsAll}
-                        ref={node => this.$ManagePackageVersion = node} />
-                </Modal>
             </div>
         )
     }

@@ -51,6 +51,7 @@ class Detail extends React.Component {
         })
     }
     handleSelectVersion = (id) => {
+        if (!id) return
         HuayunRequest(api.getApplicationPackageVersionStoreInfo, { id }, {
             success: (res) => {
                 this.setState({

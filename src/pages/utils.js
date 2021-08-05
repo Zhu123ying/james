@@ -2,7 +2,7 @@
 
 // 格式化chartValues文本内容
 const formatChartValues = (value = '') => {
-    let content = JSON.stringify(value).replace(/</g, '< ').replace(/>/g, ' >').replace(/\\n/g, '<br></br>').replace(/ /g, '&nbsp;').replace(/^(\s|\")+|(\s|\")+$/g, '').replace(/\\/g, '')
+    let content = JSON.stringify(value).replace(/</g, '< ').replace(/>/g, ' >').replace(/\\n/g, '<br>').replace(/ /g, '&nbsp;').replace(/^(\s|\")+|(\s|\")+$/g, '').replace(/\\/g, '')
     return content
 }
 

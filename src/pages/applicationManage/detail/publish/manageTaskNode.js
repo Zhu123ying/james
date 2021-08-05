@@ -286,7 +286,7 @@ class ManageTaskNode extends React.Component {
                                             <div className={`resourceItem ${currentResourceIndex === index ? 'activeBefore' : ''}`} onClick={() => this.handleSetState('currentResourceIndex', index)
                                             }>
                                                 <Checkbox onChange={() => this.handleRightBoxSelectChange(item)} checked={this.getRightBoxCheckProp(item)} />
-                                                &nbsp;{item.name}
+                                                &nbsp;<span className='resourceName'>{item.name}</span>
                                             </div>
                                         )
                                     })

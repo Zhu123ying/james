@@ -139,6 +139,7 @@ class Create extends React.Component {
                         value={host}
                         onChange={this.handleChange.bind(this, 'host')}
                         label='Host'
+                        isRequired
                     />
                     <Input
                         form={form}
