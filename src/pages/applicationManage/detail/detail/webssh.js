@@ -3,7 +3,6 @@ import React from 'react'
 import { Terminal } from 'xterm'
 import 'xterm/css/xterm.css'
 import { message } from 'huayunui'
-
 class Webssh extends React.Component {
     constructor(props) {
         super(props)
@@ -35,7 +34,7 @@ class Webssh extends React.Component {
         }
         // 建立websocket链接
         const { namespace, podName, handleClose } = this.props
-        const url = 'wss://172.118.59.90/websocket/application/container'
+        const url = `wss://172.118.59.90/websocket/application/container`
         this.$websocket = new WebSocket(url)
         this.$websocket.onopen = () => {
             const validInfo = {

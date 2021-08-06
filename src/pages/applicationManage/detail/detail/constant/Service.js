@@ -89,7 +89,8 @@ export default (intl, data, this_) => {
                 render(runInfo, row) {
                     let portType = {
                         ClusterIP: 'port',
-                        NodePort: 'nodePort'
+                        NodePort: 'nodePort',
+                        LoadBalancer: 'nodePort'
                     }
                     let portData = _.get(row, `${getDataKey(row)}port`, {})
                     const { port, nodePort, type } = portData

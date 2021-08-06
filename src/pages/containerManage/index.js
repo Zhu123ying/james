@@ -146,7 +146,7 @@ class ContainerManage extends React.Component {
                 style={{ width: 'auto' }}
                 dropdownMatchSelectWidth={false}
                 bordered={false}
-                onChange={(arr) => this.handleSearchParamChange('projectId', arr[0])}>
+                onChange={(val) => this.handleSearchParamChange('projectId', val)}>
                 {
                     projectList.map(({ id, name }) => {
                         return <Select.Option value={id} key={id}>{name}</Select.Option>
