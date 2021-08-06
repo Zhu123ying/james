@@ -647,7 +647,7 @@ const zh_CN = {
     ApplicationDescriptionIllegalErrror: '请填写0~200个字符',
     ApplicationNotOperateError: '应用不可操作',
     ApplicationQuotaLackError: '配额不足',
-    ApplicationReleaseTaskVersionError: '起始版本不一致，不能发布此任务!',
+    ApplicationReleaseTaskVersionError: '目标版本与起始版本不一致，不能发布此任务!',
     ApplicationResourceObjectNotFoundError: '应用资源服务不存在',
     ApplicationNotDeployedError: '应用处于未部署状态！',
     ImageArtifactTargetImageIllegalError: '镜像拉取失败，目标镜像参数非法(repo:tag)',

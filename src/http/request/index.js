@@ -11,7 +11,7 @@ if (process.env.NODE_ENV === 'development') {
         exp.setTime(exp.getTime() + day * 24 * 60 * 60 * 1000)
         document.cookie = `${name}=${encodeURI(value)};expires=${exp.toGMTString()}; path=/`
     }
-    set('sessionId', 'identity:login.session:9de0a582-0f01-4a19-b9a5-d9a6452295c3_10.51.60.105_bf69e598-1f83-4e08-8242-3734fbbcb9c7')
+    set('sessionId', 'identity:login.session:9de0a582-0f01-4a19-b9a5-d9a6452295c3_10.51.60.105_819ff0f5-077e-43b4-a299-ef6c3f3bbff3')
 }
 
 // request拦截器

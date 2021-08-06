@@ -11,8 +11,8 @@ import { Collapse, Select, Button, Modal } from 'huayunui'
 import { Row, Col } from 'antd'
 import { KeyValue } from '@huayun/ultraui'
 import { DEFAULT_EMPTY_LABEL } from '~/constants'
-import Webssh from '~/components/Webssh'
-import WebLog from '~/components/WebLog'
+import Webssh from './webssh'
+import WebLog from './webLog'
 
 const _ = window._
 const { Panel } = Collapse;
@@ -95,7 +95,7 @@ class Detail extends React.Component {
     render() {
         const { isWebsshModalVisible, isWebLogModalVisible } = this.state
         const { intl, onClose, visible, currentContainer, monitorData, platformContainerId } = this.props
-        const { name, runVar, envs, image, probe } = currentContainer
+        const { name, runVar, envs, image, probe, status } = currentContainer
         const { args, workDir, command } = runVar || {}
         const { project, repo, tag, pullStrategy } = image || {}
         const { type, command: probeCommand, periodSeconds, failureThreshold, initialDelaySeconds, timeoutSeconds, manner } = probe || {}
@@ -188,12 +188,14 @@ class Detail extends React.Component {
                             type="text"
                             onClick={() => this.handleChange('isWebsshModalVisible', true)}
                             className='br'
+                            disabled={status === 'config'}
                         >
                             <Icon type="telecontrol" />&nbsp;{intl.formatMessage({ id: 'RemoteAccess' })}
                         </UltrauiButton>
                         <UltrauiButton
                             type="text"
                             onClick={() => this.handleChange('isWebLogModalVisible', true)}
+                            disabled={status === 'config'}
                         >
                             <Icon type="xunjian" />&nbsp;{intl.formatMessage({ id: 'ReadStaticLog' })}
                         </UltrauiButton>

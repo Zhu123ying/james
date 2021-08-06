@@ -12,9 +12,9 @@ import NodeMessageInfo from './nodeMessageInfo'
 import { application as api } from '~/http/api'
 import HuayunRequest from '~/http/request'
 import PodMonitorDetail from './podMonitorDetail'
+import Webssh from './webssh'
 
 const _ = window._
-
 class ResourceObject extends React.Component {
     static propTypes = {
         intl: PropTypes.object.isRequired
@@ -28,6 +28,7 @@ class ResourceObject extends React.Component {
             historyTableDataObj: {}, // 历史的
             isPodMonitorDetailModalVisible: false,
             currentPod: {}, // 查看pod监控详情的传参数据
+            isWebsshModalVisible: false, // webssh的modal显示
         }
     }
 
@@ -127,6 +128,15 @@ class ResourceObject extends React.Component {
         })
     }
 
+    handleRemoteAccess = (podName, namespace) => {
+        this.setState({
+            currentPod: {
+                name: podName, namespace
+            },
+            isWebsshModalVisible: true
+        })
+    }
+
     handleDeletePvc = ({ name, namespace }) => {
         const { intl, getDetail } = this.props
         const title = `${intl.formatMessage({ id: 'Delete' })}PVC——${name}`
@@ -157,7 +167,7 @@ class ResourceObject extends React.Component {
     }
     render() {
         const { intl, type } = this.props // type用于区分是当前的资源列表还是历史的资源列表
-        const { currentResourceType, tableDataObj, historyTableDataObj, isPodMonitorDetailModalVisible, currentPod } = this.state
+        const { currentResourceType, tableDataObj, historyTableDataObj, isPodMonitorDetailModalVisible, currentPod, isWebsshModalVisible } = this.state
         const tableDataObjKeys = this.filterTableObjectKeys(type === 'current' ? tableDataObj : historyTableDataObj)
         return (
             <div className="resourceObject">
@@ -201,6 +211,20 @@ class ResourceObject extends React.Component {
                     visible={isPodMonitorDetailModalVisible}
                     onClose={() => this.handleSetState('isPodMonitorDetailModalVisible', false)}
                 ></PodMonitorDetail>
+                <Modal
+                    title={intl.formatMessage({ id: 'RemoteAccess' })}
+                    visible={isWebsshModalVisible}
+                    onCancel={() => this.handleSetState('isWebsshModalVisible', false)}
+                    footer={null}
+                    destroyOnClose={true}
+                    className='websshModal'
+                >
+                    <Webssh
+                        podName={currentPod.name}
+                        namespace={currentPod.namespace}
+                        handleClose={() => this.handleSetState('isWebsshModalVisible', false)}
+                    />
+                </Modal>
             </div>
         )
     }

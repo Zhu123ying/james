@@ -3,13 +3,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { image as api } from '~/http/api'
 import HuayunRequest from '~/http/request'
-import { DatePicker, Select, Input, SearchBar, Button, Table, Modal, Space, Checkbox, Popover, Tooltip, message } from 'huayunui';
+import { DatePicker, Select, Input, SearchBar, Button, Table, Modal, Space, Checkbox, Popover, Tooltip, message } from 'huayunui'
 import { Icon, NoData, Notification } from 'ultraui'
 import './index.less'
 import TableCommon from '~/components/TableCommon'
 import DetailIcon from '~/components/DetailIcon'
 import ImageInstanceDetail from '../imageInstanceDetail'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
+import { DEFAULT_EMPTY_LABEL } from '~/constants'
 
 const notification = Notification.newInstance()
 class ImageInstanceList extends React.Component {

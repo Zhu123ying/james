@@ -117,6 +117,14 @@ export default (intl, data, this_) => {
                                 let namespace = _.get(row, `metadata.namespace`, '')
                                 this_.seePodMonitorDetail(name, namespace)
                             }
+                        },
+                        {
+                            name: intl.formatMessage({ id: 'RemoteAccess' }),
+                            callback: () => {
+                                let name = _.get(row, `metadata.name`, '')
+                                let namespace = _.get(row, `metadata.namespace`, '')
+                                this_.handleRemoteAccess(name, namespace)
+                            }
                         }
                     ]
                     return (
