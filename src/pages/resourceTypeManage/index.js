@@ -40,7 +40,7 @@ class ResourceTypeManage extends React.Component {
       extraChildren: (
         <ActionAuth action={actions.AdminApplicationCenterResourceObjectTypeOperate}>
           <div className='editResourceTypeButton'>
-            <span>编辑模式</span>
+            <span>{intl.formatMessage({ id: 'EditMode' })}</span>
             <Switch size="large" checked={isEdit} onChange={this.handleEditSwitchChange} />
           </div>
         </ActionAuth>
@@ -97,12 +97,13 @@ class ResourceTypeManage extends React.Component {
   }
   handleCancelConfirm = () => {
     const { defaultPlatformResources } = this.state
+    const { intl } = this.props
     Modal.confirm({
-      content: '是否确定退出编辑模式？现在退出将不保存刚才的操作！',
+      content: intl.formatMessage({ id: 'IsSureToQuitManageNodeType' }),
       cancelButtonProps: {
         type: 'default'
       },
-      cancelText: '退出',
+      cancelText: intl.formatMessage({ id: 'Quit' }),
       onCancel: (close) => {
         this.setState({
           platformResources: defaultPlatformResources,
@@ -110,7 +111,7 @@ class ResourceTypeManage extends React.Component {
         this.handleEditSwitchChange(false)
         close()
       },
-      okText: '继续编辑',
+      okText: intl.formatMessage({ id: 'ContinueEditing' }),
       onOk: (close) => {
         close()
       }
@@ -149,8 +150,8 @@ class ResourceTypeManage extends React.Component {
           slot={() => (
             isEdit ? (
               <>
-                <Button type="default" onClick={this.handleCancelConfirm}>取消</Button>&nbsp;&nbsp;
-                <Button type="primary" onClick={this.handleConfirmEdit}>确认</Button>
+                <Button type="default" onClick={this.handleCancelConfirm}>{intl.formatMessage({ id: 'Cancel' })}</Button>&nbsp;&nbsp;
+                <Button type="primary" onClick={this.handleConfirmEdit}>{intl.formatMessage({ id: 'Confirm' })}</Button>
               </>
             ) : null
           )}
@@ -163,7 +164,7 @@ class ResourceTypeManage extends React.Component {
           }}
           paramsAlias={{
             name: {
-              title: '名称'
+              title: intl.formatMessage({ id: 'Name' })
             }
           }}
           onRefresh={this.handleSearch}
@@ -183,7 +184,7 @@ class ResourceTypeManage extends React.Component {
                           <div className='title'>{name}</div>
                           <TagItem
                             size='small'
-                            name={isChecked ? '开启' : '关闭'}
+                            name={intl.formatMessage({ id: isChecked ? 'Open' : 'Close' })}
                             className='tagWithoutClose'
                           />
                         </div>

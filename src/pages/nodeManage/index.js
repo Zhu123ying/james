@@ -98,12 +98,12 @@ class NodeManage extends React.Component {
             {
                 dataIndex: 'roles',
                 key: 'roles',
-                title: '节点类型'
+                title: `${intl.formatMessage({ id: 'Node' })}${intl.formatMessage({ id: 'Type' })}`
             },
             {
                 dataIndex: 'cpuUsed',
                 key: 'cpuUsed',
-                title: 'CPU使用率(%)',
+                title: `CPU${intl.formatMessage({ id: 'UseRate' })}(%)`,
                 className: 'chartCell',
                 render: (cpuUsed, row, index) => {
                     return <div id={`cpu${index}`} className='chartItem'></div>
@@ -112,7 +112,7 @@ class NodeManage extends React.Component {
             {
                 dataIndex: 'memoryUsed',
                 key: 'memoryUsed',
-                title: 'Memory使用值(GB)',
+                title: `Memory${intl.formatMessage({ id: 'UseValue' })}(GB)`,
                 className: 'chartCell',
                 render: (cpuUsed, row, index) => {
                     return <div id={`memory${index}`} className='chartItem'></div>
@@ -121,7 +121,7 @@ class NodeManage extends React.Component {
             {
                 dataIndex: 'load',
                 key: 'load',
-                title: '负载情况(m)',
+                title: `${intl.formatMessage({ id: 'LoadCondition' })}(m)`,
                 className: 'chartCell',
                 render: (cpuUsed, row, index) => {
                     return <div id={`load${index}`} className='chartItem'></div>
@@ -214,7 +214,7 @@ class NodeManage extends React.Component {
                     }}
                     paramsAlias={{
                         name: {
-                            title: '名称'
+                            title: intl.formatMessage({ id: 'Name' })
                         }
                     }}
                     uniqueId='applicationCenter_NodeManage'

@@ -28,9 +28,9 @@ const urlObj = {
 }
 // modal的title
 const modalTitleObj = {
-    labels: '标签',
-    taints: '污点',
-    annotations: '备注',
+    labels: 'Tag',
+    taints: 'Taint',
+    annotations: 'Remark',
 }
 class Detail extends React.Component {
     constructor(props) {
@@ -252,7 +252,7 @@ class Detail extends React.Component {
             {
                 key: 'lastHeartbeatTime',
                 dataIndex: 'lastHeartbeatTime',
-                title: '最后的检测时间',
+                title: intl.formatMessage({ id: 'LastDetectionTime' }),
                 render: (time) => {
                     let millis = _.get(time, 'millis', 0)
                     return moment(millis).format('YYYY-MM-DD HH:mm:ss')
@@ -261,7 +261,7 @@ class Detail extends React.Component {
             {
                 key: 'lastTransitionTime',
                 dataIndex: 'lastTransitionTime',
-                title: '最后的迁移时间',
+                title: intl.formatMessage({ id: 'LastMigrationTime' }),
                 render: (time) => {
                     let millis = _.get(time, 'millis', 0)
                     return moment(millis).format('YYYY-MM-DD HH:mm:ss')
@@ -369,15 +369,15 @@ class Detail extends React.Component {
         const { name, roles, address, os, kernelVersion, labels, taints, annotations, conditions } = basicInfo
         const basicKeyValue = [
             {
-                label: '主机名',
+                label: intl.formatMessage({ id: 'HostName' }),
                 value: name || DEFAULT_EMPTY_LABEL
             },
             {
-                label: '角色',
+                label: intl.formatMessage({ id: 'Role' }),
                 value: roles || DEFAULT_EMPTY_LABEL
             },
             {
-                label: '地址',
+                label: intl.formatMessage({ id: 'Address' }),
                 value: address || DEFAULT_EMPTY_LABEL
             },
             {
@@ -389,11 +389,11 @@ class Detail extends React.Component {
                 value: kernelVersion || DEFAULT_EMPTY_LABEL
             },
             {
-                label: '标签',
+                label: intl.formatMessage({ id: 'Tag' }),
                 value: this.renderLabelsLine('labels')
             },
             {
-                label: '污点',
+                label: intl.formatMessage({ id: 'Taint' }),
                 value: this.renderTaintsLine('taints')
             },
         ]
@@ -416,13 +416,13 @@ class Detail extends React.Component {
                                             <KeyValue values={basicKeyValue} className='basicKeyValue' />
                                             <div className='descriptionLine'>
                                                 <div className='header'>
-                                                    <span>备注</span>
+                                                    <span>{intl.formatMessage({ id: 'Remark' })}</span>
                                                     <ActionAuth action={actions.AdminApplicationCenterNodeResourceOperate}>
                                                         <UltrauiButton
                                                             type="text"
                                                             onClick={() => this.handleAddLabel('annotations')}
                                                         >
-                                                            <Icon type="add" />&nbsp;新增备注
+                                                            <Icon type="add" />&nbsp;{intl.formatMessage({ id: 'Add' })}{intl.formatMessage({ id: 'Remark' })}
                                                         </UltrauiButton>
                                                     </ActionAuth>
                                                 </div>
@@ -506,7 +506,7 @@ class Detail extends React.Component {
                     }
                 </DetailDrawer >
                 <Modal
-                    title={`添加${modalTitleObj[addType]}`}
+                    title={`${intl.formatMessage({ id: 'Add' })}${intl.formatMessage({ id: modalTitleObj[addType] })}`}
                     visible={isAddLableModalVisible}
                     onOk={this.handleAddLabelModalConfirm}
                     onCancel={() => this.handleChange('isAddLableModalVisible', false)}

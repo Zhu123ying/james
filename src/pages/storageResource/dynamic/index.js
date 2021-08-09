@@ -49,17 +49,17 @@ class DynamicList extends React.Component {
             {
                 dataIndex: 'storageBackend',
                 key: 'storageBackend',
-                title: '存储系统'
+                title: intl.formatMessage({ id: 'StorageSystem' })
             },
             {
                 dataIndex: 'reclaimPolicy',
                 key: 'reclaimPolicy',
-                title: '回收策略'
+                title: intl.formatMessage({ id: 'RecyclingStrategy' })
             },
             {
                 dataIndex: 'accessModes',
                 key: 'accessModes',
-                title: '支持访问模式',
+                title: intl.formatMessage({ id: 'SupportAccessMode' }),
                 render(accessModes) {
                     return (accessModes || []).join('、')
                 }
@@ -67,17 +67,17 @@ class DynamicList extends React.Component {
             {
                 dataIndex: 'isDefault',
                 key: 'isDefault',
-                title: '是否默认存储',
+                title: intl.formatMessage({ id: 'IsDefaultStorage' }),
             },
             {
                 dataIndex: 'allowVolumeExpansion',
                 key: 'allowVolumeExpansion',
-                title: '支持扩容',
+                title: intl.formatMessage({ id: 'SupportCapacityExpansion' }),
             },
             {
                 dataIndex: 'capacity',
                 key: 'capacity',
-                title: '最大容量',
+                title: intl.formatMessage({ id: 'MaxCapacity' }),
             }
         ]
     }

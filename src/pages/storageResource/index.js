@@ -26,10 +26,10 @@ class StorageResourceList extends React.Component {
         return (
             <div id='StorageResourceList'>
                 <Tabs defaultActiveKey="1" type="card">
-                    <TabPane tab='存储卷' key="1">
+                    <TabPane tab={intl.formatMessage({ id: 'StorageVolume' })} key="1">
                         <PvList {...this.props} />
                     </TabPane>
-                    <TabPane tab='存储类型' key="2">
+                    <TabPane tab={intl.formatMessage({ id: 'StorageType' })} key="2">
                         <DynamicList {...this.props} />
                     </TabPane>
                 </Tabs>

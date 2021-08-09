@@ -163,8 +163,8 @@ class ResourceMonitor extends React.Component {
             <Panel header={title} key={key} >
                 <div className='left'>
                     <div className='panelHeader'>
-                        <span>波段趋势(最近10s)</span>
-                        <div>当前<span>&nbsp;{current ? `${current}%` : 0}</span></div>
+                        <span>{intl.formatMessage({ id: 'BandTrend_Last10Second' })}</span>
+                        <div>{intl.formatMessage({ id: 'Current' })}<span>&nbsp;{current ? `${current}%` : 0}</span></div>
                     </div>
                     <div className='numLine'>
                         <div className='labelItem'>Max:&nbsp;<span className='text-danger'>{max ? `${max}%` : 0}</span></div>
@@ -175,8 +175,8 @@ class ResourceMonitor extends React.Component {
                 </div>
                 <div className='right'>
                     <div className='panelHeader'>
-                        <span>资源监控</span>
-                        <div>总计<span>&nbsp;{capacity}</span></div>
+                        <span>{intl.formatMessage({ id: 'ResourceMonitor' })}</span>
+                        <div>{intl.formatMessage({ id: 'Total' })}<span>&nbsp;{capacity}</span></div>
                     </div>
                     <div className='progressList'>
                         <div className='progressItem'>
@@ -195,7 +195,7 @@ class ResourceMonitor extends React.Component {
                         </div>
                         <div className='progressItem'>
                             <div className='numberLine'>
-                                <span>可分配</span>
+                                <span>{intl.formatMessage({ id: 'Allocatable' })}</span>
                                 <span>{allocatable}</span>
                             </div>
                             <Progress percent={allocatablePercent} strokeColor='#A6C682' showInfo={false} />

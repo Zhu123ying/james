@@ -79,7 +79,7 @@ class NodeNetworkMonitor extends React.Component {
                     let option = {
                         title: {
                             top: 10,
-                            text: '每秒流量',
+                            text: intl.formatMessage({ id: 'PerSecondFlow' }),
                             textStyle: {
                                 color: '#516F90',
                                 fontSize: '12px'
@@ -112,12 +112,12 @@ class NodeNetworkMonitor extends React.Component {
                         series: [
                             {
                                 type: 'line',
-                                stack: '总量',
+                                // stack: '总量',
                                 data: network_in_rate
                             },
                             {
                                 type: 'line',
-                                stack: '总量',
+                                // stack: '总量',
                                 data: network_out_rate
                             }
                         ]
