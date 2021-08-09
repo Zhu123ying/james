@@ -34,7 +34,7 @@ class Webssh extends React.Component {
         }
         // 建立websocket链接
         const { namespace, podName, handleClose } = this.props
-        const url = `wss://172.118.59.90/websocket/application/container`
+        const url = `wss://${window.location.host}/websocket/application/container`
         this.$websocket = new WebSocket(url)
         this.$websocket.onopen = () => {
             const validInfo = {

@@ -33,7 +33,7 @@ class WebLog extends React.Component {
         }
         // 建立websocket链接
         const { platformContainerId, containerName } = this.props
-        const url = `wss://172.118.59.90/websocket/logsContainer?platformContainerId=${platformContainerId}&containerName=${containerName}&tail=100`
+        const url = `wss://${window.location.host}/websocket/logsContainer?platformContainerId=${platformContainerId}&containerName=${containerName}&tail=100`
         this.$websocket = new WebSocket(url)
         this.$websocket.onmessage = (data) => {
             data.data && term.writeln(data.data)
