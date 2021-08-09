@@ -1,6 +1,7 @@
 /* eslint-disable */
 import { getDataKey, compositeStateColor, compositeStateText } from './index'
 import { Tooltip, Dropdown } from 'ultraui'
+import { DEFAULT_EMPTY_LABEL } from '~/constants'
 
 const _ = window._
 
@@ -37,11 +38,11 @@ export default (intl, data, this_) => {
                 render(val, row) {
                     const list = _.get(row, `${getDataKey(row)}paths`, [])
                     return (
-                        <div className='limitRangeCell'>
+                        <div className='ingressRule'>
                             {
                                 list.map(item => {
                                     const { type, address, host, path, backends } = item
-                                    return <span>{`${type}  ${address}  ${host}  ${path}  ${backends}`}</span>
+                                    return <span>{`${type || DEFAULT_EMPTY_LABEL} | ${address || DEFAULT_EMPTY_LABEL} | [ ${backends || DEFAULT_EMPTY_LABEL} | ${host || DEFAULT_EMPTY_LABEL} | ${path || DEFAULT_EMPTY_LABEL} ]`}</span>
                                 })
                             }
                         </div>
