@@ -28,8 +28,9 @@ class ActionAuth extends React.Component {
         return (
             <React.Fragment>
                 {
-                    // 先写死肯定通过
-                    this.checkAuth(action) ? children : null
+                    this.checkAuth(action) ? children :
+                        // 额外做个判断，用于开发便利
+                        (process.env.NODE_ENV === 'development' ? children : null)
                 }
             </React.Fragment>
         )

@@ -6,6 +6,7 @@ import HuayunRequest from '~/http/request'
 import MultiLineMessage from '~/components/MultiLineMessage'
 import Regex from '~/utils/regex'
 import './index.less'
+import { GetQueryString } from '~/utils/url'
 
 const notification = Notification.newInstance()
 const { FormGroup, Form, Input, Button, RadioGroup, Textarea, FormRow, Select } = RcForm
@@ -23,7 +24,7 @@ class AppPackageCreate extends React.Component {
             tagInput: '',
             applicationIcon: iconList[0],
             applicationIconColor: colorList[0],
-            projectId: '',
+            projectId: GetQueryString('projectId'),
             projectList: []
         }
         this.operationTarget = props.intl.formatMessage({ id: 'AppPackage' })
@@ -184,7 +185,7 @@ class AppPackageCreate extends React.Component {
                                 }
                                 optionFilterProp='children'
                                 optionLabelProp='children'
-                                disabled={id}
+                                disabled={true}
                             />
                             <Input
                                 form={form}

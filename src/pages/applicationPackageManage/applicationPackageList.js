@@ -12,6 +12,8 @@ import actions from '~/constants/authAction'
 import Dropdown from '~/components/Dropdown'
 import DetailIcon from '~/components/DetailIcon'
 import Detail from './detail'
+import { GetQueryString } from '~/utils/url'
+
 const notification = Notification.newInstance()
 class ApplicationPackageList extends React.Component {
     constructor(props) {
@@ -204,7 +206,8 @@ class ApplicationPackageList extends React.Component {
         })
     }
     handleAddApplicationPackage = () => {
-        this.props.history.push(`${this.props.match.path}/create`)
+        const { projectId, match } = this.props
+        this.props.history.push(`${match.path}/create?projectId=${projectId}`)
     }
     handleManageApplicationPackage = (id) => {
         this.props.history.push(`${this.props.match.path}/edit/${id}`)
