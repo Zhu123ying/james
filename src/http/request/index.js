@@ -58,7 +58,7 @@ const HuayunRequest = (api, param, callback = {}) => http
             notification.notice({
                 id: new Date(),
                 type: 'danger',
-                title: '错误提示',
+                title: language['ErrorPrompt'],
                 content: errorCode && language[errorCode] ? language[errorCode] : errorMessage,
                 iconNode: 'icon-error-s',
                 duration: 5,
@@ -94,7 +94,7 @@ export const HuayunUploadRequest = (api, params, callback = {}) => {
                 notification.notice({
                     id: new Date(),
                     type: 'danger',
-                    title: '错误提示',
+                    title: language['ErrorPrompt'],
                     content: errorCode && language[errorCode] ? language[errorCode] : errorMessage,
                     iconNode: 'icon-error-s',
                     duration: 5,

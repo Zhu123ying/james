@@ -135,7 +135,7 @@ class Publish extends React.Component {
                 key: 'state',
                 title: intl.formatMessage({ id: 'TaskState' }),
                 render: (state, row) => {
-                    return <div>{ApplicationPublishTaskStatuList[state] || DEFAULT_EMPTY_LABEL}</div>
+                    return <div>{state ? intl.formatMessage({ id: ApplicationPublishTaskStatuList[state] }) : DEFAULT_EMPTY_LABEL}</div>
                 }
             },
             {

@@ -5,13 +5,13 @@ export const DEFULT_PAGE_SIZE = 20 // 默认列表分页大小
 export const API_Prefix = 'application/v1/'
 // 应用一级状态（部署状态）
 export const ApplicationStatuList = {
-    deployed: '已上线',
-    uninstalling: '下线中',
-    pending_deploy: '上线中',
-    pending_upgrade: '更新中',
-    pending_rollback: '回滚中',
-    config: '配置中',
-    failed: '执行失败'
+    deployed: 'Deployed',
+    uninstalling: 'Uninstalling',
+    pending_deploy: 'Pending_deploy',
+    pending_upgrade: 'Pending_upgrade',
+    pending_rollback: 'Pending_rollback',
+    config: 'InConfiguration',
+    failed: 'ExecutFailed'
 }
 export const ApplicationStatuDomList = {
     deployed: <i className='iconfont icon-correct-o text-primary' />,
@@ -24,9 +24,9 @@ export const ApplicationStatuDomList = {
 }
 // 应用二级状态（健康状态）
 export const ApplicationSecondStatuList = {
-    NORMAL: '健康',
-    ABNORMAL: '异常',
-    executing: '执行中'
+    NORMAL: 'NORMAL',
+    ABNORMAL: 'ABNORMAL',
+    executing: 'Executing'
 }
 export const ApplicationSecondStatuColorList = {
     NORMAL: 'bg-success',
@@ -35,23 +35,23 @@ export const ApplicationSecondStatuColorList = {
 }
 // 应用发布任务状态
 export const ApplicationPublishTaskStatuList = {
-    config: '配置中',
-    releasing: '发布中',
-    released: '发布完成',
-    fail: '发布失败',
-    rollbacked: '回滚完成',
-    rollbackfail: '回滚失败',
-    cancel: '取消',
-    success: '成功'
+    config: 'InConfiguration',
+    releasing: 'Releasing',
+    released: 'ReleaseFinished',
+    fail: 'ReleaseFailed',
+    rollbacked: 'RollbackFinished',
+    rollbackfail: 'RollbackFailed',
+    cancel: 'Cancel',
+    success: 'Success'
 }
 // 容器组一级状态
 export const ContainerGroupStateList = {
-    config: '配置中',
-    starting: '上线中',
-    running: '已上线',
-    stopping: '下线中',
-    startFailed: '上线失败',
-    stopFailed: '下线失败'
+    config: 'InConfiguration',
+    starting: 'Pending_deploy',
+    running: 'Deployed',
+    stopping: 'Uninstalling',
+    startFailed: 'OnlineFailed',
+    stopFailed: 'OfflineFailed'
 }
 export const ContainerGroupStateDomList = {
     config: <i className='iconfont icon-circle text-primary' />,
@@ -63,11 +63,11 @@ export const ContainerGroupStateDomList = {
 }
 // 容器组二级状态
 export const ContainerGroupSecondStateList = {
-    config: '配置中',
-    running: '正常',
-    error: '异常',
-    unknown: '未知',
-    working: '执行中'
+    config: 'InConfiguration',
+    running: 'Normal',
+    error: 'ABNORMAL',
+    unknown: 'Unknow',
+    working: 'Executing'
 }
 export const ContainerGroupSecondStateColorList = {
     config: 'bg-default',
@@ -78,10 +78,10 @@ export const ContainerGroupSecondStateColorList = {
 }
 // 容器状态
 export const ContainerStateList = {
-    config: '配置中',
-    running: '正常',
-    waiting: '等待',
-    terminated: '已结束',
-    error: '异常',
-    unknown: '未知'
+    config: 'InConfiguration',
+    running: 'Normal',
+    waiting: 'Waiting',
+    terminated: 'Finished',
+    error: 'ABNORMAL',
+    unknown: 'Unknow'
 }

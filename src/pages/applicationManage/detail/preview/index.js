@@ -507,9 +507,9 @@ class Preview extends React.Component {
                             <div className='boxTitle activeBefore'>
                                 <div className='name_state'>
                                     <div className='appName'>{name}</div>
-                                    <Tag color="geekblue" className='appState'>{ApplicationStatuList[state]}</Tag>
+                                    <Tag color="geekblue" className='appState'>{intl.formatMessage({ id: ApplicationStatuList[state] })}</Tag>
                                     <Tag color={secondState === 'NORMAL' ? 'green' : 'red'} className='appSecondState'>
-                                        {ApplicationSecondStatuList[secondState] || (state === 'config' ? '配置中' : '未知')}
+                                        {intl.formatMessage({ id: ApplicationSecondStatuList[secondState] || (state === 'config' ? 'InConfiguration' : 'Unknow') })}
                                     </Tag>
                                 </div>
                                 <ActionAuth action={actions.AdminApplicationCenterApplicationOperate}>

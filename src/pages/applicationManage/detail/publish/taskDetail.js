@@ -263,7 +263,7 @@ class TaskDetail extends React.Component {
                     getPopupContainer={() => document.querySelector('.taskDetailDrawerContent')}
                 >
                     <span className={taskNodeStateColor[state]}>
-                        {ApplicationPublishTaskStatuList[state]}
+                        {state ? intl.formatMessage({ id: ApplicationPublishTaskStatuList[state] }) : DEFAULT_EMPTY_LABEL}
                     </span>
                 </Popover>
             )
@@ -421,7 +421,7 @@ class TaskDetail extends React.Component {
             },
             {
                 label: intl.formatMessage({ id: 'TaskState' }),
-                value: ApplicationPublishTaskStatuList[state] || DEFAULT_EMPTY_LABEL
+                value: state ? intl.formatMessage({ id: ApplicationPublishTaskStatuList[state] }) : DEFAULT_EMPTY_LABEL
             },
             {
                 label: intl.formatMessage({ id: 'FinishTime' }),

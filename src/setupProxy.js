@@ -5,8 +5,7 @@ module.exports = function (app) {
   app.use(
     '/api/',
     createProxyMiddleware({
-      target: 'https://172.118.59.90',
-      // target: 'https://178.104.163.223',
+      target: 'https://178.119.202.13',
       secure: false,
       changeOrigin: true,
       pathRewrite: {

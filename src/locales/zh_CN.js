@@ -63,6 +63,7 @@ const zh_CN = {
     Download: '下载',
     LoadBalance: '外部网络',
     500: '服务器错误，请联系管理员',
+    Unknow: '未知',
 
     // 菜单相关的国际化
     ApplicationCenter: '应用中心',
@@ -113,7 +114,29 @@ const zh_CN = {
     ResourceObjectType: '资源对象类型',
     DesResourceObjectType: '管理员可以配置用户可以使用的资源对象类型(API-RESOURCES)',
 
+    // 状态字段
+    Deployed: '已上线',
+    Uninstalling: '下线中',
+    Pending_deploy: '上线中',
+    Pending_upgrade: '更新中',
+    Pending_rollback: '回滚中',
+    InConfiguration: '配置中',
+    ExecutFailed: '执行失败',
+    NORMAL: '健康',
+    ABNORMAL: '异常',
+    Executing: '执行中',
+    Releasing: '发布中',
+    ReleaseFinished: '发布完成',
+    ReleaseFailed: '发布失败',
+    RollbackFinished: '回滚完成',
+    RollbackFailed: '回滚失败',
+    OnlineFailed: '上线失败',
+    OfflineFailed: '下线失败',
+    Waiting: '等待',
+    Finished: '已结束',
+
     // 业务字段
+    ErrorPrompt: '错误提示',
     AppCenterQuotaManage: '配额管理',
     AppPublish: '应用发布',
     AddManually: '手动添加',

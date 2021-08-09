@@ -308,8 +308,8 @@ class Preview extends React.Component {
                 value: (
                     <div className='name_state'>
                         <div className='name'>{name}</div>
-                        <Tag color="geekblue" className='containerState'>{ContainerGroupStateList[state]}</Tag>
-                        <Tag color={status === 'running' ? 'green' : 'red'} className='containerStatus'>{ContainerGroupSecondStateList[status]}</Tag>
+                        <Tag color="geekblue" className='containerState'>{intl.formatMessage({ id: ContainerGroupStateList[state] })}</Tag>
+                        <Tag color={status === 'running' ? 'green' : 'red'} className='containerStatus'>{intl.formatMessage({ id: ContainerGroupSecondStateList[status] })}</Tag>
                     </div>
                 )
             },

@@ -131,7 +131,7 @@ class Detail extends React.Component {
                 dataIndex: 'status',
                 title: intl.formatMessage({ id: 'Status' }),
                 render(status) {
-                    return ContainerStateList[status] || DEFAULT_EMPTY_LABEL
+                    return status ? intl.formatMessage({ id: ContainerStateList[status] }) : DEFAULT_EMPTY_LABEL
                 }
             },
             {
