@@ -1,0 +1,773 @@
+@import '~/css/variables.less';
+
+#ManageContainerItem{
+    width: 100%;
+    height: calc(100% - 58px);
+    padding: 20px;
+    font-size: 12px;
+    .ult-rcform{
+        display: flex;
+        justify-content: center;
+        .validation-error{
+            margin-left: 15px;
+        }
+        .left{
+            background: #F5F8FA;
+            border-radius: 3px;
+            border-radius: 3px;
+            width: 99px;
+            height: 217px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            padding: 10px 0;
+            .barItem{
+                color: #99ACC2;
+                padding: 0 15px;
+                position: relative;
+                cursor: pointer;
+            }
+            .activeType{
+                color: #33475B;
+            }
+        }
+        .middle{
+            width: 480px;
+            padding: 0 24px;
+            .archer-collapse{
+                .barCollapsePanelItem{
+                    border: none;
+                    background-color: inherit;
+                    .archer-collapse-header {
+                        border-bottom: 1px solid #dfe3eb;
+                    }
+                    .archer-collapse-content {
+                        border-top: none;
+                        .archer-collapse-content-box{
+                            padding: 16px 0 0 0;
+                        }
+                    }
+                }
+                .ult-rcform-group{
+                    .ult-label{
+                        font-size: 12px;
+                        color: #7C98B6;
+                    }
+                }
+                // 容器组配置
+                .ContainerGroupConfig{
+                    .archer-collapse-content-box{
+                        padding: 16px!important;
+                    }
+                    .resourcePanel{
+                        .resourceItem{
+                            display: flex;
+                            flex-direction: column;
+                            margin-bottom: 0;
+                            .ult-label{
+                                width: auto;
+                                min-width: 0;
+                                margin-bottom: 5px;
+                            }
+                            .ult-rcform-panel{
+                                width: 100%;
+                                .ult-input-number{
+                                    width: 100%;
+                                }
+                            }
+                        }
+                    }
+                    .inputNumberGroup{
+                        display: flex;
+                        align-items: center;
+                        .ult-rcform-group{
+                            width: 50%;
+                            .ult-label{
+                                display: none;
+                            }
+                            .ult-rcform-panel{
+                                width: 100%;
+                                .ult-input-number{
+                                    width: 100%;
+                                }
+                            }
+                        }
+                    }
+                }
+                // 容器配置
+                .ContainerConfig{
+                    .archer-collapse-content-box{
+                        padding: 16px!important;
+                    }
+                    .labelPanel{
+                        margin-bottom: 15px;
+                        .ult-rcform-panel{
+                            display: flex;
+                            flex-direction: column;
+                        }
+                        .inputWithAddBtn{
+                            display: flex;
+                            align-items: center;
+                            width: 100%;
+                            .ult-rcform-group{
+                                width: 100%;
+                                margin-bottom: 0;
+                                .ult-label{
+                                    display: none;
+                                }
+                                .ult-rcform-group-input-wrapper{
+                                    width: 100%;
+                                }
+                            }
+                            .archer-btn{
+                                position: absolute;
+                                right: 5px;
+                                top: 4px;
+                            }
+                        }
+                        .labelList{
+                            margin-top: 10px;
+                            display: flex;
+                            align-items: center;
+                            flex-wrap: wrap;
+                        }
+                    }
+                    .mountsPanel{
+                        .ult-rcform-panel{
+                            flex-direction: column;
+                            .card{
+                                margin: 8px 0;
+                                .keyValueLine{
+                                    display: flex;
+                                    align-items: center;
+                                    font-size: 12px;
+                                    margin: 8px;
+                                    .lineTitle{
+                                        color: #516F90;
+                                    }
+                                    .lineValue {
+                                        margin-left: 20px;
+                                        color: #33475B;
+                                    }
+                                    .value{
+                                        background: #E6F1FD;
+                                        border-radius: 3px;
+                                        border-radius: 3px;
+                                        margin-left: 20px;
+                                        color: #4C8CCA;
+                                        padding: 2px 6px;
+                                    }
+                                }
+                                .commonSet{
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: space-between;
+                                    .vertical{
+                                        display: flex;
+                                        align-items: center;
+                                        .keyValueLine{
+                                            display: flex;
+                                            flex-direction: column;
+                                            border-right: 1px dotted #E7EBF3;
+                                            padding-right: 15px;
+                                            .lineTitle{
+                                                margin-bottom: 10px;
+                                                width: max-content;
+                                            }
+                                        }
+                                        .keyValueLine:last-child{
+                                            border: none
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .healthyTest{
+                        .advancedSetting {
+                            display: flex;
+                            align-items: center;
+                            flex-wrap: wrap;
+                            justify-content: space-between;
+                            .ult-rcform-group{
+                                display: flex;
+                                align-items: center;
+                                flex-direction: inherit;
+                                flex-wrap: wrap;
+                                margin-top: 15px;
+                                label{
+                                    width: 66px;
+                                    padding-top: 0;
+                                    padding-right: 6px;
+                                    text-align: left;
+                                }
+                                .ult-rcform-panel{
+                                    width: calc(100% - 72px);
+                                }
+                            }
+                        }
+                        .validation-error{
+                            padding-left: 0;
+                            margin-left: 0;
+                        }
+                    }
+                    .archer-cascader-picker{
+                        width: 100%;
+                        font-size: 12px;
+                    }
+                }
+                // 网络配置
+                .NetworkConfig{
+                    padding-left: 16px;
+                    .archer-collapse-content-box{
+                        padding: 16px!important;
+                    }
+                    .lineItem {
+                        display: flex;
+                        align-items: center;
+                        margin-bottom: 16px;
+                        .lineTitle{
+                            font-size: 12px;
+                            color: #7C98B6;
+                            margin-right: 32px;
+                        }
+                        .archer-collapse{
+                            width: 100%;
+                            .ult-rcform-group{
+                                margin-bottom: 15px;
+                                .ult-label{
+                                    width: auto;
+                                    min-width: 80px;
+                                }
+                            }
+                            .validation-error{
+                                margin-left: 0;
+                            }
+                            .portPanel{
+                                .ult-rcform-panel{
+                                    .portLine{
+                                        display: flex;
+                                        align-items: center;
+                                        .ult-rcform-group{
+                                            display: flex;
+                                            flex-direction: column;
+                                            .ult-label{
+                                                display: none;
+                                            }
+                                            .ult-rcform-group-input-wrapper{
+                                                // padding-right: 5px;
+                                                width: 100%;
+                                            }
+                                            .validation-error{
+                                                padding-left: 0;
+                                                margin-left: 0;
+                                            }
+                                        }
+                                        .ult-btn-text{
+                                            margin-bottom: 15px;
+                                            padding: 7px 4px;
+                                        }
+                                        .nodePortInputLine{
+                                            display: flex;
+                                            align-items: flex-end;
+                                            .selectPart{
+                                                width: 60px;
+                                                .ult-label{
+                                                    min-width: 80px;
+                                                }
+                                            }
+                                            .inputPart{
+                                                width: calc(100% - 60px);
+                                                margin-left: -2px;
+                                                .ult-label{
+                                                    display: none!important;
+                                                }
+                                            }
+                                        }
+                                        .w50{
+                                            width: 50%;
+                                        }
+                                        .pr{
+                                            padding-right: 3px;
+                                        }
+                                        .pl{
+                                            padding-left: 3px;
+                                        }
+                                    }
+                                    .portLine:first-child{
+                                        .ult-rcform-group{
+                                            .ult-label{
+                                                display: block;
+                                                margin-bottom: 10px;
+                                            }
+                                        }
+                                        .ult-btn-text{
+                                            margin-top: 15px;
+                                            margin-bottom: 0;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .vertical{
+                        flex-direction: column;
+                        align-items: flex-start;
+                        .lineTitle{
+                            margin-bottom: 10px;
+                        }
+                    }
+                }
+                .Affinity{
+                    padding-left: 16px;
+                    .lineItem{
+                        display: flex;
+                        align-items: center;
+                        margin-bottom: 15px;
+                        .lineTitle{
+                            font-size: 12px;
+                            color: #7C98B6;
+                            margin-right: 32px;
+                        }
+                    }
+                    .ult-rcform-group{
+                        margin-bottom: 15px;
+                    }
+                    .commonPanel{
+                        margin-bottom: 0;
+                        .ult-rcform-panel{
+                            display: flex;
+                            flex-direction: column;
+                            align-items: flex-start;
+                            .archer-switch{
+                                margin: 6px 0;
+                            }
+                            .expressionLine{
+                                width: 100%;
+                                display: flex;
+                                align-items: center;
+                                justify-content: space-between;
+                                .ult-rcform-group{
+                                    .ult-label{
+                                        padding-top: 0;
+                                        display: none;
+                                    }
+                                    .validation-error{
+                                        padding-left: 0;
+                                        margin-left: 0;
+                                    }
+                                }
+                                .portInput{
+                                    width: 80px;
+                                }
+                                .selectInput{
+                                    width: calc(100% - 80px);
+                                    padding-left: 10px;
+                                    .ult-rcform-panel{
+                                        display: flex;
+                                        align-items: center;
+                                        flex-direction: initial;
+                                        width: 100%;
+                                        .ult-rcform-group{
+                                            margin-bottom: 0;
+                                            .ult-label{
+                                                display: none;
+                                            }
+                                        }
+                                        .selectItem{
+                                            width: 80px;
+                                            .rc-select-selector{
+                                                border-top-right-radius: 0;
+                                                border-bottom-right-radius: 0;
+                                            }
+                                        }
+                                        .inputItem{
+                                            width: calc(100% - 80px);
+                                            .ult-input{
+                                                border-left: none;
+                                                border-top-left-radius: 0;
+                                                border-bottom-left-radius: 0;
+                                            }
+                                        }
+                                    }
+                                }
+                                .ult-btn-text{
+                                    padding: 7px 4px;
+                                    margin-bottom: 15px;
+                                }
+                            }
+                            // 只显示第一行label
+                            .lineNum0{
+                                .ult-rcform-group{
+                                    .ult-label{
+                                        display: block;
+                                    }
+                                }
+                                .ult-btn-text{
+                                    padding: 7px 4px;
+                                    margin-bottom: 0;
+                                }
+                            }
+                        }
+                    }
+                    .basicInfor{
+                        margin-bottom: 0;
+                        .ult-rcform-panel{
+                            display: flex;
+                            flex-wrap: wrap;
+                            align-items: center;
+                            justify-content: space-between;
+                            .ult-rcform-group{
+                                display: flex;
+                                flex-direction: column;
+                                margin-bottom: 15px;
+                                .ult-label{
+                                    width: auto;
+                                    min-width: 0;
+                                }
+                                .ult-rcform-group-input-wrapper{
+                                    width: 100%;
+                                }
+                                .validation-error{
+                                    margin-left: 0;
+                                    padding-left: 0;
+                                }
+                            }
+                        }
+                    }
+                    .w50{
+                        width: calc(50% - 5px);
+                    }
+                    .pl5{
+                        padding-left: 5px;
+                    }
+                    .pr5{
+                        padding-right: 5px;
+                    }
+                    .addBoxItemBtn{
+                        margin-bottom: 16px;
+                    }
+                    .addMatchTermBtn{
+                        width: calc(100% - 96px);
+                        margin-left: 96px;
+                    }
+                    .archer-collapse-content-box{
+                        padding: 16px!important;
+                        .card{
+                            width: 100%;
+                            .matchExpressionsBox, .matchFields{
+                                padding-bottom: 15px;
+                                .lineItem{
+                                    margin-top: -5px;
+                                    margin-bottom: 5px;
+                                }
+                            }
+                        }
+                    }
+                }
+                // 告警配置
+                .AlarmConfig{
+                    .archer-collapse-content-box{
+                        padding: 16px!important;
+                    }
+                    .contactorPanel{
+                        margin-bottom: 0;
+                        .ult-rcform-panel{
+                            display: flex;
+                            flex-direction: column;
+                            .archer-spin-container{
+                                overflow: auto;
+                            }
+                        }
+                    }
+                }
+                // 日志持久化
+                .containerLogs{
+                    .archer-collapse-content-box{
+                        padding: 16px!important;
+                    }
+                    .switchPanel{
+                        margin-top: -8px;
+                        .ult-rcform-panel{
+                            display: flex;
+                            flex-wrap: wrap;
+                            .logPanel{
+                                // padding-top: 8px;
+                                width: 100%;
+                                display: flex;
+                                flex-wrap: wrap;
+                                justify-content: space-between;
+                                .ult-rcform-group{
+                                    margin-bottom: 0;
+                                    .ult-label{
+                                        text-align: left;
+                                    }
+                                    .ult-rcform-panel{
+                                        padding-top: 0;
+                                        width: 100%;
+                                        .ult-input-number{
+                                            width: 100%;
+                                            .slot-right{
+                                                padding-right: 20px;
+                                            }
+                                        }
+                                    }
+                                    .validation-error{
+                                        margin-left: 0;
+                                        padding-left: 0;
+                                    }
+                                }
+                                .ult-rcform-group-input-wrapper{
+                                    width: 100%;
+                                }
+                                .w50{
+                                    width: calc(50% - 4px);
+                                    display: flex;
+                                    flex-direction: column;
+                                }
+                                .w25{
+                                    width: calc(25% - 4px);
+                                    display: flex;
+                                    flex-direction: column;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .btnGroup{
+                margin: 20px 0;
+            }
+        }
+        .right{
+            .rightItem{
+                width: 240px;
+                border: 1px solid #DFE3EB;
+                border-radius: 3px;
+                padding: 10px 15px;
+                margin-bottom: 25px;
+                .header{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    .ult-btn{
+                        padding: 7px 0;
+                    }
+                }
+                .dataList{
+                    .dataItem{
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        background: #F5F8FA;
+                        border-radius: 3px;
+                        padding: 5px 10px;
+                        margin: 10px 0;
+                        cursor: pointer;
+                        .title{
+                            color: #7C98B6;
+                        }
+                    }
+                    .dataItem:hover{
+                        box-shadow: 0 1px 5px 0 rgba(51,71,91,0.16);
+                    }
+                }
+            }
+        }
+    }
+    // 折叠公用样式
+    .archer-collapse{
+        border: none;
+        .archer-collapse-item{
+            margin-bottom: 10px;
+            border: 1px solid #dfe3eb;
+            border-radius: 3px;
+            .panelHeader{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+    }
+    .addBoxItemBtn, .w100{
+        width: 100%;
+    }
+    .commonPanel{
+        .ult-rcform-panel{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            .ult-rcform-group{
+                width: 100%;
+                flex-direction: column;
+                margin-bottom: 10px;
+                .ult-label{
+                    width: auto;
+                    min-width: 0;
+                }
+                .ult-rcform-group-input-wrapper{
+                    width: 100%;
+                }
+            }
+            .w50{
+                width: calc(50% - 5px)!important;
+            }
+        }
+    }
+    .switchPanel{
+        .ult-rcform-panel{
+            padding-top: 8px;
+        }
+    }
+    .archer-popover{
+        .archer-popover-arrow {
+            background-color: white!important;
+            border-color: white!important;
+        }
+        #detailPopover{
+            width: 380px;
+            background-color: white;
+            .archer-popover-inner-content{
+                max-width: inherit;
+                color: inherit;
+                .configDetail{
+                    .title{
+                        background: #E7ECF2;
+                        border-radius: 3px 3px 0 0;
+                        padding: 10px;
+                    }
+                    .ult-key-value{
+                        .ult-key-value-item{
+                            padding: 0 10px;
+                            margin: 5px 0;
+                            .ult-key-value-item-label{
+                                width: 28%;
+                                padding: 4px;
+                                text-align: left;
+                                color: #516F90;
+                            }
+                            .ult-key-value-item-value{
+                                width: 72%;
+                                padding: 4px;
+                                color: #33475B;
+                                .labelList{
+                                    display: flex;
+                                    flex-wrap: wrap;
+                                    .ult-tag-item{
+                                        padding: 8px 10px;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .icon-info-o{
+        font-size: 12px;
+    }
+}
+
+.ManageContainerModalItem{
+    // 创建、编辑modal公用样式
+    .operateModalForm{
+        display: flex;
+        flex-direction: column;
+        .ult-rcform-group{
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+            .ult-label{
+                width: auto;
+                min-width: 0;
+                margin-bottom: 5px;
+            }
+            .ult-rcform-group-input-wrapper{
+                width: 100%;
+            }
+            .validation-error{
+                margin-left: 0;
+                padding-left: 0;
+            }
+        }
+        .commonlabelFormPanel{
+            .labelLine{
+                .ult-rcform-group{
+                    width: 50%;
+                    .ult-label{
+                        display: none;
+                    }
+                }
+            }
+            // .labelList{
+            //     margin: 24px 0 0 0!important;
+            // }
+        }
+        .mb0{
+            margin-bottom: 0;
+        }
+        .InputNumberPanel{
+            .ult-rcform-panel{
+                width: 100%;
+                .ult-input-number{
+                    width: 100%;
+                    .slot{
+                        width: auto;
+                    }
+                }
+            }
+        }
+    }
+    .operateMountConfig{
+        .ult-rcform-group{
+            margin-bottom: 10px;
+        }
+        .inlinePanel{   
+            .ult-rcform-panel{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+                .ult-rcform-group{
+                    width: calc(50% - 5px);
+                    margin-bottom: 0;
+                    .ult-label{
+                        display: none;
+                    }
+                }
+            }
+        }
+        .switchPanel{
+            display: flex;
+            flex-direction: initial;
+            .ult-rcform-panel{
+                padding-top: 10px;
+            }
+        }
+        .ult-input-group{
+            width: 100%;
+            .rc-select{
+                min-width: auto;
+                .rc-select-selector{
+                    width: 120px;
+                }
+            }
+        }
+    }
+    .operateEnvs{
+        .inline{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .ult-rcform-group{
+                width: calc(50% - 5px);
+            }
+        }
+    }
+    .iconfont{
+        font-size: 12px;
+    }
+}
+

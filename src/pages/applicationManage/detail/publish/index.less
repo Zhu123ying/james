@@ -1,0 +1,346 @@
+.applicationDetail_publish{
+    .archer-table-search-bar{
+        margin-bottom: 20px;
+    }
+    .nameCeil{
+        display: flex;
+        align-items: center;
+        .ceilRight{
+            display: flex;
+            flex-direction: column;
+            .name{
+                font-size: 13px;
+            }
+            .description{
+                color: #7c98b6;
+                font-size: 12px;
+            }
+        }
+    }
+}
+.manageTaskModal{
+    .archer-modal-content{
+        .archer-modal-body{
+            padding: 16px;
+            .codeDiff{
+                width: 100%;
+                overflow: auto;
+                .btnGroup{
+                    margin-bottom: 15px;
+                    padding-left: 110px;
+                    .archer-btn-primary{
+                        border-radius: 3px 0 0 3px;
+                    }
+                    .archer-btn-warning{
+                        border-radius: 0 3px 3px 0;
+                    }
+                }
+                .newChartValuesInput{
+                    width: 100%;
+                    // max-height: 500px;
+                    .archer-textarea{
+                        min-height: -webkit-fill-available;
+                    }
+                    .archer-label{
+                        width: 0;
+                        min-width: 0;
+                        padding-top: 0;
+                        padding-right: 0;
+                    }
+                    .archer-rcform-group-input-wrapper{
+                        width: 100%;
+                    }
+                }
+                table{
+                    border: 1px solid #d9d9d9;
+                    border-radius: 3px;
+                    padding: 4px 8px;
+                    width: calc(100% - 2px);
+                }
+            }
+            .ult-label{
+                width: 110px;
+            }
+            .ult-rcform-group{
+                margin-bottom: 15px;
+                .ult-rcform-group-input-wrapper{
+                    width: calc(100% - 110px);
+                    .ult-textarea{
+                        min-height: 120px;
+                    }
+                }
+                .validation-error{
+                    margin-top: 23px;
+                    margin-left: 110px;
+                }
+            }
+            .ult-rcform-group:last-child{
+                margin-bottom: 0;
+            }
+            .startingNode{
+                input{
+                    background-color: inherit;
+                    border: none;
+                }
+            }
+        }
+    }
+}
+.taskDetailDrawerContent{
+    .operaBar{
+        padding: 7px 14px;
+        background: #f5f8fa;
+        border: 1px solid #dfe3eb;
+        .ult-btn{
+            border-right: 1px dotted #dfe3eb;
+            padding: 4px 10px;
+        }
+        .ult-btn:last-child{
+            border-right: none;
+        }
+    }
+    .archer-collapse{
+        border: none;
+        .archer-collapse-item{
+            border: 1px solid #dfe3eb;
+            margin-top: 20px;
+            .archer-collapse-content{
+                .archer-collapse-content-box{
+                    padding: 0;
+                    .basicInfo{
+                        display: flex;
+                        flex-wrap: wrap;
+                        .ult-key-value-item{
+                            width: 50%;
+                            border-bottom: 1px solid #dfe3eb;
+                            border-right: 1px solid #dfe3eb;
+                            .ult-key-value-item-label{
+                                text-align: left;
+                                padding-left: 20px;
+                            }
+                            .ult-btn-text{
+                                padding:  0;
+                            }
+                        }
+                        .ult-key-value-item:nth-child(2n){
+                            border-right: none;
+                        }
+                        .ult-key-value-item:nth-child(9){
+                            border-bottom: none;
+                        }
+            
+                    }
+                    .taskDetail{
+                        padding: 14px;
+                        .archer-steps-item > .archer-steps-item-container > .archer-steps-item-tail::after{
+                            width: 2px;
+                        }
+                        .archer-steps-item-process > .archer-steps-item-container > .archer-steps-item-tail::after{
+                            border-color: #d9d9d9;
+                        }
+                        .archer-steps-item-container{
+                            display: flex;
+                            align-items: center;
+                            .archer-steps-item-tail{
+                                top: 16px;
+                            }
+                            .archer-steps-item-icon{
+                                width: 32px;
+                                height: 32px;
+                                background-color: #CBD6E2 ;
+                                .archer-steps-icon{
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    .iconfont{
+                                        font-size: 18px;
+                                        color: white;
+                                    }
+                                }
+                            }
+                            .archer-steps-item-content{
+                                width: 100%;
+                                background: #FAFAFA;
+                                border: 1px solid #EEEEEE;
+                                border-radius: 3px;
+                                border-radius: 3px;
+                                margin: 0 0 10px 20px;
+                                .archer-steps-item-title{
+                                    width: 100%;
+                                    .stepContent{
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: space-between;
+                                        padding: 7px 14px;
+                                        .keyValues{
+                                            display: flex;
+                                            align-items: center;
+                                            .valueItem{
+                                                display: flex;
+                                                flex-direction: column;
+                                                padding: 0 14px;
+                                                line-height: 22px;
+                                                min-width: 100px;
+                                                .title{
+                                                    font-size: 12px;
+                                                    color: #33475B;
+                                                }
+                                                .value{
+                                                    font-size: 12px;
+                                                    color: #516F90 ;
+                                                }
+                                                .resourceInfo{
+                                                    display: flex;
+                                                    align-items: center;
+                                                }
+                                            }
+                                        }
+                                        .operaGroup{
+                                            .iconfont:hover{
+                                                color: #38A59B;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            .archer-steps-item-content::before{
+                                content: '';
+                                width: 26px;
+                                height: 2px;
+                                background-color: #E7EBF3;
+                                position: absolute;
+                                margin-left: -32px;
+                                top: calc(50% - 2px);
+                            }
+                        }
+                        .middleNode{
+                            .archer-steps-item-icon{
+                                background-color: #38A59B;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .nodeExcuteResultTable{
+        min-width: 315px;
+    }
+}
+.manageTaskNodeModal{
+    width: 980px!important;
+    .archer-modal-body{
+        .header{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .title{
+                font-size: 12px;
+                color: #33475B;
+            }
+        }
+        .body{
+            display: flex;
+            justify-content: space-between;
+            min-height: 450px;
+            .boxItem{
+                width: calc(50% - 10px);
+                border: 1px solid #CBD6E2;
+                border-radius: 3px;
+                padding: 7px 5px;
+                .panelHeader{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    font-size: 12px;
+                    .operaGroup{
+                        display: flex;
+                        align-items: center;
+                        .archer-btn{
+                            padding: 0 10px;
+                        }
+                    }
+                }
+                .content{
+                    display: flex;
+                    width: 100%;
+                    height: calc(100% - 32px);
+                    .currentNodeResourceList{
+                        width: 150px;
+                        background: #F5F8FA;
+                        padding: 5px;
+                        .resourceItem{
+                            display: flex;
+                            align-items: center;
+                            margin: 10px 0;
+                            cursor: pointer;
+                            color: #7C98B6;
+                            width: 100%;
+                            .resourceName{
+                                width: calc(100% - 18px);
+                                text-align: left;
+                            }
+                        }
+                        .activeBefore{
+                            color: #33475B;
+                        }
+                        .activeBefore::before{
+                            margin-left: -10px;
+                        }
+                    }
+                    .yamlValue{
+                        padding: 0 10px;
+                        width: calc(100% - 150px);
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                        .yamlContent{
+                            width: 100%;
+                            height: calc(100% - 50px);
+                            border: none!important;
+                            margin: 5px 0;
+                        }
+                        .title{
+                            font-size: 12px;
+                            color: #33475B;
+                        }
+                        .archer-btn{
+                            width: fit-content;
+                        }
+                    }
+                }
+                table{
+                    table-layout: fixed!important;
+                }
+            }
+        }
+    }
+}
+.addResourceManuallyModal{
+    textarea{
+        min-height: 200px!important;
+    }
+}
+.nodeResourceModal{
+    .nodeResourceContent{
+        display: flex;
+        justify-content: space-between;
+        table{
+            width: 288px;
+            table-layout: fixed!important;
+        }
+        .configInfo{
+            width: 288px;
+            background: #F5F8FA;
+            border: 1px solid #DFE3EB;
+            border-radius: 3px;
+            padding: 12px 16px;
+            line-height: 25px;
+        }
+    }
+    .archer-modal-footer{
+        .archer-btn-primary{
+            display: none;
+        }
+    }
+}

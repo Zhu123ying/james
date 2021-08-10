@@ -1,0 +1,509 @@
+.applicationPackageDetailDrawer{
+    .operaBar{
+        background: #F5F8FA;
+        border: 1px solid #DFE3EB;
+        padding: 12px 0;
+        display: flex;
+        align-items: center;
+        margin-bottom: 16px;
+        button{
+            padding:  0 20px;
+        }
+        .br{
+            border-right: 1px solid #DFE3EB;
+        }
+    }
+    .archer-collapse{
+        .archer-collapse-content-box{
+            padding: 0;
+            .ult-key-value-item{
+                padding: 0 16px;
+                font-family: SourceHanSansSC-Normal;
+                font-size: 12px;
+                border-bottom: 1px solid #E7EBF3;
+                align-items: center;
+                .ult-key-value-item-label{
+                    text-align: left;
+                    width: 15%;
+                    color: #516F90;
+                }
+                .ult-key-value-item-value{
+                    text-align: left;
+                    width: 85%;
+                    color: #33475B;
+                }
+            }
+            .ult-key-value-item:last-child{
+                border-bottom: none;
+            }
+        }
+    }
+    .labelList{
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .versionManage{
+        border-top: 1px solid #DFE3EB;
+        border-bottom: 1px solid #DFE3EB;
+        border-left: 1px solid #DFE3EB;
+        border-radius: 3px;
+        display: flex;
+        justify-content: space-between;
+        .versionOperateBar{
+            width: calc(100% - 210px);
+            border-right: 1px solid #DFE3EB;
+            .p16{
+                padding: 16px;
+            }
+            // 基础信息
+            .versionInfo{
+                border: 1px solid #DFE3EB;
+                margin-bottom: 16px;
+                .versionName{
+                    font-size: 20px;
+                    color: #33475B;
+                    display: flex;
+                    align-items: center;
+                }
+                .versionDes{
+                    font-size: 12px;
+                    color: #33475B;
+                }
+                .ult-key-value{
+                    margin: 16px 0;
+                    .ult-key-value-item{
+                        margin: 8px 0;
+                        .ult-key-value-item-label{
+                            text-align: left;
+                            padding: 0;
+                            width: 70px;
+                        }
+                        .ult-key-value-item-value{
+                            padding: 0;
+                        }
+                    }
+                }
+                .horizontalKeyValue{
+                    display: flex;
+                    align-items: center;
+                    background: #F6F8FA;
+                    padding: 10px;
+                    margin: 0;
+                    height: 72px;
+                    .ult-key-value{
+                        display: flex;
+                        align-items: center;
+                        .ult-key-value-item{
+                            display: flex;
+                            flex-direction: column;
+                            .ult-key-value-item-label{
+                                width: max-content;
+                                padding: 4px;
+                                text-align: left;
+                            }
+                            .ult-key-value-item-value{
+                                width: auto;
+                                padding: 4px;
+                            }
+                        }
+                    }
+                }
+            }
+            .versionChart{
+                border: 1px solid #DFE3EB;
+            }
+            .archer-tabs-nav{
+                background: #F6F8FA;
+                .archer-tabs-nav-list{
+                    .archer-tabs-tab{
+                        padding: 10px 16px;
+                        margin: 0;
+                        border-right: 1px solid #DFE3EB;
+                    }
+                    .archer-tabs-tab-active{
+                        background-color: white;
+                    }
+                    .archer-tabs-ink-bar{
+                        display: none;
+                    }
+                }
+            }
+            .archer-tabs-content-holder{
+                padding: 0 16px 16px 16px;
+            }
+            // 入口管理
+            .portManage{
+                .addBtn{
+                    width: 100%;
+                }
+                .portList{
+                    .card{
+                        padding: 14px 16px;
+                        margin-top: 8px;
+                        .portName{
+                            font-size: 14px;
+                            color: #33475B;
+                            display: flex;
+                            align-items: center;
+                            .iconfont{
+                                font-size: 12px;
+                            }
+                        }
+                        .portDes{
+                            font-size: 12px;
+                            color: #516F90;
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            margin: 4px 0 10px 0;
+                        }
+                        .portKey{
+                            display: flex;
+                            align-items: center;
+                            .title{
+                                font-size: 12px;
+                                color: #33475B;
+                                margin-right: 8px;
+                            }
+                            .keyContent{
+                                display: flex;
+                                .archer-btn-operate{
+                                    background-color: #B6D9FB;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            // 告警
+            .alarmConfig{
+                .ult-key-value-item-label{
+                    text-align: left;
+                    width: 15%;
+                    color: #516F90;
+                }
+                .ult-key-value-item-value{
+                    text-align: left;
+                    width: 85%;
+                    color: #33475B;
+                    .contactUsers{
+                        width: 100%;
+                        display: flex;
+                        align-items: center;
+                        flex-wrap: wrap;
+                        justify-content: space-between;
+                        .contactItem{
+                            background-color: #F5F8FA;
+                            border-radius: 3px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            padding: 15px 16px;     
+                            width: calc(50% - 4px);   
+                            margin-bottom: 8px; 
+                            .title{
+                                padding-right: 16px;
+                                min-width: 60px;
+                            }
+                            .ult-key-value{
+                                min-width: 194px;
+                                padding-left: 16px;
+                                border-left: 1px solid #E7EBF3;
+                                .ult-key-value-item{
+                                    .ult-key-value-item-label{
+                                        width: 38px;
+                                        padding: 4px;
+                                    }
+                                    .ult-key-value-item-value{
+                                        padding: 4px;
+                                    }
+                                }
+                                .ult-key-value-item:last-child{
+                                    flex-direction: inherit;
+                                }
+                            }                           
+                        }
+                    }
+                }
+                .ult-key-value-item:last-child{
+                    display: flex;
+                    flex-direction: column;
+                    .ult-key-value-item-value{
+                        width: 100%;
+                    }
+                }
+                .editLine{
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    button{
+                        padding: 0 8px;
+                    }
+                }
+            }
+            // 日志管理
+            .logManage{
+                .addBtn{
+                    width: 100%;
+                }
+                .logList{
+                    .card{
+                        padding: 14px 16px;
+                        margin-top: 8px;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        .logInfo{
+                            width: 80%;
+                            .logName{
+                                font-size: 14px;
+                                color: #33475B;
+                                display: flex;
+                                align-items: center;
+                                .iconfont{
+                                    font-size: 12px;
+                                }
+                            }
+                            .btnGroupList{
+                                width: 100%;
+                                display: flex;
+                                align-items: center;
+                                .keyContent{
+                                    display: flex;
+                                    margin: 8px 16px 0 0;
+                                    .archer-btn-operate{
+                                        background-color: #B6D9FB;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .versionList{
+            background: #F5F8FA;
+            padding: 12px 16px;
+            width: 210px;
+            .title{
+                font-size: 14px;
+                color: #33475B;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .listContent{
+                display: flex;
+                flex-direction: column;
+                .versionItem{
+                    display: flex;
+                    flex-direction: column;
+                    margin: 8px 0;
+                    cursor: pointer;
+                    .versionName {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        .label{
+                            display: flex;
+                            align-items: center;
+                            color: #516F90;
+                            font-size: 12px;
+                        }
+                        .iconfont{
+                            font-size: 12px;
+                            color: #3da4f1;
+                            display: none;
+                        }
+                    }
+                    .createTime{
+                        font-size: 12px;
+                        padding-left: 10px;
+                        color: #B0C1D4;
+                    }
+                    .activeBefore{
+                        .label{
+                            font-size: 13px;
+                            color: #33475B;
+                        }
+                        .iconfont{
+                            display: block;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.versionManageModal{
+    .archer-modal-content{
+        .archer-modal-body{
+            padding: 16px;
+            #createVersionForm{
+                .ult-rcform-group{
+                    display: flex;
+                    flex-direction: column;
+                    margin-bottom: 15px;
+                    .ult-label{
+                        text-align: left;
+                        margin-bottom: 6px;
+                    }
+                    .ult-rcform-group-input-wrapper{
+                        width: 100%;
+                    }
+                    .validation-error{
+                        padding-left: 0;
+                    }
+                }
+                .uploadChart{
+                    .ult-rcform-panel{
+                        width: 100%;
+                        .rc-upload{
+                            display: flex;
+                            align-items: center;
+                            width: 100%;
+                            .chartName{
+                                width: 100%;
+                                background: #F5F8FA;
+                                border-radius: 3px;
+                                padding: 10px 16px;
+                                font-size: 12px;
+                                color: #33475B;
+                                margin-left: 8px;
+                                display: flex;
+                                align-items: center;
+                                .iconfont{
+                                    font-size: 12px;
+                                    color: #5AB55E;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.shareAppPackageModal{
+    .archer-modal-content{
+        .archer-modal-body{
+            padding: 16px;
+            #shareVersionForm{
+                .ult-rcform-group{
+                    display: flex;
+                    flex-direction: column;
+                    margin-bottom: 15px;
+                    .ult-label{
+                        text-align: left;
+                        margin-bottom: 6px;
+                    }
+                    .ult-rcform-group-input-wrapper{
+                        width: 100%;
+                    }
+                    .validation-error{
+                        padding-left: 0;
+                    }
+                }
+                .tablePanel{
+                    .ult-rcform-panel{
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.alarmConfigManageModal{
+    .archer-modal-body{
+        .ult-rcform-group{
+            .validation-error{
+                padding-left: calc(20% + 16px)!important;
+            }
+        }
+        .switchPanel{
+            .ult-rcform-panel{
+                padding-top: 10px;
+            }
+        }
+    }
+}
+
+.stateManageModal{
+    .modalTitle{
+        display: flex;
+        align-items: center;
+        a{
+            font-size: 12px;
+        }
+    }
+}
+
+.applicationPackageVersion_logManageModal{
+    .archer-modal-content{
+        .archer-modal-body{
+            padding: 16px;
+            .ult-rcform-group{
+                margin-bottom: 15px;
+            }
+            .panel{
+                .ult-label{
+                    text-align: left;
+                }
+                .validation-error{
+                    bottom: 0;
+                    margin-bottom: -15px;
+                }
+            }
+            .columnPanel{
+                display: flex;
+                flex-direction: column;
+                .ult-rcform-panel{
+                    width: 100%;
+                }
+                .ult-rcform-group-input-wrapper{
+                    width: 100%;
+                }
+            }
+            .inlinePanel{
+                display: flex;
+                align-items: center;
+            }
+            .cascaderPanel{
+                .archer-cascader-picker{
+                    width: 100%;
+                }
+            }
+            .switchPanel{
+                .ult-rcform-panel{
+                    padding-top: 8px;
+                }
+            }
+            .panelGroup{
+                background: #F5F8FA;
+                border-radius: 3px;
+                padding: 0 10px;
+                display: flex;
+                align-items: center;
+                .ult-rcform-group{
+                    margin-right: 16px;
+                    .ult-label{
+                        font-size: 12px;
+                    }
+                    .ult-input-number .slot{
+                        width: auto;
+                    }
+                }
+            }
+        }
+        .custom-error{
+            color: #eb5f5c;
+            font-size: 12px;
+        }
+    }
+    .ult-input-number{
+        max-width: 100px;
+    }
+}

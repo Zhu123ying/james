@@ -1,0 +1,157 @@
+.applicationStoreDetailDrawer{
+    .operaBar{
+        background: #F5F8FA;
+        border: 1px solid #DFE3EB;
+        padding: 12px 0;
+        display: flex;
+        align-items: center;
+        margin-bottom: 16px;
+        button{
+            padding:  0 20px;
+        }
+        .br{
+            border-right: 1px solid #DFE3EB;
+        }
+    }
+    .archer-collapse{
+        .archer-collapse-content-box{
+            padding: 0;
+            .ult-key-value-item{
+                padding: 0 16px;
+                font-family: SourceHanSansSC-Normal;
+                font-size: 12px;
+                border-bottom: 1px solid #E7EBF3;
+                align-items: center;
+                .ult-key-value-item-label{
+                    text-align: left;
+                    width: 15%;
+                    color: #516F90;
+                }
+                .ult-key-value-item-value{
+                    text-align: left;
+                    width: 85%;
+                    color: #33475B;
+                }
+            }
+            .ult-key-value-item:last-child{
+                border-bottom: none;
+            }
+        }
+    }
+    .labelList{
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .versionManage{
+        border-top: 1px solid #DFE3EB;
+        border-bottom: 1px solid #DFE3EB;
+        border-left: 1px solid #DFE3EB;
+        border-radius: 3px;
+        display: flex;
+        justify-content: space-between;
+        .versionContent{
+            width: calc(100% - 210px);
+            padding: 16px;
+            .p16{
+                padding: 16px;
+            }
+            .versionInfo{
+                border: 1px solid #DFE3EB;
+                margin-bottom: 16px;
+                .versionName{
+                    font-size: 20px;
+                    color: #33475B;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                }
+                .versionDes{
+                    font-size: 12px;
+                    color: #33475B;
+                }
+                .ult-key-value{
+                    margin: 16px 0;
+                    .ult-key-value-item{
+                        margin: 8px 0;
+                        .ult-key-value-item-label{
+                            text-align: left;
+                            padding: 0;
+                            width: 70px;
+                        }
+                        .ult-key-value-item-value{
+                            padding: 0;
+                        }
+                    }
+                }
+                .horizontalKeyValue{
+                    display: flex;
+                    align-items: center;
+                    background: #F6F8FA;
+                    padding: 10px;
+                    margin: 0;
+                    height: 72px;
+                    .ult-key-value-item{
+                        display: flex;
+                        flex-direction: column;
+                        .ult-key-value-item-label{
+                            width: max-content;
+                            padding: 4px;
+                            text-align: left;
+                        }
+                        .ult-key-value-item-value{
+                            width: auto;
+                            padding: 4px;
+                        }
+                    }
+                }
+            }
+            .versionChart{
+                border: 1px solid #DFE3EB;
+                .archer-tabs-nav{
+                    background: #F6F8FA;
+                    .archer-tabs-nav-list{
+                        .archer-tabs-tab{
+                            padding: 10px 16px;
+                            margin: 0;
+                            border-right: 1px solid #DFE3EB;
+                        }
+                        .archer-tabs-tab-active{
+                            background-color: white;
+                        }
+                        .archer-tabs-ink-bar{
+                            display: none;
+                        }
+                    }
+                }
+                .archer-tabs-content-holder{
+                    padding: 0 16px 16px 16px;
+                }
+            }
+        }
+        .versionList{
+            background: #F5F8FA;
+            padding: 12px 16px;
+            width: 210px;
+            title{
+                font-size: 14px;
+                color: #33475B;
+            }
+            .listContent{
+                display: flex;
+                flex-direction: column;
+                .versionItem{
+                    display: flex;
+                    flex-direction: column;
+                    margin: 8px 0;
+                    cursor: pointer;
+                    .name{
+                        color: #516F90;
+                    }
+                    .createTime{
+                        color: #B0C1D4;
+                    }
+                }
+            }
+        }
+    }
+}

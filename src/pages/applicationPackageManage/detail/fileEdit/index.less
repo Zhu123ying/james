@@ -1,0 +1,142 @@
+.fileEditModalContent{
+    .body{
+        border: 1px solid #E7EBF3;
+        border-radius: 3px;
+        display: flex;
+        .archer-tree.archer-tree-directory .archer-tree-treenode-selected:hover::before, .archer-tree.archer-tree-directory .archer-tree-treenode-selected::before{
+            background-color: #EAF0F6;
+        }
+        .archer-tree.archer-tree-directory .archer-tree-treenode .archer-tree-node-content-wrapper.archer-tree-node-selected{
+            color: #33475B;
+        }
+        .archer-tree-node-selected{
+            .operaGroup{
+                display: block!important;
+            }
+        }
+        .treeBox{
+            width: 250px;
+            min-height: 250px;
+            background: #F5F8FA;
+            border-right: 1px solid #E7EBF3;
+            .searchBar{
+                border-bottom: 1px solid #E7EBF3;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                .operaGroup{
+                    .ult-btn{
+                        border: none;
+                        background-color: initial;
+                    }
+                    .iconfont{
+                        padding: 0 12px;
+                        margin: 0;
+                    }
+                    .br{
+                        border-right: 1px solid #E7EBF3;
+                    }
+                    .ult-btn-disabled{
+                        .iconfont{
+                            cursor: inherit;
+                        }
+                    }
+                }
+                .searchBtn{
+                    border-radius: 0;
+                    border: none;
+                    border-left: 1px solid #E7EBF3;
+                    .icon-search{
+                        font-size: 13px;
+                    }
+                }
+            }
+            .treeContent{
+                .searchInput{
+                    padding: 4px 8px;
+                    margin-bottom: -10px;
+                    .archer-input-affix-wrapper{
+                        padding: 0;
+                        input{
+                            height: 24px;
+                            width: 100%;
+                            padding: 0 8px;
+                        }
+                        .archer-input-suffix{
+                            margin: 0 4px;
+                            .searchSuffix{
+                                display: flex;
+                                align-items: center;
+                                .icon-error{
+                                    font-size: 12px;
+                                    color: #99ACC2;
+                                }
+                                a{
+                                    font-size: 12px;
+                                    color: #4C8CCA;
+                                }
+                            }
+                        }
+                    }
+                }
+                .archer-tree{
+                    padding: 12px;
+                    width: 100%;
+                    overflow: auto;
+                    background-color: inherit;
+                    width: 100%;
+                    .archer-tree-treenode{
+                        display: flex;
+                        align-items: center;
+                        width: fit-content;
+                        min-width: 100%;
+                        .archer-tree-node-content-wrapper{
+                            display: flex;
+                            .archer-tree-title{
+                                width: 100%;
+                                .treeNodeTitle{
+                                    width: 100%;
+                                    display: flex;
+                                    justify-content: space-between;
+                                    .titleContent{
+                                        font-size: 12px;
+                                        width: max-content;
+                                    }
+                                    .operaGroup{
+                                        min-width: 52px;
+                                        display: none;
+                                        button{
+                                            width: 24px;
+                                            height: 24px;
+                                        }
+                                    }
+                                    input{
+                                        width: 200px;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .codemirrorBox{
+            width: calc(100% - 250px);
+            .react-codemirror2{
+                .CodeMirror{
+                    min-height: 400px;
+                }
+            }
+        }
+    }
+    .validErrorMessage{
+        max-height: 300px;
+        overflow: auto;
+        background-color: black;
+        color: white;
+        padding: 20px;
+        border-radius: 3px;
+        width: 100%;
+        line-height: 16px;
+    }
+}

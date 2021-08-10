@@ -1,0 +1,251 @@
+.containerDetail_infor{
+    margin-top: -10px;
+    .containerDetail{
+        .total{
+            background: #F5F8FA;
+            border-radius: 3px;
+            border-radius: 3px;
+            padding: 6px 8px;
+            font-size: 12px;
+            color: #516F90;
+            .totalNum{
+                color: #33475B;
+            }
+        }
+        .action-bar{
+            display: none;
+        }
+    }
+    .associatedResources{
+        .resourceItem{
+            border: 1px solid #DFE3EB;
+            border-radius: 3px;
+            margin-bottom: 16px;
+            .resourceTitle{
+                background: #F5F8FA;
+                padding: 7px 0 8px 18px;
+                font-size: 12px;
+                color: #33475B;
+            }
+            .resourceContent{
+                padding: 8px;
+                display: flex;
+                align-items: center;
+                flex-wrap: wrap;
+                .contentItem{
+                    margin: 8px;
+                }
+            }
+            .configurationList{
+                .configurationItem{
+                    width: calc(33% - 16px);
+                    padding: 16px;
+                    display: flex;
+                    align-items: center;
+                    background: #F5F8FA;
+                    border-radius: 3px;
+                    display: flex;
+                    justify-content: space-between;
+                    .configurationInfo{
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        width: calc(100% - 46px);
+                        .ult-key-value{
+                            width: 80%;
+                            .ult-key-value-item{
+                                .ult-key-value-item-label{
+                                    width: auto;
+                                    padding: 2px 4px;
+                                }
+                                .ult-key-value-item-value{
+                                    padding: 2px 4px;
+                                }
+                            }
+                        }
+                        .configState{
+                            width: 20%;
+                            font-size: 12px;
+                        }
+                    }
+                    a{
+                        font-size: 12px;
+                        color: #4C8CCA;
+                        padding-left: 16px;
+                        border-left: 1px solid #E7EBF3;
+                        width: 46px;
+                    }
+                }
+            }
+            .storageList{
+                .storageItem{
+                    border: 1px solid #E7EBF3;
+                    border-radius: 3px;
+                    width: calc(33% - 16px);
+                    .storageName{
+                        padding: 10px 16px;
+                        font-size: 14px;
+                        color: #33475B;
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                    }
+                    .ult-key-value{
+                        padding: 8px 16px;
+                        background-color: #E7EBF3;
+                        .ult-key-value-item{
+                            padding: 8px 0;
+                            .ult-key-value-item-label{
+                                padding: 0;
+                                text-align: left;
+                                width: 25%;
+                            }
+                            .ult-key-value-item-value{
+                                padding: 0;
+                            }
+                        }
+                    }
+                    .storageState{
+                        font-size: 12px;
+                    }
+                }
+            }
+        }
+    }
+    .title{
+        margin: 16px 0;
+        font-size: 14px;
+        color: #33475B;
+        padding-left: 16px;
+    }
+    .archer-popover{
+        .archer-popover-arrow {
+            background-color: white!important;
+            border-color: white!important;
+        }
+        #detailPopover{
+            width: 380px;
+            background-color: white;
+            .archer-popover-inner-content{
+                max-width: inherit;
+                color: inherit;
+                .configDetail{
+                    .title{
+                        background: #E7ECF2;
+                        border-radius: 3px 3px 0 0;
+                        padding: 10px;
+                        margin: 0;
+                    }
+                    .ult-key-value{
+                        .ult-key-value-item{
+                            padding: 0 10px;
+                            margin: 5px 0;
+                            .ult-key-value-item-label{
+                                width: 28%;
+                                padding: 4px;
+                                text-align: left;
+                                color: #516F90;
+                            }
+                            .ult-key-value-item-value{
+                                width: 72%;
+                                padding: 4px;
+                                color: #33475B;
+                                .labelList{
+                                    display: flex;
+                                    flex-wrap: wrap;
+                                    .ult-tag-item{
+                                        padding: 8px 10px;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.containerDetailDrawer{
+    .archer-drawer-title{
+        .archer-btn{
+            display: none;
+        }
+    }
+    .operaBar{
+        background: #F5F8FA;
+        border: 1px solid #DFE3EB;
+        padding: 12px 0;
+        display: flex;
+        align-items: center;
+        margin-bottom: 16px;
+        button{
+            padding:  0 20px;
+        }
+        .br{
+            border-right: 1px solid #DFE3EB;;
+        }
+    }
+    .archer-collapse{
+        border: none;
+        .archer-collapse-item{
+            border: 1px solid #dfe3eb;
+            margin-bottom: 16px;
+            .archer-collapse-content{
+                .archer-collapse-content-box{
+                    padding: 0;
+                    .ult-key-value{
+                        display: flex;
+                        flex-wrap: wrap;
+                        .ult-key-value-item{
+                            padding: 0 16px;
+                            width: 50%;
+                            font-size: 12px;
+                            font-family: SourceHanSansSC-Normal;
+                            border-right: 1px solid #E7EBF3;
+                            border-bottom: 1px solid #E7EBF3;
+                            .ult-key-value-item-label{
+                                width: 30%!important;
+                                color: #33475B;
+                                width: 20%;
+                                text-align: left;
+                            }
+                            .ult-key-value-item-value{
+                                color: #516F90;
+                            }
+                        }
+                        .ult-key-value-item:nth-child(2n){
+                            border-right: none;
+                        }
+                    }
+                    .basicKeyValue{
+                        .ult-key-value-item:nth-child(5){
+                            border-bottom: none;
+                        }
+                    }
+                    .healthyTestKeyValue{
+                        .ult-key-value-item:nth-child(7){
+                            border-bottom: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .cpu_memory{
+        display: flex;
+        justify-content: space-between;
+        .archer-collapse-item{
+            width: calc(50% - 8px);
+            .chartItem{
+                width: 100%;
+                min-height: 150px;
+            }
+        }
+        .chartPanelTitle{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+    }
+}

@@ -1,0 +1,413 @@
+@import '~antd/dist/antd.less';
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+::-webkit-input-placeholder {
+    font-size: 12px;
+}
+
+#applicationCenterRoot{
+    width: 100%;
+    height: 100%;
+    .rootContent{
+        width: 100%;
+        height: 100%;
+    }
+}
+
+#root{
+    width: 100%;
+    height: 100%;
+    .rootContent{
+        width: 100%;
+        height: 100%;
+    }
+}
+
+// 应用中心公用布局样式 - start
+#applicationCenter_layout{
+    width: 100%;
+    height: calc(100% - 58px);
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    .layoutSearchBar{
+        height: 40px;
+        line-height: 40px;
+        background: #F6F8FA;
+        padding-left: 25px;
+        display: flex;
+        align-items: center;
+        border-top: 1px solid #ededed;
+        border-bottom: 1px solid #ededed;
+        .archer-select-selection-placeholder{
+            font-size: 12px;
+            color: #4c8cca;
+        }
+    }
+    .layoutContent{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        .tableContainer{
+            width: 180px;
+            height: 100%!important;
+            height: fit-content;
+            border-right: 1px solid #ededed;
+            background: #F6F8FA;
+            .nameSearch{
+                width: 100%;
+                height: 40px;
+                padding: 0 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-bottom: 1px solid #ededed;
+                .archer-input-search{
+                    .archer-input-wrapper{
+                        input{
+                            height: 25px;
+                        }
+                        .archer-input-group-addon{
+                            .archer-btn{
+                                height: 25px;
+                            }
+                        }
+                    }
+                }
+            }
+            .tableList{
+                height: calc(100% - 40px);
+                overflow: auto;
+                .tableItem{
+                    margin-left: 8px;
+                    padding: 7px 8px 7px 4px;
+                    display: flex;
+                    justify-content: space-between;
+                    cursor: pointer;
+                    display: flex;
+                    .basicInfo{
+                        .topInfo{
+                            display: flex;
+                            align-items: center;
+                            font-size: 14px;
+                            font-size: 12px;
+                            color: #516F90;
+                        }
+                        .bottomInfo{
+                            font-size: 12px;
+                            color: #7C98B6;
+                            padding-left: 8px;
+                        }
+                    }
+                    .status{
+                        .iconfont{
+                            font-size: 12px;
+                        }
+                    }
+                }
+                .tableItem:hover, .activeTableItem{
+                    background-color: white;
+                    .basicInfo{
+                        .name{
+                            color: #33475B;
+                        }
+                    }
+                }
+            }
+        }
+        .detailContainer{
+            width: calc(100% - 180px);
+            height: 100%;
+            overflow: auto;
+            .operaBar{
+                width: 100%;
+                height: 30px;
+                background: #eaf0f6;
+                display: flex;
+                align-items: center;
+                // justify-content: space-between;
+                padding: 6px 0;
+                .operaItem{
+                    padding: 0 8px;
+                    font-size: 12px;
+                    // color: #516F90;
+                    border-right: 1px dotted;
+                    cursor: pointer;
+                    border-radius: 0;
+                    .iconfont{
+                        font-size: 12px;
+                    }
+                }
+                .noborder{
+                    border-right: none;
+                }
+            }
+            .detailContent{
+                width: 100%!important;
+                height: calc(100% - 30px);
+                padding: 15px;
+                .archer-tabs{
+                    width: 100%;
+                    height: 100%;
+                    .archer-tabs-nav{
+                        margin-bottom: 10px;
+                    }
+                    .archer-tabs-content-holder{
+                        width: 100%;
+                        height: 100%;
+                        overflow: auto;
+                        .archer-tabs-content{
+                            width: 100%;
+                            height: 100%;
+                        }
+                    }
+                }
+                .commonDetail_preview{
+                    width: 100%;
+                    height: 100%;
+                    .boxContainer{
+                        border: 1px solid #ededed;
+                        border-radius: 3px;
+                        height: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                        .boxTitle{
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            padding: 10px 15px 0 15px;
+                            font-size: 14px;
+                            color: #33475B;                 
+                        }
+                        .boxContent{
+                            padding: 0 10px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+// 应用中心公用布局样式 - end
+.archer-select-dropdown{
+    width: auto!important;
+}
+// 标题前有一个|的样式类
+.activeBefore{
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+.activeBefore::before {
+    content: '';
+    width: 3px;
+    height: 15px;
+    background-color: #4c8cca;
+    position: absolute;
+    margin-left: -16px;
+    background: #4C8CCA;
+    border-radius: 0 3px 3px 0;
+}
+
+.stateLineWithDot{
+    display: flex;
+    align-items: center;
+    .stateDot{
+        width: 6px;
+        height: 6px;
+        border-radius: 50px;
+        margin-right: 6px;
+    }
+}
+
+// chart文本
+.chartValueDialog{
+    width: 480px!important;
+}
+.chartValues{
+    line-height: 25px;
+}
+
+.archer-btn-operate.archer-dropdown-trigger{
+    width: 20px;
+    height: 16px;
+}
+
+.archer-btn-link{
+    span{
+        div{
+            display: flex;
+            align-items: center;
+        }
+    }
+}
+
+.archer-btn-operate{
+    display: flex!important;
+    align-items: center;
+    justify-content: center;
+}
+
+.operaGroup{
+    display: flex;
+    align-items: center;
+    .iconfont{
+        font-size: 13px;
+        color: #7C98B6;
+        margin: 0 5px;
+        cursor: pointer;
+    }
+}
+
+.archer-cascader-menus{
+    font-size: 12px;
+}
+
+.ult-nodata{
+    width: 100%;
+    height: 100%;
+}
+
+// tag公用样式
+.labelList{
+    .ult-tag-item{
+        display: flex;
+        background: #E6F1FD;
+        border-radius: 3px;
+        padding: 8px 4px 8px 10px;
+        .tag-item-title{
+            color: #4C8CCA;
+            .labelItem{
+                .key{
+                    color: #516F90;
+                }
+                .value{
+                    color: #4C8CCA;
+                }
+                .splitLine{
+                    color: #CBD6E2;
+                    margin: 0 5px;
+                }
+            }
+        }
+        .icon-error{
+            color: #99ACC2;
+            margin-left: 6px;
+        }
+    }
+}
+
+// 因为前段设置了archer-btn-operate为flex布局，导致commonTable里的样式有误，先针对这一情况修改下样式
+.archer-search-bar-slot-container{
+    .other-operate-btns{
+        .archer-btn-operate{
+            display: initial!important;
+        }
+    }
+}
+
+.noModalCancelBtn{
+    .archer-modal-confirm-btns{
+        button:first-child{
+            display: none;
+        }
+    }
+}
+
+// 标签公用样式(创建容器里多次用到)
+.commonlabelFormPanel{
+    // margin-bottom: 0!important;
+    .ult-rcform-panel{
+        width: 100%!important;
+        flex-direction: column;
+        .labelLine{
+            display: flex;
+            align-items: center;
+            width: 100%;
+            border: 1px solid #CBD6E2;
+            border-radius: 3px;
+            padding: 0 2px;
+            .splitLine{
+                color: #CBD6E2;
+            }
+            .ult-rcform-group{
+                width: 50%;
+                margin-bottom: 0;
+                .ult-label{
+                    width: 0;
+                    min-width: 0;
+                    padding-right: 0;
+                }
+                .ult-rcform-group-input-wrapper{
+                    width: 100%;
+                    .ult-input{
+                        border: none;
+                    }
+                }
+                .validation-error{
+                    padding-left: 0;
+                    margin-left: 0;
+                    i{
+                        font-size: 12px;
+                    }
+                }
+            }
+        }
+        .labelList{
+            margin-top: 15px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+    }
+    .custom-error{
+        padding-left: 0!important;
+    }
+}
+
+.rc-select.rc-select-multiple .rc-select-selector{
+    .rc-select-selection-placeholder{
+        position: relative;
+        top: -32px;
+        height: 0;
+    }
+}
+
+.websshModal{
+    width: 880px!important;
+    .archer-modal-header{
+        display: block;
+        height: auto;
+        padding: 8px 16px;
+        text-align: left;
+    }
+    .archer-modal-body{
+        .terminalContainer{
+            width: 100%;
+            .xterm-screen{
+                width: 100%!important;
+                canvas{
+                    width: 100%!important;
+                }
+            }
+        }
+    }
+}
+
+.tagWithoutClose{
+    padding: 4px 8px!important;
+}
+
+// 旋转动画
+.rotateClass{
+    animation:spin 2s linear infinite;      
+}
+@keyframes spin{
+    0%{-webkit-transform:rotate(0deg);}
+    50%{-webkit-transform:rotate(180deg);}
+    100%{-webkit-transform:rotate(360deg);}
+}

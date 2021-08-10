@@ -1,0 +1,201 @@
+.nodeDetailDrawer{
+    .archer-collapse{
+        .archer-collapse-content-box{
+            padding: 0;
+            .ult-key-value-item{
+                padding: 0 16px;
+                font-family: SourceHanSansSC-Normal;
+                font-size: 12px;
+                border-bottom: 1px solid #E7EBF3;
+                align-items: center;
+                .ult-key-value-item-label{
+                    text-align: left;
+                    width: 15%;
+                    color: #516F90;
+                }
+                .ult-key-value-item-value{
+                    text-align: left;
+                    width: 85%;
+                    color: #33475B;
+                }
+            }
+            .ult-key-value-item:last-child{
+                border-bottom: none;
+            }
+        }
+    }
+    .basicInforCollapse{
+        .tagLine{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .opera{
+                display: flex;
+                align-items: center;
+                .labelList{
+                    width: calc(100% - 24px);
+                    display: flex;
+                    align-items: center;
+                    flex-wrap: wrap;
+                    .ult-tag-item{
+                        margin: 0 0 4px 4px;
+                    }
+                    .tagWithClose{
+                        padding: 6px 4px 6px 10px;
+                    }
+                    .tagWithoutClose{
+                        padding: 4px 8px;
+                    }
+                }
+            }
+        }
+        .descriptionLine{
+            .header{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 16px;
+                background-color: #f5f8fa;
+                font-size: 12px;
+                color: #33475b;
+            }
+            .desList{
+                padding: 16px;
+                .card{
+                    margin-bottom: 10px;
+                }
+            }
+        }
+    }
+    .nodeNetWorkPanelContainer{
+        border: 1px solid #DFE3EB;
+        border-radius: 3px;
+        #nodeNetWorkMonitorChart{
+            width: 100%;
+            height: 250px;
+            padding: 0 0 12px 16px;
+        }
+        .summary{
+            background-color: #F5F8FA;
+            padding: 10px 0;
+            .ult-key-value{
+                display: flex;
+                align-items: center;
+                .ult-key-value-item{
+                    width: 20%;
+                    margin: 6px 0;
+                    padding-left: 16px;
+                    border-left: 1px solid #E7EBF3;
+                    .ult-key-value-item-label{
+                        width: auto;
+                    }
+                    .ult-key-value-item-value{
+                        width: auto;
+                    }
+                }
+                .ult-key-value-item:first-child{
+                    border-left: none;
+                }
+            }
+        }
+    }
+    .imageList{
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        .imageItem{
+            width: calc(50% - 4px);
+            padding: 13px 16px;
+            display: flex;
+            align-items: center;
+            background: #F5F8FA;
+            border: 1px solid #DFE3EB;
+            border-radius: 3px;
+            margin-bottom: 8px;
+        }
+    }
+    .resourceMonitorPanel{
+        border: none;
+        .archer-collapse-item{
+            margin-bottom: 20px;
+            border: 1px solid #dfe3eb;
+        }
+        .archer-collapse-content-box{
+            padding: 16px 0;
+            display: flex;
+            .left{
+                width: 50%;
+                padding: 0 17px;
+                .numLine{
+                    display: flex;
+                    align-items: center;
+                    margin-top: 16px;
+                    .labelItem{
+                        width: 25%;
+                        font-size: 12px;
+                    }
+                }
+                .chartItem{
+                    width: 100%;
+                    height: 150px;
+                }
+            }
+            .right{
+                width: 50%;
+                padding: 0 17px;
+                border-left: 1px solid #E7EBF3;
+                .progressList{
+                    .progressItem{
+                        margin-top: 17px;
+                        .numberLine{
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                        }
+                    }
+                }
+            }
+            .panelHeader{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                span{
+                    font-size: 12px;
+                    color: #33475B;
+                }
+                div{
+                    span{
+                        font-size: 14px;
+                        color: #33475B;
+                    }
+                }
+            }
+        }
+        .Load_StoragePanelTitle{
+            display: flex;
+            align-items: center;
+            span{
+                width: 50%;
+            }
+        }
+    }
+}
+.addLabelModal{
+    .ult-rcform-group{
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 10px;
+        .ult-label{
+            width: auto;
+            min-width: 0;
+            margin-bottom: 5px;
+        }
+        .ult-rcform-group-input-wrapper{
+            width: 100%;
+        }
+        .validation-error{
+            margin-left: 0;
+            padding-left: 0;
+        }
+    }
+}

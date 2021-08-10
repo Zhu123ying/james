@@ -1,0 +1,137 @@
+@import '~/css/variables.less';
+
+#appPortalManage {
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    .@{ult-prefix}-loading{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 999;
+        background-color: rgba(255,255,255,0.7);
+    }
+    .header{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 10px;
+        .title{
+            padding-left: 15px;
+        }
+    }
+    .content{
+        width: 100%;
+        height: calc(100% - 40px);
+        padding: 15px;
+        border-radius: 4px;
+        border: 1px solid #ededed;
+        overflow: auto;
+        display: flex;
+        flex-direction: column;
+        .dataItem{
+            padding: 10px 15px;
+            background: #F6F8FA;
+            border-radius: 2px;
+            margin-bottom: 10px;
+            .header{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                border-bottom: 1px solid #ededed;
+                .name_des{
+                    .name{
+                        color: #33475b;
+                        font-size: 16px;
+                        display: flex;
+                        align-items: center;
+                    }
+                    .des{
+                        width: 100%;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                    }
+                    .iconfont{
+                        font-size: 12px;
+                    }
+                }
+            }
+            .body{
+                margin-top: 10px;
+                .addressList{
+                    margin-top: 10px;
+                    .addressItem{
+                        margin-right: 5px;
+                    }
+                }
+            }
+        }
+        .dataItem:last-child{
+            border-bottom: none;
+        }
+        .icon-error{
+            position: relative;
+            float: right;
+            margin-right: -14px;
+            margin-top: -10px;
+            font-size: 12px;
+            border-left: 2px solid white;
+            border-bottom: 2px solid white;
+            border-bottom-left-radius: 50px;
+            padding: 0 0 2px 6px;
+            color: #3da4f1;
+        }
+        .icon-error:hover{
+            color: #33475b;
+            transform: scale(1.1);
+        }
+    }
+}
+
+.createAppPortDialog{
+    .ult-rcform .ult-rcform-group .ult-label{
+        width: 120px!important;
+    }
+    .ult-rcform .ult-rcform-group .ult-rcform-group-input-wrapper{
+        width: calc(100% - 120px)!important;
+    }
+    .@{ult-prefix}-rcform-group{
+        display: flex!important;
+    }
+    .ult-rcform .ult-rcform-group .ult-rcform-panel{
+        width: calc(100% - 120px)!important;
+        .radioLine{
+            background-color: initial!important;
+            border: none!important;
+            padding: 0!important;
+            margin-bottom: 10px;
+        }
+        .selectLine{
+            display: flex;
+            .@{ult-prefix}-rcform-group{
+                width: 50%!important;
+            }
+            .@{ult-prefix}-label{
+                display: none;
+            }
+            .@{ult-prefix}-rcform-group-input-wrapper{
+                width: calc(100% - 10px)!important;
+            }
+        }
+        .userInput{
+            .@{ult-prefix}-label{
+                display: none;
+            }
+            .@{ult-prefix}-rcform-group-input-wrapper{
+                width: calc(100% - 10px)!important;
+            }
+        }
+    }
+    .ult-rcform .ult-rcform-group .validation-error{
+        padding-left: 120px!important;
+        margin-top: 24px;
+    }
+}

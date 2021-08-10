@@ -1,0 +1,99 @@
+@prefix: archer;
+.detail-drawer-wrapper {
+	&.@{prefix}-drawer {
+		position: absolute;
+	}
+	.@{prefix}-drawer-header {
+		border-bottom: none;
+		padding: 12px 16px 10px 16px;
+		.@{prefix}-drawer-title {
+			font-size: 14px;
+			color: #33475b;
+			.@{prefix}-btn {
+				.iconfont {
+					font-size: 14px;
+				}
+			}
+		}
+		.@{prefix}-drawer-close {
+			padding: 12px 16px;
+			.iconfont {
+				font-size: 14px;
+				font-weight: 100;
+			}
+		}
+	}
+	.@{prefix}-drawer-body {
+		position: relative;
+		padding: 0 16px 16px 16px;
+		overflow: unset;
+	}
+	.@{prefix}-tabs-tab {
+		color: #516f90;
+		font-size: 12px;
+		&:hover {
+			color: #33475b;
+		}
+	}
+	.@{prefix}-tabs-tab.@{prefix}-tabs-tab-active .@{prefix}-tabs-tab-btn {
+		color: #33475b;
+	}
+	.@{prefix}-tabs-ink-bar {
+		background-color: #33475b;
+	}
+	.@{prefix}-tabs-top > .@{prefix}-tabs-nav {
+		margin-bottom: 16px;
+	}
+	.@{prefix}-tabs-content-holder > .@{prefix}-tabs-content {
+		.@{prefix}-table-search-bar {
+			margin: 0 0 8px 0;
+		}
+	}
+
+	// radio
+	.@{prefix}-radio-button-wrapper {
+		background: #f5f8fa;
+		border-color: #cbd6e2;
+		color: #516f90;
+	}
+	.@{prefix}-radio-group-small {
+		.@{prefix}-radio-button-wrapper {
+			font-size: 12px;
+		}
+	}
+	.@{prefix}-radio-button-wrapper-checked:not(.@{prefix}-radio-button-wrapper-disabled)::before {
+		background-color: #7c98b6;
+	}
+	.@{prefix}-radio-group-solid .@{prefix}-radio-button-wrapper-checked:not(.@{prefix}-radio-button-wrapper-disabled) {
+		color: #33475b;
+		background: #cbd6e2;
+		border-color: #7c98b6;
+	}
+	// .@{prefix}-drawer-wrapper-body {
+	// 	margin-top: 56px;
+	// }
+	.table-common-wrapper {
+		padding: 0;
+	}
+	&.narrow-drawer {
+		.detail-collapse-wrapper {
+			width: 468px;
+			.archer-collapse
+				.archer-collapse-content
+				.archer-collapse-content-box
+				.ult-detail-list-new
+				tbody
+				tr
+				.ult-detail-label {
+				width: 25%;
+			}
+		}
+	}
+	.detail-title-span {
+		max-width: 300px;
+		overflow: hidden;
+		display: inline-block;
+		vertical-align: middle;
+		text-overflow: ellipsis;
+	}
+}

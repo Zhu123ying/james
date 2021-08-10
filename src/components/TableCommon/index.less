@@ -1,0 +1,105 @@
+.table-common-wrapper {
+	padding: 16px 24px;
+	background: #fff;
+	.popper-manager {
+		max-width: calc(100% - 34px);
+	}
+	.no-inline-input-style {
+		max-width: calc(100% - 34px);
+		position: relative;
+		display: inline-block;
+		vertical-align: middle;
+	}
+	.inline-edit-wrap {
+		position: absolute;
+		top: 50%;
+		z-index: 999;
+		transform: translateY(-50%);
+		width: 220px;
+		.iconfont {
+			font-size: 12px;
+		}
+	}
+	tr {
+		.icon-edit, .icon-edit-o {
+			visibility: hidden;
+		}
+		&:hover {
+			.icon-edit, .icon-edit-o {
+				visibility: visible;
+			}
+		}
+	}
+	.other-operate-btns {
+		.archer-btn {
+			&:not(:last-child) {
+				margin-right: 4px;
+			}
+		}
+		.other-operate-dropdown {
+			display: inline-block;
+			margin-right: 4px;
+		}
+	}
+	.batch-operate-btns {
+		.archer-btn {
+			color: #4c8cca;
+			padding: 0 12px;
+			.iconfont {
+				color: #7c98b6;
+				font-size: 12px;
+				margin-right: 5px;
+			}
+			&[disabled] {
+				color: #b0c1d4;
+				.iconfont {
+					color: #b0c1d4;
+				}
+			}
+		}
+		.archer-divider {
+			color: #cee3f7;
+			margin: 0;
+		}
+	}
+	.archer-table {
+		.archer-table-tbody > tr {
+			&.row-detail-selected {
+				background: #f1f6fb;
+				td {
+					background: #f1f6fb;
+				}
+			}
+		}
+		.archer-table-cell {
+			.iconfont {
+				font-size: 12px;
+			}
+			.col-name {
+				display: inline-block;
+				vertical-align: middle;
+			}
+		}
+	}
+	.archer-table-search-bar {
+		color: #4C8CCA;
+		margin-top: 0;
+	}
+	.operation-column-button-group {
+    > a {
+      margin-right: 10px;
+    }
+    & > button {
+			padding: 0;
+			margin-right: 8px;
+      height: 18px;
+    }
+	}
+	.archer-btn-icon-only {
+		vertical-align: unset;
+	}
+
+  // .archer-btn-icon-only {
+  // 	vertical-align: 0;
+  // }
+}

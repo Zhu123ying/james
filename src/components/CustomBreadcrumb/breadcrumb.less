@@ -1,0 +1,56 @@
+.archer-breadCrumb-border {
+	border-top: 1px solid #ededed;
+	border-bottom: 1px solid #ededed;
+}
+.archer-breadCrumb-block {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 58px;
+	background: #fff;
+	.archer-breadCrumb-block-left {
+		flex: 1;
+		.archer-breadCrumb-module {
+			display: flex;
+			padding-left: 25px;
+			.archer-breadCrumb-module-title {
+				span:nth-child(1) {
+					font-family: 'SourceHanSansSC-Medium', 'Source Han Sans SC Medium', 'Source Han Sans SC Normal',
+						'Source Han Sans SC', sans-serif;
+					font-weight: 500;
+					font-style: normal;
+					font-size: 20px;
+					color: #33475b;
+					text-align: left;
+					margin-right: 4px;
+					line-height: 20px;
+				}
+				.anticon-question-circle {
+					color: #7c98b6;
+				}
+			}
+		}
+	}
+	.archer-breadCrumb-block-right {
+		padding-right: 25px;
+	}
+	.archer-breadCrumb {
+		display: flex;
+		padding-left: 25px;
+		// font-size: 12px;
+		.archer-breadcrumb-link {
+			a {
+				color: #7c98b6;
+			}
+		}
+	}
+}
+
+.archer-breadCrumb > span:last-child .archer-breadcrumb-separator {
+    display: none;
+}
+
+.archer-breadcrumb-separator {
+    margin: 0 8px;
+    color: #516f90;
+}

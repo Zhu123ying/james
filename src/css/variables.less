@@ -1,0 +1,337 @@
+// z-index
+@z-top: 99;
+@z-second: 98;
+@z-third: 97;
+@z-middle: 50;
+@z-bottom: 0;
+// main color
+@main-text-color: #6ccac9;
+@main-border-color: #c8f4f4;
+@main-bg-color: #edfafa;
+@main-blue: #1e88e5;
+@main-left-bar-blue: #3da4f1;
+@main-blue-hover: #2196f3;
+@main-green: #5cb85c;
+@main-light-blue: #e4f0ff;
+@main-orange: #f0ad4e;
+@main-yellow: #f3c825;
+@main-red: #e53935;
+@main-cyan: #5bc0de;
+@main-grey: #e6e6e6;
+@main-grey-border: #adadad;
+@main-light-border: #d9d9d9;
+@net-border-color: #f0f0f0;
+// The prefix to use on all css classes from ult.
+@ult-prefix : ult;
+// 白色、黑色
+@white: #fff;
+@black: #000;
+// body背景色
+@bg-body: #e7eaee;
+@link-color: @primary;
+@link-hover-color: @primary-active;
+// 左侧主导航
+@main-left-bar-bg: #dfe3ea;
+@main-left-bar-blue-hover: #fff;
+@main-left-bar-text: fade(@black, 65%);
+@main-left-bar-icon: #7C98B6;
+// primary颜色
+@primary: #4c8cca;
+@primary-quick: @primary;
+@primary-hover: #42a5f5;
+@primary-active: #1e88e5;
+@primary-loading: #64b5f6;
+@primary-selected: #e1f5fe;
+@primary-green: #50c7a7;
+@primary-intranet: @primary-green;
+// success颜色
+@success: #5ab55e;
+@success-hover: #61ca66;
+@success-active: #40a944;
+// warning颜色
+@warning: #f0a332;
+@warning-hover: #fbb248;
+@warning-active: #ed9411;
+// danger颜色
+@danger: #eb5f5c;
+@danger-hover: #f97370;
+@danger-active: #dc4643;
+// default颜色
+@default: #fafafa;
+// 边框颜色
+@border: lighten(@black, 88%); // #e0e0e0
+// 字体颜色 之 --------------------------------------------------------------------
+// 浅色背景下
+@text-headline: fade(@black, 85%);
+@text-title: fade(@black, 75%);
+@text-body: fade(@black, 65%);
+@text-caption: fade(@black, 40%);
+@text-disable: fade(@black, 25%);
+// 深色背景下
+@text-headline-white: fade(@white, 80%);
+@text-title-white: fade(@white, 65%);
+@text-body-white: fade(@white, 40%);
+@text-caption-white: fade(@white, 25%);
+@text-disable-white: fade(@white, 10%);
+// 屏幕 --------------------------------------------------------------------------------------------------
+@screen-sm: 768px;
+@screen-sm-min: @screen-sm;
+@screen-md: 992px;
+@screen-md-min: @screen-md;
+@screen-lg: 1200px;
+@screen-lg-min: @screen-lg;
+@screen-xl: 1600px;
+@screen-xl-min: @screen-xl;
+@screen-xs-max: (@screen-sm-min - 1);
+@screen-sm-max: (@screen-md-min - 1);
+@screen-md-max: (@screen-lg-min - 1);
+@screen-lg-max: (@screen-xl-min - 1);
+// 布局 --------------------------------------------------------------------------------------------------
+@grid-columns: 12;
+// 基础距离
+@base-space: 8px;
+@common-base: 2px;
+@font-size-base: 12px;
+@base-size: 12px;
+// 圆角大小
+@border-radius: 3px;
+// hover时的字体颜色切换
+@transi: all .3s ease;
+// siderbar最小宽度
+@sidebar-mini-width: @base-space * 6; // 48px
+// sidebar正常宽度
+@sidebar-min-width: @base-space * 8; // 64px
+// sidebar正常宽度
+@sidebar-width: 200px+@base-space * 2; // 216px
+// header最小高度
+@header-min-height: @base-space * 7; // 56px
+// 右边栏宽度
+@vice-sidebar-width: @base-space * 30;
+@trans: all .2s linear;
+// button 按钮之 --------------------------------------------------------------------
+// 按钮颜色
+// Default Button Normal
+@btn-default-color: @text-body;
+@btn-default-bg: @default;
+@btn-default-border: #cdd6e1;
+// Default Button Hover
+@btn-default-color-hover: @primary;
+@btn-default-bg-hover: @white;
+@btn-default-border-hover: @primary;
+// Default Button Active
+@btn-default-color-active: @primary;
+@btn-default-bg-active: @white;
+@btn-default-border-active: @primary;
+// default dashed 反白按钮
+@btn-default-rev-color: fade(@white, 97%);
+@btn-default-rev-bg: fade(@white, 0%);
+@btn-default-rev-border: fade(@white, 97%);
+@btn-default-rev-color-hover: @primary;
+@btn-default-rev-bg-hover: fade(@white, 0%);
+@btn-default-rev-border-hover: @primary;
+@btn-default-rev-color-active: @primary;
+@btn-default-rev-bg-active: fade(@white, 0%);
+@btn-default-rev-border-active: @primary;
+// Primary Button Normal
+@btn-primary-color: @white;
+@btn-primary-bg: @primary;
+@btn-primary-border: @primary;
+// Primary Button Hover
+@btn-primary-color-hover: @white;
+@btn-primary-bg-hover: @primary-hover;
+@btn-primary-border-hover: @primary-hover;
+// Primary Button Active
+@btn-primary-color-active: @white;
+@btn-primary-bg-active: @primary-active;
+@btn-primary-border-active: @primary-active;
+// success Button Normal
+@btn-success-color: @white;
+@btn-success-bg: @success;
+@btn-success-border: @success;
+// success Button Hover
+@btn-success-color-hover: @white;
+@btn-success-bg-hover: @success-hover;
+@btn-success-border-hover: @success-hover;
+// success Button Active
+@btn-success-color-active: @white;
+@btn-success-bg-active: @success-active;
+@btn-success-border-active: @success-active;
+// warning Button Normal
+@btn-warning-color: @white;
+@btn-warning-bg: @warning;
+@btn-warning-border: @warning;
+// warning Button Hover
+@btn-warning-color-hover: @white;
+@btn-warning-bg-hover: @warning-hover;
+@btn-warning-border-hover: @warning-hover;
+// warning Button Active
+@btn-warning-color-active: @white;
+@btn-warning-bg-active: @warning-active;
+@btn-warning-border-active: @warning-active;
+// danger Button Normal
+@btn-danger-color: @white;
+@btn-danger-bg: @danger;
+@btn-danger-border: @danger;
+// danger Button Hover
+@btn-danger-color-hover: @white;
+@btn-danger-bg-hover: @danger-hover;
+@btn-danger-border-hover: @danger-hover;
+// danger Button Active
+@btn-danger-color-active: @white;
+@btn-danger-bg-active: @danger-active;
+@btn-danger-border-active: @danger-active;
+@btn-group-border: fade(@black, 24%);
+// disabled 按钮
+@btn-disable-color: fade(@black, 25%);
+@btn-disable-bg: darken(@white, 4%);
+@btn-disable-border: lighten(@black, 88%);
+// loading 按钮
+@btn-default-loading-color: fade(@black, 43%);
+@btn-default-loading-bg: @white;
+@btn-default-loading-border: lighten(@black, 88%);
+@btn-primary-loading-color: @white;
+@btn-primary-loading-bg: @primary-loading;
+@btn-primary-loading-border: @primary-loading;
+// 按钮大小
+//  Medium Button
+@btn-padding-vertical: @base-space - 1px;
+@btn-padding-horizontal: @base-space*2;
+@btn-font-size: 12px;
+@btn-line-height: @base-space * 2;
+@btn-border-radius: @border-radius;
+//  Large Button
+@btn-padding-large-vertical: @base-space * 3 / 2 - 1px;
+@btn-padding-large-horizontal: @base-space*2;
+//  Small Button
+@btn-padding-small-vertical: @base-space / 2 - 1px;
+@btn-padding-small-horizontal: @base-space * 5 / 4;
+// dropdown 下拉菜单之------------------------------------------------------------------------------------
+@dropdown-link-color: fade(@black, 65%);
+@dropdown-link-hover-color: fade(@black, 65%);
+@dropdown-link-hover-bg: #e3f2fd;
+@dropdown-link-disable-color: fade(@black, 25%);
+// input 输入框之------------------------------------------------------------------------------------
+@input-color: fade(@black, 75%);
+@input-border: lighten(@black, 85%);
+@input-bg: @white;
+// input disabled
+@input-disable-color: fade(@black, 25%);
+@input-disable-border: @border;
+@input-disable-bg: darken(@white, 4%);
+// 输入框组中的按钮或icon
+@input-group-btn-text: fade(@black, 65%);
+@input-group-icon: fade(@black, 40%);
+@input-group-btn-border: @input-border;
+@input-group-btn-bg: darken(@white, 2%);
+@input-group-btn-disable-bg: darken(@white, 7%);
+// panel面板之--------------------------------------------------------------------------------------------
+// default
+@panel-default-border: @border;
+@panel-default-title-color: @text-title;
+@panel-default-footer-bg: lighten(@black, 98%); // #fafafa
+@panel-default-footer-text: fade(@black, 65%);
+// primary
+@panel-primary-border: @primary;
+@panel-primary-title-color: @white;
+@panel-primary-footer-bg: lighten(@black, 98%); // #fafafa
+@panel-primary-footer-text: fade(@black, 65%);
+// success
+@panel-success-border: @success;
+@panel-success-title-color: @white;
+@panel-success-footer-bg: lighten(@black, 98%); // #fafafa
+@panel-success-footer-text: fade(@black, 65%);
+// warning
+@panel-warning-border: @warning;
+@panel-warning-title-color: @white;
+@panel-warning-footer-bg: lighten(@black, 98%); // #fafafa
+@panel-warning-footer-text: fade(@black, 65%);
+// danger
+@panel-danger-border: @danger;
+@panel-danger-title-color: @white;
+@panel-danger-footer-bg: lighten(@black, 98%); // #fafafa
+@panel-danger-footer-text: fade(@black, 65%);
+// pagination 分页之--------------------------------------------------------------------------------------
+@pagination-color: @text-body;
+@pagination-bg: @white;
+@pagination-border: lighten(@black, 74%);
+// alert 警告--------------------------------------------------------------------------------------
+@alert-success-bg: #e8f5e9;
+@alert-success-border: #c8e6c9;
+@alert-text: fade(@black, 75%);
+@alert-info-bg: #e3f2fd;
+@alert-info-border: #bbdefb;
+@alert-warning-bg: #fff8e1;
+@alert-warning-border: #ffecb3;
+@alert-danger-bg: #ffebee;
+@alert-danger-border: #ffcdd2;
+//popover气泡卡片---------------------------------------------------------------------------------------
+@popover-arrow-outer-width: @base-space + 1px;
+@popover-arrow-width:@base-space;
+@popover-arrow-outer-color: fade(@text-body,20%);
+@popover-arrow-outer-fallback-color: @white;
+@popover-arrow-color: @white;
+@popcheckbox-float-width: @base-space * 20;
+
+// switch开关控件---------------------------------------------------------------------------------------
+
+@switch-bg: lighten(@black, 74%);
+@switch-checked-bg: @primary;
+@switch-color: @white;
+
+@switch-font-size: 14px;
+@switch-small-font-size: 12px;
+
+@switch-width: @base-space * 6;
+@switch-height: @base-space * 3;
+@switch-line-height: @switch-height;
+@switch-padding: 3px;
+@switch-after-width: @switch-height - @switch-padding * 2;
+@switch-after-border-width: 6px;
+
+@switch-small-width: @base-space * 4;
+@switch-small-height: @base-space * 2;
+@switch-small-line-height: @switch-small-height;
+@switch-small-padding: 2px;
+@switch-small-after-width: @switch-small-height - @switch-small-padding * 2;
+@switch-small-after-border-width: 4px;
+
+
+// inputNumber 数字输入框
+@input-number-width: @base-space * 16;
+
+
+// transfer 穿梭框
+@transfer-max-width: @base-space * 50;
+@transfer-panel-width:@base-space * 17;
+@transfer-panel-border: @input-border;
+@transfer-panel-bg: @input-bg;
+@transfer-hover-bg: #e1f5fe;
+@transfer-noData-color: @text-disable;
+
+// tree 树形控件
+@tree-text-color: @text-body;
+@tree-line-color: @text-body;
+@tree-switch-color: @border;
+@tree-line-width: @base-space * 2;
+@tree-switch-width: 13px;
+@tree-node-ul-left: @tree-switch-width + @base-space + 2px;
+
+
+// layout 布局
+@sider-width: 180px;
+@sider-width-collapsed: 60px;
+@sider-bg-dark: #333f4e;
+@sider-hover-bg-dark: #2b3642;
+@sider-collapsed-hover-ul-bg: fade(@sider-hover-bg-dark, 90%);
+@content-bg-light: #e7eaee;
+@header-height: 56px;
+@header-bg: @white;
+@header-trigger-line-height: 22px;
+@header-min-height :30px;
+
+@panel-min-height: calc(-258px + 100vh);
+@tab-panel-min-height: calc(-310px + 100vh);
+// 轮播panel组件
+@carousel-panel-bg: #f7fcfc;
+@carousel-panel-border: #cfe2e5;
+@alert-warning-text: #f0a332;

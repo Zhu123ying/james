@@ -1,0 +1,206 @@
+@import '~/css/variables.less';
+
+#ManageApplication{
+    width: 100%;
+    height: calc(100% - 58px);
+    padding: 20px;
+    font-size: 12px;
+    .ult-rcform{
+        display: flex;
+        justify-content: center;
+        .validation-error{
+            margin-left: 15px;
+        }
+        .left{
+            background: #F5F8FA;
+            border-radius: 3px;
+            border-radius: 3px;
+            width: 88px;
+            height: 79px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            padding: 10px 0;
+            .barItem{
+                color: #99ACC2;
+                padding: 0 15px;
+                cursor: pointer;
+                position: relative;
+            }
+            .activeType{
+                color: #33475B;
+            }
+        }
+        .middle{
+            width: 480px;
+            padding: 0 24px;
+            .ult-label{
+                font-size: 12px;
+                color: #7C98B6;
+                min-width: 100px;
+            }
+            .btnGroup{
+                margin: 20px 0;
+            }
+        }
+    }
+    // 标签公用样式
+    .labelPanel{
+        margin-bottom: 0!important;
+        .ult-rcform-panel{
+            width: 100%;
+            flex-direction: column;
+            .labelLine{
+                display: flex;
+                align-items: center;
+                width: 100%;
+                border: 1px solid #CBD6E2;
+                border-radius: 3px;
+                padding: 0 2px;
+                .splitLine{
+                    color: #CBD6E2;
+                }
+                .ult-rcform-group{
+                    width: 100%;
+                    margin-bottom: 0;
+                    .ult-label{
+                        width: 0;
+                        min-width: 0;
+                        padding-right: 0;
+                    }
+                    .ult-rcform-group-input-wrapper{
+                        width: 100%;
+                        .ult-input{
+                            border: none;
+                        }
+                    }
+                    .validation-error{
+                        padding-left: 0;
+                        margin-left: 0;
+                        i{
+                            font-size: 12px;
+                        }
+                    }
+                }
+            }
+            .labelList{
+                margin: 10px 0 15px 0;
+                display: flex;
+                flex-wrap: wrap;
+            }
+        }
+        .custom-error{
+            padding-left: 0;
+            margin-top: -11px;
+        }
+    }
+    .appPackagePanel{
+        margin-bottom: 0;
+        .ult-rcform-panel{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            .ult-rcform-group{
+                width: calc(50% - 4px);
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                .ult-label{
+                    text-align: left;
+                    width: auto;
+                }
+                .ult-rcform-group-input-wrapper{
+                    width: 100%;
+                }
+                .validation-error{
+                    margin-left: 15px;
+                    padding-left: 0;
+                }
+            }
+            .codeDiff{
+                width: 100%;
+                .newChartValuesInput{
+                    width: 100%;
+                    max-height: 500px;
+                }
+            }
+        }
+    }
+    .quotaPanel{
+        border-radius: 3px;
+        display: flex;
+        .ult-label{
+            width: calc(100% - 400px);
+            text-align: left;
+            padding-top: 8px;
+        }
+        .ult-rcform-panel{
+            width: 400px;
+            .panelContent{
+                width: 100%;
+                background: #F5F8FA;
+                padding: 8px 0;
+                .ult-key-value{
+                    display: flex;
+                    .ult-key-value-item{
+                        display: flex;
+                        flex-direction: column;
+                        padding: 0 15px;
+                        border-left: 1px solid #E7EBF3;
+                        .ult-key-value-item-label{
+                            width: auto;
+                            font-size: 12px;
+                            color: #516F90;
+                            padding: 0;
+                        }
+                        .ult-key-value-item-value{
+                            padding: 0;
+                        }
+                        .mt8{
+                            margin-top: 8px;
+                        }
+                        .ult-input-number{
+                            margin-top: 7px;
+                            height: 24px;
+                            .ult-input{
+                                height: 100%;
+                            }
+                            .slot{
+                                line-height: 24px;
+                            }
+                            .icon-up_t{
+                                top: -2px;
+                            }
+                            .icon-down_t{
+                                bottom: 4px;
+                            }
+                        }
+                    }
+                    .ult-key-value-item:first-child{
+                        border-left: none;
+                    }
+                }
+            }
+        }
+    }
+    // 折叠公用样式
+    .archer-collapse{
+        border: none;
+        .archer-collapse-item{
+            border-bottom: none;
+            background-color: inherit;
+            .archer-collapse-header{
+                border-bottom: 1px solid #dfe3eb;
+            }
+            .archer-collapse-content {
+                border-top: none;
+                .archer-collapse-content-box{
+                    padding: 16px 0 0 0;
+                }
+            }
+        }
+    }
+}
+
+

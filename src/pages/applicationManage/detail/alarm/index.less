@@ -1,0 +1,88 @@
+.applicationDetail_alarm{
+    .activeBefore::before {
+        margin-left: -8px;
+    }
+    .alarmConfig{
+        .header{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            .title{
+                padding-left: 8px;
+            }
+            .iconfont{
+                font-size: 12px;
+            }
+        }
+        .detailSummary{
+            padding: 12px 0;
+            background-color: #f5f8fa;
+            display: flex;
+            align-items: center;
+            .summaryItem{
+                border-left: 1px dotted #dfe3eb;
+                padding: 0 15px;
+                width: 25%;
+                .detail-icon-wrapper{
+                    margin-right: 10px;
+                }
+                .value{
+                    font-size: 14px;
+                    color: #33475B;  
+                    margin-bottom: 4px;   
+                }
+                .title{
+                    font-family: SourceHanSansSC-Normal;
+                    font-size: 12px;
+                    color: #33475B;
+                }
+                .text-success {
+                    color: #5ab55e;
+                }
+                .text-danger {
+                    color: #eb5f5c;
+                }
+            }
+            .summaryItem:first-child{
+                border-left: none;
+            }
+            .alarmState{
+                display: flex;
+                align-items: center;
+            }
+        }
+        .blackColor{
+            font-size: 12px;
+            color: #516F90;
+        }
+    }
+    .alarmRecord{
+        margin-top: 16px;
+        .title{
+            padding-left: 8px;
+            margin-bottom: 6px;
+        }
+        .table-common-wrapper{
+            padding: 0;
+            .archer-table-search-bar{
+                display: none;
+            }
+        }
+    }
+}
+
+.alarmConfigManageModal{
+    .archer-modal-body{
+        .ult-rcform-group{
+            .validation-error{
+                padding-left: calc(20% + 16px)!important;
+            }
+        }
+        .switchPanel{
+            .ult-rcform-panel{
+                padding-top: 10px;
+            }
+        }
+    }
+}

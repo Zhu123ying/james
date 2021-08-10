@@ -1,0 +1,93 @@
+{
+  "name": "test-huayun-cli",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@babel/plugin-proposal-decorators": "^7.14.5",
+    "@craco/craco": "^5.9.0",
+    "@huayun/ultraui": "^3.0.0-beta.7",
+    "@reduxjs/toolkit": "^1.5.1",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.2.1",
+    "classnames": "^2.2.5",
+    "codemirror": "^5.59.0",
+    "connected-react-router": "^6.8.0",
+    "craco-less": "1.17.1",
+    "echarts": "3.7.2",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-loader": "^2.1.2",
+    "eslint-plugin-babel": "^5.3.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-react": "^7.3.0",
+    "eslint-plugin-react-hooks": "^3.0.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "huayunui": "^1.1.11",
+    "husky": "^4.3.8",
+    "intl-messageformat-parser": "^5.4.2",
+    "lint-staged": "^9.5.0",
+    "lodash": "^4.17.21",
+    "moment": "2.24.0",
+    "pubsub-js": "^1.7.0",
+    "qiankun": "^2.4.0",
+    "rc-upload": "^2.6.7",
+    "react": "^16.14.0",
+    "react-codemirror2": "^7.2.1",
+    "react-copy-to-clipboard": "5.0.1",
+    "react-custom-scrollbars": "^4.2.1",
+    "react-diff-viewer": "^3.1.1",
+    "react-dom": "^16.14.0",
+    "react-helmet": "^6.1.0",
+    "react-intl": "^4.4.0",
+    "react-redux": "^7.2.3",
+    "react-resizable": "^1.8.0",
+    "react-router": "^5.2.0",
+    "react-router-config": "^5.1.1",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "^4.0.1",
+    "redux-devtools-extension": "^2.13.9",
+    "redux-thunk": "^2.3.0",
+    "source-map-explorer": "^2.5.2",
+    "styled-components": "^5.2.3",
+    "umi-request": "^1.3.5",
+    "xterm": "^4.13.0"
+  },
+  "scripts": {
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "react-scripts eject",
+    "lint": "eslint --ext .js src > lint.result",
+    "lint:fix": "eslint --fix --cache --ext .js,.jsx",
+    "lint-staged": "lint-staged",
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
+    "coverage": "npm test -- --coverage --watchAll=false"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "lint-staged": {
+    "**/*.{js,jsx}": [
+      "npm run lint:fix",
+      "git add"
+    ]
+  },
+  "devDependencies": {
+    "http-proxy-middleware": "^1.1.1"
+  }
+}
